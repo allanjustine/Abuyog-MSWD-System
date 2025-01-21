@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Service;
 use App\Models\Beneficiary;
 use App\Models\Barangay;  // Import Barangay model if needed
-
+use App\Models\BeneficiaryReceived;
 
 class OperatorController extends Controller
 {
@@ -151,5 +151,36 @@ class OperatorController extends Controller
             ->get();
 
         return view('operator.showbeneficiaries_operator', compact('beneficiaries'));
+    }
+
+    public function monitoring(Request $request)
+    {
+        $searched = $request->search;
+
+        $date_start_filtered = $request->date_start;
+        $date_end_filtered = $request->date_end;
+        $receiveds = BeneficiaryReceived::query()
+            ->with(['beneficiary.barangay'])
+            ->where(function ($query) use ($searched) {
+                $query->whereHas('beneficiary.barangay', function ($subQuery) use ($searched) {
+                    $subQuery->where('first_name', 'like', "%$searched%")
+                        ->orWhere('last_name', 'like', "%$searched%")
+                        ->orWhere('middle_name', 'like', "%$searched%")
+                        ->orWhere('age', 'like', "%$searched%")
+                        ->orWhere('name', 'like', "%$searched%")
+                        ->orWhere('last_name', 'like', "%$searched%");
+                });
+                $query->orWhere('status', 'like', "%$searched%");
+            });
+        if ($date_start_filtered && $date_end_filtered) {
+            $receiveds->whereBetween('date_received', [$date_start_filtered, $date_end_filtered]);
+        } elseif ($date_start_filtered) {
+            $receiveds->where('date_received', '>=', $date_start_filtered);
+        } elseif ($date_end_filtered) {
+            $receiveds->where('date_received', '<=', $date_end_filtered);
+        }
+
+        $receiveds = $receiveds->paginate(20);
+        return view('operator.monitoring', compact('receiveds'));
     }
 }

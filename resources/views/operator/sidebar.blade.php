@@ -6,6 +6,7 @@
         padding-left: 10px;
         transition: all 0.3s ease;
     }
+
 </style>
 
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -25,10 +26,8 @@
                         </h5>
                     </div>
                 </div>
-                <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i
-                        class="mdi mdi-dots-vertical"></i></a>
-                <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
-                    aria-labelledby="profile-dropdown">
+                <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
+                <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
                     <a href="#" class="dropdown-item preview-item">
                         <div class="preview-thumbnail">
                             <div class="preview-icon bg-dark rounded-circle">
@@ -85,8 +84,7 @@
                 <span class="menu-title">Beneficiaries</span>
                 <i class="menu-arrow"></i>
             </a>
-            <ul class="dropdown-menu" id="beneficiariesDropdown"
-                style="display: none; list-style: none; padding-left: 20px;">
+            <ul class="dropdown-menu" id="beneficiariesDropdown" style="display: none; list-style: none; padding-left: 20px;">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('show.beneficiaries_operator_index') }}">ALL</a>
                 </li>
@@ -114,6 +112,16 @@
             </a>
         </li>
 
+
+        <li class="nav-item menu-items">
+            <a class="nav-link" href="/operator/monitoring">
+                <span class="menu-icon">
+                    <i class="mdi mdi-monitor"></i>
+                </span>
+                <span class="menu-title">Monitoring</span>
+            </a>
+        </li>
+
     </ul>
 </nav>
 
@@ -129,4 +137,5 @@
             dropdown.style.display = "none";
         }
     }
+
 </script>

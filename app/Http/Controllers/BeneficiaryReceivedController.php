@@ -11,12 +11,41 @@ use Illuminate\Support\Facades\Auth;
 class BeneficiaryReceivedController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
 
-        $beneficiaries = Beneficiary::query()->with('receiveds')->whereHas('receiveds')->orderBy('created_at', 'desc')->get();
+        $search = $request->search;
 
-        return view('admin.benefits-given-record', compact('beneficiaries'));
+        $date_start_filtered = $request->date_start;
+        $date_end_filtered = $request->date_end;
+
+        $beneficiaries = Beneficiary::query()
+            ->with(['receiveds'])
+            ->whereHas('receiveds', function ($query) use ($date_start_filtered, $date_end_filtered) {
+                if ($date_start_filtered && $date_end_filtered) {
+                    $query->where(function ($subQuery) use ($date_start_filtered, $date_end_filtered) {
+                        $subQuery->where('date_received', '<=', $date_start_filtered)
+                            ->where('date_expired', '>=', $date_end_filtered);
+                    });
+                }
+            })
+            ->where(function ($query) use ($search) {
+                $query->where('last_name', 'like', "%$search%")
+                    ->orWhere('first_name', 'like', "%$search%")
+                    ->orWhere('middle_name', 'like', "%$search%")
+                    ->orWhere('email', 'like', "%$search%")
+                    ->orWhere('phone', 'like', "%$search%")
+                    ->orWhereHas('barangay', function ($subQuery) use ($search) {
+                        $subQuery->where('name', 'like', "%$search%");
+                    })
+                    ->orWhereHas('service', function ($subQuery) use ($search) {
+                        $subQuery->where('name', 'like', "%$search%");
+                    });
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('admin.benefits-given-record', compact('beneficiaries', 'search', 'date_start_filtered', 'date_end_filtered'));
     }
 
     public function create($id)
@@ -38,13 +67,24 @@ class BeneficiaryReceivedController extends Controller
             'date_received'         =>          ['required', 'before_or_equal:today']
         ]);
 
+        $isAlreadyHave = BeneficiaryReceived::where('beneficiary_id', $id)
+            ->where(function ($query) use ($request) {
+                $query->where('date_received', '<=', $request->date_received)
+                    ->where('date_expired', '>=', $request->date_received);
+            })
+            ->exists();
+
+        if ($isAlreadyHave) {
+            return redirect()->back()->with('error', 'This user benefits already exists within the selected date range.')->withInput();
+        }
+
         $dateReceived = Carbon::parse($request->date_received);
 
         $applied = BeneficiaryReceived::create([
             'item_type'             =>          $request->item_type,
             'remarks'               =>          $request->remarks,
             'date_received'         =>          $request->date_received,
-            'date_expired'          =>          $dateReceived->addMonth(3),
+            'date_expired'          =>          $dateReceived->addMonth(1),
             'beneficiary_id'        =>          $id,
             'user_id'               =>          Auth::id()
         ]);

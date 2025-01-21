@@ -7,6 +7,7 @@ use App\Models\Application;
 use App\Models\Service;
 use App\Models\Beneficiary;
 use App\Models\Barangay;
+use App\Models\BeneficiaryReceived;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\WithPagination;
@@ -14,14 +15,12 @@ use Livewire\WithPagination;
 
 class EmployeeController extends Controller
 {
-    use WithPagination; 
+    use WithPagination;
     public function showapplication()
     {
         $data = Application::orderBy('created_at', 'desc')->paginate(10);
 
         return view('employee.showapplication', compact('data'));
-
-
     }
 
     public function approved($id)
@@ -137,12 +136,12 @@ class EmployeeController extends Controller
                     ->orWhere('phone', 'LIKE', '%' . $search . '%')
                     // Search by program_enrolled (service name)
                     ->orWhereHas('service', function ($query) use ($search) {
-                    $query->where('name', 'LIKE', '%' . $search . '%');
-                })
+                        $query->where('name', 'LIKE', '%' . $search . '%');
+                    })
                     // Search by barangay (barangay name)
                     ->orWhereHas('barangay', function ($query) use ($search) {
-                    $query->where('name', 'LIKE', '%' . $search . '%');
-                });
+                        $query->where('name', 'LIKE', '%' . $search . '%');
+                    });
             })
             ->get();
 
@@ -160,14 +159,13 @@ class EmployeeController extends Controller
                     ->orWhere('email', 'LIKE', '%' . $search . '%')
                     ->orWhere('phone', 'LIKE', '%' . $search . '%')
                     ->orWhereHas('service', function ($query) use ($search) {
-                    $query->where('name', 'LIKE', '%' . $search . '%');
-                })
+                        $query->where('name', 'LIKE', '%' . $search . '%');
+                    })
 
                     ->orWhere('status', 'LIKE', '%' . $search . '%')
                     // Search for employee_name, include 'pending' or null (no employee assigned)
                     // Include search on date_applied
                     ->orWhere('date_applied', 'LIKE', '%' . $search . '%');
-
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10); // Add pagination
@@ -188,28 +186,28 @@ class EmployeeController extends Controller
     public function resendSMS($phoneNumber)
     {
         Log::info("ResendSMS called for: " . $phoneNumber);
-    
+
         try {
             // Fetch the latest SMS log
             $smsLog = \DB::table('sms_logs')->where('phone_number', $phoneNumber)->latest()->first();
-    
+
             if (!$smsLog) {
                 Log::error("No SMS log found for: " . $phoneNumber);
                 return redirect()->route('sms.logs')->with('error', 'No SMS log found for this number.');
             }
-    
+
             // Resend the SMS
             $applicationController = new ApplicationController();
             $status = $applicationController->sendSMSNotification($phoneNumber);
-    
+
             // Update the log with the new status
             \DB::table('sms_logs')->where('id', $smsLog->id)->update([
                 'status' => $status,
                 'updated_at' => now(),
             ]);
-    
+
             Log::info("SMS resend status updated to '$status' for $phoneNumber");
-    
+
             return $status === 'Sent'
                 ? redirect()->route('sms.logs')->with('success', 'SMS has been resent successfully!')
                 : redirect()->route('sms.logs')->with('error', 'Failed to resend SMS.');
@@ -218,12 +216,61 @@ class EmployeeController extends Controller
             return redirect()->route('sms.logs')->with('error', 'An error occurred while resending SMS.');
         }
     }
-    
 
 
 
 
+    public function monitoring(Request $request)
+    {
+        $searched = $request->search;
 
+        $date_start_filtered = $request->date_start;
+        $date_end_filtered = $request->date_end;
+        $receiveds = BeneficiaryReceived::query()
+            ->with(['beneficiary.barangay'])
+            ->where(function ($query) use ($searched) {
+                $query->whereHas('beneficiary.barangay', function ($subQuery) use ($searched) {
+                    $subQuery->where('first_name', 'like', "%$searched%")
+                        ->orWhere('last_name', 'like', "%$searched%")
+                        ->orWhere('middle_name', 'like', "%$searched%")
+                        ->orWhere('age', 'like', "%$searched%")
+                        ->orWhere('name', 'like', "%$searched%")
+                        ->orWhere('last_name', 'like', "%$searched%");
+                });
+                $query->orWhere('status', 'like', "%$searched%");
+            });
+        if ($date_start_filtered && $date_end_filtered) {
+            $receiveds->whereBetween('date_received', [$date_start_filtered, $date_end_filtered]);
+        } elseif ($date_start_filtered) {
+            $receiveds->where('date_received', '>=', $date_start_filtered);
+        } elseif ($date_end_filtered) {
+            $receiveds->where('date_received', '<=', $date_end_filtered);
+        }
 
+        $receiveds = $receiveds->paginate(20);
 
+        return view('employee.monitoring', compact('receiveds'));
+    }
+
+    public function received($id)
+    {
+        $received = BeneficiaryReceived::find($id);
+
+        $received->update([
+            'status'        =>          'received'
+        ]);
+
+        return redirect()->back()->with('success', 'Marked as received successfully');
+    }
+
+    public function notReceived($id)
+    {
+        $received = BeneficiaryReceived::find($id);
+
+        $received->update([
+            'status'        =>          'not_received'
+        ]);
+
+        return redirect()->back()->with('success', 'Marked as not received successfully');
+    }
 }

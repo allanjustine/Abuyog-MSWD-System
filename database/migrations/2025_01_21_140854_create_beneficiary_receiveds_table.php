@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->nullable();
             $table->enum("item_type", ["cash", "food", "other"])->nullable();
             $table->string('remarks')->nullable();
+            $table->enum("status", ["received", 'not_received', 'pending'])->default('pending');
             $table->string('date_received')->nullable();
             $table->string("date_expired")->nullable();
             $table->timestamps();

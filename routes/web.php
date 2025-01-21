@@ -195,3 +195,12 @@ Route::get('/showbeneficiaries_aics', [AdminController::class, 'showAicsadmin'])
 Route::get('/benefits-given-record', [BeneficiaryReceivedController::class, 'index']);
 Route::get('/apply-benefits/{id}', [BeneficiaryReceivedController::class, 'create']);
 Route::post('/apply-benefits/{id}', [BeneficiaryReceivedController::class, 'store']);
+
+Route::get('/benefits-given-record', [BeneficiaryReceivedController::class, 'index']);
+
+Route::get('/employee/monitoring', [EmployeeController::class, 'monitoring']);
+
+Route::get('/received/{id}', [EmployeeController::class, 'received']);
+Route::get('/not-received/{id}', [EmployeeController::class, 'notReceived']);
+
+Route::get('/operator/monitoring', [OperatorController::class, 'monitoring']);

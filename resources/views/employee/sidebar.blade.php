@@ -64,7 +64,7 @@
                 </span>
                 <span class="menu-title">Dashboard</span>
             </a>
-        </li> 
+        </li>
 
 
         <li class="nav-item menu-items">
@@ -91,6 +91,14 @@
                     <i class="mdi mdi-message-text"></i>
                 </span>
                 <span class="menu-title">SMS Logs</span>
+            </a>
+        </li>
+        <li class="nav-item menu-items">
+            <a class="nav-link" href="/employee/monitoring">
+                <span class="menu-icon">
+                    <i class="mdi mdi-monitor"></i>
+                </span>
+                <span class="menu-title">Monitoring</span>
             </a>
         </li>
 
