@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Calligraffitti&family=Kavoon&family=Titan+One&family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Calligraffitti&family=Kavoon&family=Libre+Baskerville:wght@700&family=Titan+One&family=Varela+Round&display=swap');
+
+/* Swiper Container Styles */
+.swiper-container {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  position: absolute;
+  text-align: center;
+  color: white;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+}
+
+.content h3 {
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-family: 'Titan One', cursive;
+  text-shadow: #141414;
+}
+
+.content span {
+  font-size: 30px;
+  font-weight: 300;
+  color: #e00a0a;
+  font-family: 'Varela Round', sans-serif;
+}
