@@ -61,7 +61,7 @@
                                     <td>{{ $beneficiary->last_name }}</td>
                                     <td>{{ $beneficiary->email }}</td>
                                     <td>{{ $beneficiary->phone }}</td>
-                                    <td>{{ $beneficiary->service ? $beneficiary->service->name : 'No Program' }}</td>
+                                    <td>{{ $beneficiary->service ? $beneficiary->service->name : 'No Program' }} <br> <strong>{{ $beneficiary->service->id === 2 ? '(Disability Type: ' . $beneficiary->disability_type . ')' : '' }}</strong></td>
                                     <td>{{ $beneficiary->barangay->name ?? 'No Barangay' }}</td>
                                     <td>
                                         <div class="d-flex justify-content-around">

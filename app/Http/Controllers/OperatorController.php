@@ -43,6 +43,8 @@ class OperatorController extends Controller
     // Update beneficiary details
     public function uploadbeneficiary_operator(Request $request)
     {
+        $status = in_array($request->program_enrolled, [2, 3]) ? 'invalid' : 'not_provided';
+        $type = $request->program_enrolled == 2 ? $request->disability_type : null;
         $beneficiary = new Beneficiary;
 
         $beneficiary->first_name = $request->first_name;
@@ -65,6 +67,8 @@ class OperatorController extends Controller
         $beneficiary->religion = $request->religion;  // Added religion
         $beneficiary->monthly_income = $request->monthly_income;
         $beneficiary->id_number = $request->id_number;  // Added ID number
+        $beneficiary->id_status = $status;
+        $beneficiary->disability_type = $type;
         $beneficiary->save();
 
         return redirect()->back()->with('message', 'Beneficiary added successfully!');
@@ -94,6 +98,9 @@ class OperatorController extends Controller
             'longitude' => 'nullable|numeric|between:-180,180',  // Optional: valid longitude range
         ]);
 
+        $status = in_array($request->program_enrolled, [2, 3]) ? 'invalid' : 'not_provided';
+        $type = $request->program_enrolled == 2 ? $request->disability_type : null;
+
         $beneficiary = Beneficiary::findOrFail($id);
         $beneficiary->first_name = $request->first_name;
         $beneficiary->middle_name = $request->middle_name;
@@ -115,6 +122,8 @@ class OperatorController extends Controller
         $beneficiary->religion = $request->religion;  // Added religion
         $beneficiary->monthly_income = $request->monthly_income;
         $beneficiary->id_number = $request->id_number;  // Added ID number
+        $beneficiary->id_status = $status;
+        $beneficiary->disability_type = $type;
 
 
 
