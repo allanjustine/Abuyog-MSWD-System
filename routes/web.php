@@ -200,7 +200,7 @@ Route::get('/benefits-given-record', [BeneficiaryReceivedController::class, 'ind
 
 Route::get('/employee/monitoring', [EmployeeController::class, 'monitoring']);
 
-Route::get('/received/{id}', [EmployeeController::class, 'received']);
+Route::get('/received/{id}/{bId}', [EmployeeController::class, 'received']);
 Route::get('/not-received/{id}', [EmployeeController::class, 'notReceived']);
 
 Route::get('/operator/monitoring', [OperatorController::class, 'monitoring']);

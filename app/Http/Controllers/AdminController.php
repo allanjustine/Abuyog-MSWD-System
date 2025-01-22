@@ -23,7 +23,7 @@ class AdminController extends Controller
         $service = new Service; // Correct capitalization for model name
 
         $image = $request->file('file');
-        $imagename = time().'.'.$image->getClientOriginalExtension();
+        $imagename = time() . '.' . $image->getClientOriginalExtension();
         $request->file('file')->move('serviceimage', $imagename);
 
         $service->image = $imagename;
@@ -68,7 +68,7 @@ class AdminController extends Controller
         $image = $request->file('file');
 
         if ($image) {
-            $imagename = time().'.'.$image->getClientOriginalExtension();
+            $imagename = time() . '.' . $image->getClientOriginalExtension();
             $request->file('file')->move('serviceimage', $imagename);
             $service->image = $imagename;
         }
@@ -99,7 +99,7 @@ class AdminController extends Controller
         $beneficiaries = Beneficiary::with('barangay')->get();
         $services = Service::all();
         $barangays = Barangay::all(); // Fetch all barangays if needed
-        return view('admin.showbeneficiary', compact('barangays','services', 'beneficiaries'));
+        return view('admin.showbeneficiary', compact('barangays', 'services', 'beneficiaries'));
     }
 
 
@@ -111,144 +111,153 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
-   // Edit beneficiary
-  // Edit beneficiary method
-public function editBeneficiaries($id)
-{
-    // Retrieve the beneficiary by ID
-    $beneficiary = Beneficiary::find($id);
+    // Edit beneficiary
+    // Edit beneficiary method
+    public function editBeneficiaries($id)
+    {
+        // Retrieve the beneficiary by ID
+        $beneficiary = Beneficiary::find($id);
 
-    // If beneficiary doesn't exist, redirect with an error
-    if (!$beneficiary) {
-        return redirect()->route('admin.beneficiaries.index')->with('error', 'Beneficiary not found');
+        // If beneficiary doesn't exist, redirect with an error
+        if (!$beneficiary) {
+            return redirect()->route('admin.beneficiaries.index')->with('error', 'Beneficiary not found');
+        }
+
+        // Fetch all services for the program dropdown
+        $services = Service::all();
+
+        // Fetch all barangays if needed
+        $barangays = Barangay::all();
+
+        // Pass the beneficiary, services, and barangays to the edit view
+        return view('admin.editbeneficiaries', compact('beneficiary', 'services', 'barangays'));
     }
 
-    // Fetch all services for the program dropdown
-    $services = Service::all();
-
-    // Fetch all barangays if needed
-    $barangays = Barangay::all();
-
-    // Pass the beneficiary, services, and barangays to the edit view
-    return view('admin.editbeneficiaries', compact('beneficiary', 'services', 'barangays'));
-}
-
-public function gisMapping()
-{
-    $services = Service::all(); // Fetch all services (programs)
-    $barangays = Barangay::distinct()->pluck('barangay'); // Fetch distinct barangay names
-    return view('admin.gis', compact('services', 'barangays'));
-}
+    public function gisMapping()
+    {
+        $services = Service::all(); // Fetch all services (programs)
+        $barangays = Barangay::distinct()->pluck('barangay'); // Fetch distinct barangay names
+        return view('admin.gis', compact('services', 'barangays'));
+    }
 
 
 
-public function showReports()
-{
-    // Fetching all services (assuming you have a Service model)
-    $services = Service::all();
+    public function showReports()
+    {
+        // Fetching all services (assuming you have a Service model)
+        $services = Service::all();
 
-    // Fetching all barangays (assuming you have a Barangay model)
-    $barangays = Barangay::all();
+        // Fetching all barangays (assuming you have a Barangay model)
+        $barangays = Barangay::all();
 
-    // Pass the data to the view
-    return view('admin.reports', compact('services', 'barangays'));
-}
+        // Pass the data to the view
+        return view('admin.reports', compact('services', 'barangays'));
+    }
 
 
 
     // Update beneficiary details
     public function uploadbeneficiary(Request $request)
-{
-    $beneficiary = new Beneficiary;
+    {
+        $status = in_array($request->program_enrolled, [2, 3]) ? 'invalid' : 'not_provided';
+        $type = $request->program_enrolled == 2 ? $request->disability_type : null;
+        $beneficiary = new Beneficiary;
+        $beneficiary->first_name = $request->first_name;
+        $beneficiary->middle_name = $request->middle_name;
+        $beneficiary->last_name = $request->last_name;
+        $beneficiary->suffix = $request->suffix;  // Added suffix
+        $beneficiary->email = $request->email;
+        $beneficiary->phone = $request->phone;
+        $beneficiary->program_enrolled = $request->program_enrolled;
+        $beneficiary->barangay_id = $request->barangay;
+        $beneficiary->latitude = $request->latitude;
+        $beneficiary->longitude = $request->longitude;
+        $beneficiary->date_of_birth = $request->date_of_birth;
+        $beneficiary->age = $request->age;
+        $beneficiary->gender = $request->gender;
+        $beneficiary->place_of_birth = $request->place_of_birth;  // Added place of birth
+        $beneficiary->civil_status = $request->civil_status;
+        $beneficiary->educational_attainment = $request->educational_attainment;  // Added educational attainment
+        $beneficiary->occupation = $request->occupation;  // Added occupation
+        $beneficiary->religion = $request->religion;  // Added religion
+        $beneficiary->monthly_income = $request->monthly_income;
+        $beneficiary->id_number = $request->id_number;  // Added ID number
+        $beneficiary->id_status = $status;
+        $beneficiary->disability_type = $type;
 
-    $beneficiary->first_name = $request->first_name;
-$beneficiary->middle_name = $request->middle_name;
-$beneficiary->last_name = $request->last_name;
-$beneficiary->suffix = $request->suffix;  // Added suffix
-$beneficiary->email = $request->email;
-$beneficiary->phone = $request->phone;
-$beneficiary->program_enrolled = $request->program_enrolled;
-$beneficiary->barangay_id = $request->barangay;
-$beneficiary->latitude = $request->latitude;
-$beneficiary->longitude = $request->longitude;
-$beneficiary->date_of_birth = $request->date_of_birth;
-$beneficiary->age = $request->age;
-$beneficiary->gender = $request->gender;
-$beneficiary->place_of_birth = $request->place_of_birth;  // Added place of birth
-$beneficiary->civil_status = $request->civil_status;
-$beneficiary->educational_attainment = $request->educational_attainment;  // Added educational attainment
-$beneficiary->occupation = $request->occupation;  // Added occupation
-$beneficiary->religion = $request->religion;  // Added religion
-$beneficiary->monthly_income = $request->monthly_income;
-$beneficiary->id_number = $request->id_number;  // Added ID number
+        $beneficiary->save();
 
-    $beneficiary->save();
+        return redirect()->back()->with('message', 'Beneficiary added successfully!');
+    }
 
-    return redirect()->back()->with('message', 'Beneficiary added successfully!');
-}
+    // Controller method to update the beneficiary
+    public function updateBeneficiary($id, Request $request)
+    {
+        // Validate the input data
+        $request->validate([
+            'first_name' => 'required|string',
+            'middle_name' => 'required|string',
+            'last_name' => 'required|string',
+            'suffix' => 'nullable|string',  // Added suffix
+            'email' => 'required|email',
+            'phone' => 'required|string|max:20',
+            'program_enrolled' => 'required|exists:services,id',  // Ensures the program is valid
+            'barangay_id' => 'nullable|exists:barangays,id',  // Optional: ensures the barangay is valid
+            'place_of_birth' => 'nullable|string|max:255',  // Added place of birth
+            'date_of_birth' => 'required|date',
+            'age' => 'required|integer',
+            'gender' => 'required|string|in:Male,Female,Other',
+            'civil_status' => 'required|string|in:Single,Married,Widowed,Divorced',
+            'educational_attainment' => 'nullable|string|max:255',  // Added educational attainment
+            'occupation' => 'nullable|string|max:255',  // Added occupation
+            'religion' => 'nullable|string|max:255',  // Added religion
+            'monthly_income' => 'required|string|in:Below 5,000,5,000 - 10,000,10,000 - 15,000,Above 15,000',
+            'id_number' => 'nullable|string|max:255',  // Added ID number
+            'latitude' => 'nullable|numeric|between:-90,90',  // Optional: valid latitude range
+            'longitude' => 'nullable|numeric|between:-180,180',  // Optional: valid longitude range
 
-// Controller method to update the beneficiary
-public function updateBeneficiary($id, Request $request)
-{
-    // Validate the input data
-    $request->validate([
-        'first_name' => 'required|string',
-'middle_name' => 'required|string',
-'last_name' => 'required|string',
-'suffix' => 'nullable|string',  // Added suffix
-'email' => 'required|email',
-'phone' => 'required|string|max:20',
-'program_enrolled' => 'required|exists:services,id',  // Ensures the program is valid
-'barangay_id' => 'nullable|exists:barangays,id',  // Optional: ensures the barangay is valid
-'place_of_birth' => 'nullable|string|max:255',  // Added place of birth
-'date_of_birth' => 'required|date',
-'age' => 'required|integer',
-'gender' => 'required|string|in:Male,Female,Other',
-'civil_status' => 'required|string|in:Single,Married,Widowed,Divorced',
-'educational_attainment' => 'nullable|string|max:255',  // Added educational attainment
-'occupation' => 'nullable|string|max:255',  // Added occupation
-'religion' => 'nullable|string|max:255',  // Added religion
-'monthly_income' => 'required|string|in:Below 5,000,5,000 - 10,000,10,000 - 15,000,Above 15,000',
-'id_number' => 'nullable|string|max:255',  // Added ID number
-'latitude' => 'nullable|numeric|between:-90,90',  // Optional: valid latitude range
-'longitude' => 'nullable|numeric|between:-180,180',  // Optional: valid longitude range
-
-    ]);
-
-
-    // Find the beneficiary by ID
-    $beneficiary = Beneficiary::findOrFail($id);
-
-    // Update the beneficiary's data
-    $beneficiary->first_name = $request->first_name;
-$beneficiary->middle_name = $request->middle_name;
-$beneficiary->last_name = $request->last_name;
-$beneficiary->suffix = $request->suffix;  // Added suffix
-$beneficiary->email = $request->email;
-$beneficiary->phone = $request->phone;
-$beneficiary->program_enrolled = $request->program_enrolled;
-$beneficiary->barangay_id = $request->barangay;
-$beneficiary->latitude = $request->latitude;
-$beneficiary->longitude = $request->longitude;
-$beneficiary->date_of_birth = $request->date_of_birth;
-$beneficiary->age = $request->age;
-$beneficiary->gender = $request->gender;
-$beneficiary->place_of_birth = $request->place_of_birth;  // Added place of birth
-$beneficiary->civil_status = $request->civil_status;
-$beneficiary->educational_attainment = $request->educational_attainment;  // Added educational attainment
-$beneficiary->occupation = $request->occupation;  // Added occupation
-$beneficiary->religion = $request->religion;  // Added religion
-$beneficiary->monthly_income = $request->monthly_income;
-$beneficiary->id_number = $request->id_number;  // Added ID number
+        ]);
 
 
+        $status = in_array($request->program_enrolled, [2, 3]) ? 'invalid' : 'not_provided';
+        $type = $request->program_enrolled == 2 ? $request->disability_type : null;
 
-    // Save the changes
-    $beneficiary->save();
 
-    // Redirect back with a success message
-    return redirect()->route('beneficiaries.index')->with('message', 'Beneficiary updated successfully!');
-}
+        // Find the beneficiary by ID
+        $beneficiary = Beneficiary::findOrFail($id);
+
+        // Update the beneficiary's data
+        $beneficiary->first_name = $request->first_name;
+        $beneficiary->middle_name = $request->middle_name;
+        $beneficiary->last_name = $request->last_name;
+        $beneficiary->suffix = $request->suffix;  // Added suffix
+        $beneficiary->email = $request->email;
+        $beneficiary->phone = $request->phone;
+        $beneficiary->program_enrolled = $request->program_enrolled;
+        $beneficiary->barangay_id = $request->barangay;
+        $beneficiary->latitude = $request->latitude;
+        $beneficiary->longitude = $request->longitude;
+        $beneficiary->date_of_birth = $request->date_of_birth;
+        $beneficiary->age = $request->age;
+        $beneficiary->gender = $request->gender;
+        $beneficiary->place_of_birth = $request->place_of_birth;  // Added place of birth
+        $beneficiary->civil_status = $request->civil_status;
+        $beneficiary->educational_attainment = $request->educational_attainment;  // Added educational attainment
+        $beneficiary->occupation = $request->occupation;  // Added occupation
+        $beneficiary->religion = $request->religion;  // Added religion
+        $beneficiary->monthly_income = $request->monthly_income;
+        $beneficiary->id_number = $request->id_number;  // Added ID number
+        $beneficiary->id_status = $status;
+        $beneficiary->disability_type = $type;
+
+
+
+        // Save the changes
+        $beneficiary->save();
+
+        // Redirect back with a success message
+        return redirect()->route('beneficiaries.index')->with('message', 'Beneficiary updated successfully!');
+    }
 
 
 
@@ -267,12 +276,12 @@ $beneficiary->id_number = $request->id_number;  // Added ID number
                     ->orWhere('phone', 'LIKE', '%' . $search . '%')
                     // Search by program_enrolled (service name)
                     ->orWhereHas('service', function ($query) use ($search) {
-                    $query->where('name', 'LIKE', '%' . $search . '%');
-                })
+                        $query->where('name', 'LIKE', '%' . $search . '%');
+                    })
                     // Search by barangay (barangay name)
                     ->orWhereHas('barangay', function ($query) use ($search) {
-                    $query->where('name', 'LIKE', '%' . $search . '%');
-                });
+                        $query->where('name', 'LIKE', '%' . $search . '%');
+                    });
             })
             ->get();
 
@@ -291,8 +300,8 @@ $beneficiary->id_number = $request->id_number;  // Added ID number
                     ->orWhere('email', 'LIKE', '%' . $search . '%')
                     ->orWhere('phone', 'LIKE', '%' . $search . '%')
                     ->orWhereHas('service', function ($query) use ($search) {
-                    $query->where('name', 'LIKE', '%' . $search . '%');
-                })
+                        $query->where('name', 'LIKE', '%' . $search . '%');
+                    })
 
                     ->orWhere('status', 'LIKE', '%' . $search . '%')
                     // Search for employee_name, include 'pending' or null (no employee assigned)
@@ -307,14 +316,14 @@ $beneficiary->id_number = $request->id_number;  // Added ID number
     }
 
     // dropdown admin
-public function showOscaadmin()
-{
-    $beneficiaries = Beneficiary::whereHas('service', function ($query) {
-        $query->where('name', 'OSCA(Office of Senior Citizens)');
-    })->get();
+    public function showOscaadmin()
+    {
+        $beneficiaries = Beneficiary::whereHas('service', function ($query) {
+            $query->where('name', 'OSCA(Office of Senior Citizens)');
+        })->get();
 
-    return view('dropdownadm.osca', compact('beneficiaries'));
-}
+        return view('dropdownadm.osca', compact('beneficiaries'));
+    }
 
     public function showPwdadmin()
     {
@@ -332,7 +341,6 @@ public function showOscaadmin()
         })->get();
 
         return view('dropdownadm.solo_parent', compact('beneficiaries'));
-
     }
     public function showAicsadmin()
     {
@@ -341,9 +349,5 @@ public function showOscaadmin()
         })->get();
 
         return view('dropdownadm.aics', compact('beneficiaries'));
-
     }
-
-
-
 }

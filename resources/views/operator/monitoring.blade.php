@@ -70,7 +70,6 @@
         .btn:active i {
             color: black;
         }
-
     </style>
 </head>
 
@@ -91,20 +90,25 @@
                         <div class="d-flex gap-2">
                             <form action="/operator/monitoring" method="get" class="mt-5">
                                 @csrf
-                                From:<input type="date" name="date_start" value="{{ request()->date_start }}" class="form-control d-inline-block" style="width: auto;">
-                                To:<input type="date" name="date_end" value="{{ request()->date_end }}" class="form-control d-inline-block" style="width: auto;">
+                                From:<input type="date" name="date_start" value="{{ request()->date_start }}"
+                                    class="form-control d-inline-block" style="width: auto;">
+                                To:<input type="date" name="date_end" value="{{ request()->date_end }}"
+                                    class="form-control d-inline-block" style="width: auto;">
                                 <button type="submit" class="btn btn-primary d-inline-block">Filter</button>
                             </form>
                             <form action="/operator/monitoring" method="get" class="mt-5">
                                 @csrf
-                                <input type="date" name="date_start" value="" class="form-control d-inline-block d-none" style="width: auto;">
-                                <input type="date" name="date_end" value="" class="form-control d-inline-block d-none" style="width: auto;">
+                                <input type="date" name="date_start" value="" class="form-control d-inline-block d-none"
+                                    style="width: auto;">
+                                <input type="date" name="date_end" value="" class="form-control d-inline-block d-none"
+                                    style="width: auto;">
                                 <button type="submit" class="btn btn-warning d-inline-block">Reset</button>
                             </form>
                         </div>
                         <form action="/operator/monitoring" method="GET" class="mt-5">
-                            <input type="search" name="search" placeholder="Search.." value="{{ request()->search }}" class="form-control d-inline-block" style="width: auto;">
-                        <button type="submit" class="btn btn-primary d-inline-block">Search</button>
+                            <input type="search" name="search" placeholder="Search.." value="{{ request()->search }}"
+                                class="form-control d-inline-block" style="width: auto;">
+                            <button type="submit" class="btn btn-primary d-inline-block">Search</button>
                         </form>
                     </div>
 
@@ -120,6 +124,9 @@
                                         <th>Age</th>
                                         <th>Barangay</th>
                                         <th>Date Received</th>
+                                        <th>Id Status</th>
+                                        <th>Program Enrolled</th>
+                                        <th>Barangay</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -132,18 +139,34 @@
                                         <td>{{ $received->beneficiary->age }}</td>
                                         <td>{{ $received->beneficiary->barangay->name }}</td>
                                         <td>{{ $received->date_received->format('F d, Y') }}</td>
+                                        <td>
+                                            @if($received->beneficiary->id_status == 'valid')
+                                            <span class="badge bg-primary">
+                                                Renewed
+                                            </span>
+                                            @elseif($received->beneficiary->id_status == 'invalid')
+                                            <span class="badge bg-danger">
+                                                Not Renewed
+                                            </span>
+                                            @else<span class="badge bg-secondary">
+                                                No Id Provided
+                                            </span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $received->beneficiary->service->name }} <br> <strong>{{ $received->beneficiary->service->id === 2 ? '(Disability Type: ' . $received->beneficiary->disability_type . ')' : '' }}</strong></td>
+                                        <td>{{ $received->beneficiary->barangay->name }}</td>
                                         <td class="text-center">
                                             <!-- Action Buttons -->
                                             @if ($received->status === 'pending')
-                                            <button class="btn btn-info btn-sm">
+                                            <button class="btn btn-outline-info btn-sm text-primary">
                                                 <i class="bi bi-hourglass-split"></i> Pending
                                             </button>
                                             @elseif($received->status === 'received')
-                                            <button class="btn btn-primary btn-sm">
+                                            <button class="btn btn-outline-primary btn-sm text-info">
                                                 <i class="bi bi-check-circle"></i> Received
                                             </button>
                                             @else
-                                            <button class="btn btn-danger btn-sm">
+                                            <button class="btn btn-outline-danger btn-sm text-warning">
                                                 <i class="bi bi-x-circle"></i> Not Received
                                             </button>
                                             @endif
@@ -204,7 +227,6 @@
                 margin-bottom: 8px !important;
                 /* Reduce space below the icon */
             }
-
         </style>
 
         <script>

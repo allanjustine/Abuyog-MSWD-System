@@ -168,6 +168,7 @@ class OperatorController extends Controller
                         ->orWhere('middle_name', 'like', "%$searched%")
                         ->orWhere('age', 'like', "%$searched%")
                         ->orWhere('name', 'like', "%$searched%")
+                        ->orWhere('id_status', 'like', "%$searched%")
                         ->orWhere('last_name', 'like', "%$searched%");
                 });
                 $query->orWhere('status', 'like', "%$searched%");

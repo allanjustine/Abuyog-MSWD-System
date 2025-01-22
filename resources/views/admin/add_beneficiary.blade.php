@@ -79,12 +79,12 @@
             <div class="container" align="center" style="padding:10px;">
 
                 @if (session()->has('message'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('message') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('message') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 @endif
 
                 <div class="card">
@@ -103,8 +103,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="firstName" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" name="first_name"
-                                        required>
+                                    <input type="text" class="form-control" id="firstName" name="first_name" required>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="middleName" class="form-label">Middle Name</label>
@@ -150,10 +149,10 @@
                                         <select name="barangay" id="barangaySelect" class="form-select" required>
                                             <option value="">Select Barangay</option>
                                             @foreach ($barangays as $barangay)
-                                                <option value="{{ $barangay->id }}" data-lat="{{ $barangay->latitude }}"
-                                                    data-lng="{{ $barangay->longitude }}">
-                                                    {{ $barangay->name }}
-                                                </option>
+                                            <option value="{{ $barangay->id }}" data-lat="{{ $barangay->latitude }}"
+                                                data-lng="{{ $barangay->longitude }}">
+                                                {{ $barangay->name }}
+                                            </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -185,8 +184,7 @@
 
                                     <div class="col-md-3">
                                         <label for="occupation" class="form-label">Occupation</label>
-                                        <input type="text" class="form-control" id="occupation"
-                                            name="occupation">
+                                        <input type="text" class="form-control" id="occupation" name="occupation">
                                     </div>
                                 </div>
 
@@ -205,26 +203,25 @@
 
                                     <div class="col-md-3 d-none" id="otherReligionDiv">
                                         <label for="otherReligion" class="form-label">Please Specify</label>
-                                        <input type="text" class="form-control" id="otherReligion"
-                                            name="other_religion" placeholder="Type your religion">
+                                        <input type="text" class="form-control" id="otherReligion" name="other_religion"
+                                            placeholder="Type your religion">
                                     </div>
 
                                     <div class="col-md-3">
                                         <label for="monthlyIncome" class="form-label">Monthly Income</label>
-                                        <select name="monthly_income" class="form-select" id="monthlyIncome"
-                                            required>
+                                        <select name="monthly_income" class="form-select" id="monthlyIncome" required>
                                             <option value="">Select Income</option>
-                                            <option value="Below 5,000"
-                                                {{ old('monthly_income') == 'Below 5,000' ? 'selected' : '' }}>Below
+                                            <option value="Below 5,000" {{ old('monthly_income')=='Below 5,000'
+                                                ? 'selected' : '' }}>Below
                                                 5,000</option>
-                                            <option value="5,000 - 10,000"
-                                                {{ old('monthly_income') == '5,000 - 10,000' ? 'selected' : '' }}>5,000
+                                            <option value="5,000 - 10,000" {{ old('monthly_income')=='5,000 - 10,000'
+                                                ? 'selected' : '' }}>5,000
                                                 - 10,000</option>
-                                            <option value="10,000 - 15,000"
-                                                {{ old('monthly_income') == '10,000 - 15,000' ? 'selected' : '' }}>
+                                            <option value="10,000 - 15,000" {{ old('monthly_income')=='10,000 - 15,000'
+                                                ? 'selected' : '' }}>
                                                 10,000 - 15,000</option>
-                                            <option value="Above 15,000"
-                                                {{ old('monthly_income') == 'Above 15,000' ? 'selected' : '' }}>Above
+                                            <option value="Above 15,000" {{ old('monthly_income')=='Above 15,000'
+                                                ? 'selected' : '' }}>Above
                                                 15,000</option>
                                         </select>
                                     </div>
@@ -238,8 +235,7 @@
 
                                     <div class="col-md-3">
                                         <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="email" name="email"
-                                            required>
+                                        <input type="email" class="form-control" id="email" name="email" required>
                                     </div>
                                 </div>
 
@@ -249,8 +245,45 @@
                                         <select name="program_enrolled" class="form-select" id="program_enrolled">
                                             <option value="">Select Program</option>
                                             @foreach ($services as $service)
-                                                <option value="{{ $service->id }}">{{ $service->name }}</option>
+                                            <option value="{{ $service->id }}">{{ $service->name }}</option>
                                             @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 d-none" id="disabilityType">
+                                    <div class="mb-3 d-flex flex-column">
+                                        <label for="disability_type">Disability Type:</label>
+                                        <select name="disability_type" id="disability_type">
+                                            <option hidden selected value="">Select Disability Type</option>
+                                            <option disabled value="">Select Disability Type</option>
+                                            <option value="Visual Impairment" {{
+                                                old('disability_type')=='Visual Impairment' ? 'selected' : '' }}>Visual
+                                                Impairment</option>
+                                            <option value="Hearing Impairment" {{
+                                                old('disability_type')=='Hearing Impairment' ? 'selected' : '' }}>
+                                                Hearing Impairment</option>
+                                            <option value="Mobility Impairment" {{
+                                                old('disability_type')=='Mobility Impairment' ? 'selected' : '' }}>
+                                                Mobility Impairment</option>
+                                            <option value="Cognitive Impairment" {{
+                                                old('disability_type')=='Cognitive Impairment' ? 'selected' : '' }}>
+                                                Cognitive Impairment</option>
+                                            <option value="Speech Impairment" {{
+                                                old('disability_type')=='Speech Impairment' ? 'selected' : '' }}>Speech
+                                                Impairment</option>
+                                            <option value="Mental Health Impairment" {{
+                                                old('disability_type')=='Mental Health Impairment' ? 'selected' : '' }}>
+                                                Mental Health Impairment</option>
+                                            <option value="Severe Physical Impairment" {{
+                                                old('disability_type')=='Severe Physical Impairment' ? 'selected' : ''
+                                                }}>Severe Physical Impairment</option>
+                                            <option value="Chronic Illness" {{ old('disability_type')=='Chronic Illness'
+                                                ? 'selected' : '' }}>Chronic Illness</option>
+                                            <option value="Hearing and Speech Impairment" {{
+                                                old('disability_type')=='Hearing and Speech Impairment' ? 'selected'
+                                                : '' }}>Hearing and Speech Impairment</option>
+                                            <option value="Other" {{ old('disability_type')=='Other' ? 'selected' : ''
+                                                }}>Other</option>
                                         </select>
                                     </div>
                                 </div>
@@ -296,6 +329,22 @@
                 document.getElementById('otherReligionDiv').classList.add('d-none'); // Hide "Other" input field
             }
         });
+    </script>
+
+    <script>
+        document.getElementById('program_enrolled').addEventListener('change', function() {
+            const selectedProgram = this.value;
+
+            const disabilityTypeDiv = document.getElementById('disabilityType');
+            const disabilityTypeDiv2 = document.getElementById('disability_type');
+            if(selectedProgram == 2) {
+                disabilityTypeDiv.classList.remove('d-none');
+                disabilityTypeDiv2.setAttribute('required', 'required');
+            } else {
+                disabilityTypeDiv2.removeAttribute('required');
+                disabilityTypeDiv.classList.add('d-none');
+            }
+        })
     </script>
 </body>
 

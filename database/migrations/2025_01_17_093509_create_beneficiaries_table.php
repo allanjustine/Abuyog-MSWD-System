@@ -33,6 +33,8 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('id_number')->nullable(); // Added ID number
+            $table->enum('id_status', ['valid', 'invalid', 'not_provided'])->default('not_provided');
+            $table->string('disability_type')->nullable();
 
             $table->decimal('latitude', 10, 6)->nullable();
             $table->decimal('longitude', 10, 6)->nullable();

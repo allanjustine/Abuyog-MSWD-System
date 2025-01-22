@@ -235,6 +235,7 @@ class EmployeeController extends Controller
                         ->orWhere('middle_name', 'like', "%$searched%")
                         ->orWhere('age', 'like', "%$searched%")
                         ->orWhere('name', 'like', "%$searched%")
+                        ->orWhere('id_status', 'like', "%$searched%")
                         ->orWhere('last_name', 'like', "%$searched%");
                 });
                 $query->orWhere('status', 'like', "%$searched%");
@@ -252,12 +253,18 @@ class EmployeeController extends Controller
         return view('employee.monitoring', compact('receiveds'));
     }
 
-    public function received($id)
+    public function received($id, $bId)
     {
         $received = BeneficiaryReceived::find($id);
 
+        $beneficiary = Beneficiary::find($bId);
+
         $received->update([
             'status'        =>          'received'
+        ]);
+
+        $beneficiary->update([
+            'id_status'             =>          'valid'
         ]);
 
         return redirect()->back()->with('success', 'Marked as received successfully');

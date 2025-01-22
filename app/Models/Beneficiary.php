@@ -9,17 +9,7 @@ class Beneficiary extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'first_name',
-        'middle_name',
-        'last_name',
-        'email',
-        'phone',
-        'program_enrolled', // Program (Service)
-        'barangay_id',      // Foreign key for barangay
-        'latitude',
-        'longitude',
-    ];
+    protected $guarded = [];
 
     // Relationship: Beneficiary belongs to a Barangay
     public function barangay()

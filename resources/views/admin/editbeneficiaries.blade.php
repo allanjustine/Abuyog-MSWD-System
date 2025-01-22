@@ -62,12 +62,12 @@
 
             <div class="container">
                 @if (session()->has('message'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('message') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('message') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 @endif
 
                 <div class="card">
@@ -119,17 +119,17 @@
                                         <label for="gender" class="form-label">Gender</label>
                                         <select class="form-select" id="gender" name="gender" required>
                                             <option value="">Select</option>
-                                            <option value="Male"
-                                                {{ $beneficiary->gender == 'Male' ? 'selected' : '' }}>Male</option>
-                                            <option value="Female"
-                                                {{ $beneficiary->gender == 'Female' ? 'selected' : '' }}>Female
+                                            <option value="Male" {{ $beneficiary->gender == 'Male' ? 'selected' : ''
+                                                }}>Male</option>
+                                            <option value="Female" {{ $beneficiary->gender == 'Female' ? 'selected' : ''
+                                                }}>Female
                                             </option>
                                         </select>
                                     </div>
                                     <div class="col-md-3">
                                         <label for="placeOfBirth" class="form-label">Place of Birth</label>
-                                        <input type="text" class="form-control" id="placeOfBirth"
-                                            name="place_of_birth" value="{{ $beneficiary->place_of_birth }}" required>
+                                        <input type="text" class="form-control" id="placeOfBirth" name="place_of_birth"
+                                            value="{{ $beneficiary->place_of_birth }}" required>
                                     </div>
                                 </div>
 
@@ -142,32 +142,30 @@
                                             <select name="barangay" id="barangaySelect" class="form-select" required>
                                                 <option value="">Select Barangay</option>
                                                 @foreach ($barangays as $barangay)
-                                                    <option value="{{ $barangay->id }}"
-                                                        data-lat="{{ $barangay->latitude }}"
-                                                        data-lng="{{ $barangay->longitude }}"
-                                                        {{ $beneficiary->barangay_id == $barangay->id ? 'selected' : '' }}>
-                                                        {{ $barangay->name }}
-                                                    </option>
+                                                <option value="{{ $barangay->id }}" data-lat="{{ $barangay->latitude }}"
+                                                    data-lng="{{ $barangay->longitude }}" {{ $beneficiary->barangay_id
+                                                    == $barangay->id ? 'selected' : '' }}>
+                                                    {{ $barangay->name }}
+                                                </option>
                                                 @endforeach
                                             </select>
                                         </div>
 
                                         <div class="col-md-3">
                                             <label for="civilStatus" class="form-label">Civil Status</label>
-                                            <select class="form-select" id="civilStatus" name="civil_status"
-                                                required>
+                                            <select class="form-select" id="civilStatus" name="civil_status" required>
                                                 <option value="">Select</option>
-                                                <option value="Single"
-                                                    {{ $beneficiary->civil_status == 'Single' ? 'selected' : '' }}>
+                                                <option value="Single" {{ $beneficiary->civil_status == 'Single' ?
+                                                    'selected' : '' }}>
                                                     Single</option>
-                                                <option value="Married"
-                                                    {{ $beneficiary->civil_status == 'Married' ? 'selected' : '' }}>
+                                                <option value="Married" {{ $beneficiary->civil_status == 'Married' ?
+                                                    'selected' : '' }}>
                                                     Married</option>
-                                                <option value="Widowed"
-                                                    {{ $beneficiary->civil_status == 'Widowed' ? 'selected' : '' }}>
+                                                <option value="Widowed" {{ $beneficiary->civil_status == 'Widowed' ?
+                                                    'selected' : '' }}>
                                                     Widowed</option>
-                                                <option value="Divorced"
-                                                    {{ $beneficiary->civil_status == 'Divorced' ? 'selected' : '' }}>
+                                                <option value="Divorced" {{ $beneficiary->civil_status == 'Divorced' ?
+                                                    'selected' : '' }}>
                                                     Divorced</option>
                                             </select>
                                         </div>
@@ -178,28 +176,29 @@
                                             <select class="form-select" id="educationalAttainment"
                                                 name="educational_attainment">
                                                 <option value="">Select</option>
-                                                <option value="No Formal Education"
-                                                    {{ $beneficiary->educational_attainment == 'No Formal Education' ? 'selected' : '' }}>
+                                                <option value="No Formal Education" {{ $beneficiary->
+                                                    educational_attainment == 'No Formal Education' ? 'selected' : ''
+                                                    }}>
                                                     No Formal Education</option>
-                                                <option value="Elementary"
-                                                    {{ $beneficiary->educational_attainment == 'Elementary' ? 'selected' : '' }}>
+                                                <option value="Elementary" {{ $beneficiary->educational_attainment ==
+                                                    'Elementary' ? 'selected' : '' }}>
                                                     Elementary</option>
-                                                <option value="High School"
-                                                    {{ $beneficiary->educational_attainment == 'High School' ? 'selected' : '' }}>
+                                                <option value="High School" {{ $beneficiary->educational_attainment ==
+                                                    'High School' ? 'selected' : '' }}>
                                                     High School</option>
-                                                <option value="College"
-                                                    {{ $beneficiary->educational_attainment == 'College' ? 'selected' : '' }}>
+                                                <option value="College" {{ $beneficiary->educational_attainment ==
+                                                    'College' ? 'selected' : '' }}>
                                                     College</option>
-                                                <option value="Postgraduate"
-                                                    {{ $beneficiary->educational_attainment == 'Postgraduate' ? 'selected' : '' }}>
+                                                <option value="Postgraduate" {{ $beneficiary->educational_attainment ==
+                                                    'Postgraduate' ? 'selected' : '' }}>
                                                     Postgraduate</option>
                                             </select>
                                         </div>
 
                                         <div class="col-md-3">
                                             <label for="occupation" class="form-label">Occupation</label>
-                                            <input type="text" class="form-control" id="occupation"
-                                                name="occupation" value="{{ $beneficiary->occupation }}">
+                                            <input type="text" class="form-control" id="occupation" name="occupation"
+                                                value="{{ $beneficiary->occupation }}">
                                         </div>
                                     </div>
 
@@ -208,20 +207,20 @@
                                             <label for="religion" class="form-label">Religion</label>
                                             <select class="form-select" id="religion" name="religion">
                                                 <option value="">Select</option>
-                                                <option value="Christianity"
-                                                    {{ $beneficiary->religion == 'Christianity' ? 'selected' : '' }}>
+                                                <option value="Christianity" {{ $beneficiary->religion == 'Christianity'
+                                                    ? 'selected' : '' }}>
                                                     Christianity</option>
-                                                <option value="Islam"
-                                                    {{ $beneficiary->religion == 'Islam' ? 'selected' : '' }}>Islam
+                                                <option value="Islam" {{ $beneficiary->religion == 'Islam' ? 'selected'
+                                                    : '' }}>Islam
                                                 </option>
-                                                <option value="Hinduism"
-                                                    {{ $beneficiary->religion == 'Hinduism' ? 'selected' : '' }}>
+                                                <option value="Hinduism" {{ $beneficiary->religion == 'Hinduism' ?
+                                                    'selected' : '' }}>
                                                     Hinduism</option>
-                                                <option value="Buddhism"
-                                                    {{ $beneficiary->religion == 'Buddhism' ? 'selected' : '' }}>
+                                                <option value="Buddhism" {{ $beneficiary->religion == 'Buddhism' ?
+                                                    'selected' : '' }}>
                                                     Buddhism</option>
-                                                <option value="Other"
-                                                    {{ $beneficiary->religion == 'Other' ? 'selected' : '' }}>Other
+                                                <option value="Other" {{ $beneficiary->religion == 'Other' ? 'selected'
+                                                    : '' }}>Other
                                                 </option>
                                             </select>
                                         </div>
@@ -238,17 +237,17 @@
                                             <select name="monthly_income" class="form-select" id="monthlyIncome"
                                                 required>
                                                 <option value="">Select Income</option>
-                                                <option value="Below 5,000"
-                                                    {{ $beneficiary->monthly_income == 'Below 5,000' ? 'selected' : '' }}>
+                                                <option value="Below 5,000" {{ $beneficiary->monthly_income == 'Below
+                                                    5,000' ? 'selected' : '' }}>
                                                     Below 5,000</option>
-                                                <option value="5,000 - 10,000"
-                                                    {{ $beneficiary->monthly_income == '5,000 - 10,000' ? 'selected' : '' }}>
+                                                <option value="5,000 - 10,000" {{ $beneficiary->monthly_income == '5,000
+                                                    - 10,000' ? 'selected' : '' }}>
                                                     5,000 - 10,000</option>
-                                                <option value="10,000 - 15,000"
-                                                    {{ $beneficiary->monthly_income == '10,000 - 15,000' ? 'selected' : '' }}>
+                                                <option value="10,000 - 15,000" {{ $beneficiary->monthly_income ==
+                                                    '10,000 - 15,000' ? 'selected' : '' }}>
                                                     10,000 - 15,000</option>
-                                                <option value="Above 15,000"
-                                                    {{ $beneficiary->monthly_income == 'Above 15,000' ? 'selected' : '' }}>
+                                                <option value="Above 15,000" {{ $beneficiary->monthly_income == 'Above
+                                                    15,000' ? 'selected' : '' }}>
                                                     Above 15,000</option>
                                             </select>
                                         </div>
@@ -269,15 +268,55 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="program_enrolled" class="form-label">Program Enrolled</label>
-                                            <select name="program_enrolled" class="form-select"
-                                                id="program_enrolled">
+                                            <select name="program_enrolled" class="form-select" id="program_enrolled">
                                                 <option value="">Select Program</option>
                                                 @foreach ($services as $service)
-                                                    <option value="{{ $service->id }}"
-                                                        {{ $beneficiary->program_enrolled == $service->id ? 'selected' : '' }}>
-                                                        {{ $service->name }}
-                                                    </option>
+                                                <option value="{{ $service->id }}" {{ $beneficiary->program_enrolled ==
+                                                    $service->id ? 'selected' : '' }}>
+                                                    {{ $service->name }}
+                                                </option>
                                                 @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 {{ $beneficiary->program_enrolled == 2 ? '' : 'd-none' }}" id="disabilityType">
+                                        <div class="mb-3 d-flex flex-column">
+                                            <label for="disability_type">Disability Type: </label>
+                                            <select name="disability_type" id="disability_type">
+                                                <option hidden selected value="">Select Disability Type</option>
+                                                <option disabled value="">Select Disability Type</option>
+                                                <option value="Visual Impairment" {{
+                                                    $beneficiary->disability_type == 'Visual Impairment' ? 'selected' : '' }}>
+                                                    Visual
+                                                    Impairment</option>
+                                                <option value="Hearing Impairment" {{
+                                                    $beneficiary->disability_type == 'Hearing Impairment' ? 'selected' : '' }}>
+                                                    Hearing Impairment</option>
+                                                <option value="Mobility Impairment" {{
+                                                    $beneficiary->disability_type == 'Mobility Impairment' ? 'selected' : '' }}>
+                                                    Mobility Impairment</option>
+                                                <option value="Cognitive Impairment" {{
+                                                    $beneficiary->disability_type == 'Cognitive Impairment' ? 'selected' : '' }}>
+                                                    Cognitive Impairment</option>
+                                                <option value="Speech Impairment" {{
+                                                    $beneficiary->disability_type == 'Speech Impairment' ? 'selected' : '' }}>
+                                                    Speech
+                                                    Impairment</option>
+                                                <option value="Mental Health Impairment" {{
+                                                    $beneficiary->disability_type == 'Mental Health Impairment' ? 'selected' : ''
+                                                    }}>
+                                                    Mental Health Impairment</option>
+                                                <option value="Severe Physical Impairment" {{
+                                                    $beneficiary->disability_type == 'Severe Physical Impairment' ? 'selected'
+                                                    : '' }}>Severe Physical Impairment</option>
+                                                <option value="Chronic Illness" {{
+                                                    $beneficiary->disability_type == 'Chronic Illness' ? 'selected' : '' }}>
+                                                    Chronic Illness</option>
+                                                <option value="Hearing and Speech Impairment" {{
+                                                    $beneficiary->disability_type == 'Hearing and Speech Impairment' ? 'selected'
+                                                    : '' }}>Hearing and Speech Impairment</option>
+                                                <option value="Other" {{ $beneficiary->disability_type == 'Other' ? 'selected'
+                                                    : '' }}>Other</option>
                                             </select>
                                         </div>
                                     </div>
@@ -289,8 +328,8 @@
                                     <div class="row form-row">
                                         <div class="col-md-3">
                                             <label for="id_number" class="form-label">ID Number</label>
-                                            <input type="text" class="form-control" id="id_number"
-                                                name="id_number" value="{{ $beneficiary->id_number }}">
+                                            <input type="text" class="form-control" id="id_number" name="id_number"
+                                                value="{{ $beneficiary->id_number }}">
                                         </div>
                                     </div>
                                 </fieldset>
@@ -308,6 +347,21 @@
                                         document.getElementById('latitude').value = selectedOption.getAttribute('data-lat');
                                         document.getElementById('longitude').value = selectedOption.getAttribute('data-lng');
                                     });
+                                </script>
+                                <script>
+                                    document.getElementById('program_enrolled').addEventListener('change', function() {
+                                        const selectedProgram = this.value;
+
+                                        const disabilityTypeDiv = document.getElementById('disabilityType');
+                                        const disabilityTypeDiv2 = document.getElementById('disability_type');
+                                        if(selectedProgram == 2) {
+                                            disabilityTypeDiv.classList.remove('d-none');
+                                            disabilityTypeDiv2.setAttribute('required', 'required');
+                                        } else {
+                                            disabilityTypeDiv2.removeAttribute('required');
+                                            disabilityTypeDiv.classList.add('d-none');
+                                        }
+                                    })
                                 </script>
 </body>
 
