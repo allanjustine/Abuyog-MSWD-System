@@ -83,101 +83,114 @@
 
             <div class="container mt-5">
                 <!-- Filter Form -->
-                <form method="GET" action="{{ route('operator.report') }}">
-                    <div class="gap-3 mb-3 d-flex justify-content-start align-items-center">
+                <form method="GET" action="{{ route('reports.index') }}">
+                    <div class="row gy-3 align-items-center">
                         <!-- Program Dropdown -->
-                        <label for="service" class="mb-0 form-label">Select Program:</label>
-                        <select id="service" name="service" class="form-control">
-                            <option value="">All</option>
-                            @foreach ($services as $service)
-                                <option value="{{ $service->id }}"
-                                    {{ request('service') == $service->id ? 'selected' : '' }}>
-                                    {{ $service->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <div class="col-md-3 col-12">
+                            <label for="service" class="form-label">Select Program:</label>
+                            <select id="service" name="service" class="form-control">
+                                <option value="">All</option>
+                                @foreach ($services as $service)
+                                    <option value="{{ $service->id }}"
+                                        {{ request('service') == $service->id ? 'selected' : '' }}>
+                                        {{ $service->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <!-- Barangay Dropdown -->
-                        <label for="barangay" class="mb-0 form-label">Select Barangay:</label>
-                        <select id="barangay" name="barangay" class="form-control">
-                            <option value="">All</option>
-                            @foreach ($barangays as $barangay)
-                                <option value="{{ $barangay->id }}"
-                                    {{ request('barangay') == $barangay->id ? 'selected' : '' }}>
-                                    {{ $barangay->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <div class="col-md-3 col-12">
+                            <label for="barangay" class="form-label">Select Barangay:</label>
+                            <select id="barangay" name="barangay" class="form-control">
+                                <option value="">All</option>
+                                @foreach ($barangays as $barangay)
+                                    <option value="{{ $barangay->id }}"
+                                        {{ request('barangay') == $barangay->id ? 'selected' : '' }}>
+                                        {{ $barangay->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <!-- Year Dropdown -->
-                        <label for="year" class="mb-0 form-label">Year:</label>
-                        <select id="year" name="year" class="form-control">
-                            <option value="">All Years</option>
-                            @foreach (range(date('Y'), 2000) as $year)
-                                <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>
-                                    {{ $year }}</option>
-                            @endforeach
-                        </select>
+                        <div class="col-md-2 col-12">
+                            <label for="year" class="form-label">Year:</label>
+                            <select id="year" name="year" class="form-control">
+                                <option value="">All Years</option>
+                                @foreach (range(date('Y'), 2000) as $year)
+                                    <option value="{{ $year }}"
+                                        {{ request('year') == $year ? 'selected' : '' }}>
+                                        {{ $year }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <!-- Month Dropdown -->
-                        <label for="month" class="mb-0 form-label">Month:</label>
-                        <select id="month" name="month" class="form-control">
-                            <option value="">All Months</option>
-                            @foreach (range(1, 12) as $month)
-                                <option value="{{ $month }}"
-                                    {{ request('month') == $month ? 'selected' : '' }}>
-                                    {{ date('F', mktime(0, 0, 0, $month, 1)) }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <div class="col-md-2 col-12">
+                            <label for="month" class="form-label">Month:</label>
+                            <select id="month" name="month" class="form-control">
+                                <option value="">All Months</option>
+                                @foreach (range(1, 12) as $month)
+                                    <option value="{{ $month }}"
+                                        {{ request('month') == $month ? 'selected' : '' }}>
+                                        {{ date('F', mktime(0, 0, 0, $month, 1)) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <!-- Buttons -->
-                        <div class="button-container">
-                            <button type="submit" class="btn btn-primary">Generate</button>
-                            <a href="{{ route('reports.download-pdf', request()->query()) }}"
-                                class="btn btn-danger">Download PDF</a>
+                        <div class="col-md-2 col-12 d-flex justify-content-md-start justify-content-center">
+                            <div class="d-flex flex-wrap gap-2">
+                                <button type="submit" class="btn btn-primary">Generate</button>
+                                <a href="{{ route('reports.download-pdf', request()->query()) }}"
+                                    class="btn btn-danger">Download PDF</a>
+                            </div>
                         </div>
                     </div>
                 </form>
+            </div>
 
-                <!-- Reports Table -->
-                <div class="mt-5 card-body">
-                    <table class="table table-bordered">
-                        <thead>
+            <!-- Reports Table -->
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            {{--  <th>ID</th>  --}}
+                            <th>First Name</th>
+                            <th>Middle Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Barangay</th>
+                            <th>Program Enrolled</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($beneficiaries as $beneficiary)
                             <tr>
-                                {{--  <th>ID</th>  --}}
-                                <th>First Name</th>
-                                <th>Middle Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Barangay</th>
-                                <th>Program Enrolled</th>
+                                {{--  <td>{{ $beneficiary->id }}</td>  --}}
+                                <td>{{ $beneficiary->first_name }}</td>
+                                <td>{{ $beneficiary->middle_name }}</td>
+                                <td>{{ $beneficiary->last_name }}</td>
+                                <td>{{ $beneficiary->email }}</td>
+                                <td>{{ $beneficiary->phone }}</td>
+                                <td>{{ $beneficiary->barangay->name ?? 'N/A' }}</td>
+                                <td>{{ $beneficiary->service->name ?? 'N/A' }}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($beneficiaries as $beneficiary)
-                                <tr>
-                                    {{--  <td>{{ $beneficiary->id }}</td>  --}}
-                                    <td>{{ $beneficiary->first_name }}</td>
-                                    <td>{{ $beneficiary->middle_name }}</td>
-                                    <td>{{ $beneficiary->last_name }}</td>
-                                    <td>{{ $beneficiary->email }}</td>
-                                    <td>{{ $beneficiary->phone }}</td>
-                                    <td>{{ $beneficiary->barangay->name ?? 'N/A' }}</td>
-                                    <td>{{ $beneficiary->service->name ?? 'N/A' }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="8" class="text-center no-data-message">No reports found for the
-                                        selected filters.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                        @empty
+                            <tr>
+                                <td colspan="8" class="text-center no-data-message">No reports found for the
+                                    selected filters.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Include Scripts -->

@@ -208,7 +208,7 @@
         <div class="topbar">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-8 col-sm-12 text-sm">
+                    <div class="text-sm col-md-8 col-sm-12">
                         <div class="social-mini-button">
                             <a href=""><span class="mai-logo-facebook-f"></span></a>
                             <a href="#"><span class="mai-logo-twitter"></span></a>
@@ -227,7 +227,7 @@
         </div>
 
         <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+        <nav class="shadow-sm navbar navbar-expand-lg navbar-light">
             <div class="container">
                 <a class="navbar-brand">
                     <img src="assets/img/mswd-logo.png" alt="mswd">
@@ -239,7 +239,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupport">
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="ml-auto navbar-nav">
                         <li class="nav-item active">
                             <a class="nav-link" href="">Home</a>
                         </li>
@@ -254,36 +254,36 @@
                         </li>
 
                         @if (Route::has('login'))
-                            @auth
-                                <li class="nav-item">
-                                    <a class="nav-link btn btn-danger text-white" href="{{ url('myapplication') }}">My
-                                        Applications</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a>
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                            style="display: none;">
-                                            @csrf
-                                        </form>
-                                    </div>
-                                </li>
-                            @else
-                                <li class="nav-item">
-                                    <a class="btn btn-primary ml-lg-3" href="{{ route('login') }}">Login</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="btn btn-primary ml-lg-3" href="{{ route('register') }}">Register</a>
-                                </li>
-                            @endauth
+                        @auth
+                        <li class="nav-item">
+                            <a class="text-white nav-link btn btn-danger" href="{{ url('myapplication') }}">My
+                                Applications</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                        @else
+                        <li class="nav-item">
+                            <a class="btn btn-primary ml-lg-3" href="{{ route('login') }}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-primary ml-lg-3" href="{{ route('register') }}">Register</a>
+                        </li>
+                        @endauth
                         @endif
                     </ul>
                 </div>
@@ -312,43 +312,50 @@
                         </thead>
                         <tbody>
                             @foreach ($apply as $applies)
-                                        <tr>
-                                            <td>{{ $applies->service->name ?? 'No Service Assigned' }}</td>
-                                            <td>{{ $applies->date_applied }}</td>
-                                            <td>{{ $applies->phone }}</td>
-                                            <td class="text-center">
-                                                <span style="
+                            <tr>
+                                <td>{{ $applies->service->name ?? 'No Service Assigned' }}</td>
+                                <td>{{ $applies->date_applied }}</td>
+                                <td>{{ $applies->phone }}</td>
+                                <td class="text-center">
+                                    @if($applies->status === 'accepted' && $applies->approved_at !== null &&
+                                    $applies->approved_by !== null)
+                                    <span class="bg-success" style="
                                     padding: 4px 8px;
-                                    border: 2px solid 
-                                    @if ($applies->status === 'approved') green 
-                                    @elseif ($applies->status === 'rejected') red 
-                                    @elseif ($applies->status === 'Pending') orange 
-                                        @else gray 
+                                    border: 2px solid green; display: inline-block; border-radius: 5px;">Approved</span>
+                                    @else
+                                    <span style="
+                                    padding: 4px 8px;
+                                    border: 2px solid
+                                    @if ($applies->status === 'accepted') blue
+                                    @elseif ($applies->status === 'rejected') red
+                                    @elseif ($applies->status === 'Pending') orange
+                                        @else gray
                                     @endif; display: inline-block; border-radius: 5px;">
-                                                    {{ ucfirst($applies->status) }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <a href="javascript:void(0);" class="action-link action-link-history"
-                                                    onclick="openModal({{ $applies->id }})">
-                                                    <i class="fas fa-info-circle"></i>Details
-                                                </a>
-                                                @if ($applies->status != 'rejected' && $applies->status != 'Pending')
-                                                    <a class="action-link action-link-download"
-                                                        href="{{ url('generate-pdf/' . $applies->id) }}">
-                                                        <i class="mai-download"></i>Download Form
-                                                    </a>
-                                                @else
-                                                    <span class="text-muted">Form Not Available</span>
-                                                @endif
-                                                @if ($applies->status == 'Pending')
-                                                    <a class="action-link action-link-cancel" href="#"
-                                                        onclick="confirmCancellation('{{ url('cancel_application', $applies->id) }}'); return false;">
-                                                        <i class="mai-trash"></i>Cancel
-                                                    </a>
-                                                @endif
-                                            </td>
-                                        </tr>
+                                        {{ ucfirst($applies->status) }}
+                                    </span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" class="action-link action-link-history"
+                                        onclick="openModal({{ $applies->id }})">
+                                        <i class="fas fa-info-circle"></i>Details
+                                    </a>
+                                    @if ($applies->status != 'rejected' && $applies->status != 'Pending')
+                                    <a class="action-link action-link-download"
+                                        href="{{ url('generate-pdf/' . $applies->id) }}">
+                                        <i class="mai-download"></i>Download Form
+                                    </a>
+                                    @else
+                                    <span class="text-muted">Form Not Available</span>
+                                    @endif
+                                    @if ($applies->status == 'Pending')
+                                    <a class="action-link action-link-cancel" href="#"
+                                        onclick="confirmCancellation('{{ url('cancel_application', $applies->id) }}'); return false;">
+                                        <i class="mai-trash"></i>Cancel
+                                    </a>
+                                    @endif
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -371,7 +378,9 @@
                     <p><strong>Phone:</strong> <span id="phone"></span></p>
                     <p><strong>Status:</strong> <span id="status"></span></p>
                     <p><strong>Date Applied:</strong> <span id="dateApplied"></span></p>
-                    <p><strong>Approved By:</strong> <span id="approvedBy"></span></p>
+                    <p><strong>Accepted By:</strong> <span id="acceptedBy"></span></p>
+                    <p><strong>Approved By:</strong> <span id="firstName"></span> <span id="lastName"></span></p>
+                    <p><strong>Approved At:</strong> <span id="approvedAt"></span></p>
 
                     <div id="appearanceDateSection">
                         <p><strong>Schedule for Personal Appearance:</strong> <span id="appearanceDate"></span></p>
@@ -433,7 +442,10 @@
                     $('#phone').text(response.phone);
                     $('#status').text(response.status);
                     $('#dateApplied').text(response.date_applied);
-                    $('#approvedBy').text(response.approved_by || 'Pending');
+                    $('#acceptedBy').text(response.approved_by || 'Pending');
+                    $('#lastName').text(response.last_name || 'Data');
+                    $('#firstName').text(response.first_name || 'No');
+                    $('#approvedAt').text(response.approved_at || 'Pending');
 
                     // AICS Type
                     if (response.aics_type && response.aics_type !== 'None') {

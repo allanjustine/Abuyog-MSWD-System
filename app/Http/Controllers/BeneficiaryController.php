@@ -87,6 +87,7 @@ class BeneficiaryController extends Controller
         })->get();
 
         return view('dropdownope.solo_parent', compact('beneficiaries'));
+
     }
 
     public function showAics()
@@ -96,6 +97,9 @@ class BeneficiaryController extends Controller
         })->get();
 
         return view('dropdownope.aics', compact('beneficiaries'));
+
+
+
     }
 
     public function sendSMSNotification($phoneNumber, $message)
@@ -166,34 +170,60 @@ class BeneficiaryController extends Controller
     }
 
     public function fetchSmsLogs()
-    {
-        $logs = \DB::table('sms_logs')->orderBy('created_at', 'desc')->get();
+{
+    $logs = \DB::table('sms_logs')->orderBy('created_at', 'desc')->get();
 
-        return response()->json(['logs' => $logs]);
+    return response()->json(['logs' => $logs]);
+}
+
+
+public function resendSms($id)
+{
+    $log = \DB::table('sms_logs')->find($id);
+
+    if (!$log) {
+        return response()->json(['success' => false, 'message' => 'Log not found.']);
+    }
+
+    try {
+        $status = $this->sendSMSNotification($log->phone_number, $log->message);
+
+        \DB::table('sms_logs')->where('id', $id)->update([
+            'status' => $status,
+            'updated_at' => now(),
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'SMS resent successfully.']);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'message' => 'Failed to resend SMS.']);
+    }
+}
+
+
+
+
+public function sendBulkSMSAdmin(Request $request)
+    {
+        $phoneNumbers = $request->input('phoneNumbers');
+        $message = $request->input('message'); // Get the custom message
+        $successCount = 0;
+        $failureCount = 0;
+
+        foreach ($phoneNumbers as $phoneNumber) {
+            $status = $this->sendSMSNotification($phoneNumber, $message);
+            if ($status === 'Sent') {
+                $successCount++;
+            } else {
+                $failureCount++;
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => "$successCount messages sent successfully, $failureCount failed.",
+        ]);
     }
 
 
-    public function resendSms($id)
-    {
-        $log = \DB::table('sms_logs')->find($id);
 
-        if (!$log) {
-            return response()->json(['success' => false, 'message' => 'Log not found.']);
-        }
-
-        try {
-            $status = $this->sendSMSNotification($log->phone_number, $log->message);
-
-            \DB::table('sms_logs')->where('id', $id)->update([
-                'status' => $status,
-                'updated_at' => now(),
-            ]);
-
-            return response()->json(['success' => true, 'message' => 'SMS resent successfully.']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Failed to resend SMS.']);
-        }
-    }
-
-    public function addBeneficiaryRecord() {}
 }

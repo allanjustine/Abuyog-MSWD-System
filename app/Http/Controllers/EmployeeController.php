@@ -7,10 +7,10 @@ use App\Models\Application;
 use App\Models\Service;
 use App\Models\Beneficiary;
 use App\Models\Barangay;
-use App\Models\BeneficiaryReceived;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\WithPagination;
+use App\Models\BenefitReceived;
 
 
 class EmployeeController extends Controller
@@ -21,6 +21,8 @@ class EmployeeController extends Controller
         $data = Application::orderBy('created_at', 'desc')->paginate(10);
 
         return view('employee.showapplication', compact('data'));
+
+
     }
 
     public function approved($id)
@@ -32,14 +34,14 @@ class EmployeeController extends Controller
             $employeeName = Auth::user()->first_name . ' ' . Auth::user()->last_name;
 
             // Update the application's status and assign the approving employee's name
-            $data->status = 'approved';
+            $data->status = 'accepted';
             $data->employee_name = $employeeName; // Save the employee's name
             $data->save();
         }
         $applicationController = new ApplicationController();
         $applicationController->sendSMSNotification($data->phone);
 
-        return redirect()->back()->with('success', 'Application approved successfully!');
+        return redirect()->back()->with('success', 'Application accepted successfully!');
     }
 
     public function cancelled($id)
@@ -136,12 +138,12 @@ class EmployeeController extends Controller
                     ->orWhere('phone', 'LIKE', '%' . $search . '%')
                     // Search by program_enrolled (service name)
                     ->orWhereHas('service', function ($query) use ($search) {
-                        $query->where('name', 'LIKE', '%' . $search . '%');
-                    })
+                    $query->where('name', 'LIKE', '%' . $search . '%');
+                })
                     // Search by barangay (barangay name)
                     ->orWhereHas('barangay', function ($query) use ($search) {
-                        $query->where('name', 'LIKE', '%' . $search . '%');
-                    });
+                    $query->where('name', 'LIKE', '%' . $search . '%');
+                });
             })
             ->get();
 
@@ -159,13 +161,14 @@ class EmployeeController extends Controller
                     ->orWhere('email', 'LIKE', '%' . $search . '%')
                     ->orWhere('phone', 'LIKE', '%' . $search . '%')
                     ->orWhereHas('service', function ($query) use ($search) {
-                        $query->where('name', 'LIKE', '%' . $search . '%');
-                    })
+                    $query->where('name', 'LIKE', '%' . $search . '%');
+                })
 
                     ->orWhere('status', 'LIKE', '%' . $search . '%')
                     // Search for employee_name, include 'pending' or null (no employee assigned)
                     // Include search on date_applied
                     ->orWhere('date_applied', 'LIKE', '%' . $search . '%');
+
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10); // Add pagination
@@ -219,65 +222,64 @@ class EmployeeController extends Controller
 
 
 
+//release assistance
 
-    public function monitoring(Request $request)
-    {
-        $searched = $request->search;
 
-        $date_start_filtered = $request->date_start;
-        $date_end_filtered = $request->date_end;
-        $receiveds = BeneficiaryReceived::query()
-            ->with(['beneficiary.barangay'])
-            ->where(function ($query) use ($searched) {
-                $query->whereHas('beneficiary.barangay', function ($subQuery) use ($searched) {
-                    $subQuery->where('first_name', 'like', "%$searched%")
-                        ->orWhere('last_name', 'like', "%$searched%")
-                        ->orWhere('middle_name', 'like', "%$searched%")
-                        ->orWhere('age', 'like', "%$searched%")
-                        ->orWhere('name', 'like', "%$searched%")
-                        ->orWhere('id_status', 'like', "%$searched%")
-                        ->orWhere('last_name', 'like', "%$searched%");
-                });
-                $query->orWhere('status', 'like', "%$searched%");
-            });
-        if ($date_start_filtered && $date_end_filtered) {
-            $receiveds->whereBetween('date_received', [$date_start_filtered, $date_end_filtered]);
-        } elseif ($date_start_filtered) {
-            $receiveds->where('date_received', '>=', $date_start_filtered);
-        } elseif ($date_end_filtered) {
-            $receiveds->where('date_received', '<=', $date_end_filtered);
-        }
+public function releaseAssistance()
+{
+    // Eager load the barangay and benefitsReceived relationships
+    $beneficiaries = Beneficiary::with('barangay', 'benefitsReceived')->get();
+    $services = Service::all();
+    $barangays = Barangay::all(); // Fetch all barangays if needed
 
-        $receiveds = $receiveds->paginate(20);
+    // Fetch distinct name_of_assistance values
+    $assistanceList = BenefitReceived::distinct()->pluck('name_of_assistance')->toArray();
 
-        return view('employee.monitoring', compact('receiveds'));
-    }
+    $nameOfAssistance = null;
 
-    public function received($id, $bId)
-    {
-        $received = BeneficiaryReceived::find($id);
+    return view('employee.assistance_release', compact('barangays', 'services', 'beneficiaries', 'assistanceList', 'nameOfAssistance'));
+}
 
-        $beneficiary = Beneficiary::find($bId);
 
-        $received->update([
-            'status'        =>          'received'
-        ]);
 
-        $beneficiary->update([
-            'id_status'             =>          'valid'
-        ]);
+public function filterBenefits(Request $request)
+{
+    $nameOfAssistance = $request->input('name_of_assistance');
 
-        return redirect()->back()->with('success', 'Marked as received successfully');
-    }
+    $beneficiaries = Beneficiary::whereHas('benefitsReceived', function ($query) use ($nameOfAssistance) {
+        $query->where('name_of_assistance', $nameOfAssistance);
+    })
+    ->with(['benefitsReceived' => function ($query) use ($nameOfAssistance) {
+        $query->where('name_of_assistance', $nameOfAssistance);
+    }, 'service', 'barangay'])
+    ->get();
 
-    public function notReceived($id)
-    {
-        $received = BeneficiaryReceived::find($id);
+    $assistanceList = BenefitReceived::distinct()->pluck('name_of_assistance');
 
-        $received->update([
-            'status'        =>          'not_received'
-        ]);
+    return view('employee.assistance_release', compact('beneficiaries', 'assistanceList', 'nameOfAssistance'));
+}
 
-        return redirect()->back()->with('success', 'Marked as not received successfully');
-    }
+
+
+public function markNotReceived($id)
+{
+    $benefit = BenefitReceived::findOrFail($id);
+    $benefit->status = 'Not Received';
+    $benefit->date_received = null; // Clear the received date if necessary
+    $benefit->save();
+
+    return redirect()->back()->with('success', 'Benefit marked as Not Received.');
+}
+
+public function markReceived($id)
+{
+    $benefit = BenefitReceived::findOrFail($id);
+    $benefit->status = 'Received';
+    $benefit->date_received = now(); // Set the current timestamp
+    $benefit->save();
+
+    return redirect()->back()->with('success', 'Benefit marked as Received.');
+}
+
+
 }

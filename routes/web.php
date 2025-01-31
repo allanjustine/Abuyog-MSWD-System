@@ -6,7 +6,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\BeneficiaryController;
-use App\Http\Controllers\BeneficiaryReceivedController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\GISMappingController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -14,6 +13,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\SmsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OperatorController;
+
+
+
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -55,8 +57,8 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 // Define the route for the applications list (index page)
 
-Route::get('beneficiary_search', [AdminController::class, 'beneficiary_search']);
-Route::get('beneficiary_search_emp', [EmployeeController::class, 'beneficiary_search_emp']);
+Route::get('beneficiary_search', [AdminController::class,'beneficiary_search']);
+Route::get('beneficiary_search_emp', [EmployeeController::class,'beneficiary_search_emp']);
 Route::get('/application_search', [AdminController::class, 'application_search'])->name('application.search');
 Route::get('/apply_search', [EmployeeController::class, 'apply_search'])->name('apply.search');
 
@@ -92,8 +94,10 @@ Route::get('/add_beneficiary_view', [AdminController::class, 'addbeneficiaryview
 Route::get('/showbeneficiary', [AdminController::class, 'showbeneficiary']);
 Route::post('/uploadbeneficiary', [AdminController::class, 'uploadbeneficiary']);
 Route::get('/deletebeneficiaries/{id}', [AdminController::class, 'deletebeneficiaries']);
-Route::get('/editbeneficiaries/{id}', [AdminController::class, 'editbeneficiaries']);
-Route::post('/updatebeneficiary/{id}', [AdminController::class, 'updatebeneficiary']);
+Route::get('/editbeneficiaries/{id}', [AdminController::class, 'editBeneficiaries']);
+Route::put('/updatebeneficiary/{id}', [AdminController::class, 'updateBeneficiary']);
+// Route::put('/update_beneficiary_operator/{id}', [OperatorController::class, 'updateBeneficiary']);
+
 
 // Show the edit form
 Route::get('/edit_beneficiaries_employee/{id}', [EmployeeController::class, 'edit_beneficiaries_employee_form']);
@@ -159,8 +163,8 @@ Route::get('/showbeneficiaries_operator', [OperatorController::class, 'showbenef
 Route::get('/showbeneficiaries_admin', [OperatorController::class, 'showbeneficiaries_admin'])->name('show.beneficiaries_admin');
 
 Route::get('/edit_beneficiary_operator/{id}', [OperatorController::class, 'edit_beneficiary_operator_form']);
-Route::get('beneficiary_search_ope', [OperatorController::class, 'beneficiary_search_ope']);
-Route::post('/update_beneficiary_operator/{id}', [OperatorController::class, 'update_beneficiary_operator']);
+Route::get('beneficiary_search_ope', [OperatorController::class,'beneficiary_search_ope']);
+Route::put('/update_beneficiary_operator/{id}', [OperatorController::class, 'update_beneficiary_operator']);
 Route::post('/uploadbeneficiary_operator', [OperatorController::class, 'uploadbeneficiary_operator']);
 Route::get('/add_beneficiary_operator', [OperatorController::class, 'addbeneficiaryoperator']);
 Route::get('/showservicesope', [AdminController::class, 'showservicesope']);
@@ -191,16 +195,40 @@ Route::get('/showbeneficiaries_pwd', [AdminController::class, 'showPwdadmin'])->
 Route::get('/showbeneficiaries_solo_parent', [AdminController::class, 'showSoloParentadmin'])->name('dropdownadm.solo_parent');
 Route::get('/showbeneficiaries_aics', [AdminController::class, 'showAicsadmin'])->name('dropdownadm.aics');
 
+//admin monitoring
+Route::get('/shownewbenefits', [AdminController::class, 'newBenefitsshow'])->name('admin.add_newbenefits');
+Route::post('/filter-beneficiaries', [AdminController::class, 'filterBeneficiaries'])->name('filterBeneficiaries');
+Route::get('/all_benefitsreceived', [AdminController::class, 'AllbenefitsReceived'])->name('admin.all_benefitsreceived');
+Route::get('/add_assistance', [AdminController::class, 'addAssistance'])->name('addAssistance');
+Route::post('add-assistance-to-beneficiaries', [AdminController::class, 'addAssistanceToBeneficiaries'])->name('addAssistanceToBeneficiaries');
+Route::get('/filter-benefits-received', [AdminController::class, 'filterBenefitsReceived'])->name('filterBenefitsReceived');
+Route::get('/inventory', [AdminController::class, 'Inventory'])->name('admin.inventory');
+Route::get('/filter-inventory', [AdminController::class, 'filterforInventory'])->name('filterforInventory');
+Route::get('mark_deceased/{id}', [AdminController::class, 'markAsDeceased']);
+Route::get('/deceased', [AdminController::class, 'Alldeceased'])->name('admin.deceased');
+Route::post('/send-bulk-sms', [BeneficiaryController::class, 'sendBulkSMSAdmin']);
 
-Route::get('/benefits-given-record', [BeneficiaryReceivedController::class, 'index']);
-Route::get('/apply-benefits/{id}', [BeneficiaryReceivedController::class, 'create']);
-Route::post('/apply-benefits/{id}', [BeneficiaryReceivedController::class, 'store']);
 
-Route::get('/benefits-given-record', [BeneficiaryReceivedController::class, 'index']);
+//employee release benefits
+Route::get('/assistance_release', [EmployeeController::class, 'releaseAssistance'])->name('employee.assistance_release');
+Route::get('/filter-benefits', [EmployeeController::class, 'filterBenefits'])->name('filterBenefits');
+// Route::post('/benefits/mark-received/{id}', [EmployeeController::class, 'markAsReceived'])->name('benefits.markReceived');
+Route::post('/benefits/{id}/mark-received', [EmployeeController::class, 'markReceived'])->name('benefits.markReceived');
+Route::post('/benefits/{id}/mark-not-received', [EmployeeController::class, 'markNotReceived'])->name('benefits.markNotReceived');
 
-Route::get('/employee/monitoring', [EmployeeController::class, 'monitoring']);
 
-Route::get('/received/{id}/{bId}', [EmployeeController::class, 'received']);
-Route::get('/not-received/{id}', [EmployeeController::class, 'notReceived']);
+//operator monitoring
+Route::get('/shownewbenefits_operator', [OperatorController::class, 'newBenefitsshowOperator'])->name('operator.add_newbenefits_operator');
+Route::post('/filter-beneficiaries', [OperatorController::class, 'filterBeneficiaries'])->name('filterBeneficiaries');
+Route::get('/all_benefitsreceived_operator', [OperatorController::class, 'AllbenefitsReceivedOperator'])->name('admin.all_benefitsreceived_operator');
+Route::get('/operator_add_assistance', [OperatorController::class, 'OperatoraddAssistance'])->name('OperatoraddAssistance');
+Route::post('add-assistance-to-beneficiaries-operator', [OperatorController::class, 'addAssistanceToBeneficiariesOperator'])->name('addAssistanceToBeneficiariesOperator');
+Route::get('/filter-benefits-received-operator', [OperatorController::class, 'filterBenefitsReceivedOperator'])->name('filterBenefitsReceivedOperator');
+Route::get('/inventory_operator', [OperatorController::class, 'InventoryOperator'])->name('operator.inventory_operator');
+Route::get('/filter-inventory-operator', [OperatorController::class, 'filterforInventoryOperator'])->name('filterforInventoryOperator');
+Route::get('/deceased_operator', [OperatorController::class, 'AlldeceasedOperator'])->name('operator.deceased_operator');
 
-Route::get('/operator/monitoring', [OperatorController::class, 'monitoring']);
+
+// ADMIN APPLICATION APPROVAL OR REJECTION
+Route::post('/approve-application/{id}', [AdminController::class, 'adminApproval']);
+Route::post('/reject-application/{id}', [AdminController::class, 'adminRejection']);

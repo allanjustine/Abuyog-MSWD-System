@@ -1,12 +1,108 @@
 <style>
-    .sidebar .dropdown-menu .nav-link:hover {
+    /* Sidebar styling */
+    .sidebar {
+        background: linear-gradient(to bottom, #ffeac9, hsl(60, 100%, 97%));
+        box-shadow: 4px 0 10px rgba(26, 26, 26, 0.231);
+        transition: width 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Active menu styling */
+    .nav-item.active-menu {
         background-color: #1374ce;
-        color: #000000;
-        border-radius: 4px;
+        color: #2bff0f !important;
+        border-radius: 8px;
+        transform: translateX(10px);
+    }
+
+    /* Menu items transition */
+    .nav-item.menu-items {
+        position: relative;
         padding-left: 10px;
         transition: all 0.3s ease;
     }
+
+    /* Remove hover effect with gradient */
+    .nav-item.menu-items:hover {
+        transform: translateX(10px);
+        /* Remove gradient or leave it as it is */
+    }
+
+    /* Sub-menu styling */
+    .sub-menu li {
+        padding: 5px 0;
+    }
+
+    /* Profile styling */
+    .profile-desc {
+        padding: 15px;
+        background-color: #ff7b00;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.553);
+    }
+
+    .profile-pic .img-xs {
+        border-radius: 50%;
+        border: 3px solid #fff;
+    }
+
+    .profile-name h5 {
+        color: #fff;
+    }
+
+    /* Hover effect for the beneficiaries dropdown items */
+    .nav-item.menu-items:hover .sub-menu {
+        display: block;
+        /* Show the sub-menu on hover */
+        background-color: #f0f0f0;
+        /* Optional: change background color when hovering */
+        transition: all 0.3s ease;
+        /* Smooth transition */
+    }
+
+    /* Additional styling for dropdown items */
+    .sub-menu li {
+        transition: background-color 0.3s ease;
+    }
+
+    /* Hover effect on dropdown items */
+    .sub-menu li:hover {
+        background-color: #ff07074f;
+        color: #fff;
+        /* Text color on hover */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        /* Shadow effect */
+    }
+
+
+
+    /* Sub-menu visibility */
+    .sub-menu.hidden {
+        display: none;
+    }
+
+    /* Menu icon rotation */
+    .menu-icon {
+        transition: all 0.3s ease;
+    }
+
+    .nav-item.menu-items:hover .menu-icon {
+        transform: rotate(10deg);
+    }
+
+    /* Text color adjustments (without hover color change) */
+    .nav-item .nav-link {
+        color: #ffffff;
+        transition: color 0.3s ease;
+    }
+
+    /* Smooth transitions for all menu items */
+    .nav-item {
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
 </style>
+
+
+
 
 
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -72,39 +168,55 @@
         <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('home') }}">
                 <span class="menu-icon">
-                    <i class="mdi mdi-file-document-box"></i>
+                    <i class="mdi mdi-view-dashboard"></i>
                 </span>
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-        <li class="nav-item menu-items">
-            <a class="nav-link" href="#" onclick="toggleDropdown(event, 'beneficiariesDropdown')">
+
+        <!-- Beneficiaries Menu -->
+        <li class="nav-item menu-items" id="beneficiariesMenu">
+            <a class="nav-link" href="#" onclick="toggleSubMenu(event, 'beneficiariesSubMenu')">
                 <span class="menu-icon">
-                    <i class="mdi mdi-file-document-box"></i>
+                    <i class="mdi mdi-account-group"></i>
                 </span>
                 <span class="menu-title">Beneficiaries</span>
-                <i class="menu-arrow"></i>
             </a>
-            <ul class="dropdown-menu" id="beneficiariesDropdown"
-                style="display: none; list-style: none; padding-left: 20px;">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('show.beneficiaries_admin') }}">ALL</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dropdownadm.osca') }}">OSCA</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dropdownadm.pwd') }}">PWD</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dropdownadm.solo_parent') }}">Solo Parent</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dropdownadm.aics') }}">AICS</a>
-                </li>
-            </ul>
         </li>
 
+        <ul class="sub-menu {{ request()->routeIs('dropdownadm.*') || request()->routeIs('show.beneficiaries_admin') ? '' : 'hidden' }}"
+            id="beneficiariesSubMenu">
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('show.beneficiaries_admin') ? 'active-menu' : '' }}"
+                    href="{{ route('show.beneficiaries_admin') }}">
+                    <i class="mdi mdi-view-list"></i> ALL
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('dropdownadm.osca') ? 'active-menu' : '' }}"
+                    href="{{ route('dropdownadm.osca') }}">
+                    <i class="mdi mdi-face"></i> OSCA
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('dropdownadm.pwd') ? 'active-menu' : '' }}"
+                    href="{{ route('dropdownadm.pwd') }}">
+                    <i class="mdi mdi-wheelchair-accessibility"></i> PWD
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('dropdownadm.solo_parent') ? 'active-menu' : '' }}"
+                    href="{{ route('dropdownadm.solo_parent') }}">
+                    <i class="mdi mdi-human-male-female"></i> Solo Parent
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('dropdownadm.aics') ? 'active-menu' : '' }}"
+                    href="{{ route('dropdownadm.aics') }}">
+                    <i class="mdi mdi-account-multiple"></i> AICS
+                </a>
+            </li>
+        </ul>
 
         <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('showservices') }}">
@@ -118,18 +230,16 @@
         <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('displayapplication') }}">
                 <span class="menu-icon">
-                    <i class="mdi mdi-file-document-box"></i>
+                    <i class="mdi mdi-file-account"></i>
                 </span>
                 <span class="menu-title">Applications</span>
             </a>
         </li>
 
-
-
         <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('gis') }}">
                 <span class="menu-icon">
-                    <i class="mdi mdi-file-document-box"></i>
+                    <i class="mdi mdi-map-marker-multiple"></i>
                 </span>
                 <span class="menu-title">Mapping</span>
             </a>
@@ -138,36 +248,67 @@
         <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('reports') }}">
                 <span class="menu-icon">
-                    <i class="mdi mdi-file-document-box"></i>
+                    <i class="mdi mdi-chart-bar"></i>
                 </span>
                 <span class="menu-title">Reports</span>
             </a>
         </li>
 
         <li class="nav-item menu-items">
+            <a class="nav-link" href="{{ url('shownewbenefits') }}">
+                <span class="menu-icon">
+                    <i class="mdi mdi-assistant"></i>
+                </span>
+                <span class="menu-title">New Benefits</span>
+            </a>
+        </li>
+
+        <li class="nav-item menu-items">
+            <a class="nav-link" href="{{ url('all_benefitsreceived') }}">
+                <span class="menu-icon">
+                    <i class="mdi mdi-cash"></i>
+                </span>
+                <span class="menu-title">All Benefits Received</span>
+            </a>
+        </li>
+
+        <!-- Other Menu Items -->
+        <li class="nav-item menu-items">
+            <a class="nav-link" href="{{ url('inventory') }}">
+                <span class="menu-icon">
+                    <i class="mdi mdi-calculator-variant"></i>
+                </span>
+                <span class="menu-title">Inventory</span>
+            </a>
+        </li>
+        <li class="nav-item menu-items">
+            <a class="nav-link" href="{{ url('deceased') }}">
+                <span class="menu-icon">
+                    <i class="mdi mdi-coffin"></i>
+                </span>
+                <span class="menu-title">All Deceased</span>
+            </a>
+        </li>
+        <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('showusermanagement') }}">
                 <span class="menu-icon">
-                    <i class="mdi mdi-file-document-box"></i>
+                    <i class="mdi mdi-account-key"></i>
                 </span>
                 <span class="menu-title">User Management</span>
             </a>
         </li>
-        <li class="nav-item menu-items">
-            <a class="nav-link" href="/benefits-given-record">
-                <span class="menu-icon">
-                    <i class="mdi mdi-heart"></i>
-                </span>
-                <span class="menu-title">Benefits Given Record</span>
-            </a>
-        </li>
-
     </ul>
 </nav>
-
 <script>
-    function toggleDropdown(event, dropdownId) {
+    function toggleSubMenu(event, subMenuId) {
         event.preventDefault();
-        const dropdown = document.getElementById(dropdownId);
-        dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+        const subMenu = document.getElementById(subMenuId);
+
+        // Toggle visibility
+        if (subMenu.classList.contains("hidden")) {
+            subMenu.classList.remove("hidden");
+        } else {
+            subMenu.classList.add("hidden");
+        }
     }
 </script>

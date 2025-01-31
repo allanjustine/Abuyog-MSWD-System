@@ -41,12 +41,13 @@
 
         <div class="container">
             <div class="card" align="center" style="padding-top:80px;">
-                {{--  <div class="card-header">
+                <div class="card-header">
                     Services
-                    <a href="{{ url('/add_service_view') }}" class="btn btn-success btn-sm float-end">Add New</a>
-                </div>  --}}
-                <div class="card-body">
+                    {{--  <a href="{{ url('/add_service_view') }}" class="btn btn-success btn-sm float-end">Add New</a>  --}}
+                </div>
+                <div class="table-responsive">
                     <table class="table table-sm table-bordered table-striped">
+
                         <thead>
                             <tr>
                                 <th>Service Name</th>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 22, 2025 at 03:53 AM
+-- Generation Time: Jan 30, 2025 at 01:21 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `mswd_abuyogdb`
+-- Database: `mswd_abuyogleyte`
 --
 
 -- --------------------------------------------------------
@@ -96,10 +96,13 @@ INSERT INTO `applications` (`id`, `name`, `email`, `phone`, `service_id`, `date_
 (50, 'lovely rose', 'rlovie0403@gmail.com', '09268307424', 1, '2025-01-22', 'approved', 1, 'employee tocson', '{\"last_name\":\"chavez\",\"middle_name\":\"escano\",\"birthdate\":\"2025-01-02\",\"age\":\"0\",\"sex\":\"Female\",\"birthplace\":\"LEYTE\",\"status\":\"Single\",\"address\":\"Abuyog Leyte\",\"educational_attainment\":\"Elementary Graduate\",\"occupation\":\"Student\",\"annual_income\":\"43333\",\"other_skills\":\"NOTHING\",\"person_name_1\":\"papsi\",\"relation_1\":\"Mother\",\"age_1\":\"435\",\"civil_1\":\"Married\",\"occupation_1\":\"Receptionist\",\"income_1\":null,\"person_name_2\":\"Roslin L. Chavez\",\"relation_2\":\"Father\",\"age_2\":\"45\",\"civil_2\":\"MArried\",\"occupation_2\":\"Driver\",\"income_2\":null,\"person_name_3\":\"Jhon Esli E. Chavez\",\"relation_3\":\"Brother\",\"age_3\":\"22\",\"civil_3\":\"Single\",\"occupation_3\":\"Student\",\"income_3\":null}', NULL, NULL, NULL, '2025-01-16 12:05:11', '2025-01-16 12:05:24', NULL),
 (51, 'lovely rose', 'rlovie0403@gmail.com', '09268307424', 1, '2025-01-30', 'approved', 1, 'employee tocson', '{\"last_name\":\"chavez\",\"middle_name\":\"escano\",\"birthdate\":\"2025-01-02\",\"age\":\"0\",\"sex\":\"Female\",\"birthplace\":\"LEYTE\",\"status\":\"Single\",\"address\":\"Abuyog Leyte\",\"educational_attainment\":\"Elementary Graduate\",\"occupation\":\"Student\",\"annual_income\":\"43333\",\"other_skills\":\"NOTHING\",\"person_name_1\":\"papsi\",\"relation_1\":\"Mother\",\"age_1\":\"435\",\"civil_1\":\"Married\",\"occupation_1\":\"Receptionist\",\"income_1\":null,\"person_name_2\":\"Roslin L. Chavez\",\"relation_2\":\"Father\",\"age_2\":\"45\",\"civil_2\":\"MArried\",\"occupation_2\":\"Driver\",\"income_2\":null,\"person_name_3\":\"Jhon Esli E. Chavez\",\"relation_3\":\"Brother\",\"age_3\":\"22\",\"civil_3\":\"Single\",\"occupation_3\":\"Student\",\"income_3\":null}', NULL, NULL, NULL, '2025-01-16 12:23:28', '2025-01-16 12:23:42', NULL),
 (58, 'lovely rose', 'rlovie0403@gmail.com', '09268307424', 1, '2025-01-23', 'Pending', 1, NULL, '{\"last_name\":\"chavez\",\"middle_name\":\"escano\",\"birthdate\":\"1965-01-17\",\"age\":\"60\",\"sex\":\"Female\",\"birthplace\":\"LEYTE\",\"status\":\"Single\",\"address\":\"Abuyog Leyte\",\"educational_attainment\":\"Elementary Graduate\",\"occupation\":\"Student\",\"annual_income\":\"43333\",\"other_skills\":\"NOTHING\",\"person_name_1\":\"papsi\",\"relation_1\":\"Mother\",\"age_1\":\"435\",\"civil_1\":\"Married\",\"occupation_1\":\"Receptionist\",\"income_1\":null,\"person_name_2\":\"Roslin L. Chavez\",\"relation_2\":\"Father\",\"age_2\":\"45\",\"civil_2\":\"MArried\",\"occupation_2\":\"Driver\",\"income_2\":null,\"person_name_3\":\"Jhon Esli E. Chavez\",\"relation_3\":\"Brother\",\"age_3\":\"22\",\"civil_3\":\"Single\",\"occupation_3\":\"Student\",\"income_3\":null,\"person_name_4\":\"Lindley E. Chavez\",\"relation_4\":\"Brother\",\"age_4\":\"21\",\"civil_4\":\"Single\",\"occupation_4\":\"Student\",\"income_4\":null}', NULL, NULL, NULL, '2025-01-17 00:15:50', '2025-01-17 00:15:50', NULL),
-(59, 'lovely rose', 'rlovie0403@gmail.com', '09268307424', 2, '2025-01-23', 'Pending', 1, NULL, '{\"last_name\":\"chavez\",\"middle_name\":\"escano\",\"suffix\":null,\"application_type\":\"new_applicant\",\"pwd_num\":null,\"landline\":null,\"blood_type\":\"O\",\"sex\":\"female\",\"birthdate\":\"2025-01-17\",\"age\":\"0\",\"civil_status\":\"single\",\"type_of_disability\":\"rare_disease\",\"cause_of_disability\":\"congenital\",\"congenital_or_inborn\":\"others\",\"specify_cause_of_disability_congenital\":\"Deaf\",\"street\":\"Real Street\",\"barangay\":\"Victory\",\"municipality\":\"Abuyog\",\"province\":\"Leyte\",\"region\":\"Region VIII\",\"educational_attainment\":\"college\",\"occupation_pwd\":\"technicians\",\"specify_occupation\":null,\"status_of_employment\":\"unemployed\",\"category_of_employment\":\"government\",\"types_of_employment\":\"permanent_or_regular\",\"org_affiliate\":null,\"org_contact_person\":null,\"org_office\":null,\"org_tel_no\":null,\"sss_no\":null,\"gsis_no\":null,\"pag_ibig_no\":null,\"psn_no\":null,\"philhealth_no\":null,\"father_name\":\"Roslin Chavez\",\"father_occupation\":\"Driver\",\"father_contact\":\"09368532932\",\"mother_name\":\"Estrella Chavez\",\"mother_occupation\":\"Receptionist\",\"mother_contact\":\"09061573601\",\"guardian_name\":null,\"guardian_occupation\":null,\"guardian_contact\":null,\"role\":\"representative\",\"applicant_lastname\":null,\"applicant_firstname\":null,\"applicant_middlename\":null,\"guardian_lastname\":null,\"guardian_firstname\":null,\"guardian_middlename\":null,\"representative_lastname\":\"Chavez\",\"representative_firstname\":\"Jhon Esli\",\"representative_middlename\":\"Escano\"}', NULL, NULL, NULL, '2025-01-17 00:17:44', '2025-01-17 00:17:44', NULL),
-(60, 'lovely rose escano chavez', 'rlovie0403@gmail.com', '09268307424', 3, '2025-01-23', 'Pending', 1, NULL, '{\"birthdate\":\"2025-01-17\",\"age\":\"0\",\"sex\":\"Female\",\"birthplace\":\"LEYTE\",\"address\":\"Abuyog Leyte\",\"educational_attainment\":\"Not Attended School\",\"occupation\":\"Student\",\"status\":\"Single\",\"religion\":null,\"company_or_agency\":null,\"monthly_income\":\"12345\",\"fourps_beneficiary\":\"Yes\",\"indigenous_person\":\"Yes\",\"person_name_1\":\"papsi\",\"relation_1\":\"Mother\",\"age_1\":\"435\",\"birthday_1\":\"2025-01-10\",\"civil_1\":\"Married\",\"education_1\":\"College Graduate\",\"occupation_1\":\"Receptionist\",\"monthly_1\":null,\"person_name_2\":\"Roslin L. Chavez\",\"relation_2\":\"Father\",\"age_2\":\"45\",\"birthday_2\":\"2025-01-04\",\"civil_2\":\"MArried\",\"education_2\":\"College Graduate\",\"occupation_2\":\"Driver\",\"monthly_2\":null,\"person_name_3\":\"Jhon Esli E. Chavez\",\"relation_3\":\"Brother\",\"age_3\":\"22\",\"birthday_3\":\"2025-01-18\",\"civil_3\":\"Single\",\"education_3\":\"Elementary\",\"occupation_3\":\"Student\",\"monthly_3\":null,\"person_name_4\":\"Lindley E. Chavez\",\"relation_4\":\"Brother\",\"age_4\":\"21\",\"birthday_4\":\"2025-01-08\",\"civil_4\":\"Single\",\"education_4\":\"College\",\"occupation_4\":\"Student\",\"monthly_4\":null,\"classification_of_SP\":\"he passed away\",\"needs_or_problems\":\"financial support for education\",\"emergency_contact_name\":\"jellamay\",\"emergency_contact_address\":\"Zone 3, Brgy. Sto. nino Abuyog, Leyte\",\"emergency_contact_relationship\":\"daughter\",\"emergency_contact_number\":\"09123456789\"}', NULL, NULL, NULL, '2025-01-17 00:21:25', '2025-01-17 00:21:25', NULL),
+(59, 'lovely rose', 'rlovie0403@gmail.com', '09268307424', 2, '2025-01-23', 'rejected', 1, NULL, '{\"last_name\":\"chavez\",\"middle_name\":\"escano\",\"suffix\":null,\"application_type\":\"new_applicant\",\"pwd_num\":null,\"landline\":null,\"blood_type\":\"O\",\"sex\":\"female\",\"birthdate\":\"2025-01-17\",\"age\":\"0\",\"civil_status\":\"single\",\"type_of_disability\":\"rare_disease\",\"cause_of_disability\":\"congenital\",\"congenital_or_inborn\":\"others\",\"specify_cause_of_disability_congenital\":\"Deaf\",\"street\":\"Real Street\",\"barangay\":\"Victory\",\"municipality\":\"Abuyog\",\"province\":\"Leyte\",\"region\":\"Region VIII\",\"educational_attainment\":\"college\",\"occupation_pwd\":\"technicians\",\"specify_occupation\":null,\"status_of_employment\":\"unemployed\",\"category_of_employment\":\"government\",\"types_of_employment\":\"permanent_or_regular\",\"org_affiliate\":null,\"org_contact_person\":null,\"org_office\":null,\"org_tel_no\":null,\"sss_no\":null,\"gsis_no\":null,\"pag_ibig_no\":null,\"psn_no\":null,\"philhealth_no\":null,\"father_name\":\"Roslin Chavez\",\"father_occupation\":\"Driver\",\"father_contact\":\"09368532932\",\"mother_name\":\"Estrella Chavez\",\"mother_occupation\":\"Receptionist\",\"mother_contact\":\"09061573601\",\"guardian_name\":null,\"guardian_occupation\":null,\"guardian_contact\":null,\"role\":\"representative\",\"applicant_lastname\":null,\"applicant_firstname\":null,\"applicant_middlename\":null,\"guardian_lastname\":null,\"guardian_firstname\":null,\"guardian_middlename\":null,\"representative_lastname\":\"Chavez\",\"representative_firstname\":\"Jhon Esli\",\"representative_middlename\":\"Escano\"}', NULL, NULL, NULL, '2025-01-17 00:17:44', '2025-01-27 07:09:47', 'dire ak'),
+(60, 'lovely rose escano chavez', 'rlovie0403@gmail.com', '09268307424', 3, '2025-01-23', 'approved', 1, 'employee tocson', '{\"birthdate\":\"2025-01-17\",\"age\":\"0\",\"sex\":\"Female\",\"birthplace\":\"LEYTE\",\"address\":\"Abuyog Leyte\",\"educational_attainment\":\"Not Attended School\",\"occupation\":\"Student\",\"status\":\"Single\",\"religion\":null,\"company_or_agency\":null,\"monthly_income\":\"12345\",\"fourps_beneficiary\":\"Yes\",\"indigenous_person\":\"Yes\",\"person_name_1\":\"papsi\",\"relation_1\":\"Mother\",\"age_1\":\"435\",\"birthday_1\":\"2025-01-10\",\"civil_1\":\"Married\",\"education_1\":\"College Graduate\",\"occupation_1\":\"Receptionist\",\"monthly_1\":null,\"person_name_2\":\"Roslin L. Chavez\",\"relation_2\":\"Father\",\"age_2\":\"45\",\"birthday_2\":\"2025-01-04\",\"civil_2\":\"MArried\",\"education_2\":\"College Graduate\",\"occupation_2\":\"Driver\",\"monthly_2\":null,\"person_name_3\":\"Jhon Esli E. Chavez\",\"relation_3\":\"Brother\",\"age_3\":\"22\",\"birthday_3\":\"2025-01-18\",\"civil_3\":\"Single\",\"education_3\":\"Elementary\",\"occupation_3\":\"Student\",\"monthly_3\":null,\"person_name_4\":\"Lindley E. Chavez\",\"relation_4\":\"Brother\",\"age_4\":\"21\",\"birthday_4\":\"2025-01-08\",\"civil_4\":\"Single\",\"education_4\":\"College\",\"occupation_4\":\"Student\",\"monthly_4\":null,\"classification_of_SP\":\"he passed away\",\"needs_or_problems\":\"financial support for education\",\"emergency_contact_name\":\"jellamay\",\"emergency_contact_address\":\"Zone 3, Brgy. Sto. nino Abuyog, Leyte\",\"emergency_contact_relationship\":\"daughter\",\"emergency_contact_number\":\"09123456789\"}', NULL, NULL, NULL, '2025-01-17 00:21:25', '2025-01-24 03:42:34', NULL),
 (62, 'ian pensona banggay', 'villegasryan10@gmaail.com', '09563669997', 4, '2025-01-23', 'approved', 11, 'employee tocson', '{\"birthdate\":\"2025-01-20\",\"age\":null,\"birthplace\":\"abuyog,leyte\",\"aics_type\":\"Educational Assistance\",\"address\":\"brgy guintagbucan abuyog leyte\",\"educational_attainment\":\"College Level\",\"occupation\":\"na\",\"status\":\"single\",\"referral_source\":null,\"religion\":\"romancatholic\",\"person_name_1\":\"francisca\",\"age_1\":\"54\",\"sex_1\":\"Male\",\"civil_1\":\"married\",\"relation_1\":\"son\",\"education_1\":\"college level\",\"occupation_1\":\"house wife\"}', NULL, NULL, NULL, '2025-01-19 09:36:19', '2025-01-19 09:38:06', NULL),
-(63, 'crisostomo', 'jadecapnayan09@gmail.com', '09949420699', 2, '2025-01-22', 'approved', 14, 'employee tocson', '{\"last_name\":\"arias\",\"middle_name\":\"modena\",\"suffix\":null,\"application_type\":\"new_applicant\",\"pwd_num\":null,\"landline\":null,\"blood_type\":\"o\",\"sex\":\"male\",\"birthdate\":\"2025-01-06\",\"age\":\"0\",\"civil_status\":\"married\",\"type_of_disability\":\"deaf\",\"cause_of_disability\":\"acquired\",\"specify_cause_of_disability_congenital\":null,\"for_acquired\":\"injury\",\"street\":\"01\",\"barangay\":\"Guintagbucan\",\"municipality\":\"Abuyog\",\"province\":\"Leyte\",\"region\":\"Region VIII\",\"educational_attainment\":\"vocational\",\"occupation_pwd\":\"professional\",\"specify_occupation\":null,\"status_of_employment\":\"employed\",\"category_of_employment\":\"government\",\"types_of_employment\":\"casual\",\"org_affiliate\":null,\"org_contact_person\":null,\"org_office\":null,\"org_tel_no\":null,\"sss_no\":null,\"gsis_no\":null,\"pag_ibig_no\":null,\"psn_no\":null,\"philhealth_no\":null,\"father_name\":null,\"father_occupation\":null,\"father_contact\":null,\"mother_name\":null,\"mother_occupation\":null,\"mother_contact\":null,\"guardian_name\":null,\"guardian_occupation\":null,\"guardian_contact\":null,\"applicant_lastname\":null,\"applicant_firstname\":null,\"applicant_middlename\":null,\"guardian_lastname\":null,\"guardian_firstname\":null,\"guardian_middlename\":null,\"representative_lastname\":null,\"representative_firstname\":null,\"representative_middlename\":null}', NULL, NULL, NULL, '2025-01-19 10:00:31', '2025-01-19 10:02:56', NULL);
+(63, 'crisostomo', 'jadecapnayan09@gmail.com', '09949420699', 2, '2025-01-22', 'approved', 14, 'employee tocson', '{\"last_name\":\"arias\",\"middle_name\":\"modena\",\"suffix\":null,\"application_type\":\"new_applicant\",\"pwd_num\":null,\"landline\":null,\"blood_type\":\"o\",\"sex\":\"male\",\"birthdate\":\"2025-01-06\",\"age\":\"0\",\"civil_status\":\"married\",\"type_of_disability\":\"deaf\",\"cause_of_disability\":\"acquired\",\"specify_cause_of_disability_congenital\":null,\"for_acquired\":\"injury\",\"street\":\"01\",\"barangay\":\"Guintagbucan\",\"municipality\":\"Abuyog\",\"province\":\"Leyte\",\"region\":\"Region VIII\",\"educational_attainment\":\"vocational\",\"occupation_pwd\":\"professional\",\"specify_occupation\":null,\"status_of_employment\":\"employed\",\"category_of_employment\":\"government\",\"types_of_employment\":\"casual\",\"org_affiliate\":null,\"org_contact_person\":null,\"org_office\":null,\"org_tel_no\":null,\"sss_no\":null,\"gsis_no\":null,\"pag_ibig_no\":null,\"psn_no\":null,\"philhealth_no\":null,\"father_name\":null,\"father_occupation\":null,\"father_contact\":null,\"mother_name\":null,\"mother_occupation\":null,\"mother_contact\":null,\"guardian_name\":null,\"guardian_occupation\":null,\"guardian_contact\":null,\"applicant_lastname\":null,\"applicant_firstname\":null,\"applicant_middlename\":null,\"guardian_lastname\":null,\"guardian_firstname\":null,\"guardian_middlename\":null,\"representative_lastname\":null,\"representative_firstname\":null,\"representative_middlename\":null}', NULL, NULL, NULL, '2025-01-19 10:00:31', '2025-01-19 10:02:56', NULL),
+(64, 'Lab  Chavez', 'sircsaira@gmail.com', '09949420699', 4, '2025-01-28', 'approved', 15, 'employee tocson', '{\"birthdate\":\"2025-01-27\",\"age\":null,\"birthplace\":\"Abuyog leyte\",\"aics_type\":\"Medical Assistance\",\"address\":\"Abuyog leyte\",\"educational_attainment\":\"College Graduate\",\"occupation\":\"Student\",\"status\":\"Single\",\"referral_source\":null,\"religion\":\"Adventist\"}', NULL, NULL, NULL, '2025-01-26 09:44:08', '2025-01-26 09:44:56', NULL),
+(65, 'Melberth C. Dancil None', 'melberthdancil04@gmail.com', '09673701823', 3, '2025-01-28', 'approved', 17, 'employee tocson', '{\"birthdate\":\"2000-12-04\",\"age\":\"24\",\"sex\":\"Male\",\"birthplace\":\"Capili-An\",\"address\":\"ABUYOG LEYTE\",\"educational_attainment\":\"College Level\",\"occupation\":\"Student\",\"status\":\"Single\",\"religion\":\"Roman Catholic\",\"company_or_agency\":\"None\",\"monthly_income\":\"1000000\",\"fourps_beneficiary\":\"No\",\"indigenous_person\":\"No\",\"classification_of_SP\":\"Non\",\"needs_or_problems\":\"No money\",\"emergency_contact_name\":\"09673701823\",\"emergency_contact_address\":\"Capili-an\",\"emergency_contact_relationship\":\"None\",\"emergency_contact_number\":\"09674701823\"}', NULL, NULL, NULL, '2025-01-27 02:13:10', '2025-01-27 02:15:12', NULL),
+(66, 'elizabeth mamasig sebios', 'elizabeth.sebios@gmail.com', '09164321071', 3, '2025-02-12', 'approved', 18, 'employee tocson', '{\"birthdate\":\"1995-01-31\",\"age\":\"29\",\"sex\":\"Female\",\"birthplace\":\"Abuyog Leyte\",\"address\":\"Abuyog Leyte\",\"educational_attainment\":\"College Graduate\",\"occupation\":\"instructor\",\"status\":\"single\",\"religion\":\"Adventist\",\"company_or_agency\":null,\"monthly_income\":null,\"fourps_beneficiary\":\"No\",\"indigenous_person\":\"No\",\"classification_of_SP\":\"he passed away\",\"needs_or_problems\":\"kwarta\",\"emergency_contact_name\":null,\"emergency_contact_address\":null,\"emergency_contact_relationship\":null,\"emergency_contact_number\":null}', NULL, NULL, NULL, '2025-01-30 01:49:39', '2025-01-30 01:56:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -309,7 +312,133 @@ INSERT INTO `barangays` (`id`, `name`, `latitude`, `longitude`, `created_at`, `u
 (186, 'Tinalian', 10.710104, 125.019556, NULL, NULL),
 (187, 'Tinocolan', 10.554889, 125.074629, NULL, NULL),
 (188, 'Tuy-a', 10.626923, 125.043031, NULL, NULL),
-(189, 'Victory', 10.739811, 125.016096, NULL, NULL);
+(189, 'Victory', 10.739811, 125.016096, NULL, NULL),
+(190, 'Alangilan', 10.639663, 125.026233, NULL, NULL),
+(191, 'Anibongan', 10.604396, 125.055671, NULL, NULL),
+(192, 'Bagacay', 10.602055, 125.119004, NULL, NULL),
+(193, 'Bahay', 10.713999, 125.036289, NULL, NULL),
+(194, 'Balinsasayao', 10.685820, 124.945723, NULL, NULL),
+(195, 'Balocawe', 10.744168, 124.979454, NULL, NULL),
+(196, 'Balocawehay', 10.715140, 124.954343, NULL, NULL),
+(197, 'Barayong', 10.750247, 124.999026, NULL, NULL),
+(198, 'Bayabas', 10.661993, 124.997613, NULL, NULL),
+(199, 'Bito', 10.751443, 125.007141, NULL, NULL),
+(200, 'Buaya', 10.706317, 125.088063, NULL, NULL),
+(201, 'Buenavista', 10.730378, 125.019642, NULL, NULL),
+(202, 'Bulak', 10.608689, 125.109174, NULL, NULL),
+(203, 'Bunga', 10.762420, 125.004221, NULL, NULL),
+(204, 'Buntay', 10.746587, 125.009780, NULL, NULL),
+(205, 'Burubud-an', 10.694385, 125.008166, NULL, NULL),
+(206, 'Cadac-an', 10.727157, 125.008402, NULL, NULL),
+(207, 'Cagbolo', 10.655158, 125.033982, NULL, NULL),
+(208, 'Can-aporong', 10.740469, 125.004260, NULL, NULL),
+(209, 'Canmarating', 10.727620, 124.989305, NULL, NULL),
+(210, 'Can-uguib', 10.738780, 125.010513, NULL, NULL),
+(211, 'Capilian', 10.702818, 124.970223, NULL, NULL),
+(212, 'Combis', 10.625630, 125.052533, NULL, NULL),
+(213, 'Dingle', 10.649738, 125.013784, NULL, NULL),
+(214, 'Guintagbucan', 10.755187, 125.005037, NULL, NULL),
+(215, 'Hampipila', 10.672836, 125.044107, NULL, NULL),
+(216, 'Katipunan', 10.726032, 124.963230, NULL, NULL),
+(217, 'Kikilo', 10.620450, 125.099493, NULL, NULL),
+(218, 'Laray', 10.668573, 125.014197, NULL, NULL),
+(219, 'Lawa-an', 10.723881, 125.030668, NULL, NULL),
+(220, 'Libertad', 10.594563, 125.044698, NULL, NULL),
+(221, 'Loyonsawang', 10.743351, 125.012011, NULL, NULL),
+(222, 'Mag-atubang', 10.739173, 124.993437, NULL, NULL),
+(223, 'Mahagna', 10.641091, 125.036142, NULL, NULL),
+(224, 'Mahayahay', 10.551441, 125.063625, NULL, NULL),
+(225, 'Maitum', 10.683090, 124.970008, NULL, NULL),
+(226, 'Malaguicay', 10.708644, 125.069049, NULL, NULL),
+(227, 'Matagnao', 10.679914, 125.020918, NULL, NULL),
+(228, 'Nalibunan', 10.737801, 125.013356, NULL, NULL),
+(229, 'Nebga', 10.633512, 125.058107, NULL, NULL),
+(230, 'New Taligue', 10.580738, 125.077415, NULL, NULL),
+(231, 'Odiongan', 10.709654, 124.986526, NULL, NULL),
+(232, 'Old Taligue', 10.567503, 125.052548, NULL, NULL),
+(233, 'Pagsang-an', 10.711419, 124.997964, NULL, NULL),
+(234, 'Paguite', 10.702430, 124.956347, NULL, NULL),
+(235, 'Parasanon', 10.617123, 125.042960, NULL, NULL),
+(236, 'Picas Sur', 10.688059, 124.989370, NULL, NULL),
+(237, 'Pilar', 10.703188, 125.036069, NULL, NULL),
+(238, 'Pinamanagan', 10.535713, 125.055325, NULL, NULL),
+(239, 'Salvacion', 10.688237, 125.041579, NULL, NULL),
+(240, 'San Francisco', 10.692974, 125.099314, NULL, NULL),
+(241, 'San Isidro', 10.761967, 124.998946, NULL, NULL),
+(242, 'San Roque', 10.637231, 125.088157, NULL, NULL),
+(243, 'Santa Fe', 10.737336, 125.017482, NULL, NULL),
+(244, 'Santa Lucia', 10.649735, 125.066381, NULL, NULL),
+(245, 'Santo Niño', 10.734838, 125.017494, NULL, NULL),
+(246, 'Tabigue', 10.737717, 124.982338, NULL, NULL),
+(247, 'Tadoc', 10.708175, 125.007126, NULL, NULL),
+(248, 'Tib-o', 10.672394, 125.091167, NULL, NULL),
+(249, 'Tinalian', 10.710104, 125.019556, NULL, NULL),
+(250, 'Tinocolan', 10.554889, 125.074629, NULL, NULL),
+(251, 'Tuy-a', 10.626923, 125.043031, NULL, NULL),
+(252, 'Victory', 10.739811, 125.016096, NULL, NULL),
+(253, 'Alangilan', 10.639663, 125.026233, NULL, NULL),
+(254, 'Anibongan', 10.604396, 125.055671, NULL, NULL),
+(255, 'Bagacay', 10.602055, 125.119004, NULL, NULL),
+(256, 'Bahay', 10.713999, 125.036289, NULL, NULL),
+(257, 'Balinsasayao', 10.685820, 124.945723, NULL, NULL),
+(258, 'Balocawe', 10.744168, 124.979454, NULL, NULL),
+(259, 'Balocawehay', 10.715140, 124.954343, NULL, NULL),
+(260, 'Barayong', 10.750247, 124.999026, NULL, NULL),
+(261, 'Bayabas', 10.661993, 124.997613, NULL, NULL),
+(262, 'Bito', 10.751443, 125.007141, NULL, NULL),
+(263, 'Buaya', 10.706317, 125.088063, NULL, NULL),
+(264, 'Buenavista', 10.730378, 125.019642, NULL, NULL),
+(265, 'Bulak', 10.608689, 125.109174, NULL, NULL),
+(266, 'Bunga', 10.762420, 125.004221, NULL, NULL),
+(267, 'Buntay', 10.746587, 125.009780, NULL, NULL),
+(268, 'Burubud-an', 10.694385, 125.008166, NULL, NULL),
+(269, 'Cadac-an', 10.727157, 125.008402, NULL, NULL),
+(270, 'Cagbolo', 10.655158, 125.033982, NULL, NULL),
+(271, 'Can-aporong', 10.740469, 125.004260, NULL, NULL),
+(272, 'Canmarating', 10.727620, 124.989305, NULL, NULL),
+(273, 'Can-uguib', 10.738780, 125.010513, NULL, NULL),
+(274, 'Capilian', 10.702818, 124.970223, NULL, NULL),
+(275, 'Combis', 10.625630, 125.052533, NULL, NULL),
+(276, 'Dingle', 10.649738, 125.013784, NULL, NULL),
+(277, 'Guintagbucan', 10.755187, 125.005037, NULL, NULL),
+(278, 'Hampipila', 10.672836, 125.044107, NULL, NULL),
+(279, 'Katipunan', 10.726032, 124.963230, NULL, NULL),
+(280, 'Kikilo', 10.620450, 125.099493, NULL, NULL),
+(281, 'Laray', 10.668573, 125.014197, NULL, NULL),
+(282, 'Lawa-an', 10.723881, 125.030668, NULL, NULL),
+(283, 'Libertad', 10.594563, 125.044698, NULL, NULL),
+(284, 'Loyonsawang', 10.743351, 125.012011, NULL, NULL),
+(285, 'Mag-atubang', 10.739173, 124.993437, NULL, NULL),
+(286, 'Mahagna', 10.641091, 125.036142, NULL, NULL),
+(287, 'Mahayahay', 10.551441, 125.063625, NULL, NULL),
+(288, 'Maitum', 10.683090, 124.970008, NULL, NULL),
+(289, 'Malaguicay', 10.708644, 125.069049, NULL, NULL),
+(290, 'Matagnao', 10.679914, 125.020918, NULL, NULL),
+(291, 'Nalibunan', 10.737801, 125.013356, NULL, NULL),
+(292, 'Nebga', 10.633512, 125.058107, NULL, NULL),
+(293, 'New Taligue', 10.580738, 125.077415, NULL, NULL),
+(294, 'Odiongan', 10.709654, 124.986526, NULL, NULL),
+(295, 'Old Taligue', 10.567503, 125.052548, NULL, NULL),
+(296, 'Pagsang-an', 10.711419, 124.997964, NULL, NULL),
+(297, 'Paguite', 10.702430, 124.956347, NULL, NULL),
+(298, 'Parasanon', 10.617123, 125.042960, NULL, NULL),
+(299, 'Picas Sur', 10.688059, 124.989370, NULL, NULL),
+(300, 'Pilar', 10.703188, 125.036069, NULL, NULL),
+(301, 'Pinamanagan', 10.535713, 125.055325, NULL, NULL),
+(302, 'Salvacion', 10.688237, 125.041579, NULL, NULL),
+(303, 'San Francisco', 10.692974, 125.099314, NULL, NULL),
+(304, 'San Isidro', 10.761967, 124.998946, NULL, NULL),
+(305, 'San Roque', 10.637231, 125.088157, NULL, NULL),
+(306, 'Santa Fe', 10.737336, 125.017482, NULL, NULL),
+(307, 'Santa Lucia', 10.649735, 125.066381, NULL, NULL),
+(308, 'Santo Niño', 10.734838, 125.017494, NULL, NULL),
+(309, 'Tabigue', 10.737717, 124.982338, NULL, NULL),
+(310, 'Tadoc', 10.708175, 125.007126, NULL, NULL),
+(311, 'Tib-o', 10.672394, 125.091167, NULL, NULL),
+(312, 'Tinalian', 10.710104, 125.019556, NULL, NULL),
+(313, 'Tinocolan', 10.554889, 125.074629, NULL, NULL),
+(314, 'Tuy-a', 10.626923, 125.043031, NULL, NULL),
+(315, 'Victory', 10.739811, 125.016096, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -337,8 +466,6 @@ CREATE TABLE `beneficiaries` (
   `phone` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `id_number` varchar(255) DEFAULT NULL,
-  `id_status` enum('valid','invalid','not_provided','') NOT NULL DEFAULT 'not_provided',
-  `disability_type` varchar(255) DEFAULT NULL,
   `latitude` decimal(10,6) DEFAULT NULL,
   `longitude` decimal(10,6) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -349,59 +476,43 @@ CREATE TABLE `beneficiaries` (
 -- Dumping data for table `beneficiaries`
 --
 
-INSERT INTO `beneficiaries` (`id`, `first_name`, `middle_name`, `last_name`, `suffix`, `date_of_birth`, `age`, `gender`, `place_of_birth`, `program_enrolled`, `barangay_id`, `civil_status`, `educational_attainment`, `occupation`, `religion`, `monthly_income`, `phone`, `email`, `id_number`, `id_status`, `disability_type`, `latitude`, `longitude`, `created_at`, `updated_at`) VALUES
-(3, 'jonas', 'villote', 'Balongag', NULL, '2001-02-22', 23, 'Male', 'Abuyog', 1, 1, 'Single', 'College', 'Student', 'Other', 'Below 5,000', '09925730026', 'jm@gmail.com', '123456', 'not_provided', NULL, NULL, NULL, '2025-01-19 19:12:06', '2025-01-19 19:12:06'),
-(4, 'labli rose', 'Escano', 'chavez', NULL, '1991-12-19', 33, 'Female', 'Abuyog', 3, 1, 'Single', 'College', 'Student', 'Other', 'Below 5,000', '09925730026', 'jm@gmail.com', '133', 'valid', NULL, NULL, NULL, '2025-01-19 19:24:15', '2025-01-22 02:35:16'),
-(5, 'test', 'asdf', 'Test', 'a', '2022-06-21', 2, 'Male', 'Tesadsfasd', 2, 15, 'Single', 'Elementary', 'asdf', 'Hinduism', '10,000 - 15,000', '123123', 'adasd@adfd.com', 'asdasd', 'invalid', 'Test', NULL, NULL, '2025-01-22 01:11:03', '2025-01-22 01:11:03'),
-(6, 'Galvin', 'Noelle Dyer', 'Rowe', 'Asperiores ut soluta', '1989-02-26', 35, 'Female', 'Sed et minim cumque', 2, 105, 'Widowed', 'High School', 'Cupidatat dolore rat', 'Christianity', 'Below 5,000', '+1 (231) 485-4149', 'bunykopite@mailinator.com', '11', 'not_provided', 'Select Disability Type', NULL, NULL, '2025-01-22 01:18:24', '2025-01-22 01:18:24'),
-(7, 'Rama', 'Ora Tate', 'Spence', 'Iste in cillum reici', '1998-10-26', 26, 'Female', 'Minima earum officia', 2, 77, 'Widowed', 'College', 'Dignissimos tenetur', 'Islam', '10,000 - 15,000', '+1 (684) 586-6636', 'nydajaqo@mailinator.com', '424', 'not_provided', 'Chronic Illness', NULL, NULL, '2025-01-22 01:20:54', '2025-01-22 01:20:54'),
-(8, 'Salvador', 'Karyn Copeland', 'Colon', 'Labore at commodo po', '2016-11-18', 8, 'Female', 'Quia iste iure anim', 2, 79, 'Single', 'Postgraduate', 'Ullamco occaecat inv', 'Hinduism', 'Above 15,000', '+1 (695) 118-8086', 'zuluduzar@mailinator.com', '553', 'not_provided', 'Select Disability Type', NULL, NULL, '2025-01-22 01:21:03', '2025-01-22 01:21:03'),
-(9, 'Thaddeus', 'Britanney Livingston', 'Gutierrez', 'Expedita amet dolor', '2020-10-23', 4, 'Male', 'Do autem laborum per', 2, 133, 'Divorced', 'College', 'Magnam et magni quid', 'Other', 'Below 5,000', '+1 (945) 697-2816', 'quzohalym@mailinator.com', '757', 'valid', 'Hearing and Speech Impairment', NULL, NULL, '2025-01-22 01:26:08', '2025-01-22 02:47:25'),
-(10, 'Baker', 'Iris Hendricks', 'Ruiz', 'Obcaecati exercitati', '2005-12-28', 19, 'Male', 'Sit eiusmod esse omn', 2, 134, 'Widowed', 'High School', 'Ut eu omnis inventor', 'Christianity', '5,000 - 10,000', '+1 (225) 401-2082', 'fegehe@mailinator.com', '644', 'invalid', 'Mobility Impairment', NULL, NULL, '2025-01-22 01:32:08', '2025-01-22 01:32:08'),
-(11, 'Jeremy', 'Montana Knox', 'Schneider', 'Dolor elit quo sed', '1972-11-19', 52, 'Male', 'Voluptatem eveniet', 1, 151, 'Married', 'College', 'Eaque in aperiam dol', 'Christianity', '10,000 - 15,000', '+1 (162) 384-9649', 'dapyk@mailinator.com', '991', 'not_provided', NULL, NULL, NULL, '2025-01-22 01:54:32', '2025-01-22 01:54:32'),
-(12, 'Oren', 'Eleanor Browning', 'Mitchell', 'Pariatur Duis offic', '2002-05-07', 22, 'Female', 'Animi earum accusam', 3, 186, 'Divorced', 'No Formal Education', 'Hic aliquip voluptas', 'Other', 'Below 5,000', '+1 (431) 923-3961', 'poxatifo@mailinator.com', '187', 'invalid', NULL, NULL, NULL, '2025-01-22 01:54:49', '2025-01-22 01:54:49'),
-(13, 'Wylie', 'Karly Donaldson', 'Greer', 'Ipsa hic enim volup', '2008-06-05', 16, 'Male', 'Quaerat voluptatem', 2, 108, 'Single', 'Elementary', 'Est omnis ipsa omni', 'Hinduism', '10,000 - 15,000', '+1 (131) 205-7689', 'qerehovyxo@mailinator.com', '595', 'invalid', 'Test', NULL, NULL, '2025-01-22 01:54:59', '2025-01-22 01:54:59'),
-(14, 'Isaac', 'Cairo West', 'Bishop', 'Laborum Esse et dic', '1978-02-07', 46, 'Female', 'Et voluptas placeat', 1, 98, 'Widowed', 'Elementary', 'Doloribus enim dolor', 'Buddhism', '10,000 - 15,000', '+1 (567) 335-1655', 'nazacuwe@mailinator.com', '233', 'not_provided', NULL, NULL, NULL, '2025-01-22 01:57:14', '2025-01-22 01:57:14'),
-(15, 'Luke', 'Kalia Banks', 'Neal', 'Architecto est liber', '2017-04-18', 7, 'Female', 'Non nisi ut perspici', 2, 164, 'Widowed', 'Elementary', 'Qui irure voluptas d', 'Christianity', 'Below 5,000', '+1 (905) 664-5766', 'mewos@mailinator.com', '248', 'invalid', NULL, NULL, NULL, '2025-01-22 01:57:22', '2025-01-22 01:57:22'),
-(16, 'John', 'Colleen Sawyer', 'Fuentes', 'Doloremque nihil tem', '1996-04-11', 28, 'Female', 'Tempora eligendi vol', 2, 187, 'Married', 'Postgraduate', 'Consequatur error t', 'Buddhism', 'Above 15,000', '+1 (907) 652-2841', 'qyxivy@mailinator.com', '572', 'invalid', NULL, NULL, NULL, '2025-01-22 01:58:41', '2025-01-22 01:58:41'),
-(17, 'Cruz', 'Regina Emerson', 'Mueller', 'Delectus duis labor', '1995-11-22', 29, 'Female', 'Velit quidem totam o', 2, 50, 'Single', 'High School', 'Reiciendis lorem cum', 'Buddhism', 'Above 15,000', '+1 (648) 573-2095', 'domi@mailinator.com', '762', 'valid', NULL, NULL, NULL, '2025-01-22 01:58:53', '2025-01-22 02:44:39'),
-(18, 'Harding', 'Nell King', 'Boyd', 'Suscipit consequatur', '2002-08-04', 22, 'Female', 'Beatae rem ex magna', 1, 17, 'Divorced', 'Postgraduate', 'Omnis dolor temporib', 'Islam', 'Below 5,000', '+1 (828) 137-1269', 'kequdif@mailinator.com', '945', 'not_provided', NULL, NULL, NULL, '2025-01-22 02:00:32', '2025-01-22 02:00:32'),
-(19, 'Yetta', 'Jada Macdonald', 'Noel', 'Cupiditate omnis exc', '2017-03-07', 7, 'Female', 'Minim non at non dis', 2, 171, 'Divorced', 'Elementary', 'Quisquam cupidatat a', 'Christianity', '5,000 - 10,000', '+1 (688) 951-8807', 'kygucogadu@mailinator.com', '884', 'invalid', 'Hearing and Speech Impairment', NULL, NULL, '2025-01-22 02:00:42', '2025-01-22 02:00:42');
+INSERT INTO `beneficiaries` (`id`, `first_name`, `middle_name`, `last_name`, `suffix`, `date_of_birth`, `age`, `gender`, `place_of_birth`, `program_enrolled`, `barangay_id`, `civil_status`, `educational_attainment`, `occupation`, `religion`, `monthly_income`, `phone`, `email`, `id_number`, `latitude`, `longitude`, `created_at`, `updated_at`) VALUES
+(3, 'jonas miguel', 'villotee', 'Balongag', NULL, '2001-02-22', 23, 'Male', 'Abuyog', 1, 11, 'Single', 'College', 'Student', 'Other', 'Below 5,000', '09268307424', 'jm@gmail.com', '123456', NULL, NULL, '2025-01-19 19:12:06', '2025-01-27 17:11:16'),
+(4, 'labli rose', 'Escano', 'chavez', NULL, '1991-12-19', 33, 'Female', 'Abuyog', 2, 10, 'Single', 'College', 'Student', 'Other', 'Below 5,000', '09064209450', 'jm@gmail.com', '133', NULL, NULL, '2025-01-19 19:24:15', '2025-01-27 17:11:26'),
+(8, 'lily', NULL, 'chavez', NULL, '2000-06-05', 24, 'Female', 'Abuyog, Leyte', 4, 9, 'Single', 'No Formal Education', 'Student', 'Christianity', 'Below 5,000', '09061573601', 'lily@gmail.com', '123-456', NULL, NULL, '2025-01-25 12:00:40', '2025-01-27 17:11:35'),
+(9, 'lab', 'escano', 'chavez', NULL, '2025-01-07', 0, 'Female', 'Abuyog', 3, 5, 'Single', 'College', 'Student', 'Christianity', 'Below 5,000', '09925730026', 'labli@gmail.com', '123456', NULL, NULL, '2025-01-27 07:03:22', '2025-01-27 07:03:22');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `beneficiary_receiveds`
+-- Table structure for table `benefits_received`
 --
 
-CREATE TABLE `beneficiary_receiveds` (
+CREATE TABLE `benefits_received` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `beneficiary_id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `item_type` enum('cash','food','other') DEFAULT NULL,
-  `remarks` varchar(255) DEFAULT NULL,
-  `date_received` varchar(255) DEFAULT NULL,
-  `date_expired` varchar(255) DEFAULT NULL,
-  `status` enum('received','not_received','pending','') NOT NULL DEFAULT 'pending',
+  `name_of_assistance` varchar(255) NOT NULL,
+  `amount` decimal(10,2) DEFAULT NULL,
+  `date_received` date DEFAULT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'Pending',
+  `not_received_reason` text DEFAULT NULL,
+  `type_of_assistance` varchar(255) NOT NULL DEFAULT 'Others',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `beneficiary_receiveds`
+-- Dumping data for table `benefits_received`
 --
 
-INSERT INTO `beneficiary_receiveds` (`id`, `beneficiary_id`, `user_id`, `item_type`, `remarks`, `date_received`, `date_expired`, `status`, `created_at`, `updated_at`) VALUES
-(8, 3, 2, 'food', 'adsfasdf', '2024-07-01 00:00:00', '2024-10-01 00:00:00', 'pending', '2025-01-21 09:21:06', '2025-01-21 09:21:06'),
-(9, 3, 2, 'food', 'asdasd', '2024-07-08 00:00:00', '2024-10-08 00:00:00', 'pending', '2025-01-21 09:33:22', '2025-01-21 09:33:22'),
-(10, 3, 2, 'food', 'sfdg', '2025-01-21 00:00:00', '2025-04-21 00:00:00', 'pending', '2025-01-21 09:35:55', '2025-01-21 09:35:55'),
-(11, 4, 2, 'food', 'sdfg', '2025-01-21 00:00:00', '2025-04-21 00:00:00', 'received', '2025-01-21 09:36:07', '2025-01-22 02:35:16'),
-(12, 19, 2, 'cash', 'Test', '2025-01-21 00:00:00', '2025-02-21 00:00:00', 'not_received', '2025-01-22 02:13:07', '2025-01-22 02:35:45'),
-(13, 5, 2, 'food', 'test', '2025-01-14 00:00:00', '2025-02-14 00:00:00', 'pending', '2025-01-22 02:18:49', '2025-01-22 02:18:49'),
-(14, 17, 2, 'cash', 'test', '2025-01-21 00:00:00', '2025-02-21 00:00:00', 'received', '2025-01-22 02:19:06', '2025-01-22 02:44:39'),
-(15, 12, 2, 'food', 'etst', '2025-01-21 00:00:00', '2025-02-21 00:00:00', 'pending', '2025-01-22 02:19:22', '2025-01-22 02:19:22'),
-(16, 9, 2, 'cash', 'Test', '2024-06-22 00:00:00', '2024-07-22 00:00:00', 'received', '2025-01-22 02:45:38', '2025-01-22 02:47:25'),
-(17, 9, 2, 'other', 'Twewsads', '2025-01-21 00:00:00', '2025-02-21 00:00:00', 'pending', '2025-01-22 02:50:59', '2025-01-22 02:50:59');
+INSERT INTO `benefits_received` (`id`, `beneficiary_id`, `name_of_assistance`, `amount`, `date_received`, `status`, `not_received_reason`, `type_of_assistance`, `created_at`, `updated_at`) VALUES
+(1, 3, 'tesda', 1000.00, '2025-01-24', 'Received', NULL, 'Educational', '2025-01-23 17:04:04', '2025-01-23 19:00:46'),
+(2, 4, 'financial', 2.00, NULL, 'Pending', NULL, 'Others', '2025-01-23 17:05:03', '2025-01-23 17:05:03'),
+(3, 3, 'tuition fee support', 20000.00, '2025-01-24', 'Received', NULL, 'Educational', '2025-01-23 17:06:02', '2025-01-23 17:23:44'),
+(4, 4, 'tuition fee support', 20000.00, NULL, 'Not Received', NULL, 'Educational', '2025-01-23 17:06:02', '2025-01-23 17:23:47'),
+(5, 3, 'scholarship program', 50000.00, NULL, 'Not Received', NULL, 'Educational', '2025-01-23 19:54:01', '2025-01-24 01:04:29'),
+(6, 4, 'scholarship program', 50000.00, '2025-01-24', 'Received', NULL, 'Educational', '2025-01-23 19:54:01', '2025-01-24 01:08:36'),
+(7, 4, 'medical support', 5000.00, '2025-01-24', 'Received', NULL, 'Medical', '2025-01-24 01:01:21', '2025-01-24 01:04:18');
 
 -- --------------------------------------------------------
 
@@ -420,10 +531,36 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('a739eb2cce820da781b0b30981a58db5', 'i:1;', 1737514332),
-('a739eb2cce820da781b0b30981a58db5:timer', 'i:1737514332;', 1737514332),
-('c525a5357e97fef8d3db25841c86da1a', 'i:1;', 1737514301),
-('c525a5357e97fef8d3db25841c86da1a:timer', 'i:1737514301;', 1737514301);
+('1950de5a4e3f1fc9eb1702b941305745', 'i:1;', 1737997449),
+('1950de5a4e3f1fc9eb1702b941305745:timer', 'i:1737997449;', 1737997449),
+('19860e8e2eeec6d9664cf2dc2a02cd96', 'i:1;', 1737967354),
+('19860e8e2eeec6d9664cf2dc2a02cd96:timer', 'i:1737967354;', 1737967354),
+('1f83ed5eeb8e2bc3404948c903c66d11', 'i:2;', 1738039138),
+('1f83ed5eeb8e2bc3404948c903c66d11:timer', 'i:1738039138;', 1738039138),
+('2b8c31dbe8aaf695558f9940abfc3a12', 'i:1;', 1738201302),
+('2b8c31dbe8aaf695558f9940abfc3a12:timer', 'i:1738201302;', 1738201302),
+('3eaa4a7cb9c3be2e197b4691b9c23fc9', 'i:1;', 1737967911),
+('3eaa4a7cb9c3be2e197b4691b9c23fc9:timer', 'i:1737967911;', 1737967911),
+('548fb674d4a9ed04b7f0476de201b241', 'i:1;', 1738203136),
+('548fb674d4a9ed04b7f0476de201b241:timer', 'i:1738203136;', 1738203136),
+('6d50b8d9bb1245474d5e1f3235440095', 'i:1;', 1737994462),
+('6d50b8d9bb1245474d5e1f3235440095:timer', 'i:1737994462;', 1737994462),
+('84f56496e1dd08c54a7f7bfc9187d72e', 'i:1;', 1738039548),
+('84f56496e1dd08c54a7f7bfc9187d72e:timer', 'i:1738039548;', 1738039548),
+('8960f10fa6e721fa6489b526604f622f', 'i:2;', 1737994337),
+('8960f10fa6e721fa6489b526604f622f:timer', 'i:1737994337;', 1737994337),
+('89713a30f4f77a8083bfc6df449b8000', 'i:1;', 1738202889),
+('89713a30f4f77a8083bfc6df449b8000:timer', 'i:1738202889;', 1738202889),
+('96a1291832b1ac89ef1070e84b025cdc', 'i:1;', 1737966028),
+('96a1291832b1ac89ef1070e84b025cdc:timer', 'i:1737966028;', 1737966028),
+('a06691d20070ca304d9926fd4a964cb3', 'i:2;', 1738200235),
+('a06691d20070ca304d9926fd4a964cb3:timer', 'i:1738200235;', 1738200235),
+('c27102fa50ba8ab49cf08b8c54e14522', 'i:2;', 1738039958),
+('c27102fa50ba8ab49cf08b8c54e14522:timer', 'i:1738039958;', 1738039958),
+('e9d6dea95cfbfd66d92e2cff3be41053', 'i:1;', 1738202026),
+('e9d6dea95cfbfd66d92e2cff3be41053:timer', 'i:1738202026;', 1738202026),
+('sircsaira@gmail.com|192.168.29.139', 'i:2;', 1738039138),
+('sircsaira@gmail.com|192.168.29.139:timer', 'i:1738039138;', 1738039138);
 
 -- --------------------------------------------------------
 
@@ -436,6 +573,42 @@ CREATE TABLE `cache_locks` (
   `owner` varchar(255) NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deceased`
+--
+
+CREATE TABLE `deceased` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `middle_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `barangay_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `service_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `date_of_birth` date DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `gender` varchar(255) DEFAULT NULL,
+  `civil_status` varchar(255) DEFAULT NULL,
+  `gov_id_number` varchar(255) DEFAULT NULL,
+  `program_specific_id` varchar(255) DEFAULT NULL,
+  `date_of_application` date DEFAULT NULL,
+  `assistance_availed` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `deceased`
+--
+
+INSERT INTO `deceased` (`id`, `first_name`, `middle_name`, `last_name`, `email`, `phone`, `barangay_id`, `service_id`, `date_of_birth`, `age`, `gender`, `civil_status`, `gov_id_number`, `program_specific_id`, `date_of_application`, `assistance_availed`, `created_at`, `updated_at`) VALUES
+(1, 'jellamay', NULL, 'dayaguit', 'jellamay@gmail.com', '09061573601', 9, NULL, '2025-01-01', 0, 'Female', 'Single', NULL, NULL, NULL, NULL, '2025-01-23 19:29:35', '2025-01-23 19:29:35'),
+(2, 'faye', NULL, 'marquez', 'faye@gmail.com', '09673701820', 189, NULL, '2025-01-14', 0, 'Female', 'Single', NULL, NULL, NULL, NULL, '2025-01-23 19:32:46', '2025-01-23 19:32:46'),
+(3, 'Lovely Rose', NULL, 'Chavez', 'jellamay@gmail.com', '1233333333', 12, NULL, '2025-01-15', 0, 'Male', 'Single', NULL, NULL, NULL, NULL, '2025-01-24 01:49:06', '2025-01-24 01:49:06');
 
 -- --------------------------------------------------------
 
@@ -531,7 +704,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (54, '2025_01_16_002946_create_user_meta_table', 1),
 (55, '2025_01_16_194705_create_sms_logs_table', 2),
 (67, '2025_01_17_093509_create_beneficiaries_table', 3),
-(68, '2025_01_21_140852_create_beneficiary_receiveds_table', 4);
+(70, '2025_01_23_153242_create_benefits_received_table', 4),
+(71, '2025_01_24_031924_create_deceased_table', 5);
 
 -- --------------------------------------------------------
 
@@ -609,12 +783,14 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('1PPNQMsNV9CN0CE2oytQKJZ2kIsauqKKnV88qt8q', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiY0h4SDNWdjJsS1NXWmJCSlR5YzBGY3hveEJlc2daeWxiV2V2OGF6VSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hcHBseS1iZW5lZml0cy80Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1745312292),
-('aBKhbNBIb141Nm5QXM2CsibSc5Urxx5gwVD7BZDj', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOExJZ3RLSFJxbkt4eTdVT2ZVNnAxblB6RnZaSjQ2dDBRNkFud0VKNSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaG93YmVuZWZpY2lhcmllc19hZG1pbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1745312103),
-('bj9zNOACqD6fRjthLFyCt56BLrB8TEbQCiVN65CR', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiVG1hQzJFeFk2TXo3MHpjV0UzYTMxWncwdnJObDNsRUZ6aFFGREZBNCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9lbXBsb3llZS9tb25pdG9yaW5nIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mzt9', 1737514392),
-('eP6kZZ64gXULiG74utLMWFO4icQ2yuZEeUDh58br', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiM3ZGRjl5SXFsOG1ZVWVyY1RucnJRMklIUlFNY0ZCZDVjWmhiRmp1eCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaG93YmVuZWZpY2lhcmllc19hZG1pbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1745312265),
-('kelIIlHcR7xLMPay8Y43yy4Jy7Jhiz8LKImeFGCI', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiQWdqWDFLR0hhSWFZT1FrWFBOenNIcEVabHRvRHRrMjcwMVBOeU5QZCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaG93YmVuZWZpY2lhcmllc19hZG1pbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1745312264),
-('KGZRUJjNzL9zTJWi9tqKFwZeDH97y7WAFDComDal', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiN0NMRmZja1M5Vno5WjY4WWVIWHZ5TW1jSnQwTVVNaDI2R1VQY1JwMiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaG93YmVuZWZpY2lhcmllc19hZG1pbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1745312265);
+('moZhWaF508EKKgdjoKGEuiCWVCoy3r3AMJX8Wy2p', 18, '192.168.195.139', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoicDJCRGFscU52UTRjMlpVbDlWT29pZVdraGJzVjR1YkRxYXZUNnB6ZiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDA6Imh0dHA6Ly8xOTIuMTY4LjE5NS4xMzk6ODAwMC9lbWFpbC92ZXJpZnkiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxODtzOjM6InVybCI7YToxOntzOjg6ImludGVuZGVkIjtzOjMyOiJodHRwOi8vMTkyLjE2OC4xOTUuMTM5OjgwMDAvaG9tZSI7fX0=', 1738200430),
+('Nw2m57Ns7crFroPZ3XsQ7c5q4V9ZtE9IiPLO8Zca', NULL, '192.168.29.139', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiemFDbXlOTEVaQmtHTndIQ29GVkVWQVpVaHdURjRJQkh2OUNNWG1ybSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xOTIuMTY4LjI5LjEzOTo4MDAwIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1738035423),
+('os5Q44fpF4JhqwOpJ3XRCLNocfezLDBXKSJn4UGo', NULL, '192.168.29.139', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiQ3hjR09ZeUZ2bGt1ZEw1T3VDQjVialdJOFp5bWVkNXJrQ2JIbmlMcyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHA6Ly8xOTIuMTY4LjI5LjEzOTo4MDAwL2xvZ2luIjt9fQ==', 1738041148),
+('uQHE0ev0IBaiKvVL9fZxHUZ9TzncEmDuBdscQVZs', 2, '192.168.57.139', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoibEM1dW1rWFdoU3NpRkd3dTdJS0RNc0FIbXdzUU9DMTdvemVKZnNNcCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xOTIuMTY4LjU3LjEzOTo4MDAwL2Rpc3BsYXlhcHBsaWNhdGlvbiI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1738203082),
+('VpDs0zwHy0AfSvC6aDku7CpJGdxfNYp7dcwyrmZ3', NULL, '192.168.29.139', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRWM1QzFDYjJzOW5oNzU2U2JNbWtjVFBwMkhCSGRVVmJwaWgyUU5oWiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozMToiaHR0cDovLzE5Mi4xNjguMjkuMTM5OjgwMDAvaG9tZSI7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjMxOiJodHRwOi8vMTkyLjE2OC4yOS4xMzk6ODAwMC9ob21lIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1738040381),
+('x11skVFpz4Jw7PJiHkviYSqHujKQolJ1azGej06Y', 4, '192.168.57.139', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiUE5qanlWaXlQT3oyV0pKRmdwVm9WT29PN2YxQW5TaEdvbzU1a0hMZSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xOTIuMTY4LjU3LjEzOTo4MDAwL2hvbWUiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo0O30=', 1738202831),
+('yqMUgBZp385KbKxeySPR6SbaB2D75S3YWfuEhGCH', NULL, '192.168.29.139', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiN2JLSVR0VlhuWU43V2V5amJDTHRUTDY1RVVpZGdMYmMxY1dYdHVFMiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHA6Ly8xOTIuMTY4LjI5LjEzOTo4MDAwL2xvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1738040382),
+('Z1JGBBLVdTx1RI4ew3SAmMXHPuVzpIzk79z6A71D', NULL, '192.168.29.139', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMURqazZGREdaOWZYT3VsWVlaUE1IbGRTeklrTEppR1A5Vm9UbGFmMyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHA6Ly8xOTIuMTY4LjI5LjEzOTo4MDAwL2xvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1738038397);
 
 -- --------------------------------------------------------
 
@@ -670,7 +846,17 @@ INSERT INTO `sms_logs` (`id`, `phone_number`, `message`, `status`, `error_messag
 (31, '+639268307424', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-01-17 13:50:52', '2025-01-17 13:50:52'),
 (32, '+639268307424', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-01-17 13:50:54', '2025-01-17 13:50:54'),
 (33, '+639563669997', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-01-19 09:38:11', '2025-01-19 09:38:11'),
-(34, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-01-19 10:03:07', '2025-01-19 10:03:07');
+(34, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-01-19 10:03:07', '2025-01-19 10:03:07'),
+(35, '+639268307424', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-01-24 03:42:40', '2025-01-24 03:42:40'),
+(36, '+639268307424', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-01-24 03:42:43', '2025-01-24 03:42:43'),
+(37, '+639064209450', 'wait maderrr', 'Sent', NULL, '2025-01-25 12:18:24', '2025-01-25 12:18:24'),
+(38, '+639061573601', 'wait maderrr', 'Sent', NULL, '2025-01-25 12:18:26', '2025-01-25 12:18:26'),
+(39, '+639064209450', 'malapit na hooo', 'Sent', NULL, '2025-01-25 12:19:42', '2025-01-25 12:19:42'),
+(40, '+639061573601', 'malapit na hooo', 'Sent', NULL, '2025-01-25 12:19:43', '2025-01-25 12:19:43'),
+(41, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-01-26 09:45:22', '2025-01-26 09:45:22'),
+(42, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-01-26 09:45:46', '2025-01-26 09:45:46'),
+(43, '+639673701823', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-01-27 02:15:14', '2025-01-27 02:15:14'),
+(44, '+639164321071', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-01-30 01:56:57', '2025-01-30 01:56:57');
 
 -- --------------------------------------------------------
 
@@ -706,10 +892,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `email`, `phone`, `barangay`, `usertype`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `two_factor_confirmed_at`, `remember_token`, `current_team_id`, `profile_photo_path`, `created_at`, `updated_at`) VALUES
 (1, 'chavez', 'lovely rose', 'escano', NULL, 'rlovie0403@gmail.com', '09268307424', 'Santo Niño', 'beneficiary', '2024-12-31 17:50:02', '$2y$12$L1k.3TNVvkzajntCnXFwPufl3XoNdc/3dOityspQ9OJBBSXzAHM8e', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-15 17:49:22', '2025-01-15 17:49:22'),
-(2, 'jordan', 'admin', NULL, NULL, 'admin@gmail.com', '09064209450', '', 'admin', '2024-12-31 18:01:21', '$2y$12$nub4LGmOHXqZ7Ohb91j82.WHDyyVRCn5/4wpoxMC.b3iHaqxO2r26', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-15 17:59:23', '2025-01-15 17:59:23'),
-(3, 'tocson', 'employee', NULL, NULL, 'employeetocson@gmail.com', '', '', 'employee', '2025-01-14 03:15:28', '$2y$12$nub4LGmOHXqZ7Ohb91j82.WHDyyVRCn5/4wpoxMC.b3iHaqxO2r26', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-16 03:15:13', '2025-01-16 03:15:13'),
-(4, 'operator', 'mswd', NULL, NULL, 'operator@gmail.com', '09268307424', '', 'operator', '2025-01-16 11:09:36', '$2y$12$nub4LGmOHXqZ7Ohb91j82.WHDyyVRCn5/4wpoxMC.b3iHaqxO2r26', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-17 11:08:58', '2025-01-17 11:08:58'),
-(5, 'BALONGAG', 'djfiq', NULL, NULL, 'jm@gmail.com', '758668', 'Cadac-an', 'beneficiary', '2025-01-01 03:59:07', '$2y$12$nub4LGmOHXqZ7Ohb91j82.WHDyyVRCn5/4wpoxMC.b3iHaqxO2r26', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-19 08:22:34', '2025-01-19 08:22:34'),
+(2, 'jordan', 'admin', NULL, NULL, 'admin@gmail.com', '09064209450', '', 'admin', '2024-12-31 18:01:21', '$2y$12$GkbjYgXOLmaNVeOIrkLHwOQUUBTFhN0OBh95pJNTK8Vd/n2PE/7I.', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-15 17:59:23', '2025-01-15 17:59:23'),
+(3, 'tocson', 'employee', NULL, NULL, 'employeetocson@gmail.com', '', '', 'employee', '2025-01-14 03:15:28', '$2y$12$P7PqW1T5c2nTK08QnHCmqePf4L/2/jMCLn1XtgeisN6U.oVRLX/6C', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-16 03:15:13', '2025-01-16 03:15:13'),
+(4, 'operator', 'mswd', NULL, NULL, 'operator@gmail.com', '09268307424', '', 'operator', '2025-01-16 11:09:36', '$2y$12$dN1WpdMN6iT5Iymxs33Y/eJwigE7WoaqEjgtMzYkKoF.PQC6.AEmu', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-17 11:08:58', '2025-01-17 11:08:58'),
+(5, 'BALONGAG', 'djfiq', NULL, NULL, 'jm@gmail.com', '758668', 'Cadac-an', 'beneficiary', NULL, '$2y$12$sacRxPjRQhwG1tZPYJ95X.2ROIE.WiUyJ0.UCi35qDD210l.NmejC', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-19 08:22:34', '2025-01-19 08:22:34'),
 (6, 'BALONGAG', 'djfiq', NULL, NULL, 'try@gmail.com', '758668', 'Bito', 'beneficiary', NULL, '$2y$12$aWJR6ReLt0Nma4Kw.WSZlOqjtd2HHPLPspk7b9z6c9An5yuMS8GAu', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-19 08:23:46', '2025-01-19 08:23:46'),
 (7, 'BALONGAG', 'JONAS Miguel', 'vill', NULL, 'tryyy@gmail.com', '09054524106', 'Burubud-an', 'beneficiary', '2025-01-09 08:25:58', '$2y$12$zPLaYS03A8WZIKLKni5DFeH1ape75pYSPl5v2T7HyNDgpk/xHQTny', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-19 08:25:12', '2025-01-19 08:25:12'),
 (8, 'marquez', 'faye', 'l', NULL, 'faye@gmail.com', '09659247108', 'Balocawehay', 'beneficiary', NULL, '$2y$12$i0g6ostPBH5KZPSI.PGnZeuXbicMfLsu5BbuWjUfnDgNmXfeWNSWy', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-19 08:31:53', '2025-01-19 08:31:53'),
@@ -719,7 +905,10 @@ INSERT INTO `users` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `
 (12, 'arias', 'crisostomo', 'modena', NULL, 'jadecapnayan@gmail.com', '09949420699', 'Guintagbucan', 'beneficiary', NULL, '$2y$12$oWRX06/l8c1sR1QmZmEMuO.aMQByjFqJ2byy6kJlkaJmVSqg/6E0G', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-19 09:47:39', '2025-01-19 09:47:39'),
 (13, 'arias', 'crisostomo', 'modena', NULL, 'jadecapnayan29@gmail.com', '09949420699', 'Guintagbucan', 'beneficiary', NULL, '$2y$12$4ta0iW.oT.DijJlkYCrP/.JYfPyt3eKE6D0Thud0kyuK7Dpyz5aeu', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-19 09:48:49', '2025-01-19 09:48:49'),
 (14, 'arias', 'crisostomo', 'modena', NULL, 'jadecapnayan09@gmail.com', '09949420699', 'Guintagbucan', 'beneficiary', '2025-01-09 09:51:13', '$2y$12$7rudgH3nSerAU9VqTVDXjusYM7vNr32QJ/WQaiZ.nQ4mBHH.o6Clu', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-19 09:50:18', '2025-01-19 09:50:18'),
-(15, 'adsfsadf', 'asdfasdf', 'asdfasdf', 'asdf', 'asdfsdf@adsfasdf.com', '123123', 'Bulak', 'beneficiary', NULL, '$2y$12$nub4LGmOHXqZ7Ohb91j82.WHDyyVRCn5/4wpoxMC.b3iHaqxO2r26', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-21 03:53:50', '2025-01-21 03:53:50');
+(15, 'Chavez', 'Lab', NULL, NULL, 'sircsaira@gmail.com', '09949420699', 'Alangilan', 'beneficiary', '2025-01-26 09:39:24', '$2y$12$VeI.EZ3H1hzIC/TCx0d9te5HxwuT.lvSB20Prll/eANo1MUsbihre', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-26 09:38:35', '2025-01-26 09:39:24'),
+(16, 'Dancil', 'Melberth', 'C.', 'None', 'melberthdancil00@gmail.com', '09673701823', 'Capilian', 'beneficiary', '2025-01-08 02:05:42', '$2y$12$93ASRxKoEZXxkIoQ6aZOZ.mQOgxpNdfeXs2u2V7drP6KAiwF.7jtu', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-27 01:59:48', '2025-01-27 01:59:48'),
+(17, 'Dancil', 'Melberth', 'C.', 'None', 'melberthdancil04@gmail.com', '09673701823', 'Capilian', 'beneficiary', '2025-01-08 02:07:37', '$2y$12$.iAV1qTbrg2Mj4YMzcJSN.NuGDxRpPSh177fDehvSROTPBgA052Ju', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-27 02:02:59', '2025-01-27 02:02:59'),
+(18, 'sebios', 'elizabeth', 'mamasig', NULL, 'elizabeth.sebios@gmail.com', '09164321071', 'Balocawehay', 'beneficiary', '2025-01-31 01:35:03', '$2y$12$7dDW73svMHkaMKymuC424elRFtPk4wQT6Hfvjq7rF1A5hP0M1z8Ye', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-30 01:27:03', '2025-01-30 01:27:03');
 
 -- --------------------------------------------------------
 
@@ -786,7 +975,33 @@ INSERT INTO `user_meta` (`id`, `user_id`, `meta_key`, `meta_value`, `created_at`
 (43, 1, 'representative_lastname', 'Chavez', NULL, NULL),
 (44, 1, 'representative_firstname', 'Jhon Esli', NULL, NULL),
 (45, 1, 'representative_middlename', 'Escano', NULL, NULL),
-(46, 11, 'family_members', '[{\"name\":\"francisca\",\"relation\":\"son\",\"age\":\"54\",\"civil_status\":\"married\",\"occupation\":\"house wife\",\"income\":null,\"education\":\"college level\",\"monthly\":null,\"birthday\":null,\"sex\":\"Male\"}]', NULL, NULL);
+(46, 11, 'family_members', '[{\"name\":\"francisca\",\"relation\":\"son\",\"age\":\"54\",\"civil_status\":\"married\",\"occupation\":\"house wife\",\"income\":null,\"education\":\"college level\",\"monthly\":null,\"birthday\":null,\"sex\":\"Male\"}]', NULL, NULL),
+(47, 15, 'birthdate', '2025-01-27', NULL, NULL),
+(48, 15, 'birthplace', 'Abuyog leyte', NULL, NULL),
+(49, 15, 'status', 'Single', NULL, NULL),
+(50, 15, 'address', 'Abuyog leyte', NULL, NULL),
+(51, 15, 'educational_attainment', 'College Graduate', NULL, NULL),
+(52, 15, 'occupation', 'Student', NULL, NULL),
+(53, 15, 'religion', 'Adventist', NULL, NULL),
+(54, 17, 'birthdate', '2000-12-04', NULL, NULL),
+(55, 17, 'age', '24', NULL, NULL),
+(56, 17, 'sex', 'Male', NULL, NULL),
+(57, 17, 'birthplace', 'Capili-An', NULL, NULL),
+(58, 17, 'status', 'Single', NULL, NULL),
+(59, 17, 'address', 'ABUYOG LEYTE', NULL, NULL),
+(60, 17, 'educational_attainment', 'College Level', NULL, NULL),
+(61, 17, 'occupation', 'Student', NULL, NULL),
+(62, 17, 'religion', 'Roman Catholic', NULL, NULL),
+(63, 17, 'company_or_agency', 'None', NULL, NULL),
+(64, 17, 'monthly_income', '1000000', NULL, NULL),
+(65, 17, 'fourps_beneficiary', 'No', NULL, NULL),
+(66, 17, 'indigenous_person', 'No', NULL, NULL),
+(67, 17, 'classification_of_SP', 'Non', NULL, NULL),
+(68, 17, 'needs_or_problems', 'No money', NULL, NULL),
+(69, 17, 'emergency_contact_name', '09673701823', NULL, NULL),
+(70, 17, 'emergency_contact_address', 'Capili-an', NULL, NULL),
+(71, 17, 'emergency_contact_relationship', 'None', NULL, NULL),
+(72, 17, 'emergency_contact_number', '09674701823', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -816,12 +1031,11 @@ ALTER TABLE `beneficiaries`
   ADD KEY `beneficiaries_barangay_id_foreign` (`barangay_id`);
 
 --
--- Indexes for table `beneficiary_receiveds`
+-- Indexes for table `benefits_received`
 --
-ALTER TABLE `beneficiary_receiveds`
+ALTER TABLE `benefits_received`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `beneficiary_receiveds_beneficiary_id_foreign` (`beneficiary_id`),
-  ADD KEY `beneficiary_receiveds_user_id_foreign` (`user_id`);
+  ADD KEY `benefits_received_beneficiary_id_foreign` (`beneficiary_id`);
 
 --
 -- Indexes for table `cache`
@@ -834,6 +1048,12 @@ ALTER TABLE `cache`
 --
 ALTER TABLE `cache_locks`
   ADD PRIMARY KEY (`key`);
+
+--
+-- Indexes for table `deceased`
+--
+ALTER TABLE `deceased`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -923,25 +1143,31 @@ ALTER TABLE `user_meta`
 -- AUTO_INCREMENT for table `applications`
 --
 ALTER TABLE `applications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `barangays`
 --
 ALTER TABLE `barangays`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=190;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=316;
 
 --
 -- AUTO_INCREMENT for table `beneficiaries`
 --
 ALTER TABLE `beneficiaries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `beneficiary_receiveds`
+-- AUTO_INCREMENT for table `benefits_received`
 --
-ALTER TABLE `beneficiary_receiveds`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+ALTER TABLE `benefits_received`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `deceased`
+--
+ALTER TABLE `deceased`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -965,7 +1191,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -983,19 +1209,19 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `sms_logs`
 --
 ALTER TABLE `sms_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `user_meta`
 --
 ALTER TABLE `user_meta`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- Constraints for dumped tables
@@ -1017,11 +1243,10 @@ ALTER TABLE `beneficiaries`
   ADD CONSTRAINT `beneficiaries_program_enrolled_foreign` FOREIGN KEY (`program_enrolled`) REFERENCES `services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `beneficiary_receiveds`
+-- Constraints for table `benefits_received`
 --
-ALTER TABLE `beneficiary_receiveds`
-  ADD CONSTRAINT `beneficiary_receiveds_beneficiary_id_foreign` FOREIGN KEY (`beneficiary_id`) REFERENCES `beneficiaries` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `beneficiary_receiveds_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+ALTER TABLE `benefits_received`
+  ADD CONSTRAINT `benefits_received_beneficiary_id_foreign` FOREIGN KEY (`beneficiary_id`) REFERENCES `beneficiaries` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user_meta`

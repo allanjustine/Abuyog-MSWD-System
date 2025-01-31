@@ -77,8 +77,9 @@
                     </div>
                     <div class="card-body">
                         <!-- Form to Edit Beneficiary -->
-                        <form action="{{ url('updatebeneficiary', $beneficiary->id) }}" method="POST">
+                        <form action="{{ url('update_beneficiary_operator', $beneficiary->id) }}" method="POST">
                             @csrf
+                            @method('PUT')
                             <div class="row">
                                 <!-- First Name and Middle Name -->
                                 <div class="row form-row">

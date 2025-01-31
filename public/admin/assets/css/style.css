@@ -10640,7 +10640,7 @@ textarea.is-invalid.tt-hint {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center; }
-  
+
   .btn-group-vertical > .btn,
   .fc .btn-group-vertical > button,
   .ajax-upload-dragdrop .btn-group-vertical > .ajax-file-upload,
@@ -20626,18 +20626,21 @@ div.tagsinput {
 
 /* style for off-canvas menu*/
 @media screen and (max-width: 991px) {
-  .sidebar-offcanvas {
-    position: fixed;
-    max-height: calc(100vh - 70px);
-    top: 70px;
-    bottom: 0;
-    overflow: auto;
-    right: -244px;
-    -webkit-transition: all 0.25s ease-out;
-    -o-transition: all 0.25s ease-out;
-    transition: all 0.25s ease-out; }
+    .sidebar-offcanvas {
+      position: fixed;
+      max-height: calc(100vh - 70px);
+      top: 70px;
+      bottom: 0;
+      overflow: auto;
+      left: -244px;
+      -webkit-transition: all 0.25s ease-out;
+      -o-transition: all 0.25s ease-out;
+      transition: all 0.25s ease-out;
+    }
     .sidebar-offcanvas.active {
-      right: 0; } }
+      left: 0;
+    }
+  }
 
 .sidebar-tinted .sidebar {
   background: #fa424a; }

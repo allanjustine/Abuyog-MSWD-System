@@ -19,17 +19,16 @@ return new class extends Migration
             $table->foreignId('service_id')->constrained()->onDelete('cascade');
             $table->date('date_applied')->nullable();
             $table->string('status')->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null');
             $table->string('employee_name')->nullable();
-            $table->json('custom_fields')->nullable(); 
+            $table->json('custom_fields')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('appearance_date')->nullable();
-            $table->unsignedBigInteger('approved_by')->nullable();
 
-            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
-        
+
     }
 
     /**

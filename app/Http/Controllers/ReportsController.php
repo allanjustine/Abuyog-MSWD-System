@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MonthHelper;
 use App\Models\Beneficiary;
 use App\Models\Service;
 use App\Models\Barangay;
@@ -40,8 +41,10 @@ class ReportsController extends Controller
         $services = Service::all();
         $barangays = Barangay::all();
 
+        $months = MonthHelper::generateMonth();
+
         // Return the view with the necessary data
-        return view('admin.reports', compact('beneficiaries', 'services', 'barangays'));
+        return view('admin.reports', compact('beneficiaries', 'services', 'barangays', 'months'));
     }
     //ope report
     public function report(Request $request)

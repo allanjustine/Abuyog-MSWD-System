@@ -658,7 +658,10 @@ class ApplicationController extends Controller
             'phone' => $application->phone,
             'status' => $application->status,
             'date_applied' => $application->created_at->format('F d, Y'),
-            'approved_by' => $application->employee_name ?? 'Pending',
+            'employee_name' => $application->employee_name ?? 'Pending',
+            'last_name' => $application->approvedBy->last_name ?? 'Data',
+            'first_name' => $application->approvedBy->first_name ?? 'No',
+            'approved_at' => $application->approved_at->diffForHumans() ?? 'Pending',
             'appearance_date' => $application->appearance_date,
             'cancellation_reason' => $application->cancellation_reason,
             'aics_type' => $customFields['aics_type'] ?? 'None', // Include AICS type

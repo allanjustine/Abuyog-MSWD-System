@@ -15,7 +15,8 @@
     <!-- Custom Styles -->
     <style>
         body {
-            background-color:rgb(136, 124, 127); /* Dark Maroon */
+            background-color: rgb(136, 124, 127);
+            /* Dark Maroon */
             font-family: 'Poppins', sans-serif;
             color: #f8f9fa;
         }
@@ -75,7 +76,8 @@
         }
 
         .btn-outline-success i {
-            margin-right: 8px; /* Spacing for the icon */
+            margin-right: 8px;
+            /* Spacing for the icon */
         }
     </style>
 </head>

@@ -139,7 +139,7 @@
 
 
                     <!-- Modal -->
-                    <div class="modal fade" id="sendSmsModal" tabindex="-1" aria-labelledby="sendSmsModalLabel"
+                    <!-- <div class="modal fade" id="sendSmsModal" tabindex="-1" aria-labelledby="sendSmsModalLabel"
                         aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -149,7 +149,7 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <!-- SMS Message Input -->
+                                    <!-- SMS Message Input
                                     <textarea class="form-control" id="smsMessage" rows="4" placeholder="Type your message here..."></textarea>
                                 </div>
                                 <div class="modal-footer">
@@ -160,7 +160,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
 
                     {{--  <a href="{{ url('send-sms', $beneficiaries->first()->id) }}"
@@ -212,7 +212,7 @@
 
                                     <!-- Edit Button -->
                                     <a class="btn btn-success btn-sm ms-2"
-                                        href="{{ url('edit_beneficiary', $beneficiary->id) }}">Edit</a>
+                                        href="{{ url('editbeneficiaries', $beneficiary->id) }}">Edit</a>
 
                                     <!-- Delete Button with Modal Trigger -->
                                     <button class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
@@ -295,6 +295,11 @@
                                                     <input type="text" class="form-control"
                                                         value="{{ $beneficiary->gender }}" disabled>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label><strong>Assistance Availed:</strong></label>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $beneficiary->assistance_availed }}" disabled>
+                                                </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -312,17 +317,50 @@
                                                     <input type="text" class="form-control"
                                                         value="{{ $beneficiary->program_specific_id }}" disabled>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label><strong>Date of Application:</strong></label>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $beneficiary->date_of_application }}" disabled>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label><strong>Date of Application:</strong></label>
-                                            <input type="text" class="form-control"
-                                                value="{{ $beneficiary->date_of_application }}" disabled>
-                                        </div>
-                                        <div class="form-group">
-                                            <label><strong>Assistance Availed:</strong></label>
-                                            <input type="text" class="form-control"
-                                                value="{{ $beneficiary->assistance_availed }}" disabled>
+
+
+
+                                        <!-- Assistance Details -->
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h5><strong>Assistance Received:</strong></h5>
+                                                @foreach ($beneficiary->benefitsReceived as $benefit)
+                                                    <div class="row mb-3">
+                                                        <!-- Name of Assistance -->
+                                                        <div class="col-md-3">
+                                                            <label><strong>Name of Assistance:</strong></label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $benefit->name_of_assistance }}" disabled>
+                                                        </div>
+                                                        <!-- Type of Assistance -->
+                                                        <div class="col-md-3">
+                                                            <label><strong>Type of Assistance:</strong></label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $benefit->type_of_assistance }}" disabled>
+                                                        </div>
+                                                        <!-- Amount -->
+                                                        <div class="col-md-3">
+                                                            <label><strong>Amount:</strong></label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $benefit->amount }}" disabled>
+                                                        </div>
+                                                        <!-- Date Received -->
+                                                        <div class="col-md-3">
+                                                            <label><strong>Date Received:</strong></label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $benefit->date_received ?? 'Not Yet Received' }}"
+                                                                disabled>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">

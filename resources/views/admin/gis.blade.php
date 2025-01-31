@@ -152,17 +152,24 @@
             <select id="program" onchange="updateBarangays()">
                 <option value="all">All Programs</option>
                 @foreach ($services as $service)
-                    <option value="{{ $service->id }}">{{ $service->name }}</option>
+                    @if ($service->name)
+                        <option value="{{ $service->id }}">{{ $service->name }}</option>
+                    @endif
                 @endforeach
+
             </select>
 
             <label for="barangay">Barangay:</label>
             <select id="barangay">
                 <option value="all">All Barangays</option>
                 @foreach ($barangays as $barangay)
-                    <option value="{{ $barangay->barangay_id }}">{{ $barangay->barangay->name }}</option>
+                    @if ($barangay->barangay && $barangay->barangay->name)
+                        <option value="{{ $barangay->barangay_id }}">{{ $barangay->barangay->name }}</option>
+                    @endif
                 @endforeach
+
             </select>
+
 
             <button id="load-button" class="btn btn-primary" onclick="updateMap()">Load</button>
         </div>
@@ -178,7 +185,6 @@
 
             function initMap() {
                 map = L.map('map').setView([10.63966298802748, 125.0262333631705], 13);
-
 
 
                 // Add the default street map layer
@@ -210,7 +216,6 @@
                 streetLayer.addTo(map);
             }
 
-
             initMap();
 
             function getProgramColor(beneficiaries, program) {
@@ -233,10 +238,11 @@
                     default:
                         return 'gray'; // Default for unrecognized programs
                 }
+
             }
 
             function updateMap() {
-                var program = $('#program').val();
+                var program = $('#program').val(); // Get the selected program from dropdown
                 var barangay = $('#barangay').val();
                 $('#loading-message').show();
 
@@ -336,16 +342,37 @@
                             // Bind the popup content to the marker
                             markerWithLabel.bindPopup(bubbleContent);
 
-
-
                             bounds.push([b.lat, b.lon]);
                         });
 
                         if (bounds.length) map.fitBounds(bounds);
                     }
                 });
-
             }
+
+            function updateBarangays() {
+                var program = $('#program').val();
+                $.ajax({
+                    url: '/barangays',
+                    method: 'GET',
+                    data: {
+                        program: program
+                    },
+                    success: function(data) {
+                        $('#barangay').empty();
+                        $('#barangay').append('<option value="all">All Barangays</option>');
+                        data.barangays.forEach(function(barangay) {
+                            $('#barangay').append('<option value="' + barangay.barangay_id + '">' + barangay
+                                .barangay
+                                .name + '</option>');
+                        });
+                    }
+                });
+            }
+
+            $(document).ready(function() {
+                updateBarangays();
+            });
         </script>
 </body>
 

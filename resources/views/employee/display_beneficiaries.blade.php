@@ -37,7 +37,7 @@
                     <input type="submit" class="btn btn-primary d-inline-block" value="Search">
                 </form>
 
-                <div class="card-body">
+                <div class="table-responsive">
                     <table class="table table-sm table-bordered table-striped">
                         <thead>
                             <tr>
@@ -73,10 +73,11 @@
                                             <a class="btn btn-success btn-sm ms-2"
                                                 href="{{ url('edit_beneficiaries_employee', $beneficiary->id) }}">Edit</a>
 
-                                            <!-- Delete Button with Modal Trigger -->
-                                            <button class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal{{ $beneficiary->id }}">
-                                                Delete
+                                            <!-- Deceased Button with Modal Trigger -->
+                                            <button class="btn btn-danger btn-sm ms-2 deceased-btn"
+                                                data-id="{{ $beneficiary->id }}"
+                                                data-name="{{ $beneficiary->first_name }} {{ $beneficiary->last_name }}">
+                                                Deceased
                                             </button>
                                         </div>
                                     </td>
@@ -194,40 +195,98 @@
                                     </div>
                                 </div>
 
-                                <!-- Delete Confirmation Modal -->
-                                <div class="modal fade" id="deleteModal{{ $beneficiary->id }}" tabindex="-1"
-                                    aria-labelledby="deleteModalLabel{{ $beneficiary->id }}" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="text-white modal-header bg-danger">
-                                                <h5 class="modal-title" id="deleteModalLabel{{ $beneficiary->id }}">
-                                                    Confirm Deletion</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure you want to delete
-                                                    <strong>{{ $beneficiary->first_name }}
-                                                        {{ $beneficiary->last_name }}</strong>? This action cannot be
-                                                    undone.
-                                                </p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Cancel</button>
-                                                <a class="btn btn-danger"
-                                                    href="{{ url('deletebeneficiaries', $beneficiary->id) }}">Delete</a>
+                                <!-- Deceased Confirmation Modal
+                                    <div class="modal fade" id="deceasedModal{{ $beneficiary->id }}" tabindex="-1"
+                                        aria-labelledby="deceasedModalLabel{{ $beneficiary->id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="text-white modal-header bg-danger">
+                                                    <h5 class="modal-title" id="deceasedModalLabel{{ $beneficiary->id }}">
+                                                        Mark as Deceased
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Are you sure you want to mark
+                                                        <strong>{{ $beneficiary->first_name }}
+                                                            {{ $beneficiary->last_name }}</strong> as deceased? This action will
+                                                        remove them from the
+                                                        beneficiaries list and store their information in the deceased records.
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Cancel</button>
+                                                    <a class="btn btn-danger"
+                                                        href="{{ url('mark_deceased', $beneficiary->id) }}">Mark as Deceased</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </div>-->
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                // Select all buttons with the deceased-btn class
+                document.querySelectorAll('.deceased-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const beneficiaryId = this.getAttribute('data-id'); // Get beneficiary ID
+                        const beneficiaryName = this.getAttribute('data-name'); // Get beneficiary name
 
+                        // Trigger SweetAlert confirmation
+                        Swal.fire({
+                            title: `<span style="color: black;">Mark as Deceased</span>`,
+                            html: `<p>Are you sure you want to mark <strong>${beneficiaryName}</strong> as deceased?</p>
+                           <p>This action will remove them from the beneficiaries list and store their information in the deceased records.</p>`,
+                            icon: 'warning',
+                            customClass: {
+                                icon: 'custom-swal-icon'
+                            },
+                            showCancelButton: true,
+                            confirmButtonColor: '#d33',
+                            cancelButtonColor: '#6c757d',
+                            confirmButtonText: 'Yes, mark as deceased',
+                            cancelButtonText: 'Cancel'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Redirect to the route to mark as deceased
+                                window.location.href = `/mark_deceased/${beneficiaryId}`;
+                            }
+                        });
+                    });
+                });
+
+                // Check for success session and display SweetAlert
+                @if (session('success'))
+                    Swal.fire({
+                        icon: 'success',
+                        title: '<span style="color: black;">Success</span>',
+                        text: '{{ session('success') }}',
+                        background: '#f8f9fa',
+                        confirmButtonColor: '#28a745',
+                        customClass: {
+                            icon: 'custom-swal-icon'
+                        }
+                    });
+                @endif
+            });
+        </script>
+
+        <!-- Custom CSS -->
+        <style>
+            .custom-swal-icon {
+                margin-top: 15px;
+                /* Adjust spacing above the icon */
+                margin-bottom: 15px;
+                /* Adjust spacing below the icon */
+            }
+        </style>
         @include('admin.script')
 </body>
 

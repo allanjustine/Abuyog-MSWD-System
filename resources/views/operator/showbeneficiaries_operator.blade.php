@@ -39,8 +39,9 @@
                     <input type="submit" class="btn btn-primary d-inline-block" value="Search">
                 </form>
 
-                <div class="card-body">
+                <div class="table-responsive">
                     <table class="table table-sm table-bordered table-striped">
+
                         <thead>
                             <tr>
                                 <th>First Name</th>
@@ -61,7 +62,7 @@
                                     <td>{{ $beneficiary->last_name }}</td>
                                     <td>{{ $beneficiary->email }}</td>
                                     <td>{{ $beneficiary->phone }}</td>
-                                    <td>{{ $beneficiary->service ? $beneficiary->service->name : 'No Program' }} <br> <strong>{{ $beneficiary->service->id === 2 ? '(Disability Type: ' . $beneficiary->disability_type . ')' : '' }}</strong></td>
+                                    <td>{{ $beneficiary->service ? $beneficiary->service->name : 'No Program' }}</td>
                                     <td>{{ $beneficiary->barangay->name ?? 'No Barangay' }}</td>
                                     <td>
                                         <div class="d-flex justify-content-around">
@@ -125,6 +126,11 @@
                                                                 value="{{ $beneficiary->monthly_income ?? 'N/A' }}"
                                                                 disabled>
                                                         </div>
+                                                        <div class="form-group">
+                                                            <label><strong>Gender:</strong></label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $beneficiary->gender }}" disabled>
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -154,15 +160,6 @@
                                                             <input type="text" class="form-control"
                                                                 value="{{ $beneficiary->age }}" disabled>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label><strong>Gender:</strong></label>
-                                                            <input type="text" class="form-control"
-                                                                value="{{ $beneficiary->gender }}" disabled>
-                                                        </div>
                                                         <div class="form-group">
                                                             <label><strong>Civil Status:</strong></label>
                                                             <input type="text" class="form-control"
@@ -174,12 +171,46 @@
                                                                 value="{{ $beneficiary->id_number }}" disabled>
                                                         </div>
                                                     </div>
+                                                </div>
 
+                                                <!-- Assistance Details -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h5><strong>Assistance Received:</strong></h5>
+                                                        @foreach ($beneficiary->benefitsReceived as $benefit)
+                                                            <div class="row mb-3">
+                                                                <!-- Name of Assistance -->
+                                                                <div class="col-md-3">
+                                                                    <label><strong>Name of Assistance:</strong></label>
+                                                                    <input type="text" class="form-control"
+                                                                        value="{{ $benefit->name_of_assistance }}"
+                                                                        disabled>
+                                                                </div>
+                                                                <!-- Type of Assistance -->
+                                                                <div class="col-md-3">
+                                                                    <label><strong>Type of Assistance:</strong></label>
+                                                                    <input type="text" class="form-control"
+                                                                        value="{{ $benefit->type_of_assistance }}"
+                                                                        disabled>
+                                                                </div>
+                                                                <!-- Amount -->
+                                                                <div class="col-md-3">
+                                                                    <label><strong>Amount:</strong></label>
+                                                                    <input type="text" class="form-control"
+                                                                        value="{{ $benefit->amount }}" disabled>
+                                                                </div>
+                                                                <!-- Date Received -->
+                                                                <div class="col-md-3">
+                                                                    <label><strong>Date Received:</strong></label>
+                                                                    <input type="text" class="form-control"
+                                                                        value="{{ $benefit->date_received ?? 'Not Yet Received' }}"
+                                                                        disabled>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
                                                 </div>
                                             </div>
-
-
-
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"

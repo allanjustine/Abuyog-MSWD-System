@@ -1,0 +1,61 @@
+APPLICATION FOR senior(osca)
+common: last name, first name, middle name, date of birth, age, sex, place of birth, civil status, barangay, educational attainment, occupation, annual income, other skills,
+not common:
+ FAMILY COMPOSITION name, relationship, age, civil status, occupation, income.
+
+
+APPLICATION FOR SOLO PARENT
+common:
+last name, first name, middle name, date of birth, age, sex, place of birth, civil status, barangay, educational attainment, occupation, annual income, religion, contact number
+
+not common:
+company/agency, 4ps beneficiary: yes/no, indigenous person: yes/no.
+
+FAMILY COMPOSITION, name, relationship, age, birthday, civil, educational, occupation, monthly.
+
+classification/circumtances, of being a solo parent?, needs/problems of being a solo parent?,
+IN CASE OF EMERGENCY, name, address.
+
+
+
+PWD APPLICATION FORM.
+common:
+last name, first name, middle name, date of birth, age, sex, place of birth, civil status, barangay, educational attainment, occupation, annual income, religion, contact number
+
+
+not common
+type of disability
+*deaf of heard of hearing
+*intelectual disability
+*learning disability
+*mental disability
+*physical disability (orthopedic)
+*psychological disability
+*speech and language impairnment
+*visual disability
+*rare disease (RA10747)
+
+cause of disability
+*congrenital/inborn
+*autism
+*ADHD
+*cerebral palsy
+*down syndrome
+*others, specify
+
+*acquired
+*chronic illness
+*cerebral palsy
+*injury
+*others specify
+
+house no. and street, municipality, province, region, landline no., email address, status of employment, category of employment, types of employment,
+
+ORGINATION INFORMATION
+organizatio affilated, contact person, office address, tel. no, sss no, gsis no, pag ibig no, psn no, philhealth no,
+
+FAMILY BACKGROUND
+fathers name, mothers name, guardian,
+
+ACCOMPLISHED BY
+applicant, guardian, representative
