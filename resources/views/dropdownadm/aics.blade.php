@@ -53,7 +53,7 @@
             <div class="card" align="center" style="padding-top:80px;">
                 <div class="card-header">
                     AICs
-                    <a href="{{ url('/add_beneficiary_view') }}" class="btn btn-success btn-sm float-end ms-2">Add
+                    <a href="/add-aics" class="btn btn-success btn-sm float-end ms-2">Add
                         New</a>
 
                     <!-- Button for Send SMS to All -->
@@ -212,7 +212,7 @@
 
                                     <!-- Edit Button -->
                                     <a class="btn btn-success btn-sm ms-2"
-                                        href="{{ url('editbeneficiaries', $beneficiary->id) }}">Edit</a>
+                                        href="/edit-aics/{{ $beneficiary->id }}">Edit</a>
 
                                     <!-- Delete Button with Modal Trigger -->
                                     <button class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
@@ -224,152 +224,8 @@
                         </tr>
 
                         <!-- View Modal -->
-                        <div class="modal fade" id="viewModal{{ $beneficiary->id }}" tabindex="-1"
-                            aria-labelledby="viewModalLabel{{ $beneficiary->id }}" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="viewModalLabel{{ $beneficiary->id }}">
-                                            Beneficiary Details</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label><strong>First Name:</strong></label>
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $beneficiary->first_name }}" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label><strong>Middle Name:</strong></label>
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $beneficiary->middle_name ?? 'N/A' }}" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label><strong>Last Name:</strong></label>
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $beneficiary->last_name }}" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label><strong>Email:</strong></label>
-                                                    <input type="email" class="form-control"
-                                                        value="{{ $beneficiary->email }}" disabled>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label><strong>Phone:</strong></label>
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $beneficiary->phone }}" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label><strong>Program Enrolled:</strong></label>
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $beneficiary->service ? $beneficiary->service->name : 'No Program' }}"
-                                                        disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label><strong>Barangay:</strong></label>
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $beneficiary->barangay->name ?? 'No Barangay' }}"
-                                                        disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label><strong>Date of Birth:</strong></label>
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $beneficiary->date_of_birth }}" disabled>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label><strong>Age:</strong></label>
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $beneficiary->age }}" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label><strong>Gender:</strong></label>
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $beneficiary->gender }}" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label><strong>Assistance Availed:</strong></label>
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $beneficiary->assistance_availed }}" disabled>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label><strong>Civil Status:</strong></label>
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $beneficiary->civil_status }}" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label><strong>Gov ID Number:</strong></label>
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $beneficiary->gov_id_number }}" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label><strong>Program Specific ID:</strong></label>
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $beneficiary->program_specific_id }}" disabled>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label><strong>Date of Application:</strong></label>
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $beneficiary->date_of_application }}" disabled>
-                                                </div>
-                                            </div>
-                                        </div>
 
-
-
-                                        <!-- Assistance Details -->
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <h5><strong>Assistance Received:</strong></h5>
-                                                @foreach ($beneficiary->benefitsReceived as $benefit)
-                                                    <div class="row mb-3">
-                                                        <!-- Name of Assistance -->
-                                                        <div class="col-md-3">
-                                                            <label><strong>Name of Assistance:</strong></label>
-                                                            <input type="text" class="form-control"
-                                                                value="{{ $benefit->name_of_assistance }}" disabled>
-                                                        </div>
-                                                        <!-- Type of Assistance -->
-                                                        <div class="col-md-3">
-                                                            <label><strong>Type of Assistance:</strong></label>
-                                                            <input type="text" class="form-control"
-                                                                value="{{ $benefit->type_of_assistance }}" disabled>
-                                                        </div>
-                                                        <!-- Amount -->
-                                                        <div class="col-md-3">
-                                                            <label><strong>Amount:</strong></label>
-                                                            <input type="text" class="form-control"
-                                                                value="{{ $benefit->amount }}" disabled>
-                                                        </div>
-                                                        <!-- Date Received -->
-                                                        <div class="col-md-3">
-                                                            <label><strong>Date Received:</strong></label>
-                                                            <input type="text" class="form-control"
-                                                                value="{{ $benefit->date_received ?? 'Not Yet Received' }}"
-                                                                disabled>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @include('admin.components.view-modal')
 
                         <!-- Delete Confirmation Modal -->
                         <div class="modal fade" id="deleteModal{{ $beneficiary->id }}" tabindex="-1"

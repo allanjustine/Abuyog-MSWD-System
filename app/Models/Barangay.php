@@ -12,6 +12,6 @@ class Barangay extends Model
     // Relationship: A barangay has many beneficiaries
     public function beneficiaries()
     {
-        return $this->hasMany(Beneficiary::class);
+        return $this->hasMany(Beneficiary::class)->chaperone();
     }
 }

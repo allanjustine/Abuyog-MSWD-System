@@ -53,7 +53,7 @@
             <div class="card" align="center" style="padding-top:80px;">
                 <div class="card-header">
                     OSCA
-                    <a href="{{ url('/add_beneficiary_operator') }}" class="btn btn-success btn-sm float-end ms-2">Add
+                    <a href="/add-osca" class="btn btn-success btn-sm float-end ms-2">Add
                         New</a>
 
                     <!-- Button for Send SMS to All -->
@@ -213,7 +213,7 @@
 
                                         <!-- Edit Button -->
                                         <a class="btn btn-success btn-sm ms-2"
-                                            href="{{ url('edit_beneficiary_operator', $beneficiary->id) }}">Edit</a>
+                                            href="/edit-osca/{{ $beneficiary->id }}">Edit</a>
 
                                         <!-- Delete Button with Modal Trigger -->
                                         <button class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"

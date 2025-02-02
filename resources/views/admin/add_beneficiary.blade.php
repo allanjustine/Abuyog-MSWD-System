@@ -90,7 +90,7 @@
                 <div class="card">
                     <div class="card-header">
                         Add Beneficiary Information
-                        <a href="{{ url('/showbeneficiary') }}" class="btn btn-back btn-sm float-end">Back</a>
+                        <a href="{{ url('/showbeneficiaries_admin') }}" class="btn btn-back btn-sm float-end">Back</a>
                     </div>
                     <div class="card-body">
                         <form action="{{ url('uploadbeneficiary') }}" method="POST">

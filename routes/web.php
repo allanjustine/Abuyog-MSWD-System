@@ -55,10 +55,15 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
+Route::get('/offline', function () {
+    return view('vendor.laravelpwa.offline');
+});
+
+
 // Define the route for the applications list (index page)
 
-Route::get('beneficiary_search', [AdminController::class,'beneficiary_search']);
-Route::get('beneficiary_search_emp', [EmployeeController::class,'beneficiary_search_emp']);
+Route::get('beneficiary_search', [AdminController::class, 'beneficiary_search']);
+Route::get('beneficiary_search_emp', [EmployeeController::class, 'beneficiary_search_emp']);
 Route::get('/application_search', [AdminController::class, 'application_search'])->name('application.search');
 Route::get('/apply_search', [EmployeeController::class, 'apply_search'])->name('apply.search');
 
@@ -163,7 +168,7 @@ Route::get('/showbeneficiaries_operator', [OperatorController::class, 'showbenef
 Route::get('/showbeneficiaries_admin', [OperatorController::class, 'showbeneficiaries_admin'])->name('show.beneficiaries_admin');
 
 Route::get('/edit_beneficiary_operator/{id}', [OperatorController::class, 'edit_beneficiary_operator_form']);
-Route::get('beneficiary_search_ope', [OperatorController::class,'beneficiary_search_ope']);
+Route::get('beneficiary_search_ope', [OperatorController::class, 'beneficiary_search_ope']);
 Route::put('/update_beneficiary_operator/{id}', [OperatorController::class, 'update_beneficiary_operator']);
 Route::post('/uploadbeneficiary_operator', [OperatorController::class, 'uploadbeneficiary_operator']);
 Route::get('/add_beneficiary_operator', [OperatorController::class, 'addbeneficiaryoperator']);
@@ -232,3 +237,23 @@ Route::get('/deceased_operator', [OperatorController::class, 'AlldeceasedOperato
 // ADMIN APPLICATION APPROVAL OR REJECTION
 Route::post('/approve-application/{id}', [AdminController::class, 'adminApproval']);
 Route::post('/reject-application/{id}', [AdminController::class, 'adminRejection']);
+
+Route::get('/add-osca', [AdminController::class, 'addOsca']);
+Route::get('/edit-osca/{id}', [AdminController::class, 'editOsca']);
+Route::patch('/update-osca/{id}', [AdminController::class, 'updateOsca']);
+Route::post('/add-osca', [AdminController::class, 'storeOsca']);
+
+Route::get('/add-aics', [AdminController::class, 'addAics']);
+Route::get('/edit-aics/{id}', [AdminController::class, 'editAics']);
+Route::patch('/update-aics/{id}', [AdminController::class, 'updateAics']);
+Route::post('/add-aics', [AdminController::class, 'storeAics']);
+
+Route::get('/add-pwd', [AdminController::class, 'addPwd']);
+Route::get('/edit-pwd/{id}', [AdminController::class, 'editPwd']);
+Route::patch('/update-pwd/{id}', [AdminController::class, 'updatePwd']);
+Route::post('/add-pwd', [AdminController::class, 'storePwd']);
+
+Route::get('/add-solo-parent', [AdminController::class, 'addSoloParent']);
+Route::get('/edit-solo-parent/{id}', [AdminController::class, 'editSoloParent']);
+Route::patch('/update-solo-parent/{id}', [AdminController::class, 'updateSoloParent']);
+Route::post('/add-solo-parent', [AdminController::class, 'storeSoloParent']);

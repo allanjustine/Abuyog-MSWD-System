@@ -19,6 +19,7 @@
             text-overflow: ellipsis;
             max-width: 150px;
         }
+
     </style>
 </head>
 
@@ -62,8 +63,7 @@
                     </div>
                     <form action="{{ route('application.search') }}" method="GET" class="d-flex">
                         @csrf
-                        <input type="text" name="search" class="form-control me-2" placeholder="Search..."
-                            value="{{ request()->search }}" style="max-width: 300px;">
+                        <input type="text" name="search" class="form-control me-2" placeholder="Search..." value="{{ request()->search }}" style="max-width: 300px;">
                         <button type="submit" class="btn btn-primary">Search</button>
                     </form>
                 </div>
@@ -128,36 +128,31 @@
                                 <td>
                                     <!-- View Button -->
                                     <div class="gap-2 d-flex flex-column">
-                                        <a href="{{ route('admin.application.view', $apply->id) }}"
-                                            class="btn btn-info btn-sm">
+                                        <a href="{{ route('admin.application.view', $apply->id) }}" class="btn btn-info btn-sm">
                                             View
                                         </a>
                                         @if ($apply->status === 'accepted' && $apply->approved_at === null &&
                                         $apply->approved_by === null)
-                                        <a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#ApproveModal{{ $apply->id }}">
+                                        <a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#ApproveModal{{ $apply->id }}">
                                             Approve
                                         </a>
-                                        <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#RejectModal{{ $apply->id }}">
+                                        <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#RejectModal{{ $apply->id }}">
                                             Reject
                                         </a>
                                         @endif
                                     </div>
                                 </td>
                             </tr>
-                            <div class="modal fade" id="ApproveModal{{ $apply->id }}" tabindex="-1"
-                                aria-labelledby="ApproveModal{{ $apply->id }}Label" aria-hidden="true">
+                            <div class="modal fade" id="ApproveModal{{ $apply->id }}" tabindex="-1" aria-labelledby="ApproveModal{{ $apply->id }}Label" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <form action="/approve-application/{{ $apply->id }}" method="POST">
                                             @csrf
                                             <div class="modal-header">
                                                 <h1 class="modal-title fs-5" id="ApproveModal{{ $apply->id }}Label">
-                                                    Approve
+                                                    Approving...
                                                 </h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <p>Are you sure you want to approve this application of <strong>{{
@@ -166,25 +161,21 @@
                                                         }}</strong>?</p>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                 <button type="submit" class="btn btn-primary">Approve</button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal fade" id="RejectModal{{ $apply->id }}" tabindex="-1"
-                                aria-labelledby="RejectModal{{ $apply->id }}Label" aria-hidden="true">
+                            <div class="modal fade" id="RejectModal{{ $apply->id }}" tabindex="-1" aria-labelledby="RejectModal{{ $apply->id }}Label" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <form action="/reject-application/{{ $apply->id }}" method="POST">
                                             @csrf
                                             <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="RejectModal{{ $apply->id }}Label">Modal
-                                                    title</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                                                <h1 class="modal-title fs-5" id="RejectModal{{ $apply->id }}Label">Rejecting...</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <p>Are you sure you want to reject this application of <strong>{{
@@ -192,20 +183,17 @@
                                                         }}</strong> that accepted by <strong>{{ $apply->employee_name
                                                         }}</strong>?</p>
                                                 <div class="mt-3 form-group">
-                                                    <label for="cancellation_reason" class="text-danger">If reject
+                                                    <label for="cancellation_reason" class="text-info">If reject
                                                         please state an
                                                         cancellation reason:</label>
-                                                    <textarea name="cancellation_reason" id=""
-                                                        placeholder="Cancellation Reason" class="form-control"
-                                                        cols="5"></textarea>
+                                                    <textarea name="cancellation_reason" id="" placeholder="Cancellation Reason" class="form-control {{ $errors->has('cancellation_reason') ? 'is-invalid' : '' }}" cols="5"></textarea>
                                                     @error('cancellation_reason')
                                                     <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                 <button type="submit" class="btn btn-danger">Reject</button>
                                             </div>
                                         </form>
@@ -224,6 +212,13 @@
 
         @include('admin.script')
     </div>
+    <script>
+        @if ($errors->any())
+        $(document).ready(function() {
+            $('#RejectModal{{ $apply->id }}').modal('show');
+        });
+        @endif
+    </script>
 </body>
 
 </html>

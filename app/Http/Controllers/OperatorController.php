@@ -15,7 +15,7 @@ class OperatorController extends Controller
 {
     public function showbeneficiaries_operator()
     {
-        $beneficiaries = Beneficiary::with('barangay')->get();
+        $beneficiaries = Beneficiary::with('barangay')->paginate(10);
         $services = Service::all();
         $barangays = Barangay::all(); // Fetch all barangays if needed
         return view('operator.showbeneficiaries_operator', compact('barangays', 'services', 'beneficiaries'));
@@ -23,7 +23,7 @@ class OperatorController extends Controller
     public function showbeneficiaries_admin()
     {
         $applications = Application::where('approved_at', '!=', null)->where('approved_by', '!=', null)->get();
-        $beneficiaries = Beneficiary::with('barangay')->get();
+        $beneficiaries = Beneficiary::with('barangay')->paginate(5);
         $services = Service::all();
         $barangays = Barangay::all(); // Fetch all barangays if needed
 

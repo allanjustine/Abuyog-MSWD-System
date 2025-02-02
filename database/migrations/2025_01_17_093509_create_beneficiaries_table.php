@@ -30,10 +30,11 @@ return new class extends Migration
             $table->string('occupation')->nullable(); // Added occupation
             $table->string('religion')->nullable(); // Added religion
             $table->string('monthly_income')->nullable(); // Adjust the migration if needed
+            $table->string('annual_income')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('id_number')->nullable(); // Added ID number
-
+            $table->string('other_skills')->nullable();
             $table->decimal('latitude', 10, 6)->nullable();
             $table->decimal('longitude', 10, 6)->nullable();
 

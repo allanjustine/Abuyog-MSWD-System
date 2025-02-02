@@ -43,10 +43,17 @@ cause of disability
 *down syndrome
 *others, specify
 
-*acquired
+acquired
 *chronic illness
 *cerebral palsy
 *injury
+*others specify
+
+congenital/inborn 
+*autism
+*adhd
+*cerebral palsy
+*down syndrome
 *others specify
 
 house no. and street, municipality, province, region, landline no., email address, status of employment, category of employment, types of employment,
@@ -59,3 +66,12 @@ fathers name, mothers name, guardian,
 
 ACCOMPLISHED BY
 applicant, guardian, representative
+
+
+AICS
+Common:
+Name, date of birth, age, brgy, birthplace, civil status, occupation, educational attainment, religion 
+
+Not common:
+Case no, new or old, date applied, source of referral, problem presented, findings, action taken,
+FAMILY INFO, name, age, sex, civil status, relation to client, educational attainment, occupation

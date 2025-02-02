@@ -9,16 +9,10 @@ class Beneficiary extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'first_name',
-        'middle_name',
-        'last_name',
-        'email',
-        'phone',
-        'program_enrolled', // Program (Service)
-        'barangay_id',      // Foreign key for barangay
-        'latitude',
-        'longitude',
+    protected $guarded = [];
+
+    protected $casts = [
+        'date_of_birth'         =>          'date',
     ];
 
     // Relationship: Beneficiary belongs to a Barangay
@@ -38,15 +32,33 @@ class Beneficiary extends Model
     {
         return "{$this->first_name} {$this->middle_name} {$this->last_name}";
     }
-    public function appointments()
-{
-    return $this->hasMany(Appointment::class);
-}
 
-public function benefitsReceived()
-{
-    return $this->hasMany(BenefitReceived::class, 'beneficiary_id');
-}
-
-
+    public function benefitsReceived()
+    {
+        return $this->hasMany(BenefitReceived::class, 'beneficiary_id')->chaperone();
+    }
+    public function familyCompositions()
+    {
+        return $this->hasMany(FamilyComposition::class)->chaperone();
+    }
+    public function aicsDetails()
+    {
+        return $this->hasMany(AicsDetail::class)->chaperone();
+    }
+    public function soloParentDetails()
+    {
+        return $this->hasMany(SoloParentDetail::class)->chaperone();
+    }
+    public function contactEmergencies()
+    {
+        return $this->hasMany(ContactEmergency::class)->chaperone();
+    }
+    public function familyBackgrounds()
+    {
+        return $this->hasMany(FamilyBackground::class)->chaperone();
+    }
+    public function pwdDetails()
+    {
+        return $this->hasMany(PwdDetail::class)->chaperone();
+    }
 }

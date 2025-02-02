@@ -4,7 +4,7 @@ self.addEventListener("install", function (event) {
 
 var filesToCache = [
     '/',
-    '/offline.html'
+    '/offline'
 ];
 
 var preLoad = function () {
@@ -45,7 +45,7 @@ var returnFromCache = function (request) {
     return caches.open("offline").then(function (cache) {
         return cache.match(request).then(function (matching) {
             if (!matching || matching.status == 404) {
-                return cache.match("offline.html");
+                return cache.match("offline");
             } else {
                 return matching;
             }

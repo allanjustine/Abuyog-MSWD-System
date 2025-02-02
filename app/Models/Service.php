@@ -14,6 +14,6 @@ class Service extends Model
     // Relationship to Beneficiaries (Service can have many Beneficiaries)
     public function beneficiaries()
     {
-        return $this->hasMany(Beneficiary::class, 'program_enrolled'); // Program enrollment is the foreign key
+        return $this->hasMany(Beneficiary::class, 'program_enrolled')->chaperone(); // Program enrollment is the foreign key
     }
 }

@@ -60,7 +60,7 @@ class EmployeeController extends Controller
 
     public function display_beneficiaries()
     {
-        $beneficiaries = Beneficiary::with('barangay')->get();
+        $beneficiaries = Beneficiary::with('barangay')->paginate(10);
         $services = Service::all();
         $barangays = Barangay::all(); // Fetch all barangays if needed
         return view('employee.display_beneficiaries', compact('barangays', 'services', 'beneficiaries'));
