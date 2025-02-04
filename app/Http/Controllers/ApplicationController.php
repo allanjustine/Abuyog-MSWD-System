@@ -647,23 +647,23 @@ class ApplicationController extends Controller
         }
 
         // Extract custom fields (Ensure this exists in the Application model or logic)
-        $customFields = json_decode($application?->custom_fields, true) ?? [];
+        $customFields = json_decode($application->custom_fields, true) ?? [];
         // Adjust this based on your actual structure
 
         // Get the requirements based on service and aics_type
         $requirements = $this->getRequirements($application, $customFields);
 
         return response()->json([
-            'program_name' => $application?->service->name ?? 'No Service Assigned',
-            'phone' => $application?->phone,
-            'status' => $application?->status,
-            'date_applied' => $application?->created_at->format('F d, Y'),
-            'employee_name' => $application?->employee_name ?? 'Pending',
-            'last_name' => $application?->approvedBy->last_name ?? 'Data',
-            'first_name' => $application?->approvedBy->first_name ?? 'No',
-            'approved_at' => $application?->approved_at?->diffForHumans() ?? 'Pending',
-            'appearance_date' => $application?->appearance_date,
-            'cancellation_reason' => $application?->cancellation_reason,
+            'program_name' => $application->service->name ?? 'No Service Assigned',
+            'phone' => $application->phone,
+            'status' => $application->status,
+            'date_applied' => $application->created_at->format('F d, Y'),
+            'employee_name' => $application->employee_name ?? 'Pending',
+            'last_name' => $application->approvedBy->last_name ?? 'Data',
+            'first_name' => $application->approvedBy->first_name ?? 'No',
+            'approved_at' => $application->approved_at->diffForHumans() ?? 'Pending',
+            'appearance_date' => $application->appearance_date,
+            'cancellation_reason' => $application->cancellation_reason,
             'aics_type' => $customFields['aics_type'] ?? 'None', // Include AICS type
             'requirements' => $requirements
         ]);
