@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\WithPagination;
 use App\Models\BenefitReceived;
-
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class EmployeeController extends Controller
 {
@@ -60,10 +60,40 @@ class EmployeeController extends Controller
 
     public function display_beneficiaries()
     {
-        $beneficiaries = Beneficiary::with('barangay')->paginate(10);
+        $page = request()->get('page', 1);
+        $perPage = 10;
+
+        $applications = Application::where('approved_at', '!=', null)
+            ->where('approved_by', '!=', null)
+            ->get()
+            ->map(function ($application) {
+                $application->source = 'Application';
+                return $application;
+            });
+        $beneficiaries = Beneficiary::with(['barangay', 'familyCompositions'])
+            ->get()
+            ->map(function ($beneficiary) {
+                $beneficiary->source = 'Beneficiary';
+                return $beneficiary;
+            });
+        $barangays = Barangay::all();
         $services = Service::all();
-        $barangays = Barangay::all(); // Fetch all barangays if needed
-        return view('employee.display_beneficiaries', compact('barangays', 'services', 'beneficiaries'));
+
+        $merged = collect([...$applications, ...$beneficiaries])
+            ->sortByDesc(function ($item) {
+                return $item->approved_at !== null ? $item->approved_at : $item->created_at;
+            });
+
+        $paginatedData = $merged->forPage($page, $perPage);
+
+        $data = new LengthAwarePaginator(
+            $paginatedData,
+            $merged->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+        return view('employee.display_beneficiaries', compact('barangays', 'services', 'beneficiaries', 'data'));
     }
 
 

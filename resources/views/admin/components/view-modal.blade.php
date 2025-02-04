@@ -1,10 +1,10 @@
 <!-- View Modal -->
-<div class="modal fade" id="viewModal{{ $beneficiary->id }}" tabindex="-1" aria-labelledby="viewModalLabel{{ $beneficiary->id }}" aria-hidden="true">
+<div class="modal fade" id="viewModal{{ $item?->id }}" tabindex="-1" aria-labelledby="viewModalLabel{{ $item?->id }}" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="viewModalLabel{{ $beneficiary->id }}">
-                    Beneficiary Details</h5>
+                <h5 class="modal-title" id="viewModalLabel{{ $item?->id }}">
+                    Item Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
@@ -12,67 +12,67 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label><strong>First Name:</strong></label>
-                            <input type="text" class="form-control" value="{{ $beneficiary->first_name }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item?->first_name }}" disabled>
                         </div>
                         <div class="form-group">
                             <label><strong>Middle Name:</strong></label>
-                            <input type="text" class="form-control" value="{{ $beneficiary->middle_name ?? 'N/A' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item?->middle_name ?? 'N/A' }}" disabled>
                         </div>
                         <div class="form-group">
                             <label><strong>Last Name:</strong></label>
-                            <input type="text" class="form-control" value="{{ $beneficiary->last_name }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item?->last_name }}" disabled>
                         </div>
                         <div class="form-group">
                             <label><strong>Email:</strong></label>
-                            <input type="email" class="form-control" value="{{ $beneficiary->email }}" disabled>
+                            <input type="email" class="form-control" value="{{ $item?->email }}" disabled>
                         </div>
                         <div class="form-group">
                             <label><strong>Monthly Income:</strong></label>
-                            <input type="text" class="form-control" value="{{ $beneficiary->monthly_income ?? 'N/A' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item?->monthly_income ?? 'N/A' }}" disabled>
                         </div>
                         <div class="form-group">
                             <label><strong>Civil Status:</strong></label>
-                            <input type="text" class="form-control" value="{{ $beneficiary->civil_status }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item?->civil_status }}" disabled>
                         </div>
                         <div class="form-group">
                             <label><strong>Gender:</strong></label>
-                            <input type="text" class="form-control" value="{{ $beneficiary->gender }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item?->gender }}" disabled>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label><strong>Phone:</strong></label>
-                            <input type="text" class="form-control" value="{{ $beneficiary->phone }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item?->phone }}" disabled>
                         </div>
                         <div class="form-group">
                             <label><strong>Program Enrolled:</strong></label>
-                            <input type="text" class="form-control" value="{{ $beneficiary->service ? $beneficiary->service->name : 'No Program' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item?->service ? $item?->service->name : 'No Program' }}" disabled>
                         </div>
                         <div class="form-group">
                             <label><strong>Barangay:</strong></label>
-                            <input type="text" class="form-control" value="{{ $beneficiary->barangay->name ?? 'No Barangay' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item?->barangay->name ?? 'No Barangay' }}" disabled>
                         </div>
                         <div class="form-group">
                             <label><strong>Date of Birth:</strong></label>
-                            <input type="text" class="form-control" value="{{ $beneficiary->date_of_birth }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item?->date_of_birth }}" disabled>
                         </div>
                         <div class="form-group">
                             <label><strong>Age:</strong></label>
-                            <input type="text" class="form-control" value="{{ $beneficiary->age }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item?->age }}" disabled>
                         </div>
                         <div class="form-group">
                             <label><strong>ID Number:</strong></label>
-                            <input type="text" class="form-control" value="{{ $beneficiary->id_number }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item?->id_number }}" disabled>
                         </div>
 
                     </div>
                 </div>
 
-                @if ($beneficiary->familyCompositions->count() !== 0)
+                @if ($item?->familyCompositions?->count() !== 0)
                 <div class="row">
                     <div class="col-md-12">
                         <h5><strong>Family Composition:</strong></h5>
-                        @foreach ($beneficiary->familyCompositions as $index => $fc)
+                        @foreach ($item?->familyCompositions as $index => $fc)
                         <div class="mb-3 border-t row p-2" @if($index % 2) style="background-color: rgba(9, 9, 9, 0.157);" @endif>
                             <div class="col-md-4">
                                 <label><strong>Name:</strong></label>
@@ -116,11 +116,11 @@
                 </div>
                 @endif
 
-                @if ($beneficiary->aicsDetails->count() !== 0)
+                @if ($item?->aicsDetails?->count() !== 0)
                 <div class="row">
                     <div class="col-md-12">
                         <h5><strong>Aics Details:</strong></h5>
-                        @foreach ($beneficiary->aicsDetails as $ad)
+                        @foreach ($item?->aicsDetails as $ad)
                         <div class="mb-3 row">
                             <div class="col-md-4">
                                 <label><strong>Case No:</strong></label>
@@ -151,18 +151,18 @@
                     </div>
                 </div>
                 @endif
-                @if ($beneficiary->soloParentDetails->count() !== 0)
+                @if ($item?->soloParentDetails?->count() !== 0)
                 <div class="row">
                     <div class="col-md-12">
                         <h5><strong>Other Details:</strong></h5>
-                        @foreach ($beneficiary->soloParentDetails as $sp)
+                        @foreach ($item?->soloParentDetails as $sp)
                         <div class="mb-3 row">
                             <div class="col-md-4">
                                 <label><strong>Company/Agency:</strong></label>
                                 <input type="text" class="form-control" value="{{ $sp->company_agency ?? 'No Data' }}" disabled>
                             </div>
                             <div class="col-md-4">
-                                <label><strong>4PS Beneficiary:</strong></label>
+                                <label><strong>4PS Item:</strong></label>
                                 <input type="text" class="form-control" value="{{ $sp['4ps_agency'] ?? 'No Data' }}" disabled>
                             </div>
                             <div class="col-md-4">
@@ -174,11 +174,11 @@
                     </div>
                 </div>
                 @endif
-                @if ($beneficiary->contactEmergencies->count() !== 0)
+                @if ($item?->contactEmergencies?->count() !== 0)
                 <div class="row">
                     <div class="col-md-12">
                         <h5><strong>IN CASE OF EMERGENCY DETAILS:</strong></h5>
-                        @foreach ($beneficiary->contactEmergencies as $ce)
+                        @foreach ($item?->contactEmergencies as $ce)
                         <div class="mb-3 row">
                             <div class="col-md-4">
                                 <label><strong>Contact Person Name:</strong></label>
@@ -199,11 +199,11 @@
                 @endif
 
                 <!-- Assistance Details -->
-                @if($beneficiary->benefitsReceived->count() !== 0)
+                @if($item?->benefitsReceived?->count() !== 0)
                 <div class="row">
                     <div class="col-md-12">
                         <h5><strong>Assistance Received:</strong></h5>
-                        @foreach ($beneficiary->benefitsReceived as $benefit)
+                        @foreach ($item?->benefitsReceived as $benefit)
                         <div class="mb-3 row">
                             <!-- Name of Assistance -->
                             <div class="col-md-3">
@@ -230,11 +230,11 @@
                     </div>
                 </div>
                 @endif
-                @if($beneficiary->pwdDetails->count() !== 0)
+                @if($item?->pwdDetails?->count() !== 0)
                 <div class="row">
                     <div class="col-md-12">
                         <h5 class="fs-3"><strong>PWD DETAILS:</strong></h5>
-                        @foreach ($beneficiary->pwdDetails as $pd)
+                        @foreach ($item?->pwdDetails as $pd)
                         <div class="mb-3 row">
                             <div class="col-md-3">
                                 <label><strong>Type of Disability:</strong></label>
@@ -366,8 +366,8 @@
                     </div>
                 </div>
                 @endif
-                @if ($beneficiary->familyBackgrounds->count() !== 0)
-                @foreach ($beneficiary->familyBackgrounds as $fb)
+                @if ($item?->familyBackgrounds?->count() !== 0)
+                @foreach ($item?->familyBackgrounds as $fb)
                 <div class="row">
                     <h5 class="fs-3"><strong>FAMILY BACKGROUND:</strong></h5>
                     <div class="mb-3 row">

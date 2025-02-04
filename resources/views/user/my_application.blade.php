@@ -487,9 +487,13 @@
 
                     $('#detailsModal').modal('show');
                 },
-                error: function () {
-                    alert('Failed to fetch application details. Please try again later.');
+                error: function (xhr) {
+                    console.error('Response:', xhr.responseJSON.message);
+
+                    // Provide a user-friendly alert
+                    alert(`Failed to fetch application details. Please try again later. Please fix this error: ${xhr.responseJSON.message}`);
                 }
+
             });
         }
 

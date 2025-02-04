@@ -8,6 +8,8 @@ use App\Models\Service;
 use App\Models\Beneficiary;
 use App\Models\Barangay;  // Import Barangay model if needed
 use App\Models\BenefitReceived;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 
 
@@ -15,19 +17,78 @@ class OperatorController extends Controller
 {
     public function showbeneficiaries_operator()
     {
-        $beneficiaries = Beneficiary::with('barangay')->paginate(10);
+        $page = request()->get('page', 1);
+        $perPage = 10;
+
+        $applications = Application::where('approved_at', '!=', null)
+            ->where('approved_by', '!=', null)
+            ->get()
+            ->map(function ($application) {
+                $application->source = 'Application';
+                return $application;
+            });
+        $beneficiaries = Beneficiary::with(['barangay', 'familyCompositions'])
+            ->get()
+            ->map(function ($beneficiary) {
+                $beneficiary->source = 'Beneficiary';
+                return $beneficiary;
+            });
+        $barangays = Barangay::all();
         $services = Service::all();
-        $barangays = Barangay::all(); // Fetch all barangays if needed
-        return view('operator.showbeneficiaries_operator', compact('barangays', 'services', 'beneficiaries'));
+
+        $merged = collect([...$applications, ...$beneficiaries])
+            ->sortByDesc(function ($item) {
+                return $item->approved_at !== null ? $item->approved_at : $item->created_at;
+            });
+
+        $paginatedData = $merged->forPage($page, $perPage);
+
+        $data = new LengthAwarePaginator(
+            $paginatedData,
+            $merged->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+        return view('operator.showbeneficiaries_operator', compact('barangays', 'services', 'beneficiaries', 'data'));
     }
     public function showbeneficiaries_admin()
     {
-        $applications = Application::where('approved_at', '!=', null)->where('approved_by', '!=', null)->get();
-        $beneficiaries = Beneficiary::with('barangay')->paginate(5);
-        $services = Service::all();
-        $barangays = Barangay::all(); // Fetch all barangays if needed
+        $page = request()->get('page', 1);
+        $perPage = 10;
 
-        return view('admin.showbeneficiary', compact('barangays', 'services', 'beneficiaries', 'applications'));
+        $applications = Application::where('approved_at', '!=', null)
+            ->where('approved_by', '!=', null)
+            ->get()
+            ->map(function ($application) {
+                $application->source = 'Application';
+                return $application;
+            });
+        $beneficiaries = Beneficiary::with(['barangay', 'familyCompositions'])
+            ->get()
+            ->map(function ($beneficiary) {
+                $beneficiary->source = 'Beneficiary';
+                return $beneficiary;
+            });
+        $barangays = Barangay::all();
+        $services = Service::all();
+
+        $merged = collect([...$applications, ...$beneficiaries])
+            ->sortByDesc(function ($item) {
+                return $item->approved_at !== null ? $item->approved_at : $item->created_at;
+            });
+
+        $paginatedData = $merged->forPage($page, $perPage);
+
+        $data = new LengthAwarePaginator(
+            $paginatedData,
+            $merged->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+
+        return view('admin.showbeneficiary', compact('barangays', 'services', 'beneficiaries', 'applications', 'data'));
     }
     // Add Beneficiary View
     public function addbeneficiaryoperator()
