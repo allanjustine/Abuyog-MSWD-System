@@ -9,8 +9,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href=" http://172.27.192.1:5173/resources/css/app.css">
-    <script type="module" src=" http://172.27.192.1:5173/resources/js/app.js" data-navigate-track="reload"></script>
+    <link rel="stylesheet" href="http://10.0.0.134:5173/resources/css/app.css">
+    <script type="module" src=" http://10.0.0.134:5173/resources/js/app.js" data-navigate-track="reload"></script>
     <!-- Styles / Scripts -->
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])

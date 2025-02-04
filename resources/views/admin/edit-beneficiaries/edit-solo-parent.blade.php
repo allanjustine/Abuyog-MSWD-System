@@ -7,13 +7,7 @@
     <title>Beneficiary Edit Form</title>
 
     <!-- Include necessary stylesheets -->
-    @if(Auth::user()->usertype === 'admin')
     @include('admin.css')
-    @elseif(Auth::user()->usertype === 'operator')
-    @include('operator.css')
-    @else
-    @include('employee.css')
-    @endif
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
@@ -76,20 +70,8 @@
 
 <body>
     <div class="container-scroller">
-        @if(Auth::user()->usertype === 'admin')
         @include('admin.sidebar')
         @include('admin.navbar')
-        @elseif(Auth::user()->usertype === 'operator')
-
-        @include('operator.sidebar')
-
-        @include('operator.navbar')
-        @else
-        @include('employee.sidebar')
-
-        @include('employee.navbar')
-
-        @endif
 
         <div class="container">
             <div class="container" align="center" style="padding:10px;">
@@ -153,7 +135,7 @@
                             <div class="row form-row">
                                 <div class="col-md-3">
                                     <label for="dateOfBirth" class="form-label">Date of Birth</label>
-                                    <input type="date" class="form-control" id="dateOfBirth" name="date_of_birth" value="{{ $beneficiary?->date_of_birth?->format('Y-m-d') ?? '' }}">
+                                    <input type="date" class="form-control" id="dateOfBirth" name="date_of_birth" value="{{ $beneficiary->date_of_birth->format('Y-m-d') ?? '' }}">
                                     @error('date_of_birth')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -286,7 +268,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label for="dateOfBirth" class="form-label">Birthday</label>
-                                            <input type="date" class="form-control" id="dateOfBirthFc" name="birthday[{{ $fc->id }}]" value="{{ isset($beneficiary->familyCompositions[0]) && $fc?->birthday?->format('Y-m-d') ?? '' }}">
+                                            <input type="date" class="form-control" id="dateOfBirthFc" name="birthday[{{ $fc->id }}]" value="{{ isset($beneficiary->familyCompositions[0]) && $fc->birthday->format('Y-m-d') ?? '' }}">
                                             @error('birthday.*')
                                             <small class="text-danger">{{ $message }}</small>
                                             @enderror
