@@ -7,10 +7,13 @@
     <title>Beneficiaries</title>
 
     @include('admin.css')
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -40,280 +43,242 @@
                 <!-- Align the search form to the right -->
                 <div class="card-body">
                     @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                @endif
-                <form action="{{ url('beneficiary_search') }}" method="get" class="my-3 text-end">
-                    @csrf
-                    <input type="search" name="search" placeholder="Search.." class="form-control d-inline-block" style="width: auto;">
-                    <input type="submit" class="btn btn-primary d-inline-block" value="Search">
-                </form>
-
-                <div class="table-responsive">
-                    <table class="table table-sm table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>First Name</th>
-                                <th>Middle Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Program Enrolled</th>
-                                <th>Barangay</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($beneficiaries as $beneficiary)
-                            <tr>
-                                <td>{{ $beneficiary->first_name }}</td>
-                                <td>{{ $beneficiary->middle_name }}</td>
-                                <td>{{ $beneficiary->last_name }}</td>
-                                <td>{{ $beneficiary->email }}</td>
-                                <td>{{ $beneficiary->phone }}</td>
-                                <td>{{ $beneficiary->service ? $beneficiary->service->name : 'No Program' }}</td>
-                                <td>{{ $beneficiary->barangay->name ?? 'No Barangay' }}</td>
-                                <td>
-                                    <!-- View Button -->
-
-                                    <div x-data="{open: false, loading: true}" class="d-flex justify-content-center flex-column" x-init="loading = false">
-                                        <button type="button" @click="open = !open" class="mb-3 btn btn-primary rounded-full d-flex align-items-center justify-content-center">
-                                            <span class="spinner-border spinner-border-sm" x-show="loading"></span><i class="mdi mdi-minus" x-show="open" x-cloak></i><i class="mdi mdi-plus" x-show="!open" x-cloak></i></button>
-                                        <div x-cloak x-show="open">
-                                            <div class="gap-2 d-flex justify-content-around flex-column">
-                                                <button class="btn btn-info btn-sm ms-2" type="button" data-bs-toggle="modal" data-bs-target="#viewModal{{ $beneficiary->id }}">
-                                                    View
-                                                </button>
-
-                                                <!-- Edit Button -->
-                                                @if ($beneficiary->service->name === "OSCA(Office of Senior Citizens)")
-                                                <a class="btn btn-success btn-sm ms-2" href="/edit-osca/{{ $beneficiary->id }}">Edit</a>
-                                                @elseif($beneficiary->service->name === "PWD(Persons with Disabilities)")
-
-                                                <a class="btn btn-success btn-sm ms-2" href="/edit-pwd/{{ $beneficiary->id }}">Edit</a>
-                                                @elseif($beneficiary->service->name === "Solo Parent")
-
-                                                <a class="btn btn-success btn-sm ms-2" href="/edit-solo-parent/{{ $beneficiary->id }}">Edit</a>
-                                                @elseif($beneficiary->service->name === "AICS(Assistance to Individuals in Crisis)")
-
-                                                <a class="btn btn-success btn-sm ms-2" href="/edit-aics/{{ $beneficiary->id }}">Edit</a>
-                                                @endif
-
-                                                <!-- Delete Button with Modal Trigger -->
-                                                <button class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $beneficiary->id }}">
-                                                    Delete
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <!-- View Modal -->
-                            @include('admin.components.view-modal')
-                </div>
-
-                <!-- Delete Confirmation Modal -->
-                <div class="modal fade" id="deleteModal{{ $beneficiary->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $beneficiary->id }}" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="text-white modal-header bg-danger">
-                                <h5 class="modal-title" id="deleteModalLabel{{ $beneficiary->id }}">
-                                    Confirm Deletion</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Are you sure you want to delete
-                                    <strong>{{ $beneficiary->first_name }}
-                                        {{ $beneficiary->last_name }}</strong>? This action cannot be
-                                    undone.
-                                </p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <a class="btn btn-danger" href="{{ url('deletebeneficiaries', $beneficiary->id) }}">Delete</a>
-                            </div>
-                        </div>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </div>
-                @endforeach
-                </tbody>
-                </table>
-                {{ $beneficiaries->links('pagination::bootstrap-5') }}
-                </div>
-            </div>
-            <div class="card" align="center" style="margin-top:80px;">
-                <div class="card-header">
-                    <span class="fw-bold fs-3">
-                        Applicants
-                    </span>
-                    {{-- <a href="{{ url('/add_beneficiary_view') }}" class="btn btn-success btn-sm float-end">Add
-                    New</a> --}}
-                </div>
+                    @endif
+                    <form action="{{ url('beneficiary_search') }}" method="get" class="my-3 text-end">
+                        @csrf
+                        <input type="search" name="search" placeholder="Search.." class="form-control d-inline-block"
+                            style="width: auto;">
+                        <input type="submit" class="btn btn-primary d-inline-block" value="Search">
+                    </form>
 
-                <!-- Align the search form to the right -->
-                {{-- <form action="{{ url('beneficiary_search') }}" method="get" class="my-3 text-end">
-                @csrf
-                <input type="search" name="search" placeholder="Search.." class="form-control d-inline-block" style="width: auto;">
-                <input type="submit" class="btn btn-primary d-inline-block" value="Search">
-                </form> --}}
-
-               <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-sm table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Program Enrolled</th>
-                                <th>Status</th>
-                                <th>Approved At</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($applications as $application)
-                            <tr>
-                                <td>{{ $application->name }}</td>
-                                <td>{{ $application->email }}</td>
-                                <td>{{ $application->phone }}</td>
-                                <td>{{ $application->service ? $application->service->name : 'No Program' }}</td>
-                                <td>
-                                    @if($application->approved_at !== null)
-                                    <span class="badge rounded-pill bg-success">Approved</span>
-                                    @endif
-                                </td>
-                                <td>{{ $application->approved_at->diffForHumans() }}</td>
-                                <td>
-                                    <div class="gap-2 d-flex justify-content-around flex-column">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Program Enrolled</th>
+                                    <th>Barangay</th>
+                                    <th>Status</th>
+                                    <th>Approved At</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $item)
+                                @if($item->source === "Beneficiary")
+                                <tr>
+                                    <td>{{ $item?->full_name }}</td>
+                                    <td>{{ $item?->email }}</td>
+                                    <td>{{ $item?->phone }}</td>
+                                    <td>{{ $item?->service ? $item?->service->name : 'No Program' }}</td>
+                                    <td>{{ $item?->barangay->name ?? 'No Barangay' }}</td>
+                                    <td><span class="badge rounded-pill bg-info">{{ $item?->status ?? 'Manual' }}</span></td>
+                                    <td>{{ $item?->approved_at ?? $item?->created_at->diffForHumans() }}</td>
+                                    <td>
                                         <!-- View Button -->
-                                        <button class="btn btn-info btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#viewModalData{{ $application->id }}">
-                                            View
-                                        </button>
 
-                                        <!-- Edit Button -->
-                                        {{-- <a class="btn btn-success btn-sm ms-2" href="{{ url('editbeneficiaries', $application->id) }}">Edit</a> --}}
+                                        <div x-data="{open: false, loading: true}"
+                                            class="d-flex justify-content-center flex-column" x-init="loading = false">
+                                            <button type="button" @click="open = !open"
+                                                class="mb-3 btn btn-primary rounded-full d-flex align-items-center justify-content-center">
+                                                <span class="spinner-border spinner-border-sm"
+                                                    x-show="loading"></span><i class="mdi mdi-minus" x-show="open"
+                                                    x-cloak></i><i class="mdi mdi-plus" x-show="!open"
+                                                    x-cloak></i></button>
+                                            <div x-cloak x-show="open">
+                                                <div class="gap-2 d-flex justify-content-around flex-column">
+                                                    <button class="btn btn-info btn-sm ms-2" type="button"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#viewModal{{ $item?->id }}">
+                                                        View
+                                                    </button>
 
-                                        <!-- Delete Button with Modal Trigger -->
-                                        {{-- <button class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $application->id }}">
-                                        Delete
-                                        </button> --}}
-                                    </div>
-                                </td>
-                            </tr>
+                                                    <!-- Edit Button -->
+                                                    @if ($item?->service->name === "OSCA(Office of Senior Citizens)")
+                                                    <a class="btn btn-success btn-sm ms-2"
+                                                        href="/edit-osca/{{ $item?->id }}">Edit</a>
+                                                    @elseif($item?->service->name === "PWD(Persons with Disabilities)")
 
-                            <!-- View Modal -->
-                            <div class="modal fade" id="viewModalData{{ $application->id }}" tabindex="-1" aria-labelledby="viewModalDataLabel{{ $application->id }}" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="viewModalDataLabel{{ $application->id }}">
-                                                Application Details</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label><strong>Name:</strong></label>
-                                                        <input type="text" class="form-control" value="{{ $application->name }}" disabled>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label><strong>Email:</strong></label>
-                                                        <input type="email" class="form-control" value="{{ $application->email }}" disabled>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label><strong>Approved By:</strong></label>
-                                                        <input type="approved By" class="form-control" value="{{ $application->approvedBy->first_name ?? 'No' }} {{ $application->approvedBy->last_name ?? 'Data' }}" disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label><strong>Phone:</strong></label>
-                                                        <input type="text" class="form-control" value="{{ $application->phone }}" disabled>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label><strong>Program Enrolled:</strong></label>
-                                                        <input type="text" class="form-control" value="{{ $application->service ? $application->service->name : 'No Program' }}" disabled>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label><strong>Approved At:</strong></label>
-                                                        <input type="text" class="form-control" value="{{ $application?->approved_at->diffForHumans() ?? 'Pending' }}" disabled>
-                                                    </div>
+                                                    <a class="btn btn-success btn-sm ms-2"
+                                                        href="/edit-pwd/{{ $item?->id }}">Edit</a>
+                                                    @elseif($item?->service->name === "Solo Parent")
+
+                                                    <a class="btn btn-success btn-sm ms-2"
+                                                        href="/edit-solo-parent/{{ $item?->id }}">Edit</a>
+                                                    @elseif($item?->service->name === "AICS(Assistance to Individuals in Crisis)")
+
+                                                    <a class="btn btn-success btn-sm ms-2"
+                                                        href="/edit-aics/{{ $item?->id }}">Edit</a>
+                                                    @endif
+
+                                                    <!-- Delete Button with Modal Trigger -->
+                                                    <button class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal{{ $item?->id }}">
+                                                        Delete
+                                                    </button>
                                                 </div>
                                             </div>
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <p class="border-b fw-bold fs-5">Field Filled</p>
-                                                    <p class="mt-2">
-                                                        @php
-                                                        $customFields = json_decode($application->custom_fields, true);
-                                                        @endphp
 
-                                                        @if (!empty($customFields) && is_array($customFields))
-                                                        <ul>
-                                                            @foreach ($customFields as $key => $value)
-                                                            <li>
-                                                                <strong>{{ ucfirst(str_replace('_', ' ', $key)) }}:</strong>
-                                                                @if (is_array($value))
-                                                                <pre>{{ json_encode($value, JSON_PRETTY_PRINT) }}</pre>
-                                                                @else
-                                                                {{ $value }}
-                                                                @endif
-                                                            </li>
-                                                            @endforeach
-                                                        </ul>
-                                                        @else
-                                                        <p>No custom fields found.</p>
-                                                        @endif
-                                                    </p>
-                                                </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="deleteModal{{ $item?->id }}" tabindex="-1"
+                                    aria-labelledby="deleteModalLabel{{ $item?->id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="text-white modal-header bg-danger">
+                                                <h5 class="modal-title" id="deleteModalLabel{{ $item?->id }}">
+                                                    Confirm Deletion</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete
+                                                    <strong>{{ $item?->first_name }}
+                                                        {{ $item?->last_name }}</strong>? This action cannot be
+                                                    undone.
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Cancel</button>
+                                                <a class="btn btn-danger"
+                                                    href="{{ url('deletebeneficiaries', $item?->id) }}">Delete</a>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                @include('admin.components.view-modal')
+                                @endif
+                                @if($item->source === "Application")
+                                <tr>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->email }}</td>
+                                    <td>{{ $item->phone }}</td>
+                                    <td>{{ $item->service ? $item->service->name : 'No Program' }}</td>
+                                    <td>
+                                        @if ($item?->barangay?->name === null)
+                                        <button class="btn btn-link btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#viewModalData{{ $item->id }}">
+                                            No Barangay
+                                        </button>
+                                        @else
+                                            {{ $item?->barangay?->name }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($item->approved_at !== null)
+                                        <span class="badge rounded-pill bg-success">Approved</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $item->approved_at->diffForHumans() }}</td>
+                                    <td>
+                                        <div class="gap-2 d-flex justify-content-around flex-column">
+                                            <!-- View Button -->
+                                            <button class="btn btn-info btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#viewModalData{{ $item->id }}">
+                                                View
+                                            </button>
 
-                <!-- Delete Confirmation Modal -->
-                <div class="modal fade" id="deleteModal{{ $application->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $application->id }}" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="text-white modal-header bg-danger">
-                                <h5 class="modal-title" id="deleteModalLabel{{ $application->id }}">
-                                    Confirm Deletion</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Are you sure you want to delete
-                                    <strong>{{ $application->first_name }}
-                                        {{ $application->last_name }}</strong>? This action cannot be
-                                    undone.
-                                </p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <a class="btn btn-danger" href="{{ url('deletebeneficiaries', $application->id) }}">Delete</a>
-                            </div>
-                        </div>
+                                            <!-- Edit Button -->
+                                            {{-- <a class="btn btn-success btn-sm ms-2" href="{{ url('editbeneficiaries', $item->id) }}">Edit</a> --}}
+
+                                            <!-- Delete Button with Modal Trigger -->
+                                            {{-- <button class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                                            Delete
+                                            </button> --}}
+                                        </div>
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="viewModalData{{ $item->id }}" tabindex="-1" aria-labelledby="viewModalDataLabel{{ $item->id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="viewModalDataLabel{{ $item->id }}">
+                                                    Item Details</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label><strong>Name:</strong></label>
+                                                            <input type="text" class="form-control" value="{{ $item->name }}" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label><strong>Email:</strong></label>
+                                                            <input type="email" class="form-control" value="{{ $item->email }}" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label><strong>Approved By:</strong></label>
+                                                            <input type="approved By" class="form-control" value="{{ $item->approvedBy->first_name ?? 'No' }} {{ $item->approvedBy->last_name ?? 'Data' }}" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label><strong>Phone:</strong></label>
+                                                            <input type="text" class="form-control" value="{{ $item->phone }}" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label><strong>Program Enrolled:</strong></label>
+                                                            <input type="text" class="form-control" value="{{ $item->service ? $item->service->name : 'No Program' }}" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label><strong>Approved At:</strong></label>
+                                                            <input type="text" class="form-control" value="{{ $item?->approved_at->diffForHumans() ?? 'Pending' }}" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <p class="border-b fw-bold fs-5">Field Filled</p>
+                                                        <p class="mt-2">
+                                                            @php
+                                                            $customFields = json_decode($item->custom_fields, true);
+                                                            @endphp
+
+                                                            @if (!empty($customFields) && is_array($customFields))
+                                                            <ul>
+                                                                @foreach ($customFields as $key => $value)
+                                                                <li>
+                                                                    <strong>{{ ucfirst(str_replace('_', ' ', $key)) }}:</strong>
+                                                                    @if (is_array($value))
+                                                                    <pre>{{ json_encode($value, JSON_PRETTY_PRINT) }}</pre>
+                                                                    @else
+                                                                    {{ $value }}
+                                                                    @endif
+                                                                </li>
+                                                                @endforeach
+                                                            </ul>
+                                                            @else
+                                                            <p>No custom fields found.</p>
+                                                            @endif
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                                <!-- View Modal -->
                     </div>
+                    @endforeach
+                    </tbody>
+                    </table>
+                    {{ $data->links('pagination::bootstrap-5') }}
                 </div>
-                @endforeach
-                </tbody>
-                </table>
-               </div>
             </div>
+            {{-- @include('admin.components.applicants') --}}
         </div>
     </div>
 

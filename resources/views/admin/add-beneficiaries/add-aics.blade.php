@@ -7,12 +7,21 @@
     <title>Beneficiary Registration Form</title>
 
     <!-- Include necessary stylesheets -->
+    @if(Auth::user()->usertype === 'admin')
     @include('admin.css')
+    @elseif(Auth::user()->usertype === 'operator')
+    @include('operator.css')
+    @else
+    @include('employee.css')
+    @endif
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -64,14 +73,25 @@
         .form-row {
             margin-bottom: 1rem;
         }
-
     </style>
 </head>
 
 <body>
     <div class="container-scroller">
+        @if(Auth::user()->usertype === 'admin')
         @include('admin.sidebar')
         @include('admin.navbar')
+        @elseif(Auth::user()->usertype === 'operator')
+
+        @include('operator.sidebar')
+
+        @include('operator.navbar')
+        @else
+        @include('employee.sidebar')
+
+        @include('employee.navbar')
+
+        @endif
 
         <div class="container">
             <div class="container" align="center" style="padding:10px;">
@@ -91,7 +111,8 @@
                         @if(Auth::user()->usertype === 'admin')
                         <a href="{{ url('/showbeneficiaries_admin') }}" class="btn btn-back btn-sm float-end">Back</a>
                         @elseif(Auth::user()->usertype === 'operator')
-                        <a href="{{ url('/showbeneficiaries_operator') }}" class="btn btn-back btn-sm float-end">Back</a>
+                        <a href="{{ url('/showbeneficiaries_operator') }}"
+                            class="btn btn-back btn-sm float-end">Back</a>
                         @else
                         <a href="{{ url('/display_beneficiaries') }}" class="btn btn-back btn-sm float-end">Back</a>
                         @endif
@@ -162,7 +183,8 @@
                                         <select name="barangay" id="barangaySelect" class="form-select">
                                             <option value="">Select Barangay</option>
                                             @foreach ($barangays as $barangay)
-                                            <option value="{{ $barangay->id }}" data-lat="{{ $barangay->latitude }}" data-lng="{{ $barangay->longitude }}">
+                                            <option value="{{ $barangay->id }}" data-lat="{{ $barangay->latitude }}"
+                                                data-lng="{{ $barangay->longitude }}">
                                                 {{ $barangay->name }}
                                             </option>
                                             @endforeach
@@ -191,7 +213,8 @@
                                     <div class="col-md-6">
                                         <label for="educationalAttainment" class="form-label">Educational
                                             Attainment</label>
-                                        <select class="form-select" id="educationalAttainment" name="educational_attainment">
+                                        <select class="form-select" id="educationalAttainment"
+                                            name="educational_attainment">
                                             <option value="">Select</option>
                                             <option value="No Formal Education">No Formal Education</option>
                                             <option value="Elementary">Elementary</option>
@@ -219,7 +242,8 @@
                                 <div class="mt-2 border-b family-member family-member-row" id="familyMemberFields">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <!-- Remove Button -->
-                                        <button type="button" class="btn btn-sm btn-danger remove-family-member" style="display: none;">
+                                        <button type="button" class="btn btn-sm btn-danger remove-family-member"
+                                            style="display: none;">
                                             &times;
                                         </button>
                                     </div>
@@ -227,7 +251,8 @@
                                     <div class="row form-row">
                                         <div class="col-md-3">
                                             <label for="name" class="form-label">Name</label>
-                                            <input type="text" class="form-control" id="name" name="name[]" value="{{ old('name.0') }}">
+                                            <input type="text" class="form-control" id="name" name="name[]"
+                                                value="{{ old('name.0') }}">
                                             @error('name.*')
                                             <small class="text-danger">{{ $message }}</small>
                                             @enderror
@@ -236,8 +261,10 @@
                                             <label for="gender_fc" class="form-label">Gender</label>
                                             <select class="form-select" id="gender" name="gender_fc[]">
                                                 <option value="">Select</option>
-                                                <option value="Male" {{ old('gender_fc.0') == 'Male' ? 'selected' : '' }}>Male</option>
-                                                <option value="Female" {{ old('gender_fc.0') == 'Female' ? 'selected' : '' }}>Female</option>
+                                                <option value="Male" {{ old('gender_fc.0')=='Male' ? 'selected' : '' }}>
+                                                    Male</option>
+                                                <option value="Female" {{ old('gender_fc.0')=='Female' ? 'selected' : ''
+                                                    }}>Female</option>
                                             </select>
                                             @error('gender_fc')
                                             <small class="text-danger">{{ $message }}</small>
@@ -246,7 +273,8 @@
 
                                         <div class="col-md-3">
                                             <label for="relationship" class="form-label">Relationship</label>
-                                            <input type="text" class="form-control" id="relationship" name="relationship[]" value="{{ old('relationship.0') }}">
+                                            <input type="text" class="form-control" id="relationship"
+                                                name="relationship[]" value="{{ old('relationship.0') }}">
                                             @error('relationship.*')
                                             <small class="text-danger">{{ $message }}</small>
                                             @enderror
@@ -254,7 +282,8 @@
 
                                         <div class="col-md-3">
                                             <label for="age" class="form-label">Age</label>
-                                            <input type="number" class="form-control" id="age" name="age_fc[]" value="{{ old('age_fc.0') }}">
+                                            <input type="number" class="form-control" id="age" name="age_fc[]"
+                                                value="{{ old('age_fc.0') }}">
                                             @error('age_fc.*')
                                             <small class="text-danger">{{ $message }}</small>
                                             @enderror
@@ -266,10 +295,14 @@
                                             <label for="civilStatus" class="form-label">Civil Status</label>
                                             <select class="form-select" id="civilStatus" name="civil_status_fc[]">
                                                 <option value="" hidden selected>Select</option>
-                                                <option value="Single" {{ old('civil_status_fc.0') == 'Single' ? 'selected' : '' }}>Single</option>
-                                                <option value="Married" {{ old('civil_status_fc.0') == 'Married' ? 'selected' : '' }}>Married</option>
-                                                <option value="Widowed" {{ old('civil_status_fc.0') == 'Widowed' ? 'selected' : '' }}>Widowed</option>
-                                                <option value="Divorced" {{ old('civil_status_fc.0') == 'Divorced' ? 'selected' : '' }}>Divorced</option>
+                                                <option value="Single" {{ old('civil_status_fc.0')=='Single'
+                                                    ? 'selected' : '' }}>Single</option>
+                                                <option value="Married" {{ old('civil_status_fc.0')=='Married'
+                                                    ? 'selected' : '' }}>Married</option>
+                                                <option value="Widowed" {{ old('civil_status_fc.0')=='Widowed'
+                                                    ? 'selected' : '' }}>Widowed</option>
+                                                <option value="Divorced" {{ old('civil_status_fc.0')=='Divorced'
+                                                    ? 'selected' : '' }}>Divorced</option>
                                             </select>
                                             @error('civil_status_fc.*')
                                             <small class="text-danger">{{ $message }}</small>
@@ -278,7 +311,8 @@
 
                                         <div class="col-md-4">
                                             <label for="occupation" class="form-label">Occupation</label>
-                                            <input type="text" class="form-control" id="occupation" name="occupation_fc[]" value="{{ old('occupation_fc.0') }}">
+                                            <input type="text" class="form-control" id="occupation"
+                                                name="occupation_fc[]" value="{{ old('occupation_fc.0') }}">
                                             @error('occupation_fc.*')
                                             <small class="text-danger">{{ $message }}</small>
                                             @enderror
@@ -287,13 +321,23 @@
                                         <div class="col-md-4">
                                             <label for="educationalAttainment" class="form-label">Educational
                                                 Attainment</label>
-                                            <select class="form-select" id="educationalAttainment" name="educational_attainment_fc[]">
+                                            <select class="form-select" id="educationalAttainment"
+                                                name="educational_attainment_fc[]">
                                                 <option value="">Select</option>
-                                                <option value="No Formal Education" {{ old('educational_attainment_fc.0') == 'No Formal Education' ? 'selected' : '' }}>No Formal Education</option>
-                                                <option value="Elementary" {{ old('educational_attainment_fc.0') == 'Elementary' ? 'selected' : '' }}>Elementary</option>
-                                                <option value="High School" {{ old('educational_attainment_fc.0') == 'High School' ? 'selected' : '' }}>High School</option>
-                                                <option value="College" {{ old('educational_attainment_fc.0') == 'College' ? 'selected' : '' }}>College</option>
-                                                <option value="Postgraduate" {{ old('educational_attainment_fc.0') == 'Postgraduate' ? 'selected' : '' }}>Postgraduate</option>
+                                                <option value="No Formal Education" {{
+                                                    old('educational_attainment_fc.0')=='No Formal Education'
+                                                    ? 'selected' : '' }}>No Formal Education</option>
+                                                <option value="Elementary" {{
+                                                    old('educational_attainment_fc.0')=='Elementary' ? 'selected' : ''
+                                                    }}>Elementary</option>
+                                                <option value="High School" {{
+                                                    old('educational_attainment_fc.0')=='High School' ? 'selected' : ''
+                                                    }}>High School</option>
+                                                <option value="College" {{ old('educational_attainment_fc.0')=='College'
+                                                    ? 'selected' : '' }}>College</option>
+                                                <option value="Postgraduate" {{
+                                                    old('educational_attainment_fc.0')=='Postgraduate' ? 'selected' : ''
+                                                    }}>Postgraduate</option>
                                             </select>
                                             @error('educational_attainment_fc.*')
                                             <small class="text-danger">{{ $message }}</small>
@@ -302,7 +346,8 @@
                                     </div>
                                 </div>
 
-                                <button type="button" id="addFamilyComposition" class="mt-2 btn btn-primary float-end">Add Field</button>
+                                <button type="button" id="addFamilyComposition"
+                                    class="mt-2 btn btn-primary float-end">Add Field</button>
                             </fieldset>
 
                             <fieldset class="p-3 mb-3 border">
@@ -345,7 +390,8 @@
                                 <div class="row form-row">
                                     <div class="col-md-6">
                                         <label for="sourceReferral" class="form-label">Source of Referral</label>
-                                        <input type="text" class="form-control" id="sourceReferral" name="source_of_referral">
+                                        <input type="text" class="form-control" id="sourceReferral"
+                                            name="source_of_referral">
                                         @error('source_of_referral')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -354,7 +400,8 @@
                                     <!-- Problem Presented -->
                                     <div class="col-md-6">
                                         <label for="problemPresented" class="form-label">Problem Presented</label>
-                                        <input type="text" class="form-control" id="problemPresented" name="problem_presented">
+                                        <input type="text" class="form-control" id="problemPresented"
+                                            name="problem_presented">
                                         @error('problem_presented')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -382,7 +429,8 @@
                                 </div>
                             </fieldset>
 
-                            <button type="submit" class="btn btn-success btn-sm" style="width: 200px; position: fixed; bottom: 20px; right: 5%; z-index: 1000;">
+                            <button type="submit" class="btn btn-success btn-sm"
+                                style="width: 200px; position: fixed; bottom: 20px; right: 5%; z-index: 1000;">
                                 Submit
                             </button>
                         </form>

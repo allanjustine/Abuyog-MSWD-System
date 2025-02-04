@@ -159,8 +159,7 @@ class HomeController extends Controller
                 ->orderBy('created_at', 'desc') // Sorts by most recent first
                 ->get();
 
-                $services = Service::all();
-            return view('user.my_application', compact('apply', 'services'));
+            return view('user.my_application', compact('apply'));
         } else {
             return redirect()->back();
         }

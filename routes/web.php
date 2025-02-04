@@ -117,7 +117,6 @@ Route::get('/applications/{id}', [ApplicationController::class, 'showForm'])->mi
 Route::post('/submit-application', [ApplicationController::class, 'submitApplication'])->middleware('auth');
 
 Route::post('/application', [HomeController::class, 'application']);
-Route::get('/form/{id}', [ApplicationController::class, 'showForm'])->name('forms');
 Route::get('/myapplication', [HomeController::class, 'myapplication'])->name('myapplication');
 Route::get('/cancel_application/{id}', [HomeController::class, 'cancel_application']);
 
