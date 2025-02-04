@@ -118,6 +118,7 @@ Route::post('/submit-application', [ApplicationController::class, 'submitApplica
 
 Route::post('/application', [HomeController::class, 'application']);
 Route::get('/myapplication', [HomeController::class, 'myapplication'])->name('myapplication');
+Route::get('/form/{id}', [ApplicationController::class, 'showForm'])->name('forms');
 Route::get('/cancel_application/{id}', [HomeController::class, 'cancel_application']);
 
 

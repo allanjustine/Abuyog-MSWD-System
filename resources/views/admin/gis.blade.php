@@ -329,8 +329,7 @@
 
                             if (filteredBeneficiaries.length > 0) {
                                 filteredBeneficiaries.forEach(function(beneficiary) {
-                                    bubbleContent += '<li>' + beneficiary.last_name + ' ' +
-                                        beneficiary.first_name + ' (' + beneficiary
+                                    bubbleContent += '<li>' + (benefeciary.full_name ?? beneficiary.name) + ' (' + beneficiary
                                         .program_enrolled + ')</li>';
                                 });
                             } else {
