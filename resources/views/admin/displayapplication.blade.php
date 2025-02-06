@@ -447,8 +447,11 @@
             const button = document.getElementById('button-approve');
             const aicsDiv = document.getElementById('aics-data');
 
+
+
             function checkAllChecked() {
                 const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+                console.log(allChecked);
                 if (allChecked) {
                     message.style.display = 'block';
                     button.style.display = 'block';
