@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barangay;
 use Illuminate\Http\Request;
 use App\Models\Beneficiary;
 use App\Models\Service;
@@ -90,5 +91,13 @@ public function getBeneficiaries(Request $request)
         'beneficiaries' => $beneficiaries,
         'barangays' => $barangays,
     ]);
+}
+
+public function barangay() {
+    $barangays = Barangay::all();
+
+    return response()->json([
+        'barangays' => $barangays
+    ], 200);
 }
 }

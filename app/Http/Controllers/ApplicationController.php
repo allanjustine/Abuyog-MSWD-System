@@ -16,6 +16,7 @@ use App\Models\Application;
 use App\Models\Beneficiary;
 use Barryvdh\DomPDF\Facade\PDF;
 use Illuminate\Support\Facades\App;
+use Carbon\Carbon;
 
 use Vonage\Client;
 use Vonage\Client\Credentials\Basic;
@@ -33,9 +34,53 @@ class ApplicationController extends Controller
 
     public function showForm($id)
     {
+
+        $user = Auth::user();
+
+        $userid = Auth::id();
         // Fetch the specific service using its ID
         $service = Service::findOrFail($id);
 
+        $alreadyHaveOsca = !$user
+        ->whereHas('beneficiaries', function ($query) use ($userid) {
+            $query->where('program_enrolled', 1)
+                ->where(
+                    'user_id',
+                    $userid
+                );
+        })
+        ->with('beneficiaries')
+        ->exists();
+
+        $availableSoloParent = $user->whereHas('beneficiaries', function ($query) use ($userid) {
+            $query->where('program_enrolled', 3)
+                ->where('user_id', $userid)
+                ->where('created_at', '<', Carbon::now()->subYears(5))
+                ->latest();
+        })->exists();
+
+        $availablePwd = $user->whereHas('beneficiaries', function ($query) use ($userid) {
+            $query->where('program_enrolled', 2)
+                ->where('user_id', $userid)
+                ->where('created_at', '<', Carbon::now()->subYears(1))
+                ->latest();
+        })->exists();
+
+        $pwd = Beneficiary::where('user_id', $userid)->where('program_enrolled', 2)->first();
+        $soloParent = Beneficiary::where('user_id', $userid)->where('program_enrolled', 3)->first();
+
+        if ($service->id == 1 && !$alreadyHaveOsca) {
+            return redirect('/myapplication')->with('error', 'You cannot apply for this service. You can submit only once');
+        }
+
+        if ($service->id == 2 && !$availablePwd) {
+            return redirect('/myapplication')->with('error', 'You cannot apply for this service. You have already applied. You can submit another after ' . $pwd->created_at->addYears(1)->diffForHumans());
+        }
+
+        if ($service->id == 3 && !$availableSoloParent) {
+
+            return redirect('/myapplication')->with('error', 'You cannot apply for this service. You can submit another after ' . $pwd->created_at->addYears(5)->diffForHumans());
+        }
         // Fetch the user's latest application for the given service
         $savedData = Application::where('user_id', Auth::id())
             ->where('service_id', $id)

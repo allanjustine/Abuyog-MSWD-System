@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 06, 2025 at 05:13 PM
--- Server version: 10.4.21-MariaDB
+-- Generation Time: Feb 06, 2025 at 10:41 AM
+-- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -30,9 +30,9 @@ SET time_zone = "+00:00";
 CREATE TABLE `accomplished_bies` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `pwd_detail_id` bigint(20) UNSIGNED NOT NULL,
-  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `middle_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `middle_name` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -53,14 +53,14 @@ INSERT INTO `accomplished_bies` (`id`, `pwd_detail_id`, `first_name`, `last_name
 CREATE TABLE `aics_details` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `beneficiary_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `case_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `new_or_old` enum('New','Old') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `case_no` varchar(255) DEFAULT NULL,
+  `new_or_old` enum('New','Old') DEFAULT NULL,
   `date_applied` date DEFAULT NULL,
-  `source_of_referral` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `problem_presented` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `findings` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `action_taken` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type_of_assistance` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `source_of_referral` varchar(255) DEFAULT NULL,
+  `problem_presented` text DEFAULT NULL,
+  `findings` text DEFAULT NULL,
+  `action_taken` text DEFAULT NULL,
+  `type_of_assistance` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -78,7 +78,7 @@ INSERT INTO `aics_details` (`id`, `beneficiary_id`, `case_no`, `new_or_old`, `da
 (14, 49, 'Tempora laboriosam', 'New', '1990-01-10', 'At ullamco aut volup', 'Deserunt voluptatem', 'Accusantium vitae do', 'Elit minus odit rer', NULL, '2025-02-02 07:57:54', '2025-02-02 07:57:54'),
 (15, 52, 'Ipsum quia eaque ve', 'New', '1988-06-30', 'Ipsum voluptatem p', 'Sed voluptatem beata', 'Sed eos est nisi dol', 'Eaque sunt aliquid v', NULL, '2025-02-02 12:34:10', '2025-02-02 12:34:10'),
 (18, 57, NULL, NULL, '2025-02-06', 'asdasd', NULL, NULL, NULL, 'Medical Assistance', '2025-02-05 08:55:50', '2025-02-05 08:55:50'),
-(19, 65, 'asd', 'New', '2025-02-07', 'Test', 'asd', 'asd', 'asd', 'Medical Assistance', NULL, '2025-02-06 13:27:01');
+(19, 65, NULL, NULL, '2025-02-07', 'asdasd', NULL, NULL, NULL, 'Burial Assistance', '2025-02-06 09:08:36', '2025-02-06 09:08:36');
 
 -- --------------------------------------------------------
 
@@ -88,21 +88,21 @@ INSERT INTO `aics_details` (`id`, `beneficiary_id`, `case_no`, `new_or_old`, `da
 
 CREATE TABLE `applications` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
   `service_id` bigint(20) UNSIGNED NOT NULL,
   `date_applied` date DEFAULT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `employee_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `employee_name` varchar(255) DEFAULT NULL,
   `custom_fields` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`custom_fields`)),
   `approved_at` timestamp NULL DEFAULT NULL,
   `appearance_date` timestamp NULL DEFAULT NULL,
   `approved_by` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `cancellation_reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `cancellation_reason` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -121,7 +121,7 @@ INSERT INTO `applications` (`id`, `name`, `email`, `phone`, `service_id`, `date_
 
 CREATE TABLE `barangays` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `latitude` decimal(10,6) NOT NULL,
   `longitude` decimal(10,6) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -457,27 +457,27 @@ INSERT INTO `barangays` (`id`, `name`, `latitude`, `longitude`, `created_at`, `u
 
 CREATE TABLE `beneficiaries` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `middle_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `suffix` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `middle_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `suffix` varchar(255) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
   `age` int(10) UNSIGNED DEFAULT NULL,
-  `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `place_of_birth` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` varchar(255) DEFAULT NULL,
+  `place_of_birth` varchar(255) DEFAULT NULL,
   `program_enrolled` bigint(20) UNSIGNED NOT NULL,
   `barangay_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `complete_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `civil_status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `educational_attainment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `occupation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `religion` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `monthly_income` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `id_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `annual_income` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `other_skills` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `complete_address` varchar(255) DEFAULT NULL,
+  `civil_status` varchar(255) DEFAULT NULL,
+  `educational_attainment` varchar(255) DEFAULT NULL,
+  `occupation` varchar(255) DEFAULT NULL,
+  `religion` varchar(255) DEFAULT NULL,
+  `monthly_income` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `id_number` varchar(255) DEFAULT NULL,
+  `annual_income` varchar(255) DEFAULT NULL,
+  `other_skills` varchar(255) DEFAULT NULL,
   `latitude` decimal(10,6) DEFAULT NULL,
   `longitude` decimal(10,6) DEFAULT NULL,
   `approved_at` timestamp NULL DEFAULT NULL,
@@ -485,8 +485,8 @@ CREATE TABLE `beneficiaries` (
   `approved_by` bigint(20) UNSIGNED DEFAULT NULL,
   `accepted_by` bigint(20) UNSIGNED DEFAULT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT 'pending',
-  `cancellation_reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) DEFAULT 'pending',
+  `cancellation_reason` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -525,12 +525,13 @@ INSERT INTO `beneficiaries` (`id`, `first_name`, `middle_name`, `last_name`, `su
 (50, 'Daria', 'Kyra Cooley', 'Reilly', NULL, '2011-07-23', 13, 'Female', 'Sunt dignissimos qu', 3, 212, NULL, 'Divorced', 'No Formal Education', 'Molestiae magna dolo', 'Molestias corrupti', NULL, '+1 (493) 865-5196', NULL, NULL, '120,000 - 180,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 08:13:34', '2025-02-02 08:13:34'),
 (51, 'Byron', 'Cally Melendez', 'Gamble', NULL, '1987-05-24', 37, 'Female', 'Sunt ad quia labore', 1, 260, NULL, 'Divorced', 'College', 'Quia et nostrum mole', NULL, NULL, NULL, NULL, NULL, '60,000 - 120,000', 'Assumenda veritatis', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 09:11:34', '2025-02-02 10:19:11'),
 (52, 'Steven', 'Sage Nicholson', 'Crane', NULL, '1990-03-14', 34, NULL, 'Tempora omnis commod', 4, 113, NULL, 'Divorced', 'College', 'Reprehenderit qui mi', 'Labore rerum et exce', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 12:34:10', '2025-02-02 12:34:10'),
+(54, 'Lab', NULL, 'Chavez', NULL, '2016-01-13', 59, 'Female', 'Abuyog leyte', 1, 32, 'Abuyog leyte', 'Single', 'College Graduate', 'Student', NULL, NULL, '09949420699', 'sircsaira@gmail.com', NULL, '1223', 'asdasd', NULL, NULL, '2025-02-05 06:26:47', '2025-02-05 16:00:00', 2, 3, 15, 'approved', NULL, '2025-02-05 05:28:13', '2025-02-05 06:26:47'),
 (57, 'Lab', ' ', ' Chavez', '', '2016-01-13', 60, NULL, 'Abuyog leyte', 4, 32, 'Abuyog leyte', 'Single', 'College Graduate', 'Student', 'Adventist', NULL, '09949420699', 'sircsaira@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-06 06:57:08', '2025-02-05 16:00:00', 2, 3, 15, 'approved', NULL, '2025-02-05 08:55:50', '2025-02-06 06:57:08'),
 (58, 'Lab', ' ', ' Chavez', '', '1989-03-24', 59, 'Female', 'Quod sint alias esse', 3, 311, 'Pariatur Et expedit', 'Single', 'College Level', 'Qui minim soluta ex', 'Ullamco enim sed ab', '342', '09949420699', 'sircsaira@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '1983-11-28 16:00:00', NULL, NULL, 15, 'pending', NULL, '2025-02-06 02:30:02', '2025-02-06 02:30:02'),
-(62, 'Lab', NULL, 'Chavez', NULL, '1982-01-17', 59, 'female', NULL, 2, 64, NULL, 'Single', 'senior_high', 'professional', NULL, NULL, '09949420699', 'sircsaira@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-06 06:53:23', '2025-11-18 16:00:00', 2, 2, 15, 'approved', NULL, '2025-02-05 03:55:55', '2025-02-06 06:53:23'),
-(64, 'Rachel', NULL, 'Bruce', NULL, '2003-08-25', 21, 'Female', 'Magnam velit ut in r', 2, 267, NULL, 'Single', 'College', 'Impedit vel sunt f', 'Exercitation volupta', NULL, '+1 (597) 704-3473', NULL, NULL, '120,000 - 180,000', NULL, NULL, NULL, '2025-02-06 13:02:15', NULL, 2, 2, NULL, 'released', NULL, '2025-02-06 07:24:29', '2025-02-06 14:17:52'),
-(65, 'Lab', ' ', ' Chavez', '', '2016-01-13', 60, NULL, 'Abuyog leyte', 4, 32, 'Abuyog leyte', 'Single', 'College Graduate', 'Student', 'Adventist', NULL, '09949420699', 'sircsaira@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-06 13:27:01', '2025-02-06 16:00:00', 2, 3, 15, 'released', NULL, '2025-02-06 09:08:36', '2025-02-06 14:18:16'),
-(67, 'Lab', NULL, 'Chavez', NULL, '2016-01-13', 60, 'Female', 'Abuyog leyte', 1, 32, 'Abuyog leyte', 'Single', 'College Graduate', 'Student', NULL, NULL, '09949420699', 'sircsaira@gmail.com', NULL, '123', 'asdasd', NULL, NULL, NULL, '2025-02-06 16:00:00', NULL, NULL, 15, 'pending', NULL, '2025-02-05 15:18:02', '2025-02-06 15:18:02');
+(62, 'Lab', NULL, 'Chavez', NULL, '1982-01-17', 59, 'female', NULL, 2, 64, NULL, 'Single', 'senior_high', 'professional', NULL, NULL, '09949420699', 'sircsaira@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-06 06:53:23', '2025-11-18 16:00:00', 2, 2, 15, 'approved', NULL, '2025-02-06 03:55:55', '2025-02-06 06:53:23'),
+(63, 'Kylan', 'Aspen Martinez', 'Morrison', NULL, '1980-02-12', 44, 'Female', 'Aute veritatis ab ni', 1, 211, NULL, 'Widowed', 'Elementary', 'Culpa pariatur Aut', NULL, NULL, NULL, NULL, NULL, 'Below 60,000', 'Ullam beatae odit re', NULL, NULL, '2025-02-06 07:23:18', NULL, 2, 2, NULL, 'approved', NULL, '2025-02-06 07:19:40', '2025-02-06 07:19:40'),
+(64, 'Rachel', NULL, 'Bruce', NULL, '2003-08-25', 21, 'Female', 'Magnam velit ut in r', 2, 267, NULL, 'Single', 'College', 'Impedit vel sunt f', 'Exercitation volupta', NULL, '+1 (597) 704-3473', NULL, NULL, '120,000 - 180,000', NULL, NULL, NULL, '2025-02-06 07:24:29', NULL, 2, 2, NULL, 'approved', NULL, '2025-02-06 07:24:29', '2025-02-06 07:24:29'),
+(65, 'Lab', ' ', ' Chavez', '', '2016-01-13', 60, NULL, 'Abuyog leyte', 4, 32, 'Abuyog leyte', 'Single', 'College Graduate', 'Student', 'Adventist', NULL, '09949420699', 'sircsaira@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-06 16:00:00', NULL, 3, 15, 'accepted', NULL, '2025-02-06 09:08:36', '2025-02-06 09:09:17');
 
 -- --------------------------------------------------------
 
@@ -541,12 +542,12 @@ INSERT INTO `beneficiaries` (`id`, `first_name`, `middle_name`, `last_name`, `su
 CREATE TABLE `benefits_received` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `beneficiary_id` bigint(20) UNSIGNED NOT NULL,
-  `name_of_assistance` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name_of_assistance` varchar(255) NOT NULL,
   `amount` decimal(10,2) DEFAULT NULL,
   `date_received` date DEFAULT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Pending',
-  `not_received_reason` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type_of_assistance` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Others',
+  `status` varchar(255) NOT NULL DEFAULT 'Pending',
+  `not_received_reason` text DEFAULT NULL,
+  `type_of_assistance` varchar(255) NOT NULL DEFAULT 'Others',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -562,8 +563,7 @@ INSERT INTO `benefits_received` (`id`, `beneficiary_id`, `name_of_assistance`, `
 (4, 4, 'tuition fee support', 20000.00, NULL, 'Not Received', NULL, 'Educational', '2025-01-23 17:06:02', '2025-01-23 17:23:47'),
 (5, 3, 'scholarship program', 50000.00, NULL, 'Not Received', NULL, 'Educational', '2025-01-23 19:54:01', '2025-01-24 01:04:29'),
 (6, 4, 'scholarship program', 50000.00, '2025-01-24', 'Received', NULL, 'Educational', '2025-01-23 19:54:01', '2025-01-24 01:08:36'),
-(7, 4, 'medical support', 5000.00, '2025-01-24', 'Received', NULL, 'Medical', '2025-01-24 01:01:21', '2025-01-24 01:04:18'),
-(14, 65, 'Aics', 200.00, '2025-02-06', 'Received', NULL, 'Medical Assistance', '2025-02-06 14:18:16', '2025-02-06 14:18:16');
+(7, 4, 'medical support', 5000.00, '2025-01-24', 'Received', NULL, 'Medical', '2025-01-24 01:01:21', '2025-01-24 01:04:18');
 
 -- --------------------------------------------------------
 
@@ -572,8 +572,8 @@ INSERT INTO `benefits_received` (`id`, `beneficiary_id`, `name_of_assistance`, `
 --
 
 CREATE TABLE `cache` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) NOT NULL,
+  `value` mediumtext NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -584,14 +584,14 @@ CREATE TABLE `cache` (
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
 ('30dc4533dfafd67923c2bcaf20d1ee32', 'i:1;', 1738738685),
 ('30dc4533dfafd67923c2bcaf20d1ee32:timer', 'i:1738738685;', 1738738685),
-('4007a77d61f38f0a451d12d0610c1f37', 'i:1;', 1738853701),
-('4007a77d61f38f0a451d12d0610c1f37:timer', 'i:1738853701;', 1738853701),
+('4007a77d61f38f0a451d12d0610c1f37', 'i:1;', 1738832920),
+('4007a77d61f38f0a451d12d0610c1f37:timer', 'i:1738832920;', 1738832920),
 ('57bc340b768240bc71899f9cec326b87', 'i:1;', 1738830413),
 ('57bc340b768240bc71899f9cec326b87:timer', 'i:1738830413;', 1738830413),
 ('a739eb2cce820da781b0b30981a58db5', 'i:1;', 1738833116),
 ('a739eb2cce820da781b0b30981a58db5:timer', 'i:1738833115;', 1738833115),
-('c525a5357e97fef8d3db25841c86da1a', 'i:1;', 1738841247),
-('c525a5357e97fef8d3db25841c86da1a:timer', 'i:1738841247;', 1738841247),
+('c525a5357e97fef8d3db25841c86da1a', 'i:2;', 1738833171),
+('c525a5357e97fef8d3db25841c86da1a:timer', 'i:1738833171;', 1738833171),
 ('c559ce6440ef714c0e125cc4c9d3cce8', 'i:1;', 1738831221),
 ('c559ce6440ef714c0e125cc4c9d3cce8:timer', 'i:1738831221;', 1738831221),
 ('d705d38f09e57c5916c5360104cc1825', 'i:1;', 1738738142),
@@ -604,8 +604,8 @@ INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
 --
 
 CREATE TABLE `cache_locks` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `owner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) NOT NULL,
+  `owner` varchar(255) NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -618,10 +618,10 @@ CREATE TABLE `cache_locks` (
 CREATE TABLE `contact_emergencies` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `beneficiary_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contact_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `relationship` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT 'Not set',
+  `name` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `contact_number` varchar(255) DEFAULT NULL,
+  `relationship` varchar(255) DEFAULT 'Not set',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -650,21 +650,21 @@ INSERT INTO `contact_emergencies` (`id`, `beneficiary_id`, `name`, `address`, `c
 
 CREATE TABLE `deceased` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `middle_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `middle_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
   `barangay_id` bigint(20) UNSIGNED DEFAULT NULL,
   `service_id` bigint(20) UNSIGNED DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
   `age` int(11) DEFAULT NULL,
-  `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `civil_status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gov_id_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `program_specific_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` varchar(255) DEFAULT NULL,
+  `civil_status` varchar(255) DEFAULT NULL,
+  `gov_id_number` varchar(255) DEFAULT NULL,
+  `program_specific_id` varchar(255) DEFAULT NULL,
   `date_of_application` date DEFAULT NULL,
-  `assistance_availed` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `assistance_availed` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -686,11 +686,11 @@ INSERT INTO `deceased` (`id`, `first_name`, `middle_name`, `last_name`, `email`,
 
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -703,15 +703,15 @@ CREATE TABLE `failed_jobs` (
 CREATE TABLE `family_backgrounds` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `beneficiary_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `father_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `mother_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `guardian_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `father_occupation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `mother_occupation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `guardian_occupation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `father_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `mother_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `guardian_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `father_name` varchar(255) DEFAULT NULL,
+  `mother_name` varchar(255) DEFAULT NULL,
+  `guardian_name` varchar(255) DEFAULT NULL,
+  `father_occupation` varchar(255) DEFAULT NULL,
+  `mother_occupation` varchar(255) DEFAULT NULL,
+  `guardian_occupation` varchar(255) DEFAULT NULL,
+  `father_phone` varchar(255) DEFAULT NULL,
+  `mother_phone` varchar(255) DEFAULT NULL,
+  `guardian_phone` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -738,15 +738,15 @@ INSERT INTO `family_backgrounds` (`id`, `beneficiary_id`, `father_name`, `mother
 CREATE TABLE `family_compositions` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `beneficiary_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `relationship` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `age` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `civil_status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `occupation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `relationship` varchar(255) DEFAULT NULL,
+  `age` varchar(255) DEFAULT NULL,
+  `civil_status` varchar(255) DEFAULT NULL,
+  `occupation` varchar(255) DEFAULT NULL,
   `birthday` date DEFAULT NULL,
-  `educational` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `income` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `educational` varchar(255) DEFAULT NULL,
+  `income` varchar(255) DEFAULT NULL,
+  `gender` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -803,10 +803,11 @@ INSERT INTO `family_compositions` (`id`, `beneficiary_id`, `name`, `relationship
 (77, 9, 'Lamar Simon', 'Nisi facilis volupta', '95', 'Married', 'Autem adipisicing ve', '2012-07-03', 'No Formal Education', 'Below 60,000', NULL, '2025-02-02 12:48:04', '2025-02-02 12:48:04'),
 (78, 9, 'Erin Bender', 'Nihil cupidatat exce', '43', 'Married', 'Exercitation quisqua', '2020-09-15', 'College', 'Below 60,000', NULL, '2025-02-02 12:48:04', '2025-02-02 12:48:04'),
 (79, 9, 'Zenaida Potts', 'Et est proident et', '42', 'Married', 'Fugiat recusandae O', '1980-08-12', 'No Formal Education', '120,000 - 180,000', NULL, '2025-02-02 12:48:04', '2025-02-02 12:48:04'),
+(81, 54, 'asda', 'sdasdasd', '12', 'asdasd', 'asdasd', NULL, NULL, '123', NULL, '2025-02-05 05:28:13', '2025-02-05 05:28:13'),
 (85, 57, 'asda', 'asdf', '12', 'asdf', 'asdf', NULL, 'asdf', NULL, 'Female', '2025-02-05 08:55:50', '2025-02-05 08:55:50'),
 (86, 58, 'Danielle Ferrell', 'Eos non deleniti ani', '79', 'Rerum corrupti nihi', 'Aut aliquip quibusda', '2017-02-28', 'Exercitation exercit', '884', NULL, '2025-02-06 02:30:02', '2025-02-06 02:30:02'),
-(88, 65, 'asdfas', 'asdf', '12', 'asdf', 'adsfsdaf', NULL, 'asdf', NULL, 'Female', '2025-02-06 09:08:36', '2025-02-06 09:08:36'),
-(90, 67, 'asdasd', 'asdasd', '12', 'asdasd', 'asdasd', NULL, NULL, '12', NULL, '2025-02-06 15:18:02', '2025-02-06 15:18:02');
+(87, 63, 'Gil Singleton', 'Ea voluptatem Ducim', '64', 'Married', 'Illo ea consectetur', NULL, NULL, 'Below 60,000', NULL, '2025-02-06 07:19:40', '2025-02-06 07:19:40'),
+(88, 65, 'asdfas', 'asdf', '12', 'asdf', 'adsfsdaf', NULL, 'asdf', NULL, 'Female', '2025-02-06 09:08:36', '2025-02-06 09:08:36');
 
 -- --------------------------------------------------------
 
@@ -828,8 +829,8 @@ CREATE TABLE `gis` (
 
 CREATE TABLE `jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
   `attempts` tinyint(3) UNSIGNED NOT NULL,
   `reserved_at` int(10) UNSIGNED DEFAULT NULL,
   `available_at` int(10) UNSIGNED NOT NULL,
@@ -843,13 +844,13 @@ CREATE TABLE `jobs` (
 --
 
 CREATE TABLE `job_batches` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `total_jobs` int(11) NOT NULL,
   `pending_jobs` int(11) NOT NULL,
   `failed_jobs` int(11) NOT NULL,
-  `failed_job_ids` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `options` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `failed_job_ids` longtext NOT NULL,
+  `options` mediumtext DEFAULT NULL,
   `cancelled_at` int(11) DEFAULT NULL,
   `created_at` int(11) NOT NULL,
   `finished_at` int(11) DEFAULT NULL
@@ -863,7 +864,7 @@ CREATE TABLE `job_batches` (
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -903,8 +904,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -916,11 +917,11 @@ CREATE TABLE `password_reset_tokens` (
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -936,32 +937,32 @@ CREATE TABLE `personal_access_tokens` (
 CREATE TABLE `pwd_details` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `beneficiary_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `type_of_disability` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cause_of_disability` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `acquired` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `congenital_inborn` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `house_no_and_street` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `municipality` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `province` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `region` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `landline_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status_of_employment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `category_of_employment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `types_of_employment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `organization_affiliated` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contact_person` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `office_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tel_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sss_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gsis_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pag_ibig_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `psn_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `philhealth_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `accomplished_by` enum('applicant','guardian','representative') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `blood_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pwd_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `application_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type_of_disability` varchar(255) DEFAULT NULL,
+  `cause_of_disability` varchar(255) DEFAULT NULL,
+  `acquired` varchar(255) DEFAULT NULL,
+  `congenital_inborn` varchar(255) DEFAULT NULL,
+  `house_no_and_street` varchar(255) DEFAULT NULL,
+  `municipality` varchar(255) DEFAULT NULL,
+  `province` varchar(255) DEFAULT NULL,
+  `region` varchar(255) DEFAULT NULL,
+  `landline_no` varchar(255) DEFAULT NULL,
+  `email_address` varchar(255) DEFAULT NULL,
+  `status_of_employment` varchar(255) DEFAULT NULL,
+  `category_of_employment` varchar(255) DEFAULT NULL,
+  `types_of_employment` varchar(255) DEFAULT NULL,
+  `organization_affiliated` varchar(255) DEFAULT NULL,
+  `contact_person` varchar(255) DEFAULT NULL,
+  `office_address` varchar(255) DEFAULT NULL,
+  `tel_no` varchar(255) DEFAULT NULL,
+  `sss_no` varchar(255) DEFAULT NULL,
+  `gsis_no` varchar(255) DEFAULT NULL,
+  `pag_ibig_no` varchar(255) DEFAULT NULL,
+  `psn_no` varchar(255) DEFAULT NULL,
+  `philhealth_no` varchar(255) DEFAULT NULL,
+  `accomplished_by` enum('applicant','guardian','representative') DEFAULT NULL,
+  `blood_type` varchar(255) DEFAULT NULL,
+  `pwd_number` varchar(255) DEFAULT NULL,
+  `application_type` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -987,9 +988,9 @@ INSERT INTO `pwd_details` (`id`, `beneficiary_id`, `type_of_disability`, `cause_
 
 CREATE TABLE `services` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1011,11 +1012,11 @@ INSERT INTO `services` (`id`, `name`, `description`, `image`, `created_at`, `upd
 --
 
 CREATE TABLE `sessions` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(255) NOT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_agent` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `payload` longtext NOT NULL,
   `last_activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1024,7 +1025,13 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('rSSGvPk0paIHQgQUk6WOEUHOmQoaaanFTVZAlxb4', 15, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoidzRxRnpXTjdOcGFjVkx0Sk85cFNVcXREVzBma2xHekwzV2d5a2xNaiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzU6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9teWFwcGxpY2F0aW9uIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTU7fQ==', 1738857938);
+('2ZgFg8imfbV2IlnNkppV0F9MV1gPfUS0D5ulTCIZ', NULL, '175.176.69.194', 'Mozilla/5.0 (Linux; Android 14; RMX3710 Build/UKQ1.230924.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/132.0.6834.163 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/492.0.0.59.109;]', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNDFkNlNsRzB2eGExdEVqbkh6d0Zrbno3Q2N3ZDNkZHJ1T2t4bEpUWSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMzYuMjM5LjE5Ni4xNzg6NTAwNSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1738834634),
+('BZDSQkkqLGHq6fltzS4eN0vFYvo8GKmfQDj29Gji', 2, '175.176.69.194', 'Mozilla/5.0 (Linux; Android 11; RMX3511 Build/RP1A.201005.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/131.0.6778.261 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/491.0.0.46.109;]', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiWkN2SGJRTzd5bWNPVkpkb3JhVHpHdkVOMzY5UVQyRG9EcEhXWnNJUCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTE6Imh0dHA6Ly8xMzYuMjM5LjE5Ni4xNzg6NTAwNS9zaG93YmVuZWZpY2lhcmllc19hZG1pbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTIkR2tiallnWE9MbWFOVmVPSXJrTEh3T1FVVUJURmhOME9CaDk1cEpOVEs4VmQvbjJQRS83SS4iO30=', 1738834860),
+('FXiU51Be7xQVQ0pceymq3xnOP7ZwIGvJ0qyHIs1S', 2, '49.145.162.28', 'Mozilla/5.0 (Linux; Android 14; V2248 Build/UP1A.231005.007_NONFC; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/132.0.6834.122 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/492.0.0.59.109;]', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiVFRtUERvTGdaaXA4OWIyYlNIbzRueGZQMHN1Z0NDMm40QkVYT2dPUSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6OTg6Imh0dHA6Ly8xMzYuMjM5LjE5Ni4xNzg6NTAwNS9zaG93YmVuZWZpY2lhcmllc19hZG1pbj9zZXJ2aWNlPVBXRCUyOFBlcnNvbnMlMjB3aXRoJTIwRGlzYWJpbGl0aWVzJTI5Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1738831293),
+('J2xqC2LagouM5hwTXRbdRpPoWEhMF0zTnND7xAeQ', 2, '10.10.2.254', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRVhPSnZWSUdiV0xVajRjcjFuS3NycGsxYTBQWVFRTW5QcFY4akVtSyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDY6Imh0dHA6Ly8xMzYuMjM5LjE5Ni4xNzg6NTAwNS9kaXNwbGF5YXBwbGljYXRpb24iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO30=', 1738834801),
+('jQ1UlAdXqqjMLVaEQtaF5L6OsgVmMJLm1O88LgPB', NULL, '173.252.95.16', 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMUhJUGhFcWdRNzB3Rm5tMEVWcTRNdk1VSWhZa2M3OFJlTGVUdzN0VCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMzYuMjM5LjE5Ni4xNzg6NTAwNSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1738831043),
+('KSq1CBBDcWgup41ODHGdKR0CC15iawULewaV5iNx', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiUlZJdlVZNEZPU0dwUldrT2hRanpUTEZ0aERLaE5zS1BnYkQ3TGdkRCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDA6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwNS9kaXNwbGF5YXBwbGljYXRpb24iO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO30=', 1738834780),
+('q3f9sQbxbJfA6tWdlHjsVUISr2I5xh3B7GPoNEc5', NULL, '49.145.162.28', 'Mozilla/5.0 (Linux; Android 11; RMX3511 Build/RP1A.201005.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/131.0.6778.261 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/491.0.0.46.109;]', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoidXhjUVV2MHVDVlA0TlNROGdtVFpsRksxRFVYOVFMNENDcFAzNHJ3UiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMzYuMjM5LjE5Ni4xNzg6NTAwNSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1738831080);
 
 -- --------------------------------------------------------
 
@@ -1034,10 +1041,10 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 
 CREATE TABLE `sms_logs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `phone_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `error_message` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone_number` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `error_message` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1100,10 +1107,7 @@ INSERT INTO `sms_logs` (`id`, `phone_number`, `message`, `status`, `error_messag
 (51, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-06 06:18:58', '2025-02-06 06:18:58'),
 (52, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-06 06:19:00', '2025-02-06 06:19:00'),
 (53, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-06 09:09:21', '2025-02-06 09:09:21'),
-(54, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-06 09:09:23', '2025-02-06 09:09:23'),
-(55, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-06 13:04:54', '2025-02-06 13:04:54'),
-(56, '+1 (597) 704-3473', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-06 14:17:52', '2025-02-06 14:17:52'),
-(57, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-06 14:18:16', '2025-02-06 14:18:16');
+(54, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-06 09:09:23', '2025-02-06 09:09:23');
 
 -- --------------------------------------------------------
 
@@ -1114,11 +1118,11 @@ INSERT INTO `sms_logs` (`id`, `phone_number`, `message`, `status`, `error_messag
 CREATE TABLE `solo_parent_details` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `beneficiary_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `company_agency` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `four_ps_beneficiary` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `indigenous_person` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `classification_circumtances` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `needs_problems` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `company_agency` varchar(255) DEFAULT NULL,
+  `four_ps_beneficiary` varchar(255) DEFAULT NULL,
+  `indigenous_person` varchar(255) DEFAULT NULL,
+  `classification_circumtances` varchar(255) DEFAULT NULL,
+  `needs_problems` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1147,27 +1151,27 @@ INSERT INTO `solo_parent_details` (`id`, `beneficiary_id`, `company_agency`, `fo
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `middle_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `suffix` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `middle_name` varchar(255) DEFAULT NULL,
+  `suffix` varchar(255) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(255) DEFAULT NULL,
   `barangay_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `usertype` enum('beneficiary','employee','operator','admin') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `usertype` enum('beneficiary','employee','operator','admin') NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `two_factor_secret` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `two_factor_recovery_codes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `two_factor_secret` text DEFAULT NULL,
+  `two_factor_recovery_codes` text DEFAULT NULL,
   `two_factor_confirmed_at` timestamp NULL DEFAULT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `current_team_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `profile_photo_path` varchar(2048) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `profile_photo_path` varchar(2048) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
-  `age` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `age` varchar(255) DEFAULT NULL,
+  `gender` varchar(255) DEFAULT NULL,
   `has_minor_child` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1210,8 +1214,8 @@ INSERT INTO `users` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `
 CREATE TABLE `user_meta` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `meta_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `meta_value` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `meta_key` varchar(255) NOT NULL,
+  `meta_value` longtext NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1493,7 +1497,7 @@ ALTER TABLE `accomplished_bies`
 -- AUTO_INCREMENT for table `aics_details`
 --
 ALTER TABLE `aics_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `applications`
@@ -1511,13 +1515,13 @@ ALTER TABLE `barangays`
 -- AUTO_INCREMENT for table `beneficiaries`
 --
 ALTER TABLE `beneficiaries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `benefits_received`
 --
 ALTER TABLE `benefits_received`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `contact_emergencies`
@@ -1547,7 +1551,7 @@ ALTER TABLE `family_backgrounds`
 -- AUTO_INCREMENT for table `family_compositions`
 --
 ALTER TABLE `family_compositions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `gis`
@@ -1589,7 +1593,7 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `sms_logs`
 --
 ALTER TABLE `sms_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `solo_parent_details`

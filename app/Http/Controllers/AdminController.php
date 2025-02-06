@@ -94,11 +94,26 @@ class AdminController extends Controller
 
         $status = $request->query('status');
 
+        $from = $request->query('from');
+
+        $to = $request->query('to');
+
         $data = Beneficiary::with(['approvedBy', 'acceptedBy', 'aicsDetails', 'pwdDetails', 'soloParentDetails', 'service', 'barangay'])->where(function ($query) use ($filter) {
             $query->where('status', $filter ?? 'approved')->orWhere('status', 'accepted');
         })
-            ->orWhere(function ($query) use ($status) {
-                $query->where('status', $status);
+            ->where(function ($query) use ($status, $from, $to) {
+                if ($status) {
+                    $query->where('status', $status);
+                }
+                if ($from && $to) {
+                    $query->where(function ($q) use ($from, $to) {
+                        $q->whereBetween('appearance_date', [$from, $to])
+                          ->orWhere(function ($q) use ($from, $to) {
+                              $q->whereNull('appearance_date')
+                                ->whereBetween('created_at', [$from, $to]);
+                          });
+                    });
+                }
             })
             ->orderBy('created_at', 'desc')->paginate(10);
         return view('admin.displayapplication', compact('data'));
@@ -576,7 +591,7 @@ class AdminController extends Controller
     {
         $application = Beneficiary::findOrFail($id);
 
-        $aicsType = AicsDetail::findOrFail($application->id);
+        $aicsType = AicsDetail::where('beneficiary_id', $application->id)->first();
 
         $application->update([
             'approved_by'           =>          Auth::user()->id,
@@ -1498,7 +1513,7 @@ class AdminController extends Controller
         return redirect($url)->with('success', 'Beneficiary updated successfully!');
     }
 
-    public function releasedUser($id)
+    public function releasedUser(Request $request, $id)
     {
         $beneficiary = Beneficiary::findOrFail($id);
 
@@ -1508,6 +1523,17 @@ class AdminController extends Controller
         $beneficiary->update([
             'status'        =>          'released'
         ]);
+
+        if($beneficiary->service->id == 4) {
+            BenefitReceived::create([
+                'beneficiary_id'            =>          $beneficiary->id,
+                'name_of_assistance'        =>          'Aics',
+                'amount'                    =>          $request->amount,
+                'date_received'             =>          now(),
+                'status'                    =>          'Received',
+                'type_of_assistance'        =>          $beneficiary->aicsDetails[0]->type_of_assistance
+            ]);
+        }
 
         return back()->with('success', 'Beneficiary marked as released successfully');
     }

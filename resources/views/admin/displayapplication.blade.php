@@ -39,24 +39,35 @@
                     <div class="gap-2 d-flex align-items-center">
                         <form>
                             <div class="gap-2 d-flex">
-                                <label for="filter" style="width: 220px;">Filter by Status:</label>
-                                <select class="form-select" name="filter" id="">
-                                    <option value="" hidden disabled>Filter by Status</option>
-                                    <option value="" disabled>Filter by Status</option>
-                                    <option value="" {{ request()->filter == '' ? 'selected' : '' }}>All</option>
-                                    <option value="accepted" {{ request()->filter == 'accepted' ? 'selected' : ''
-                                        }}>Accepted</option>
-                                    <option value="pending" {{ request()->filter == 'pending' ? 'selected' : ''
-                                        }}>Pending
-                                    </option>
-                                    <option value="rejected" {{ request()->filter == 'rejected' ? 'selected' : ''
-                                        }}>Rejected</option>
-                                </select>
-                                <button class="btn btn-primary" type="submit">Filter</button>
+                                <div>
+                                    <label for="filter" style="width: 220px;">Filter by Status:</label>
+                                    <select class="form-select" name="filter" id="">
+                                        <option value="" hidden disabled>Filter by Status</option>
+                                        <option value="" disabled>Filter by Status</option>
+                                        <option value="" {{ request()->filter == '' ? 'selected' : '' }}>All</option>
+                                        <option value="accepted" {{ request()->filter == 'accepted' ? 'selected' : ''
+                                            }}>Accepted</option>
+                                        <option value="pending" {{ request()->filter == 'pending' ? 'selected' : ''
+                                            }}>Pending
+                                        </option>
+                                        <option value="rejected" {{ request()->filter == 'rejected' ? 'selected' : ''
+                                            }}>Rejected</option>
+                                    </select></div>
+                                <div>
+                                    <label for="from">From:</label>
+                                    <input type="date" name="from" value="{{ request()->from }}" class="form-control">
+                                </div>
+                                <div>
+                                    <label for="to">To:</label>
+                                    <input type="date" name="to" value="{{ request()->to }}" class="form-control">
+                                </div>
+                                <div class="mt-4"><button class="btn btn-primary" type="submit">Filter</button></div>
                             </div>
                         </form>
-                        <form>
+                        <form class="mt-3">
                             <input type="hidden" name="filter" value="">
+                            <input type="hidden" name="from" value="">
+                            <input type="hidden" name="to" value="">
                             <button class="btn btn-warning" type="submit">Reset Filter</button>
                         </form>
                     </div>
@@ -142,27 +153,33 @@
                             <div class="modal fade" id="releasedModal{{ $item?->id }}" tabindex="-1"
                                 aria-labelledby="releasedModalLabel{{ $item?->id }}" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="text-white modal-header bg-danger">
-                                            <h5 class="modal-title" id="releasedModalLabel{{ $item?->id }}">
-                                                Processing for release...</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                    <form action="/released/{{ $item?->id }}" method="POST">
+                                        @csrf
+                                        <div class="modal-content">
+                                            <div class="text-white modal-header bg-danger">
+                                                <h5 class="modal-title" id="releasedModalLabel{{ $item?->id }}">
+                                                    Processing for release...</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to marked
+                                                    <strong>{{ $item?->first_name }}
+                                                        {{ $item?->last_name }}</strong> as for released? This action cannot be
+                                                    undone.
+                                                </p>
+                                                @if($item->service->id === 4)
+                                                    <p class="fw-bold fs-5">For AICS, Please Enter an Amount</p>
+                                                    <input type="text" name="amount" class="form-control" required placeholder="Enter Amount">
+                                                @endif
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Cancel</button>
+                                                <button class="btn btn-danger" type="submit">Yes, Sure</button>
+                                            </div>
                                         </div>
-                                        <div class="modal-body">
-                                            <p>Are you sure you want to marked
-                                                <strong>{{ $item?->first_name }}
-                                                    {{ $item?->last_name }}</strong> as for released? This action cannot be
-                                                undone.
-                                            </p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Cancel</button>
-                                            <a class="btn btn-danger"
-                                                href="/released/{{ $item?->id }}">Yes, Sure</a>
-                                        </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                             <div class="modal fade" id="ApproveModal{{ $item->id }}" tabindex="-1"
@@ -173,13 +190,13 @@
                                             @csrf
                                             <div class="modal-header">
                                                 <h1 class="modal-title fs-5" id="ApproveModal{{ $item->id }}Label">
-                                                    Approving...
+                                                    Confirm...
                                                 </h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure you want to approve this application of <strong>{{
+                                            <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+                                                <p>Do you want to proceed with this application approval of <strong>{{
                                                         $item?->name ?? 'Not set'
                                                         }}</strong> that accepted by <strong>{{ $item?->acceptedBy?->full_name ?? 'Pending'
                                                         }}</strong>?</p>
@@ -299,18 +316,19 @@
 
                                             <div x-data="{ open: false }">
                                                 <button type="button" class="btn btn-primary" @click="open = !open">View Checklist</button>
-                                                <ul class="fw-bold text-uppercase text-start ml-3" style="list-style: square" x-cloak x-show="open" id="requirements-list">
+                                                <ul class="ml-3 fw-bold text-uppercase text-start" style="list-style: square" x-cloak x-show="open" id="requirements-list">
                                                     @foreach ($requirements as $index => $requirement)
-                                                        <li><input type="checkbox" class="requirement-checkbox"> {{ $requirement }}</li>
+                                                        <li><input type="checkbox" class="requirement-checkbox{{ $item->id }}"> {{ $requirement }}</li>
+
                                                     @endforeach
                                                 </ul>
                                             </div>
-                                            <p id="message" class="text-success fw-bold fs-4" style="display: none;"><i class="mdi mdi-check-all"></i> All requirements are checked!</p>
+                                            <p id="message{{ $item->id }}" class="text-success fw-bold fs-4" style="display: none;"><i class="mdi mdi-check-all"></i> All requirements are checked!</p>
 
                                             @if ($item->service->id == 4)
-                                                <div class="container" style="display: none;" id="aics-data">
-                                                    <h2>For AICS Types</h2>
-                                                    <div class="form-row">
+                                                <div class="container" style="display: none;" id="aics-data{{ $item->id }}">
+                                                    <h2 class="mt-3 fw-bold text-uppercase fs-4">For AICS Types</h2>
+                                                    <div class="form-row row">
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="case_no">Case No.</label>
@@ -344,7 +362,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-row">
+                                                    <div class="form-row row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="findings">Findings</label>
@@ -370,7 +388,7 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
                                                     data-bs-dismiss="modal">No</button>
-                                                <button type="submit" class="btn btn-primary" id="button-approve" style="display: none;">Yes, Approve</button>
+                                                <button type="submit" class="btn btn-primary" id="button-approve{{ $item->id }}" style="display: none;">Yes, Confirm</button>
                                             </div>
                                         </form>
                                     </div>
@@ -416,6 +434,34 @@
                                 </div>
                             </div>
                             @include('admin.components.view-modal')
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+
+                                    const checkboxes = document.querySelectorAll(".requirement-checkbox{{ $item->id }}");
+                                    const message = document.getElementById('message{{ $item->id }}');
+                                    const button = document.getElementById('button-approve{{ $item->id }}');
+                                    const aicsDiv = document.getElementById('aics-data{{ $item->id }}');
+
+                                    function checkAllChecked() {
+                                        const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+                                        if (allChecked) {
+                                            message.style.display = 'block';
+                                            button.style.display = 'block';
+                                            aicsDiv.style.display = 'block';
+                                        } else {
+                                            message.style.display = 'none';
+                                            button.style.display = 'none';
+                                            aicsDiv.style.display = 'none';
+                                        }
+                                    }
+
+                                    checkboxes.forEach(checkbox => {
+                                        checkbox.addEventListener('change', checkAllChecked);
+                                    });
+
+                                    checkAllChecked();
+                                });
+                            </script>
                             @empty
                             <tr>
                                 <td colspan="6" class="text-center">No Data</td>
@@ -439,36 +485,6 @@
             $('#ApproveModal{{ $item->id }}').modal('show');
         });
         @endif
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const checkboxes = document.querySelectorAll('.requirement-checkbox');
-            const message = document.getElementById('message');
-            const button = document.getElementById('button-approve');
-            const aicsDiv = document.getElementById('aics-data');
-
-
-
-            function checkAllChecked() {
-                const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
-                console.log(allChecked);
-                if (allChecked) {
-                    message.style.display = 'block';
-                    button.style.display = 'block';
-                    aicsDiv.style.display = 'block';
-                } else {
-                    message.style.display = 'none';
-                    button.style.display = 'none';
-                    aicsDiv.style.display = 'none';
-                }
-            }
-
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', checkAllChecked);
-            });
-
-            checkAllChecked();
-        });
     </script>
 </body>
 

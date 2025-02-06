@@ -264,8 +264,8 @@
                         }
 
                         var bounds = [];
-                        data.barangays.forEach(function(b) {
-                            var filteredBeneficiaries = data.beneficiaries.filter(function(beneficiary) {
+                        Object.values(data.barangays).forEach(function(b) {
+                            var filteredBeneficiaries = Object.values(data.beneficiaries).filter(function(beneficiary) {
                                 return beneficiary.barangay_id === b.id;
                             });
 
@@ -354,6 +354,7 @@
                     method: 'GET',
                     data: {
                         program: program
+
                     },
                     success: function(data) {
                         $('#barangay').empty();

@@ -25,6 +25,9 @@
 
     <style>
         /* Action links styling */
+        .swal2-title {
+            color: #ff0000 !important;
+        }
         .action-link {
             text-decoration: none;
             padding: 5px 10px;
@@ -215,6 +218,7 @@
                     <span>All Applications</span>
                     <button class="btn btn-primary" id="addApplicationBtn">Add New Application</button>
                 </div>
+                {{-- @dd(Auth::user()->whereHas('beneficiaries', function($query) {$query->where('program_enrolled', 1)->where('user_id', Auth::id());})->with('beneficiaries')->exists()) --}}
 
                 <!-- Dynamic Service Selection Modal -->
                 <div id="servicesModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -228,11 +232,13 @@
                             <div class="modal-body">
                                 <ul class="list-group">
                                     @if (Auth::user()->age >= 60)
+                                    @if($alreadyHaveOsca)
                                     <li class="list-group-item">
                                         <a href="/form/1">
                                             OSCA(Office of Senior Citizens)
                                         </a>
                                     </li>
+                                    @endif
                                     <li class="list-group-item">
                                         <a href="/form/4">
                                             AICS(Assistance to Individuals in Crisis)
@@ -246,16 +252,20 @@
                                     </li>
                                     @endif
                                     @else
+                                    @if($availableSoloParent)
                                     <li class="list-group-item">
                                         <a href="/form/3">
                                             Solo Parent
                                         </a>
                                     </li>
+                                    @endif
+                                    @if($availablePwd)
                                     <li class="list-group-item">
                                         <a href="/form/2">
                                             PWD(Persons with Disabilities)
                                         </a>
                                     </li>
+                                    @endif
                                     @endif
                                 </ul>
                             </div>
@@ -375,6 +385,22 @@
     <script src="../assets/vendor/owl-carousel/js/owl.carousel.min.js"></script>
     <script src="../assets/vendor/wow/wow.min.js"></script>
     <script src="../assets/js/theme.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            @if (session('error'))
+            Swal.fire({
+                title: 'Ops!',
+                text: "{{ session('error') }}",
+                icon: 'info',
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Close',
+            });
+            @endif
+        });
+    </script>
     <!-- SweetAlert2 Script -->
     <script>
         function confirmCancellation(url) {

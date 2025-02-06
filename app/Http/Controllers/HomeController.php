@@ -53,7 +53,6 @@ class HomeController extends Controller
                 'totalBeneficiaries',
                 'pendingApplicationsCount'
             ));
-
         } elseif (Auth::user()->usertype == 'operator') {
             // Redirect to employee home page
 
@@ -78,7 +77,6 @@ class HomeController extends Controller
                 'totalBeneficiaries',
                 'pendingApplicationsCount'
             ));
-
         } else {
 
             $today = Carbon::today();
@@ -146,21 +144,45 @@ class HomeController extends Controller
 
         $data->save();
         return redirect()->back()->with('message', 'Application Request Successful. We will contact you soon!');
-
     }
 
     public function myapplication()
     {
         if (Auth::id()) {
             $userid = Auth::user()->id;
+            $user = Auth::user();
 
             // Add orderBy to sort by created_at in descending order
             $apply = Beneficiary::where('user_id', $userid)
                 ->orderBy('created_at', 'desc') // Sorts by most recent first
                 ->get();
 
-                $services = Service::all();
-                return view('user.my_application', compact('apply', 'services'));
+            $services = Service::all();
+            $alreadyHaveOsca = !$user
+                ->whereHas('beneficiaries', function ($query) use ($userid) {
+                    $query->where('program_enrolled', 1)
+                        ->where(
+                            'user_id',
+                            $userid
+                        );
+                })
+                ->with('beneficiaries')
+                ->exists();
+
+            $availableSoloParent = $user->whereHas('beneficiaries', function ($query) use ($userid) {
+                $query->where('program_enrolled', 3)
+                ->where('user_id', $userid)
+                ->where('created_at', '<', Carbon::now()->subYears(5))
+                ->latest();
+            })->exists();
+            $availablePwd = $user->whereHas('beneficiaries', function ($query) use ($userid) {
+                $query->where('program_enrolled', 2)
+                ->where('user_id', $userid)
+                ->where('created_at', '<', Carbon::now()->subYears(1))
+                ->latest();
+            })->exists();
+
+            return view('user.my_application', compact('apply', 'services', 'alreadyHaveOsca', 'availableSoloParent', 'availablePwd'));
         } else {
             return redirect()->back();
         }
@@ -173,7 +195,4 @@ class HomeController extends Controller
         $data->delete();
         return redirect()->back();
     }
-
-
-
 }

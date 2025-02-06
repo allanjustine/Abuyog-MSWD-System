@@ -147,6 +147,7 @@ Route::get('/reports/download-excel', [ReportsController::class, 'downloadExcel'
 
 // Route to display the GIS map page
 Route::get('/gis', [GISMappingController::class, 'index']);
+Route::get('/barangays', [GISMappingController::class, 'barangay']);
 
 // Route to fetch filtered beneficiaries based on program and barangay
 Route::get('/gis-beneficiaries', [GISMappingController::class, 'getBeneficiaries']);
