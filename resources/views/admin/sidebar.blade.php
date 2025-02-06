@@ -122,8 +122,7 @@
                         <h5 class="mb-0 font-weight-normal">MSWDO</h5>
                     </div>
                 </div>
-                <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i
-                        class="mdi mdi-dots-vertical"></i></a>
+                <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
                 <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
                     aria-labelledby="profile-dropdown">
                     <a href="#" class="dropdown-item preview-item">
@@ -184,35 +183,35 @@
             </a>
         </li>
 
-        <ul class="sub-menu {{ request()->routeIs('dropdownadm.*') || request()->routeIs('show.beneficiaries_admin') ? '' : 'hidden' }}"
+        <ul class="sub-menu {{ request()->is('showbeneficiaries_admin*') || request()->routeIs('show.beneficiaries_admin') ? '' : 'hidden' }}"
             id="beneficiariesSubMenu">
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('show.beneficiaries_admin') ? 'active-menu' : '' }}"
+                <a class="{{ request()->path() === 'showbeneficiaries_admin' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                     href="{{ route('show.beneficiaries_admin') }}">
                     <i class="mdi mdi-view-list"></i> ALL
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('dropdownadm.osca') ? 'active-menu' : '' }}"
-                    href="{{ route('dropdownadm.osca') }}">
+                <a class="{{ request()->query('service') === 'OSCA(Office of Senior Citizens)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/showbeneficiaries_admin?service=OSCA(Office of Senior Citizens)">
                     <i class="mdi mdi-face"></i> OSCA
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('dropdownadm.pwd') ? 'active-menu' : '' }}"
-                    href="{{ route('dropdownadm.pwd') }}">
+                <a class="{{ request()->query('service') === 'PWD(Persons with Disabilities)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/showbeneficiaries_admin?service=PWD(Persons with Disabilities)">
                     <i class="mdi mdi-wheelchair-accessibility"></i> PWD
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('dropdownadm.solo_parent') ? 'active-menu' : '' }}"
-                    href="{{ route('dropdownadm.solo_parent') }}">
+                <a class="{{ request()->query('service') === 'Solo Parent' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/showbeneficiaries_admin?service=Solo Parent">
                     <i class="mdi mdi-human-male-female"></i> Solo Parent
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('dropdownadm.aics') ? 'active-menu' : '' }}"
-                    href="{{ route('dropdownadm.aics') }}">
+                <a class="{{ request()->query('service') === 'AICS(Assistance to Individuals in Crisis)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/showbeneficiaries_admin?service=AICS(Assistance to Individuals in Crisis)">
                     <i class="mdi mdi-account-multiple"></i> AICS
                 </a>
             </li>
@@ -226,16 +225,48 @@
                 <span class="menu-title">All Services</span>
             </a>
         </li>
-
-        <li class="nav-item menu-items">
-            <a class="nav-link" href="{{ url('displayapplication') }}">
-                <span class="menu-icon">
-                    <i class="mdi mdi-file-account"></i>
-                </span>
-                <span class="menu-title">Applications</span>
-            </a>
-        </li>
-
+        <div x-data="{ open: {{ request()->is('displayapplication*') ? 'true' : 'false' }} }">
+            <li class="nav-item menu-items {{ request()->is('displayapplication*') ? 'active' : '' }}">
+                <button class="nav-link" type="button" @click="open = !open" style="width: 225px;">
+                    <span class="menu-icon">
+                        <i class="mdi mdi-file-account"></i>
+                    </span>
+                    <span class="menu-title">Applications</span>
+                </button>
+            </li>
+            <ul x-cloak x-show="open" class="sub-menu">
+                <li class="nav-item">
+                    <a class="{{ request()->path() === 'displayapplication' && request()->query('status') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                        href="{{ url('displayapplication') }}">
+                        <i class="mdi mdi-view-list"></i> ALL
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="{{ request()->query('status') === 'approved' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                        href="/displayapplication?status=approved">
+                        <i class="mdi mdi-check-all"></i> Approved
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="{{ request()->query('status') === 'accepted' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                        href="/displayapplication?status=accepted">
+                        <i class="mdi mdi-headset"></i> For Interview
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="{{ request()->query('status') === 'pending' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                        href="/displayapplication?status=pending">
+                        <i class="mdi mdi-clock"></i> Pending
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="{{ request()->query('status') === 'rejected' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                        href="/displayapplication?status=rejected">
+                        <i class="mdi mdi-close"></i> Rejected
+                    </a>
+                </li>
+            </ul>
+        </div>
         <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('gis') }}">
                 <span class="menu-icon">

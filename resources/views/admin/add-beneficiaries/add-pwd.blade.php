@@ -15,10 +15,13 @@
     @include('employee.css')
     @endif
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -70,7 +73,6 @@
         .form-row {
             margin-bottom: 1rem;
         }
-
     </style>
 </head>
 
@@ -109,7 +111,8 @@
                         @if(Auth::user()->usertype === 'admin')
                         <a href="{{ url('/showbeneficiaries_admin') }}" class="btn btn-back btn-sm float-end">Back</a>
                         @elseif(Auth::user()->usertype === 'operator')
-                        <a href="{{ url('/showbeneficiaries_operator') }}" class="btn btn-back btn-sm float-end">Back</a>
+                        <a href="{{ url('/showbeneficiaries_operator') }}"
+                            class="btn btn-back btn-sm float-end">Back</a>
                         @else
                         <a href="{{ url('/display_beneficiaries') }}" class="btn btn-back btn-sm float-end">Back</a>
                         @endif
@@ -191,7 +194,8 @@
                                         <select name="barangay" id="barangaySelect" class="form-select">
                                             <option value="">Select Barangay</option>
                                             @foreach ($barangays as $barangay)
-                                            <option value="{{ $barangay->id }}" data-lat="{{ $barangay->latitude }}" data-lng="{{ $barangay->longitude }}">
+                                            <option value="{{ $barangay->id }}" data-lat="{{ $barangay->latitude }}"
+                                                data-lng="{{ $barangay->longitude }}">
                                                 {{ $barangay->name }}
                                             </option>
                                             @endforeach
@@ -219,10 +223,15 @@
                                         <select name="annual_income" class="form-select" id="annualIncome">
                                             <option value="" hidden selected>Select Income</option>
                                             <option value="" disabled>Select Income</option>
-                                            <option value="Below 60,000" {{ old('annual_income') == 'Below 60,000' ? 'selected' : '' }}>Below 60,000</option>
-                                            <option value="60,000 - 120,000" {{ old('annual_income') == '60,000 - 120,000' ? 'selected' : '' }}>60,000 - 120,000</option>
-                                            <option value="120,000 - 180,000" {{ old('annual_income') == '120,000 - 180,000' ? 'selected' : '' }}>120,000 - 180,000</option>
-                                            <option value="Above 180,000" {{ old('annual_income') == 'Above 180,000' ? 'selected' : '' }}>Above 180,000</option>
+                                            <option value="Below 60,000" {{ old('annual_income')=='Below 60,000'
+                                                ? 'selected' : '' }}>Below 60,000</option>
+                                            <option value="60,000 - 120,000" {{ old('annual_income')=='60,000 - 120,000'
+                                                ? 'selected' : '' }}>60,000 - 120,000</option>
+                                            <option value="120,000 - 180,000" {{
+                                                old('annual_income')=='120,000 - 180,000' ? 'selected' : '' }}>120,000 -
+                                                180,000</option>
+                                            <option value="Above 180,000" {{ old('annual_income')=='Above 180,000'
+                                                ? 'selected' : '' }}>Above 180,000</option>
                                         </select>
                                         @error('annual_income')
                                         <small class="text-danger">{{ $message }}</small>
@@ -234,7 +243,8 @@
                                     <div class="col-md-4">
                                         <label for="educationalAttainment" class="form-label">Educational
                                             Attainment</label>
-                                        <select class="form-select" id="educationalAttainment" name="educational_attainment">
+                                        <select class="form-select" id="educationalAttainment"
+                                            name="educational_attainment">
                                             <option value="">Select</option>
                                             <option value="No Formal Education">No Formal Education</option>
                                             <option value="Elementary">Elementary</option>
@@ -266,9 +276,37 @@
                             <fieldset class="p-3 mb-3 border">
                                 <legend class="w-auto px-2 text-uppercase">Other Information</legend>
 
-                                <!-- Type of Disability -->
                                 <div class="row form-row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
+                                        <label for="applicationType" class="form-label">Application Type</label>
+                                        <select class="form-select" id="applicationType" name="application_type">
+                                            <option value="" hidden selected>Select Application Type</option>
+                                            <option value="" disabled>Select Application Type</option>
+                                            <option value="New Applicant">New Applicant</option>
+                                            <option value="Renewal">Renewal</option>
+                                        </select>
+                                        @error('application_type')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="pwd_number" class="form-label">PWD Number</label>
+                                        <input type="text" class="form-control" id="pwd_number" name="pwd_number"
+                                            placeholder="(RR-PPMM-BBB-NNNNNNN)">
+                                        @error('pwd_number')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="blood_type" class="form-label">Blood Type</label>
+                                        <input type="text" class="form-control" id="blood_type" name="blood_type">
+                                        @error('blood_type')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row form-row">
+                                    <div class="col-md-4">
                                         <label for="disabilityType" class="form-label">Type of Disability</label>
                                         <select class="form-select" id="disabilityType" name="type_of_disability">
                                             <option value="" hidden selected>Select Type of Disability</option>
@@ -277,9 +315,11 @@
                                             <option value="Intellectual Disability">Intellectual Disability</option>
                                             <option value="Learning Disability">Learning Disability</option>
                                             <option value="Mental Disability">Mental Disability</option>
-                                            <option value="Physical Disability (Orthopedic)">Physical Disability (Orthopedic)</option>
+                                            <option value="Physical Disability (Orthopedic)">Physical Disability
+                                                (Orthopedic)</option>
                                             <option value="Psychological Disability">Psychological Disability</option>
-                                            <option value="Speech and Language Impairment">Speech and Language Impairment</option>
+                                            <option value="Speech and Language Impairment">Speech and Language
+                                                Impairment</option>
                                             <option value="Visual Disability">Visual Disability</option>
                                             <option value="Rare Disease (RA10747)">Rare Disease (RA10747)</option>
                                         </select>
@@ -288,38 +328,33 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <label for="acquired" class="form-label">Acquired</label>
-                                        <select class="form-select" id="acquired" name="acquired">
-                                            <option value="" hidden selected>Select Acquired</option>
-                                            <option value="" disabled>Select Acquired</option>
-                                            <option value="Chronic Illness" {{ old('acquired') == 'Chronic Illness' ? 'selected' : '' }}>Chronic Illness</option>
-                                            <option value="Cerebral Palsy" {{ old('acquired') == 'Cerebral Palsy' ? 'selected' : '' }}>Cerebral Palsy</option>
-                                            <option value="Injury" {{ old('acquired') == 'Injury' ? 'selected' : '' }}>Injury</option>
-                                            <option value="Other" {{ old('acquired') == 'Other' ? 'selected' : '' }}>Other (Specify)</option>
-                                        </select>
-                                        <input type="text" class="form-control mt-2 {{ $errors->has('other_acquired') ? 'is-invalid' : 'd-none' }}" id="otherAcquired" name="other_acquired" placeholder="Specify Acquired">
-                                        @error('other_acquired')
-                                        <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                        @error('acquired')
-                                        <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <label for="causeOfDisability" class="form-label">Cause of Disability</label>
                                         <select class="form-select" id="causeOfDisability" name="cause_of_disability">
                                             <option value="" hidden selected>Select Cause of Disability</option>
                                             <option value="" disabled>Select Cause of Disability</option>
-                                            <option value="Congenital/Inborn" {{ old('cause_of_disability') == 'Congenital/Inborn' ? 'selected' : '' }}>Congenital/Inborn</option>
-                                            <option value="Autism" {{ old('cause_of_disability') == 'Autism' ? 'selected' : '' }}>Autism</option>
-                                            <option value="ADHD" {{ old('cause_of_disability') == 'ADHD' ? 'selected' : '' }}>ADHD</option>
-                                            <option value="Cerebral Palsy" {{ old('cause_of_disability') == 'Cerebral Palsy' ? 'selected' : '' }}>Cerebral Palsy</option>
-                                            <option value="Down Syndrome" {{ old('cause_of_disability') == 'Down Syndrome' ? 'selected' : '' }}>Down Syndrome</option>
-                                            <option value="Other" {{ old('cause_of_disability') == 'Other' ? 'selected' : '' }}>Other (Specify)</option>
+                                            <option value="Congenital/Inborn" {{
+                                                old('cause_of_disability')=='Congenital/Inborn' ? 'selected' : '' }}>
+                                                Congenital/Inborn</option>
+                                            <option value="Acquired" {{ old('cause_of_disability')=='Acquired'
+                                                ? 'selected' : '' }}>Acquired</option>
+                                            {{-- <option value="Autism" {{ old('cause_of_disability')=='Autism'
+                                                ? 'selected' : '' }}>Autism</option>
+                                            <option value="ADHD" {{ old('cause_of_disability')=='ADHD' ? 'selected' : ''
+                                                }}>ADHD</option>
+                                            <option value="Cerebral Palsy" {{
+                                                old('cause_of_disability')=='Cerebral Palsy' ? 'selected' : '' }}>
+                                                Cerebral Palsy</option>
+                                            <option value="Down Syndrome" {{ old('cause_of_disability')=='Down Syndrome'
+                                                ? 'selected' : '' }}>Down Syndrome</option>
+                                            <option value="Other" {{ old('cause_of_disability')=='Other' ? 'selected'
+                                                : '' }}>Other (Specify)</option> --}}
                                         </select>
-                                        <input type="text" class="form-control mt-2 {{ $errors->has('other_cause_of_disability') ? 'is-invalid' : 'd-none' }}" id="otherCauseOfDisability" name="other_cause_of_disability" placeholder="Specify Cause of Disability">
+                                        <input type="text"
+                                            class="form-control mt-2 {{ $errors->has('other_cause_of_disability') ? 'is-invalid' : 'd-none' }}"
+                                            id="otherCauseOfDisability" name="other_cause_of_disability"
+                                            placeholder="Specify Cause of Disability">
                                         @error('cause_of_disability')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -328,24 +363,61 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 {{ $errors->has('acquired') ? 'is-invalid' : 'd-none' }}" id="acquiredDiv">
+                                        <label for="acquired" class="form-label">Acquired</label>
+                                        <select class="form-select" id="acquired" name="acquired">
+                                            <option value="" hidden selected>Select Acquired</option>
+                                            <option value="" disabled>Select Acquired</option>
+                                            <option value="Chronic Illness" {{ old('acquired')=='Chronic Illness'
+                                                ? 'selected' : '' }}>Chronic Illness</option>
+                                            <option value="Cerebral Palsy" {{ old('acquired')=='Cerebral Palsy'
+                                                ? 'selected' : '' }}>Cerebral Palsy</option>
+                                            <option value="Injury" {{ old('acquired')=='Injury' ? 'selected' : '' }}>
+                                                Injury</option>
+                                            <option value="Other" {{ old('acquired')=='Other' ? 'selected' : '' }}>Other
+                                                (Specify)</option>
+                                        </select>
+                                        <input type="text"
+                                            class="form-control mt-2 {{ $errors->has('other_acquired') ? 'is-invalid' : 'd-none' }}"
+                                            id="otherAcquired" name="other_acquired" placeholder="Specify Acquired">
+                                        @error('other_acquired')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                        @error('acquired')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-4 {{ $errors->has('congenital_inborn') ? 'is-invalid' : 'd-none' }}" id="congenitalInbornDiv">
                                         <label for="congenitalInborn" class="form-label">Congenital/Inborn Cause</label>
                                         <select class="form-select" id="congenitalInborn" name="congenital_inborn">
                                             <option value="" hidden selected>Select Congenital/Inborn Cause</option>
                                             <option value="" disabled>Select Congenital/Inborn Cause</option>
-                                            <option value="Autism" {{ old('congenital_inborn') == 'Autism' ? 'selected' : '' }}>Autism</option>
-                                            <option value="ADHD" {{ old('congenital_inborn') == 'ADHD' ? 'selected' : '' }}>ADHD</option>
-                                            <option value="Cerebral Palsy" {{ old('congenital_inborn') == 'Cerebral Palsy' ? 'selected' : '' }}>Cerebral Palsy</option>
-                                            <option value="Down Syndrome" {{ old('congenital_inborn') == 'Down Syndrome' ? 'selected' : '' }}>Down Syndrome</option>
-                                            <option value="Other" {{ old('congenital_inborn') == 'Other' ? 'selected' : '' }}>Other (Specify)</option>
+                                            <option value="Autism" {{ old('congenital_inborn')=='Autism' ? 'selected'
+                                                : '' }}>Autism</option>
+                                            <option value="ADHD" {{ old('congenital_inborn')=='ADHD' ? 'selected' : ''
+                                                }}>ADHD</option>
+                                            <option value="Cerebral Palsy" {{ old('congenital_inborn')=='Cerebral Palsy'
+                                                ? 'selected' : '' }}>Cerebral Palsy</option>
+                                            <option value="Down Syndrome" {{ old('congenital_inborn')=='Down Syndrome'
+                                                ? 'selected' : '' }}>Down Syndrome</option>
+                                            <option value="Other" {{ old('congenital_inborn')=='Other' ? 'selected' : ''
+                                                }}>Other (Specify)</option>
                                         </select>
-                                        <input type="text" class="form-control mt-2 {{ $errors->has('other_congenital_inborn') ? 'is-invalid' : 'd-none' }}" id="otherCongenitalInborn" name="other_congenital_inborn" placeholder="Specify Congenital Inborn">
+                                        <input type="text"
+                                            class="form-control mt-2 {{ $errors->has('other_congenital_inborn') ? 'is-invalid' : 'd-none' }}"
+                                            id="otherCongenitalInborn" name="other_congenital_inborn"
+                                            placeholder="Specify Congenital Inborn">
                                         @error('congenital_inborn')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                         @error('other_congenital_inborn')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
+                                    </div>
+                                    <div class="col-md-4 {{ $errors->has('congenital_inborn') ? 'd-none' : ($errors->has('acquired') ? 'd-none' : '') }}" id="selectedRemoved">
+                                        <label for="congenitalInborn" class="form-label">Select Cause of disability first</label>
+                                        <input type="text" class="form-control" disabled placeholder="Select Cause of disability first">
                                     </div>
                                 </div>
 
@@ -420,8 +492,10 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="categoryOfEmployment" class="form-label">Category of Employment</label>
-                                        <select class="form-select" id="categoryOfEmployment" name="category_of_employment">
+                                        <label for="categoryOfEmployment" class="form-label">Category of
+                                            Employment</label>
+                                        <select class="form-select" id="categoryOfEmployment"
+                                            name="category_of_employment">
                                             <option value="" hidden selected>Select Category of Employment</option>
                                             <option value="" disabled>Select Category of Employment</option>
                                             <option value="Full-Time">Full-Time</option>
@@ -456,8 +530,10 @@
                                 <legend class="w-auto px-2 text-uppercase">Organization Information</legend>
                                 <div class="row form-row">
                                     <div class="col-md-4">
-                                        <label for="organizationAffiliated" class="form-label">Organization Affiliated</label>
-                                        <input type="text" class="form-control" id="organizationAffiliated" name="organization_affiliated">
+                                        <label for="organizationAffiliated" class="form-label">Organization
+                                            Affiliated</label>
+                                        <input type="text" class="form-control" id="organizationAffiliated"
+                                            name="organization_affiliated">
                                         @error('organization_affiliated')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -465,7 +541,8 @@
 
                                     <div class="col-md-4">
                                         <label for="contactPerson" class="form-label">Contact Person</label>
-                                        <input type="text" class="form-control" id="contactPerson" name="contact_person">
+                                        <input type="text" class="form-control" id="contactPerson"
+                                            name="contact_person">
                                         @error('contact_person')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -473,7 +550,8 @@
 
                                     <div class="col-md-4">
                                         <label for="officeAddress" class="form-label">Office Address</label>
-                                        <input type="text" class="form-control" id="officeAddress" name="office_address">
+                                        <input type="text" class="form-control" id="officeAddress"
+                                            name="office_address">
                                         @error('office_address')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -561,7 +639,8 @@
 
                                     <div class="col-md-4">
                                         <label for="occupation" class="form-label">Occupation</label>
-                                        <input type="text" class="form-control" id="occupation" name="father_occupation">
+                                        <input type="text" class="form-control" id="occupation"
+                                            name="father_occupation">
                                         @error('father_occupation')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -586,7 +665,8 @@
 
                                     <div class="col-md-4">
                                         <label for="occupation" class="form-label">Occupation</label>
-                                        <input type="text" class="form-control" id="occupation" name="mother_occupation">
+                                        <input type="text" class="form-control" id="occupation"
+                                            name="mother_occupation">
                                         @error('mother_occupation')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -611,7 +691,8 @@
 
                                     <div class="col-md-4">
                                         <label for="occupation" class="form-label">Occupation</label>
-                                        <input type="text" class="form-control" id="occupation" name="guardian_occupation">
+                                        <input type="text" class="form-control" id="occupation"
+                                            name="guardian_occupation">
                                         @error('guardian_occupation')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -619,7 +700,8 @@
 
                                     <div class="col-md-4">
                                         <label for="guardianPhone" class="form-label">Phone</label>
-                                        <input type="text" class="form-control" id="guardianPhone" name="guardian_phone">
+                                        <input type="text" class="form-control" id="guardianPhone"
+                                            name="guardian_phone">
                                         @error('guardian_phone')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -628,7 +710,8 @@
                             </fieldset>
 
 
-                            <button type="submit" class="btn btn-success btn-sm" style="width: 200px; position: fixed; bottom: 20px; right: 5%; z-index: 1000;">
+                            <button type="submit" class="btn btn-success btn-sm"
+                                style="width: 200px; position: fixed; bottom: 20px; right: 5%; z-index: 1000;">
                                 Submit
                             </button>
                         </form>
@@ -667,6 +750,9 @@
             const otherCauseOfDisability = document.getElementById('otherCauseOfDisability');
             const congenitalInborn = document.getElementById('congenitalInborn');
             const otherCongenitalInborn = document.getElementById('otherCongenitalInborn');
+            const selectedRemoved = document.getElementById('selectedRemoved');
+            const acquiredDiv = document.getElementById('acquiredDiv');
+            const congenitalInbornDiv = document.getElementById('congenitalInbornDiv');
 
             acquired.addEventListener('change', function(event) {
                 if (this.value === 'Other') {
@@ -677,9 +763,24 @@
             });
 
             causeOfDisability.addEventListener('change', function() {
-                if (this.value === 'Other') {
-                    otherCauseOfDisability.classList.remove('d-none');
+                // if (this.value === 'Other') {
+                //     otherCauseOfDisability.classList.remove('d-none');
+                // } else {
+                //     otherCauseOfDisability.classList.add('d-none');
+                // }
+                if (this.value === 'Congenital/Inborn') {
+                    congenitalInbornDiv.classList.remove('d-none');
+                    selectedRemoved.classList.add('d-none');
+                    acquiredDiv.classList.add('d-none');
+                    otherCauseOfDisability.classList.add('d-none');
+                } else if(this.value === 'Acquired') {
+                    congenitalInbornDiv.classList.add('d-none');
+                    selectedRemoved.classList.add('d-none');
+                    acquiredDiv.classList.remove('d-none');
+                    otherCauseOfDisability.classList.add('d-none');
                 } else {
+                    congenitalInbornDiv.classList.add('d-none');
+                    acquiredDiv.classList.add('d-none');
                     otherCauseOfDisability.classList.add('d-none');
                 }
             });

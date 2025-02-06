@@ -49,7 +49,7 @@ acquired
 *injury
 *others specify
 
-congenital/inborn 
+congenital/inborn
 *autism
 *adhd
 *cerebral palsy
@@ -70,8 +70,67 @@ applicant, guardian, representative
 
 AICS
 Common:
-Name, date of birth, age, brgy, birthplace, civil status, occupation, educational attainment, religion 
+Name, date of birth, age, brgy, birthplace, civil status, occupation, educational attainment, religion
 
 Not common:
 Case no, new or old, date applied, source of referral, problem presented, findings, action taken,
 FAMILY INFO, name, age, sex, civil status, relation to client, educational attainment, occupation
+
+
+Good eve yah. You've mentioned kasi earlier nga wad on nalang ang applications nya ipuli ang beneficiaries para ug mag fill up ang user beneficiaries, diretso na, like  addan nalang ug status. 
+
+Why not yah kana nalang? Mag additional nalang mig hatag nimo po. Mao kasi ang need yah, kasi diba inig apply sa user beneficiaries, i-accept sa employee? Nya i-approve sa admin kahuman. Nya ma display na siya sa all list of beneficiaries, ma display na pud sa database unta.
+
+Soooo, mao ni ang flow. Diba mag add ug application ang user beneficiaries? Dili na unta available ang pwd, or solo parent IF ang age sa user is 60+, so SENIOR lang nya AICS ang available. Sa PWD pud is 0-59 ang age, so dili available pud ang senior. Once mag apply ang user beneficiaries nya approved na sa admin, dili na unta siya ka apply usab ana nga program. Dili pud available didto ang download forms nga button, ngara na sa admin. Siguro, i-include nalang sa register ang date of birth nya ma automatic na ang age, para masabtan ang mga applicable lang na programs.
+
+So, mao na to yah, i-accept na sa employee.
+
+Sa admin pud nga part, ang pag filter beneficiaries sa applications na view, dili nalang by status(approved, accepted, rejected), by date nalang para masabtan ug si kinsa ang for interview, si kinsa ang gi approved ni admin within that day. Sa sidebar nalang sa APPLICATIONS, naa nalang ibutang ang dropdown na approved, pending, for interview(accepted), rejected.
+
+So diba yah, naay button sa admin na for approved? Before ana, naa unta mo pop up nga checklist unta sa mga requirements nga nadala ni user beneficiaries, if kulang pa, pending palang usab. Naa pud unta mo pop up nga (problem presented, findings, action taken), since naa man na sa forms gud sa ubang programs, nya ang gi input dira ni admin sa (problem presented, findings ug action taken) is mo automatic nalang ug butang sa data didto sa FORMS ANG PDF GANI ANG IDOWNLOAD. Available na tong Download forms, sa admin nga part once approved na ang application.
+
+Diba yah okay na ang requirements nya interview? Dili pa unta mo automatic ug kabutang sa beneficiaries list pag click sa approved button, naa pay next process. Ma change ang button into "FOR RELEASE" which is ma notify that time ang user beneficiaries na ang iya gi request nga application is mahatagan na siyag benefits. Nya ma change na sad ang button into released, that time, inig click sa button na RELEASED is mo sulod na siya sa database na BENEFICIARIES. sa all list of beneficiaries na.
+
+
+Yaaahhhh HAHAHHAHA. Sa 60+ ang age, OSCA, AICS nya pwede pud Solo Parent as long as may Minor Child na gin aalagaan. 
+Sa 0-59 is PWD, AICS nya pwede pud Solo Parent as long as may Minor Child lagi daw. Pwede man sa register nalang naay pilian didto if naa ba siyay minor child na gina alagaan. 
+
+Ang problem pud, is renewable man gud sa PWD mga 5 years nya Solo Parent mga 1 year
+
+
+Dapat raba yah once enrolled or naka avail na ang beneficiaries ana nga program is di na maka apply ug usab as long as di pa siya need irenew. Like for example, manual siya nga nga nag apply nya nag apply na sad sya utro online, pano man na masabtan
+
+
+
+Naa kasi sa amo nang requirements ba yah na need dad on sa user beneficiaries inig adto like certificate of indigency, valid id, etc. Unya mo display to sa details button sa my applications sa user beneficiaries view ang need dad on inig accept sa employee. Napadisplay na to namo yah, na waley man sa pag usab sa code. So sa interview na, sa admin na part naay checklist didto if complete ba ang requirements sa nag apply, if kulang, then pending palang sya sa admin. If complete na then mao na tong mo pop up nga findings, problem presented, action taken. If okay na pud, mao na tong FOR RELEASE na nga button, then RELEASED button inig ipa display na sa database na beneficiaries
+
+Yah ang ingon diay, sakto na lagi tong dropdown ang application. Like ang pagka sunod2 sa sidebar sa admin is
+
+*Dashboard 
+*Mapping
+*Applications 
+-Pending
+-For Interview (ang accepted na ni employee)
+-Approved
+-Rejected
+*Beneficiaries
+-All
+-OSCA
+-PWD
+-Solo Parent
+-AICS
+*New Benefits 
+*Reports
+*Administration 
+-All Services 
+-User Management
+
+Tanggalon nalang tong uban nga wala na mention, wa toy gamit na HAHAHAHA
+
+
+Diba yah na mention namo tong FOR RELEASE nga button na ma notify ug sms ang user beneficiaries? Ma change nalang kaha tong status nga for release pud.
+
+Nya sa RELEASED button pud, mo diretso diba sa beneficiaries nga database? Naa pud baya mi to database nga assistance_received gi fk ra namo. Masulod pud unta to ang amount sa nadawat(nullable kasi pwede siya foods e), name, ang type of assistance, nya status. Kasi BENEFICIARIES e, which means naay nadawat.
+
+Nya tong button gani nga add beneficiaries? Pwede pud to butngan sa ubos about assistance received. Kapila pud sya pwede ka add parehas atong family... Para sunod, ma detect na sa admin if nakadawat naba na siya, para dili na magbalik2.
+

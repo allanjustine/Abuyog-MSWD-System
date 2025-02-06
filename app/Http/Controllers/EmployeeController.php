@@ -18,7 +18,7 @@ class EmployeeController extends Controller
     use WithPagination;
     public function showapplication()
     {
-        $data = Application::orderBy('created_at', 'desc')->paginate(10);
+        $data = Beneficiary::orderBy('appearance_date', 'desc')->paginate(10);
 
         return view('employee.showapplication', compact('data'));
 
@@ -27,15 +27,13 @@ class EmployeeController extends Controller
 
     public function approved($id)
     {
-        $data = Application::find($id);
+        $data = Beneficiary::find($id);
 
         if ($data) {
-            // Get the logged-in employee's name
-            $employeeName = Auth::user()->first_name . ' ' . Auth::user()->last_name;
 
             // Update the application's status and assign the approving employee's name
+            $data->accepted_by = Auth::id();
             $data->status = 'accepted';
-            $data->employee_name = $employeeName; // Save the employee's name
             $data->save();
         }
         $applicationController = new ApplicationController();

@@ -92,7 +92,7 @@
                                             @foreach ($beneficiary->benefitsReceived as $benefit)
                                                 <!-- Only show benefits that match the selected assistance -->
                                                 @if ($benefit->name_of_assistance === $nameOfAssistance)
-                                                    @if ($benefit->status === 'Pending')
+                                                    @if ($benefit->status === 'pending')
                                                         <!-- Mark as Received Button -->
                                                         <form
                                                             action="{{ route('benefits.markReceived', $benefit->id) }}"

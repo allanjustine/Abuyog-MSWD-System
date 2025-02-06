@@ -72,7 +72,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data as $item)
+                                @forelse ($data as $item)
                                 @if($item->source === "Beneficiary")
                                 <tr>
                                     <td>{{ $item?->full_name }}</td>
@@ -80,8 +80,11 @@
                                     <td>{{ $item?->phone }}</td>
                                     <td>{{ $item?->service ? $item?->service->name : 'No Program' }}</td>
                                     <td>{{ $item?->barangay->name ?? 'No Barangay' }}</td>
-                                    <td><span class="badge rounded-pill bg-info">{{ $item?->status ?? 'Manual' }}</span></td>
-                                    <td>{{ $item?->approved_at ?? $item?->created_at->diffForHumans() }}</td>
+                                    <td><span
+                                            class="badge rounded-pill text-capitalize {{ $item?->status === 'approved' ? 'bg-success' : ($item?->status === 'pending' ? 'bg-warning' : ($item->status === 'rejected' ? 'bg-danger' : ($item?->status === 'accepted' ? 'bg-primary' : 'bg-info'))) }}">{{
+                                            $item?->status ?? 'Manual' }}</span></td>
+                                    <td>{{ $item?->approved_at?->diffForHumans() ?? $item?->created_at->diffForHumans()
+                                        }}</td>
                                     <td>
                                         <!-- View Button -->
 
@@ -113,11 +116,19 @@
 
                                                     <a class="btn btn-success btn-sm ms-2"
                                                         href="/edit-solo-parent/{{ $item?->id }}">Edit</a>
-                                                    @elseif($item?->service->name === "AICS(Assistance to Individuals in Crisis)")
+                                                    @elseif($item?->service->name === "AICS(Assistance to Individuals in
+                                                    Crisis)")
 
                                                     <a class="btn btn-success btn-sm ms-2"
                                                         href="/edit-aics/{{ $item?->id }}">Edit</a>
                                                     @endif
+
+                                                    {{-- @if ($item?->status === 'approved')
+                                                    <a class="btn btn-info btn-sm ms-2"
+                                                        href="{{ url('generate-pdf/' . $item?->id) }}">
+                                                        <i class="mai-download"></i>Download Form
+                                                    </a>
+                                                    @endif --}}
 
                                                     <!-- Delete Button with Modal Trigger -->
                                                     <button class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
@@ -156,6 +167,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 @include('admin.components.view-modal')
                                 @endif
                                 @if($item->source === "Application")
@@ -166,11 +178,12 @@
                                     <td>{{ $item->service ? $item->service->name : 'No Program' }}</td>
                                     <td>
                                         @if ($item?->barangay?->name === null)
-                                        <button class="btn btn-link btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#viewModalData{{ $item->id }}">
+                                        <button class="btn btn-link btn-sm" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#viewModalData{{ $item->id }}">
                                             No Barangay
                                         </button>
                                         @else
-                                            {{ $item?->barangay?->name }}
+                                        {{ $item?->barangay?->name }}
                                         @endif
                                     </td>
                                     <td>
@@ -182,56 +195,70 @@
                                     <td>
                                         <div class="gap-2 d-flex justify-content-around flex-column">
                                             <!-- View Button -->
-                                            <button class="btn btn-info btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#viewModalData{{ $item->id }}">
+                                            <button class="btn btn-info btn-sm" type="button" data-bs-toggle="modal"
+                                                data-bs-target="#viewModalData{{ $item->id }}">
                                                 View
                                             </button>
 
                                             <!-- Edit Button -->
-                                            {{-- <a class="btn btn-success btn-sm ms-2" href="{{ url('editbeneficiaries', $item->id) }}">Edit</a> --}}
+                                            {{-- <a class="btn btn-success btn-sm ms-2"
+                                                href="{{ url('editbeneficiaries', $item->id) }}">Edit</a> --}}
 
                                             <!-- Delete Button with Modal Trigger -->
-                                            {{-- <button class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
-                                            Delete
+                                            {{-- <button class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal{{ $item->id }}">
+                                                Delete
                                             </button> --}}
                                         </div>
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="viewModalData{{ $item->id }}" tabindex="-1" aria-labelledby="viewModalDataLabel{{ $item->id }}" aria-hidden="true">
+                                <div class="modal fade" id="viewModalData{{ $item->id }}" tabindex="-1"
+                                    aria-labelledby="viewModalDataLabel{{ $item->id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="viewModalDataLabel{{ $item->id }}">
                                                     Item Details</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label><strong>Name:</strong></label>
-                                                            <input type="text" class="form-control" value="{{ $item->name }}" disabled>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $item->name }}" disabled>
                                                         </div>
                                                         <div class="form-group">
                                                             <label><strong>Email:</strong></label>
-                                                            <input type="email" class="form-control" value="{{ $item->email }}" disabled>
+                                                            <input type="email" class="form-control"
+                                                                value="{{ $item->email }}" disabled>
                                                         </div>
                                                         <div class="form-group">
                                                             <label><strong>Approved By:</strong></label>
-                                                            <input type="approved By" class="form-control" value="{{ $item->approvedBy->first_name ?? 'No' }} {{ $item->approvedBy->last_name ?? 'Data' }}" disabled>
+                                                            <input type="approved By" class="form-control"
+                                                                value="{{ $item->approvedBy->first_name ?? 'No' }} {{ $item->approvedBy->last_name ?? 'Data' }}"
+                                                                disabled>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label><strong>Phone:</strong></label>
-                                                            <input type="text" class="form-control" value="{{ $item->phone }}" disabled>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $item->phone }}" disabled>
                                                         </div>
                                                         <div class="form-group">
                                                             <label><strong>Program Enrolled:</strong></label>
-                                                            <input type="text" class="form-control" value="{{ $item->service ? $item->service->name : 'No Program' }}" disabled>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $item->service ? $item->service->name : 'No Program' }}"
+                                                                disabled>
                                                         </div>
                                                         <div class="form-group">
                                                             <label><strong>Approved At:</strong></label>
-                                                            <input type="text" class="form-control" value="{{ $item?->approved_at->diffForHumans() ?? 'Pending' }}" disabled>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $item?->approved_at->diffForHumans() ?? 'Pending' }}"
+                                                                disabled>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -244,35 +271,40 @@
                                                             @endphp
 
                                                             @if (!empty($customFields) && is_array($customFields))
-                                                            <ul>
-                                                                @foreach ($customFields as $key => $value)
-                                                                <li>
-                                                                    <strong>{{ ucfirst(str_replace('_', ' ', $key)) }}:</strong>
-                                                                    @if (is_array($value))
-                                                                    <pre>{{ json_encode($value, JSON_PRETTY_PRINT) }}</pre>
-                                                                    @else
-                                                                    {{ $value }}
-                                                                    @endif
-                                                                </li>
-                                                                @endforeach
-                                                            </ul>
-                                                            @else
-                                                            <p>No custom fields found.</p>
-                                                            @endif
+                                                        <ul>
+                                                            @foreach ($customFields as $key => $value)
+                                                            <li>
+                                                                <strong>{{ ucfirst(str_replace('_', ' ', $key))
+                                                                    }}:</strong>
+                                                                @if (is_array($value))
+                                                                <pre>{{ json_encode($value, JSON_PRETTY_PRINT) }}</pre>
+                                                                @else
+                                                                {{ $value }}
+                                                                @endif
+                                                            </li>
+                                                            @endforeach
+                                                        </ul>
+                                                        @else
+                                                        <p>No custom fields found.</p>
+                                                        @endif
                                                         </p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>
                                 @endif
                                 <!-- View Modal -->
                     </div>
-                    @endforeach
+                    @empty
+                    <tr><td colspan="8" class="text-center">No released beneficiary yet</td>
+                    </tr>
+                    @endforelse
                     </tbody>
                     </table>
                     {{ $data->links('pagination::bootstrap-5') }}

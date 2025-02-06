@@ -188,35 +188,35 @@
             </a>
         </li>
 
-        <ul class="sub-menu {{ request()->routeIs('dropdownadm.*') || request()->routeIs('show.beneficiaries_operator_index') ? '' : 'hidden' }}"
+        <ul class="sub-menu {{ request()->is('showbeneficiaries_operator*') || request()->routeIs('show.beneficiaries_operator_index') ? '' : 'hidden' }}"
             id="beneficiariesSubMenu">
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('show.beneficiaries_operator_index') ? 'active-menu' : '' }}"
+                <a class="{{ request()->path() === 'showbeneficiaries_operator' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                     href="{{ route('show.beneficiaries_operator_index') }}">
                     <i class="mdi mdi-view-list"></i> ALL
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('dropdownope.osca') ? 'active-menu' : '' }}"
-                    href="{{ route('dropdownope.osca') }}">
+                <a class="{{ request()->query('service') === 'OSCA(Office of Senior Citizens)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/showbeneficiaries_operator?service=OSCA(Office of Senior Citizens)">
                     <i class="mdi mdi-face"></i> OSCA
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('dropdownope.pwd') ? 'active-menu' : '' }}"
-                    href="{{ route('dropdownope.pwd') }}">
+                <a class="{{ request()->query('service') === 'PWD(Persons with Disabilities)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/showbeneficiaries_operator?service=PWD(Persons with Disabilities)">
                     <i class="mdi mdi-wheelchair-accessibility"></i> PWD
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('dropdownope.solo_parent') ? 'active-menu' : '' }}"
-                    href="{{ route('dropdownope.solo_parent') }}">
+                <a class="{{ request()->query('service') === 'Solo Parent' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/showbeneficiaries_operator?service=Solo Parent">
                     <i class="mdi mdi-human-male-female"></i> Solo Parent
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('dropdownope.aics') ? 'active-menu' : '' }}"
-                    href="{{ route('dropdownope.aics') }}">
+                <a class="{{ request()->query('service') === 'AICS(Assistance to Individuals in Crisis)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/showbeneficiaries_operator?service=AICS(Assistance to Individuals in Crisis)">
                     <i class="mdi mdi-account-multiple"></i> AICS
                 </a>
             </li>

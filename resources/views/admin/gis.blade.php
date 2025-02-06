@@ -152,9 +152,9 @@
             <select id="program" onchange="updateBarangays()">
                 <option value="all">All Programs</option>
                 @foreach ($services as $service)
-                    @if ($service->name)
-                        <option value="{{ $service->id }}">{{ $service->name }}</option>
-                    @endif
+                @if ($service->name)
+                <option value="{{ $service->id }}">{{ $service->name }}</option>
+                @endif
                 @endforeach
 
             </select>
@@ -163,9 +163,9 @@
             <select id="barangay">
                 <option value="all">All Barangays</option>
                 @foreach ($barangays as $barangay)
-                    @if ($barangay->barangay && $barangay->barangay->name)
-                        <option value="{{ $barangay->barangay_id }}">{{ $barangay->barangay->name }}</option>
-                    @endif
+                @if ($barangay->barangay && $barangay->barangay->name)
+                <option value="{{ $barangay->barangay_id }}">{{ $barangay->barangay->name }}</option>
+                @endif
                 @endforeach
 
             </select>
@@ -177,8 +177,6 @@
         <!-- Location Track Section -->
         <div id="map"></div>
         <div id="loading-message" class="alert alert-info">Loading data, please wait...</div>
-
-
 
         <script>
             var map;
@@ -379,7 +377,8 @@
 
 
 
-{{--  <!DOCTYPE html>
+{{--
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -482,8 +481,9 @@
             z-index: 1000;
             font-size: 14px;
         }
-         /* Define the styles for the marker colors */
-         .marker-color-blue {
+
+        /* Define the styles for the marker colors */
+        .marker-color-blue {
             background-color: blue !important;
         }
 
@@ -530,7 +530,7 @@
             <select id="program" onchange="updateBarangays()">
                 <option value="all">All Programs</option>
                 @foreach ($services as $service)
-                    <option value="{{ $service->id }}">{{ $service->name }}</option>
+                <option value="{{ $service->id }}">{{ $service->name }}</option>
                 @endforeach
             </select>
 
@@ -538,7 +538,7 @@
             <select id="barangay">
                 <option value="all">All Barangays</option>
                 @foreach ($barangays as $barangay)
-                    <option value="{{ $barangay->barangay_id }}">{{ $barangay->barangay->name }}</option>
+                <option value="{{ $barangay->barangay_id }}">{{ $barangay->barangay->name }}</option>
                 @endforeach
             </select>
 
@@ -745,4 +745,4 @@
         </script>
 </body>
 
-</html>  --}}
+</html> --}}

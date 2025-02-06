@@ -15,10 +15,11 @@ use Illuminate\Support\Facades\DB;
 
 class OperatorController extends Controller
 {
-    public function showbeneficiaries_operator()
+    public function showbeneficiaries_operator(Request $request)
     {
         $page = request()->get('page', 1);
         $perPage = 10;
+        $service = $request->query('service');
 
         $applications = Application::where('approved_at', '!=', null)
             ->where('approved_by', '!=', null)
@@ -28,6 +29,14 @@ class OperatorController extends Controller
                 return $application;
             });
         $beneficiaries = Beneficiary::with(['barangay', 'familyCompositions'])
+            ->where(function($query) use ($service) {
+                $query->where('status', 'released');
+                if($service) {
+                    $query->whereHas('service', function($subQuery) use ($service) {
+                        $subQuery->where('name', $service);
+                    });
+                }
+            })
             ->get()
             ->map(function ($beneficiary) {
                 $beneficiary->source = 'Beneficiary';
@@ -52,10 +61,11 @@ class OperatorController extends Controller
         );
         return view('operator.showbeneficiaries_operator', compact('barangays', 'services', 'beneficiaries', 'data'));
     }
-    public function showbeneficiaries_admin()
+    public function showbeneficiaries_admin(Request $request)
     {
         $page = request()->get('page', 1);
         $perPage = 10;
+        $service = $request->query('service');
 
         $applications = Application::where('approved_at', '!=', null)
             ->where('approved_by', '!=', null)
@@ -65,6 +75,14 @@ class OperatorController extends Controller
                 return $application;
             });
         $beneficiaries = Beneficiary::with(['barangay', 'familyCompositions'])
+            ->where(function($query) use ($service) {
+                $query->where('status', 'released');
+                if($service) {
+                    $query->whereHas('service', function($subQuery) use ($service) {
+                        $subQuery->where('name', $service);
+                    });
+                }
+            })
             ->get()
             ->map(function ($beneficiary) {
                 $beneficiary->source = 'Beneficiary';

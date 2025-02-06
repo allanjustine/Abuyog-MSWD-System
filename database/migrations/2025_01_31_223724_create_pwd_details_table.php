@@ -24,9 +24,9 @@ return new class extends Migration
             $table->string('region')->nullable();
             $table->string('landline_no')->nullable();
             $table->string('email_address')->nullable();
-            $table->enum('status_of_employment', ['employed', 'unemployed', 'self-employed', 'retired', 'other'])->nullable();
-            $table->enum('category_of_employment', ['full-time', 'part-time', 'contractual', 'temporary', 'volunteer', 'other'])->nullable();
-            $table->enum('types_of_employment', ['office', 'field', 'remote', 'other'])->nullable();
+            $table->string('status_of_employment')->nullable();
+            $table->string('category_of_employment')->nullable();
+            $table->string('types_of_employment')->nullable();
             $table->string('organization_affiliated')->nullable();
             $table->string('contact_person')->nullable();
             $table->string('office_address')->nullable();
@@ -36,6 +36,9 @@ return new class extends Migration
             $table->string('pag_ibig_no')->nullable();
             $table->string('psn_no')->nullable();
             $table->string('philhealth_no')->nullable();
+            $table->string('blood_type')->nullable();
+            $table->string('pwd_number')->nullable();
+            $table->string('application_type')->nullable();
             $table->enum('accomplished_by', ['applicant', 'guardian', 'representative'])->nullable();
             $table->timestamps();
         });

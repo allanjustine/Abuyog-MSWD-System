@@ -19,8 +19,11 @@ return new class extends Migration
             $table->string('suffix')->nullable();
             $table->string('email')->unique();
             $table->string('phone')->nullable();
-            $table->string('barangay')->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->string('age')->nullable();
+            $table->foreignId('barangay_id')->nullable()->constrained()->onDelete('set null');
             $table->enum('usertype', ['beneficiary', 'employee', 'operator', 'admin']);
+            $table->boolean('has_minor_child')->default(0)->nullable();
 
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

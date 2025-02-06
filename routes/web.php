@@ -115,6 +115,10 @@ Route::get('/displayapplication', [AdminController::class, 'displayapplication']
 
 Route::get('/applications/{id}', [ApplicationController::class, 'showForm'])->middleware('auth');
 Route::post('/submit-application', [ApplicationController::class, 'submitApplication'])->middleware('auth');
+Route::post('/submit-application/osca/{id}', [ApplicationController::class, 'storeOsca'])->middleware('auth');
+Route::post('/submit-application/aics/{id}', [ApplicationController::class, 'storeAics'])->middleware('auth');
+Route::post('/submit-application/solo-parent/{id}', [ApplicationController::class, 'storeSoloParent'])->middleware('auth');
+Route::post('/submit-application/pwd/{id}', [ApplicationController::class, 'storePwd'])->middleware('auth');
 
 Route::post('/application', [HomeController::class, 'application']);
 Route::get('/myapplication', [HomeController::class, 'myapplication'])->name('myapplication');
@@ -136,7 +140,7 @@ Route::get('/generate-pdf/{id}', [ApplicationController::class, 'generatePDF']);
 
 //Route::get('/application-pdf/{id}', [ApplicationController::class, 'generatePDF'])->name('application.pdf');
 
-//Route::get('/generate-pdf', [ApplicationController::class, 'generatePdf'])->name('generate-pdf');
+// Route::get('/generate-pdf', [ApplicationController::class, 'generatePdf'])->name('generate-pdf');
 
 Route::get('/reports/download-pdf', [ReportsController::class, 'downloadPDF'])->name('reports.download-pdf');
 Route::get('/reports/download-excel', [ReportsController::class, 'downloadExcel'])->name('reports.download-excel');
@@ -258,3 +262,5 @@ Route::get('/add-solo-parent', [AdminController::class, 'addSoloParent']);
 Route::get('/edit-solo-parent/{id}', [AdminController::class, 'editSoloParent']);
 Route::patch('/update-solo-parent/{id}', [AdminController::class, 'updateSoloParent']);
 Route::post('/add-solo-parent', [AdminController::class, 'storeSoloParent']);
+
+Route::post('/released/{id}', [AdminController::class, 'releasedUser']);

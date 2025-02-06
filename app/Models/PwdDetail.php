@@ -12,4 +12,8 @@ class PwdDetail extends Model
     {
         return $this->belongsTo(Beneficiary::class);
     }
+
+    public function accomplishedBies() {
+        return $this->hasMany(AccomplishedBy::class);
+    }
 }

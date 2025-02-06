@@ -23,23 +23,23 @@
             </div>
             <div>
                 <x-label for="first_name" value="{{ __('First Name') }}" />
-                <x-input id="first_name" class="block w-full mt-1" type="text" name="first_name" :value="old('first_name')"
-                    required autofocus autocomplete="first_name" />
+                <x-input id="first_name" class="block w-full mt-1" type="text" name="first_name"
+                    :value="old('first_name')" required autofocus autocomplete="first_name" />
             </div>
             <div>
                 <x-label for="middle_name" value="{{ __('Middle Name') }}" />
-                <x-input id="middle_name" class="block w-full mt-1" type="text" name="middle_name" :value="old('middle_name')" />
+                <x-input id="middle_name" class="block w-full mt-1" type="text" name="middle_name"
+                    :value="old('middle_name')" />
             </div>
             <div>
                 <x-label for="suffix" value="{{ __('Suffix') }}" />
-                <x-input id="suffix" class="block w-full mt-1" type="text" name="suffix" :value="old('suffix')"
-                    />
+                <x-input id="suffix" class="block w-full mt-1" type="text" name="suffix" :value="old('suffix')" />
             </div>
 
             <div class="mt-4">
                 <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block w-full mt-1" type="email" name="email" :value="old('email')"
-                    required autocomplete="email" />
+                <x-input id="email" class="block w-full mt-1" type="email" name="email" :value="old('email')" required
+                    autocomplete="email" />
             </div>
 
             <div>
@@ -49,72 +49,43 @@
 
             <div>
                 <x-label for="barangay" value="{{ __('Barangay') }}" />
-                <select name="barangay" id="barangay" class="block w-full mt-1 form-control" required>
-                    <option value="" disabled selected>Select Barangay</option>
-                    <option value="Alangilan">Alangilan</option>
-                    <option value="Anibongan">Anibongan</option>
-                    <option value="Bagacay">Bagacay</option>
-                    <option value="Bahay">Bahay</option>
-                    <option value="Balinsasayao">Balinsasayao</option>
-                    <option value="Balocawe">Balocawe</option>
-                    <option value="Balocawehay">Balocawehay</option>
-                    <option value="Barayong">Barayong</option>
-                    <option value="Bayabas">Bayabas</option>
-                    <option value="Bito">Bito</option>
-                    <option value="Buaya">Buaya</option>
-                    <option value="Buenavista">Buenavista</option>
-                    <option value="Bulak">Bulak</option>
-                    <option value="Bunga">Bunga</option>
-                    <option value="Buntay">Buntay</option>
-                    <option value="Burubud-an">Burubud-an</option>
-                    <option value="Cadac-an">Cadac-an</option>
-                    <option value="Cagbolo">Cagbolo</option>
-                    <option value="Can-aporong">Can-aporong</option>
-                    <option value="Canmarating">Canmarating</option>
-                    <option value="Can-uguib">Can-uguib</option>
-                    <option value="Capilian">Capilian</option>
-                    <option value="Combis">Combis</option>
-                    <option value="Dingle">Dingle</option>
-                    <option value="Guintagbucan">Guintagbucan</option>
-                    <option value="Hampipila">Hampipila</option>
-                    <option value="Katipunan">Katipunan</option>
-                    <option value="Kikilo">Kikilo</option>
-                    <option value="Laray">Laray</option>
-                    <option value="Lawa-an">Lawa-an</option>
-                    <option value="Libertad">Libertad</option>
-                    <option value="Loyonsawang">Loyonsawang</option>
-                    <option value="Mag-atubang">Mag-atubang</option>
-                    <option value="Mahagna">Mahagna</option>
-                    <option value="Mahayahay">Mahayahay</option>
-                    <option value="Maitum">Maitum</option>
-                    <option value="Malaguicay">Malaguicay</option>
-                    <option value="Matagnao">Matagnao</option>
-                    <option value="Nalibunan">Nalibunan</option>
-                    <option value="Nebga">Nebga</option>
-                    <option value="New Taligue">New Taligue</option>
-                    <option value="Odiongan">Odiongan</option>
-                    <option value="Old Taligue">Old Taligue</option>
-                    <option value="Pagsang-an">Pagsang-an</option>
-                    <option value="Paguite">Paguite</option>
-                    <option value="Parasanon">Parasanon</option>
-                    <option value="Picas Sur">Picas Sur</option>
-                    <option value="Pilar">Pilar</option>
-                    <option value="Pinamanagan">Pinamanagan</option>
-                    <option value="Salvacion">Salvacion</option>
-                    <option value="San Francisco">San Francisco</option>
-                    <option value="San Isidro">San Isidro</option>
-                    <option value="San Roque">San Roque</option>
-                    <option value="Santa Fe">Santa Fe</option>
-                    <option value="Santa Lucia">Santa Lucia</option>
-                    <option value="Santo Niño">Santo Niño</option>
-                    <option value="Tabigue">Tabigue</option>
-                    <option value="Tadoc">Tadoc</option>
-                    <option value="Tib-o">Tib-o</option>
-                    <option value="Tinalian">Tinalian</option>
-                    <option value="Tinocolan">Tinocolan</option>
-                    <option value="Tuy-a">Tuy-a</option>
-                    <option value="Victory">Victory</option>
+                <select name="barangay_id" id="barangay" class="block w-full mt-1 form-control" required>
+                    <option value="" selected hidden>Select Barangay</option>
+                    <option value="" disabled>Select Barangay</option>
+                    @foreach (\App\Models\Barangay::all() as $barangay)
+                    <option value="{{ $barangay->id }}" {{ old('barangay_id')==$barangay->id ? 'selected' : ""}}>{{
+                        $barangay->name }}</option>
+                    @endforeach
                 </select>
+            </div>
+            <div>
+                <x-label for="gender" value="{{ __('Gender') }}" />
+                <select name="gender" id="gender" class="block w-full mt-1 form-control" required>
+                    <option value="" selected hidden>Select Gender</option>
+                    <option value="" disabled>Select Gender</option>
+                    <option value="Male" {{ old('gender')=='Male' ? 'selected' : "" }}>Male</option>
+                    <option value="Female" {{ old('gender')=='Female' ? 'selected' : "" }}>Female</option>
+                    <option value="Rather not to say" {{ old('gender')=='Rather not to say' ? 'selected' : "" }}>Rather
+                        not to say</option>
+                </select>
+            </div>
+            <div class="mt-4">
+                <x-label for="date_of_birth" value="{{ __('Date of birth') }}" />
+                <x-input id="date_of_birth" class="block w-full mt-1" type="date" name="date_of_birth" required
+                    autocomplete="Date of birth" />
+            </div>
+            <div class="mt-4">
+                <x-label for="has_minor_child" value="{{ __('Do you have minor child?') }}" />
+                <div class="flex gap-3">
+                    <div class="flex gap-2"><span>Yes</span>
+                        <x-input id="has_minor_child" class="block mt-1" type="radio" name="has_minor_child" required
+                            autocomplete="Minor Child" value="1" />
+                    </div>
+                    <div class="flex gap-2"><span>No</span>
+                        <x-input id="has_minor_child" class="block mt-1" type="radio" name="has_minor_child" required
+                            autocomplete="Minor Child" value="0" />
+                    </div>
+                </div>
             </div>
 
             <div class="mt-4">
@@ -130,30 +101,34 @@
             </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-                <div class="mt-4">
-                    <x-label for="terms">
-                        <div class="flex items-center">
-                            <x-checkbox name="terms" id="terms" required />
+            <div class="mt-4">
+                <x-label for="terms">
+                    <div class="flex items-center">
+                        <x-checkbox name="terms" id="terms" required />
 
-                            <div class="ms-2">
-                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                    'terms_of_service' =>
-                                        '<a target="_blank" href="' .
+                        <div class="ms-2">
+                            {!! __('I agree to the :terms_of_service and :privacy_policy', [
+                            'terms_of_service' =>
+                            '<a target="_blank" href="' .
                                         route('terms.show') .
-                                        '" class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">' .
-                                        __('Terms of Service') .
-                                        '</a>',
-                                    'privacy_policy' =>
-                                        '<a target="_blank" href="' .
+                                        '"
+                                class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'
+                                .
+                                __('Terms of Service') .
+                                '</a>',
+                            'privacy_policy' =>
+                            '<a target="_blank" href="' .
                                         route('policy.show') .
-                                        '" class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">' .
-                                        __('Privacy Policy') .
-                                        '</a>',
-                                ]) !!}
-                            </div>
+                                        '"
+                                class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'
+                                .
+                                __('Privacy Policy') .
+                                '</a>',
+                            ]) !!}
                         </div>
-                    </x-label>
-                </div>
+                    </div>
+                </x-label>
+            </div>
             @endif
 
             <div class="flex items-center justify-end mt-4">

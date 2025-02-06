@@ -92,12 +92,15 @@ class AdminController extends Controller
     {
         $filter = $request->query('filter');
 
-        $data = Application::when($filter != 'all', function ($query) use ($filter) {
-            $query->where('status', $filter ?? 'accepted');
-            if(!$filter) {
-                $query->where('approved_at', null);
-            }
-        })->orderBy('created_at', 'desc')->paginate(10);
+        $status = $request->query('status');
+
+        $data = Beneficiary::with(['approvedBy', 'acceptedBy', 'aicsDetails', 'pwdDetails', 'soloParentDetails', 'service', 'barangay'])->where(function ($query) use ($filter) {
+            $query->where('status', $filter ?? 'approved')->orWhere('status', 'accepted');
+        })
+            ->orWhere(function ($query) use ($status) {
+                $query->where('status', $status);
+            })
+            ->orderBy('created_at', 'desc')->paginate(10);
         return view('admin.displayapplication', compact('data'));
     }
 
@@ -569,14 +572,34 @@ class AdminController extends Controller
         return view('admin.deceased', compact('deceased'));
     }
 
-    public function adminApproval($id)
+    public function adminApproval(Request $request, $id)
     {
-        $application = Application::findOrFail($id);
+        $application = Beneficiary::findOrFail($id);
+
+        $aicsType = AicsDetail::findOrFail($application->id);
 
         $application->update([
             'approved_by'           =>          Auth::user()->id,
             'approved_at'           =>          now(),
+            'status'                =>          'approved'
         ]);
+
+        if($application->service->id === 4) {
+            $request->validate([
+                'case_no'           =>          ['required'],
+                'new_or_old'        =>          ['required'],
+                'problem_presented' =>          ['required'],
+                'findings'          =>          ['required'],
+                'action_taken'      =>          ['required'],
+            ]);
+            $aicsType->update([
+                'case_no'           =>          $request->case_no,
+                'new_or_old'        =>          $request->new_or_old,
+                'problem_presented' =>          $request->problem_presented,
+                'findings'          =>          $request->findings,
+                'action_taken'      =>          $request->action_taken,
+            ]);
+        }
 
         return back()->with('success', 'Application approved successfully!');
     }
@@ -584,12 +607,12 @@ class AdminController extends Controller
     public function adminRejection(Request $request, $id)
     {
 
-        $application = Application::findOrFail($id);
+        $application = Beneficiary::findOrFail($id);
 
         $request->validate([
             'cancellation_reason'                   =>          ['required', 'min:1', 'max:255', 'string']
         ], [
-            'cancellation_reason.required'          =>              'Please state a reason first before rejecting.',
+            'cancellation_reason.required'          =>          'Please state a reason first before rejecting.',
         ]);
 
         $application->update([
@@ -644,6 +667,7 @@ class AdminController extends Controller
             'age_fc.*'                  =>          ['required', 'min:1', 'max:255', 'string'],
             'occupation_fc.*'           =>          ['required', 'min:1', 'max:255', 'string'],
             'income.*'                  =>          ['required', 'min:1', 'max:255', 'string'],
+            'phone'                     =>          ['required', 'min:1', 'max:255', 'string'],
 
         ]);
 
@@ -661,7 +685,12 @@ class AdminController extends Controller
             'occupation'                =>         $request->occupation,
             'annual_income'             =>         $request->annual_income,
             'other_skills'              =>         $request->other_skills,
-            'age'                       =>         $request->age
+            'age'                       =>         $request->age,
+            'status'                    =>         'approved',
+            'accepted_by'               =>         Auth::id(),
+            'approved_by'               =>         Auth::id(),
+            'approved_at'               =>         now(),
+            'phone'                     =>         $request->phone,
         ]);
 
         foreach ($request->name as $index => $name) {
@@ -709,6 +738,7 @@ class AdminController extends Controller
             'age_fc.*'                  =>          ['required', 'min:1', 'max:255', 'string'],
             'occupation_fc.*'           =>          ['required', 'min:1', 'max:255', 'string'],
             'income.*'                  =>          ['required', 'min:1', 'max:255', 'string'],
+            'phone'                     =>          ['required', 'min:1', 'max:255', 'string'],
 
         ]);
 
@@ -725,7 +755,8 @@ class AdminController extends Controller
             'occupation'                =>         $request->occupation,
             'annual_income'             =>         $request->annual_income,
             'other_skills'              =>         $request->other_skills,
-            'age'                       =>         $request->age
+            'age'                       =>         $request->age,
+            'phone'                     =>         $request->phone,
         ]);
 
         if ($request->has('family_composition_data')) {
@@ -811,6 +842,7 @@ class AdminController extends Controller
             'problem_presented'           =>          ['required', 'min:1', 'max:255', 'string'],
             'findings'                    =>          ['required', 'min:1', 'max:255', 'string'],
             'action_taken'                =>          ['required', 'min:1', 'max:255', 'string'],
+            'phone'                       =>          ['required', 'min:1', 'max:255', 'string'],
 
         ]);
 
@@ -826,7 +858,12 @@ class AdminController extends Controller
             'barangay_id'               =>         $request->barangay,
             'occupation'                =>         $request->occupation,
             'educational_attainment'    =>         $request->educational_attainment,
-            'age'                       =>          $request->age,
+            'age'                       =>         $request->age,
+            'status'                    =>         'approved',
+            'accepted_by'               =>         Auth::id(),
+            'approved_by'               =>         Auth::id(),
+            'approved_at'               =>         now(),
+            'phone'                     =>         $request->phone,
         ]);
 
         foreach ($request->name as $index => $name) {
@@ -892,6 +929,7 @@ class AdminController extends Controller
             'problem_presented'             =>          ['required', 'min:1', 'max:255', 'string'],
             'findings'                      =>          ['required', 'min:1', 'max:255', 'string'],
             'action_taken'                  =>          ['required', 'min:1', 'max:255', 'string'],
+            'phone'                         =>          ['required', 'min:1', 'max:255', 'string'],
 
         ]);
 
@@ -907,6 +945,7 @@ class AdminController extends Controller
             'occupation'                =>         $request->occupation,
             'educational_attainment'    =>         $request->educational_attainment,
             'age'                       =>         $request->age,
+            'phone'                     =>         $request->phone,
         ]);
 
         if ($request->has('family_composition_data')) {
@@ -1031,6 +1070,10 @@ class AdminController extends Controller
             'occupation'                        =>          $request->occupation,
             'phone'                             =>          $request->phone,
             'age'                               =>          $request->age,
+            'status'                            =>          'approved',
+            'accepted_by'                       =>          Auth::id(),
+            'approved_by'                       =>          Auth::id(),
+            'approved_at'                       =>          now(),
         ]);
 
         foreach ($request->name as $index => $name) {
@@ -1222,12 +1265,15 @@ class AdminController extends Controller
             'educational_attainment'            =>          ['required', 'min:1', 'max:255', 'string'],
             'occupation'                        =>          ['required', 'min:1', 'max:255', 'string'],
             'phone'                             =>          ['required', 'min:1', 'max:255', 'string'],
+            'application_type'                  =>          ['required', 'min:1', 'max:255', 'string'],
+            'pwd_number'                        =>          ['required', 'min:1', 'max:255', 'string'],
+            'blood_type'                        =>          ['required', 'min:1', 'max:255', 'string'],
             'type_of_disability'                =>          ['required', 'min:1', 'max:255', 'string'],
-            'acquired'                          =>          ['required', 'min:1', 'max:255', 'string'],
-            'other_acquired'                    =>          ['nullable', 'required_if:acquired,Other', 'min:1', 'max:255', 'string'],
             'cause_of_disability'               =>          ['required', 'min:1', 'max:255', 'string'],
+            'acquired'                          =>          ['nullable', 'required_if:cause_of_disability,Acquired', 'min:1', 'max:255', 'string'],
+            'other_acquired'                    =>          ['nullable', 'required_if:acquired,Other', 'min:1', 'max:255', 'string'],
             'other_cause_of_disability'         =>          ['nullable', 'required_if:cause_of_disability,Other', 'min:1', 'max:255', 'string'],
-            'congenital_inborn'                 =>          ['required', 'min:1', 'max:255', 'string'],
+            'congenital_inborn'                 =>          ['nullable', 'required_if:cause_of_disability,Congenital/Inborn', 'min:1', 'max:255', 'string'],
             'other_congenital_inborn'           =>          ['nullable', 'required_if:congenital_inborn,Other', 'min:1', 'max:255', 'string'],
             'house_no_and_street'               =>          ['required', 'min:1', 'max:255', 'string'],
             'municipality'                      =>          ['required', 'min:1', 'max:255', 'string'],
@@ -1265,6 +1311,10 @@ class AdminController extends Controller
             'occupation'                        =>          $request->occupation,
             'phone'                             =>          $request->phone,
             'age'                               =>          $request->age,
+            'status'                            =>          'approved',
+            'accepted_by'                       =>          Auth::id(),
+            'approved_by'                       =>          Auth::id(),
+            'approved_at'                       =>          now(),
         ]);
 
         $acquired = $request->acquired === 'Other' ? 'Other, ' . $request->other_acquired : $request->acquired;
@@ -1273,6 +1323,9 @@ class AdminController extends Controller
 
         PwdDetail::create([
             'beneficiary_id'                    =>          $beneficiary->id,
+            'application_type'                  =>          $request->application_type,
+            'pwd_number'                        =>          $request->pwd_number,
+            'blood_type'                        =>          $request->blood_type,
             'type_of_disability'                =>          $request->type_of_disability,
             'acquired'                          =>          $acquired,
             'cause_of_disability'               =>          $cause_of_disability,
@@ -1338,12 +1391,15 @@ class AdminController extends Controller
             'educational_attainment'            =>          ['required', 'min:1', 'max:255', 'string'],
             'occupation'                        =>          ['required', 'min:1', 'max:255', 'string'],
             'phone'                             =>          ['required', 'min:1', 'max:255', 'string'],
+            'application_type'                  =>          ['required', 'min:1', 'max:255', 'string'],
+            'pwd_number'                        =>          ['required', 'min:1', 'max:255', 'string'],
+            'blood_type'                        =>          ['required', 'min:1', 'max:255', 'string'],
             'type_of_disability'                =>          ['required', 'min:1', 'max:255', 'string'],
-            'acquired'                          =>          ['required', 'min:1', 'max:255', 'string'],
-            'other_acquired'                    =>          ['nullable', 'required_if:acquired,Other', 'min:1', 'max:255', 'string'],
             'cause_of_disability'               =>          ['required', 'min:1', 'max:255', 'string'],
+            'acquired'                          =>          ['nullable', 'required_if:cause_of_disability,Acquired', 'min:1', 'max:255', 'string'],
+            'other_acquired'                    =>          ['nullable', 'required_if:acquired,Other', 'min:1', 'max:255', 'string'],
             'other_cause_of_disability'         =>          ['nullable', 'required_if:cause_of_disability,Other', 'min:1', 'max:255', 'string'],
-            'congenital_inborn'                 =>          ['required', 'min:1', 'max:255', 'string'],
+            'congenital_inborn'                 =>          ['nullable', 'required_if:cause_of_disability,Congenital/Inborn', 'min:1', 'max:255', 'string'],
             'other_congenital_inborn'           =>          ['nullable', 'required_if:congenital_inborn,Other', 'min:1', 'max:255', 'string'],
             'house_no_and_street'               =>          ['required', 'min:1', 'max:255', 'string'],
             'municipality'                      =>          ['required', 'min:1', 'max:255', 'string'],
@@ -1389,6 +1445,9 @@ class AdminController extends Controller
         PwdDetail::updateOrCreate([
             'beneficiary_id'                    =>          $beneficiary->id,
         ], [
+            'application_type'                  =>          $request->application_type,
+            'pwd_number'                        =>          $request->pwd_number,
+            'blood_type'                        =>          $request->blood_type,
             'type_of_disability'                =>          $request->type_of_disability,
             'acquired'                          =>          $acquired,
             'cause_of_disability'               =>          $cause_of_disability,
@@ -1437,5 +1496,19 @@ class AdminController extends Controller
         }
 
         return redirect($url)->with('success', 'Beneficiary updated successfully!');
+    }
+
+    public function releasedUser($id)
+    {
+        $beneficiary = Beneficiary::findOrFail($id);
+
+        $applicationController = new ApplicationController();
+        $applicationController->sendSMSNotification($beneficiary->phone);
+
+        $beneficiary->update([
+            'status'        =>          'released'
+        ]);
+
+        return back()->with('success', 'Beneficiary marked as released successfully');
     }
 }

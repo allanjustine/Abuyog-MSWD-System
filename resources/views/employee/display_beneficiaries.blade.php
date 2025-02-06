@@ -60,9 +60,12 @@
                                 <td>{{ $item?->phone }}</td>
                                 <td>{{ $item?->service ? $item?->service->name : 'No Program' }}</td>
                                 <td>{{ $item?->barangay->name ?? 'No Barangay' }}</td>
-                                <td><span class="badge rounded-pill bg-info">{{ $item?->status ?? 'Manual' }}</span>
-                                </td>
-                                <td>{{ $item?->approved_at ?? $item?->created_at->diffForHumans() }}</td>
+                                <td><span
+                                        class="badge rounded-pill text-capitalize {{ $item?->status === 'approved' ? 'bg-success' : ($item?->status === 'pending' ? 'bg-warning' : ($item->status === 'rejected' ? 'bg-danger' : ($item?->status === 'accepted' ? 'bg-primary' : 'bg-info'))) }}">{{
+                                        $item?->status ?? 'Manual' }}</span></td>
+                                <td>{{ $item?->approved_at?->diffForHumans() ?? $item?->created_at->diffForHumans()
+                                    }}</td>
+                                <td>
                                 <td>
                                     <div class="d-flex justify-content-around">
                                         <!-- View Button -->

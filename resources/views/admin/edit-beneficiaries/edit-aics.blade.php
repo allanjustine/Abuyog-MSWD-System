@@ -151,21 +151,28 @@
                             </div>
 
                             <div class="row form-row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="dateOfBirth" class="form-label">Date of Birth</label>
                                     <input type="date" class="form-control" id="dateOfBirth" name="date_of_birth" value="{{ $beneficiary->date_of_birth->format('Y-m-d') }}">
                                     @error('date_of_birth')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="age" class="form-label">Age</label>
                                     <input type="text" class="form-control" id="age" name="age" readonly value="{{ $beneficiary->age }}">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="religion" class="form-label">Religion</label>
                                     <input type="text" class="form-control" id="religion" name="religion" value="{{ $beneficiary->religion }}">
                                     @error('religion')
+                                    <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="phone" class="form-label">Phone</label>
+                                    <input type="text" class="form-control" id="phone" name="phone" value="{{ $beneficiary?->phone }}">
+                                    @error('phone')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>

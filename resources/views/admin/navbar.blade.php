@@ -35,9 +35,13 @@
     <!-- partial:partials/_navbar.html -->
     <nav class="flex-row p-0 navbar fixed-top d-flex">
 
-        <div class="flex-grow navbar-menu-wrapper d-flex align-items-stretch">
+        <div class="flex-grow navbar-menu-wrapper justify-between d-flex align-items-stretch">
             <button class="navbar-toggler align-self-center" type="button" data-toggle="minimize">
                 <span class="mdi mdi-menu"></span>
+            </button>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                data-toggle="offcanvas">
+                <span class="mdi mdi-format-line-spacing"></span>
             </button>
 
             <ul class="navbar-nav navbar-nav-right">
@@ -46,9 +50,5 @@
 
                 </x-app-layout>
             </ul>
-            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                data-toggle="offcanvas">
-                <span class="mdi mdi-format-line-spacing"></span>
-            </button>
         </div>
     </nav>

@@ -266,9 +266,36 @@
                             <fieldset class="p-3 mb-3 border">
                                 <legend class="w-auto px-2 text-uppercase">Other Information</legend>
 
-                                <!-- Type of Disability -->
                                 <div class="row form-row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
+                                        <label for="applicationType" class="form-label">Application Type</label>
+                                        <select class="form-select" id="applicationType" name="application_type">
+                                            <option value="" hidden selected>Select Application Type</option>
+                                            <option value="" disabled>Select Application Type</option>
+                                            <option value="New Applicant" {{ isset($beneficiary->pwdDetails[0]) && $beneficiary?->pwdDetails[0]?->application_type === 'New Applicant' ? 'selected' : '' }}>New Applicant</option>
+                                            <option value="Renewal" {{ isset($beneficiary->pwdDetails[0]) && $beneficiary?->pwdDetails[0]?->application_type === 'Renewal' ? 'selected' : '' }}>Renewal</option>
+                                        </select>
+                                        @error('application_type')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="pwd_number" class="form-label">PWD Number</label>
+                                        <input type="text" class="form-control" id="pwd_number" placeholder="(RR-PPMM-BBB-NNNNNNN)" name="pwd_number" value="{{ $beneficiary?->pwdDetails[0]?->pwd_number ?? '' }}">
+                                        @error('pwd_number')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="blood_type" class="form-label">Blood Type</label>
+                                        <input type="text" class="form-control" id="blood_type" name="blood_type" value="{{ $beneficiary?->pwdDetails[0]?->blood_type ?? '' }}">
+                                        @error('blood_type')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row form-row">
+                                    <div class="col-md-4">
                                         <label for="disabilityType" class="form-label">Type of Disability</label>
                                         <select class="form-select" id="disabilityType" name="type_of_disability">
                                             <option value="" hidden selected>Select Type of Disability</option>
@@ -288,7 +315,26 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-md-3">
+
+
+                                    <div class="col-md-4">
+                                        <label for="causeOfDisability" class="form-label">Cause of Disability</label>
+                                        <select class="form-select" id="causeOfDisability" name="cause_of_disability">
+                                            <option value="" hidden selected>Select Cause of Disability</option>
+                                            <option value="" disabled>Select Cause of Disability</option>
+                                            <option value="Congenital/Inborn" {{ isset($beneficiary->pwdDetails[0]) && $beneficiary?->pwdDetails[0]?->cause_of_disability === 'Congenital/Inborn' ? 'selected' : '' }}>Congenital/Inborn</option>
+                                            <option value="Acquired" {{ isset($beneficiary->pwdDetails[0]) && $beneficiary?->pwdDetails[0]?->cause_of_disability === 'Acquired' ? 'selected' : '' }}>Acquired</option>
+                                        </select>
+                                        <input type="text" class="form-control mt-2 {{ $errors->has('other_cause_of_disability') ? 'is-invalid' : (isset($beneficiary->pwdDetails[0]) && str_contains($beneficiary?->pwdDetails[0]?->cause_of_disability, "Other") ? '' : 'd-none') }}" id="otherCauseOfDisability" name="other_cause_of_disability" placeholder="Specify Cause of Disability" value="{{ isset($beneficiary->pwdDetails[0]) && !str_contains($beneficiary?->pwdDetails[0]?->cause_of_disability, "Other") ? '' : $beneficiary?->pwdDetails[0]?->cause_of_disability ?? '' }}">
+                                        @error('cause_of_disability')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                        @error('other_cause_of_disability')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-4 {{ $errors->has('acquired') ? 'is-invalid' : 'd-none' }}" id="acquiredDiv">
                                         <label for="acquired" class="form-label">Acquired</label>
                                         <select class="form-select" id="acquired" name="acquired">
                                             <option value="" hidden selected>Select Acquired</option>
@@ -307,28 +353,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <label for="causeOfDisability" class="form-label">Cause of Disability</label>
-                                        <select class="form-select" id="causeOfDisability" name="cause_of_disability">
-                                            <option value="" hidden selected>Select Cause of Disability</option>
-                                            <option value="" disabled>Select Cause of Disability</option>
-                                            <option value="Congenital/Inborn" {{ isset($beneficiary->pwdDetails[0]) && $beneficiary?->pwdDetails[0]?->cause_of_disability === 'Congenital/Inborn' ? 'selected' : '' }}>Congenital/Inborn</option>
-                                            <option value="Autism" {{ isset($beneficiary->pwdDetails[0]) && $beneficiary?->pwdDetails[0]?->cause_of_disability === 'Autism' ? 'selected' : '' }}>Autism</option>
-                                            <option value="ADHD" {{ isset($beneficiary->pwdDetails[0]) && $beneficiary?->pwdDetails[0]?->cause_of_disability === 'ADHD' ? 'selected' : '' }}>ADHD</option>
-                                            <option value="Cerebral Palsy" {{ isset($beneficiary->pwdDetails[0]) && $beneficiary?->pwdDetails[0]?->cause_of_disability === 'Cerebral Palsy' ? 'selected' : '' }}>Cerebral Palsy</option>
-                                            <option value="Down Syndrome" {{ isset($beneficiary->pwdDetails[0]) && $beneficiary?->pwdDetails[0]?->cause_of_disability === 'Down Syndrome' ? 'selected' : '' }}>Down Syndrome</option>
-                                            <option value="Other" {{ isset($beneficiary->pwdDetails[0]) && str_contains($beneficiary?->pwdDetails[0]?->cause_of_disability, "Other") ? 'selected' : '' }}>Other (Specify)</option>
-                                        </select>
-                                        <input type="text" class="form-control mt-2 {{ $errors->has('other_cause_of_disability') ? 'is-invalid' : (isset($beneficiary->pwdDetails[0]) && str_contains($beneficiary?->pwdDetails[0]?->cause_of_disability, "Other") ? '' : 'd-none') }}" id="otherCauseOfDisability" name="other_cause_of_disability" placeholder="Specify Cause of Disability" value="{{ isset($beneficiary->pwdDetails[0]) && !str_contains($beneficiary?->pwdDetails[0]?->cause_of_disability, "Other") ? '' : $beneficiary?->pwdDetails[0]?->cause_of_disability ?? '' }}">
-                                        @error('cause_of_disability')
-                                        <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                        @error('other_cause_of_disability')
-                                        <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-3">
+                                    <div class="col-md-4 {{ $errors->has('congenital_inborn') ? 'is-invalid' : 'd-none' }}" id="congenitalInbornDiv">
                                         <label for="congenitalInborn" class="form-label">Congenital/Inborn Cause</label>
                                         <select class="form-select" id="congenitalInborn" name="congenital_inborn">
                                             <option value="" hidden selected>Select Congenital/Inborn Cause</option>
@@ -346,6 +371,10 @@
                                         @error('other_congenital_inborn')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
+                                    </div>
+                                    <div class="col-md-4 {{ $errors->has('congenital_inborn') ? 'd-none' : ($errors->has('acquired') ? 'd-none' : '') }}" id="selectedRemoved">
+                                        <label for="congenitalInborn" class="form-label">Select Cause of disability first</label>
+                                        <input type="text" class="form-control" disabled placeholder="Select Cause of disability first">
                                     </div>
                                 </div>
 
@@ -667,6 +696,9 @@
             const otherCauseOfDisability = document.getElementById('otherCauseOfDisability');
             const congenitalInborn = document.getElementById('congenitalInborn');
             const otherCongenitalInborn = document.getElementById('otherCongenitalInborn');
+            const selectedRemoved = document.getElementById('selectedRemoved');
+            const acquiredDiv = document.getElementById('acquiredDiv');
+            const congenitalInbornDiv = document.getElementById('congenitalInbornDiv');
 
             acquired.addEventListener('change', function(event) {
                 if (this.value == 'Other') {
@@ -677,9 +709,24 @@
             });
 
             causeOfDisability.addEventListener('change', function() {
-                if (this.value == 'Other') {
-                    otherCauseOfDisability.classList.remove('d-none');
+                // if (this.value == 'Other') {
+                //     otherCauseOfDisability.classList.remove('d-none');
+                // } else {
+                //     otherCauseOfDisability.classList.add('d-none');
+                // }
+                if (this.value === 'Congenital/Inborn') {
+                    congenitalInbornDiv.classList.remove('d-none');
+                    selectedRemoved.classList.add('d-none');
+                    otherCauseOfDisability.classList.add('d-none');
+                    acquiredDiv.classList.add('d-none');
+                } else if(this.value === 'Acquired') {
+                    congenitalInbornDiv.classList.add('d-none');
+                    selectedRemoved.classList.add('d-none');
+                    acquiredDiv.classList.remove('d-none');
+                    otherCauseOfDisability.classList.add('d-none');
                 } else {
+                    congenitalInbornDiv.classList.add('d-none');
+                    acquiredDiv.classList.add('d-none');
                     otherCauseOfDisability.classList.add('d-none');
                 }
             });

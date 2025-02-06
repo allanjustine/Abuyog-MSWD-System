@@ -1,5 +1,6 @@
 <!-- View Modal -->
-<div class="modal fade" id="viewModal{{ $item?->id }}" tabindex="-1" aria-labelledby="viewModalLabel{{ $item?->id }}" aria-hidden="true">
+<div class="modal fade" id="viewModal{{ $item?->id }}" tabindex="-1" aria-labelledby="viewModalLabel{{ $item?->id }}"
+    aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -28,7 +29,8 @@
                         </div>
                         <div class="form-group">
                             <label><strong>Monthly Income:</strong></label>
-                            <input type="text" class="form-control" value="{{ $item?->monthly_income ?? 'N/A' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item?->monthly_income ?? 'N/A' }}"
+                                disabled>
                         </div>
                         <div class="form-group">
                             <label><strong>Civil Status:</strong></label>
@@ -46,11 +48,13 @@
                         </div>
                         <div class="form-group">
                             <label><strong>Program Enrolled:</strong></label>
-                            <input type="text" class="form-control" value="{{ $item?->service ? $item?->service->name : 'No Program' }}" disabled>
+                            <input type="text" class="form-control"
+                                value="{{ $item?->service ? $item?->service->name : 'No Program' }}" disabled>
                         </div>
                         <div class="form-group">
                             <label><strong>Barangay:</strong></label>
-                            <input type="text" class="form-control" value="{{ $item?->barangay->name ?? 'No Barangay' }}" disabled>
+                            <input type="text" class="form-control"
+                                value="{{ $item?->barangay->name ?? 'No Barangay' }}" disabled>
                         </div>
                         <div class="form-group">
                             <label><strong>Date of Birth:</strong></label>
@@ -73,14 +77,16 @@
                     <div class="col-md-12">
                         <h5><strong>Family Composition:</strong></h5>
                         @foreach ($item?->familyCompositions as $index => $fc)
-                        <div class="mb-3 border-t row p-2" @if($index % 2) style="background-color: rgba(9, 9, 9, 0.157);" @endif>
+                        <div class="mb-3 border-t row p-2" @if($index % 2)
+                            style="background-color: rgba(9, 9, 9, 0.157);" @endif>
                             <div class="col-md-4">
                                 <label><strong>Name:</strong></label>
                                 <input type="text" class="form-control" value="{{ $fc->name ?? 'No Data' }}" disabled>
                             </div>
                             <div class="col-md-4">
                                 <label><strong>Relationship:</strong></label>
-                                <input type="text" class="form-control" value="{{ $fc->relationship ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control" value="{{ $fc->relationship ?? 'No Data' }}"
+                                    disabled>
                             </div>
                             <div class="col-md-4">
                                 <label><strong>Age:</strong></label>
@@ -88,19 +94,23 @@
                             </div>
                             <div class="col-md-4">
                                 <label><strong>Civil Status:</strong></label>
-                                <input type="text" class="form-control" value="{{ $fc->civil_status ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control" value="{{ $fc->civil_status ?? 'No Data' }}"
+                                    disabled>
                             </div>
                             <div class="col-md-4">
                                 <label><strong>Occupation:</strong></label>
-                                <input type="text" class="form-control" value="{{ $fc->occupation ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control" value="{{ $fc->occupation ?? 'No Data' }}"
+                                    disabled>
                             </div>
                             <div class="col-md-4">
                                 <label><strong>Birthday:</strong></label>
-                                <input type="text" class="form-control" value="{{ $fc?->birthday?->format('F j, Y') ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control"
+                                    value="{{ $fc?->birthday?->format('F j, Y') ?? 'No Data' }}" disabled>
                             </div>
                             <div class="col-md-4">
                                 <label><strong>Educational:</strong></label>
-                                <input type="text" class="form-control" value="{{ $fc->educational ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control" value="{{ $fc->educational ?? 'No Data' }}"
+                                    disabled>
                             </div>
                             <div class="col-md-4">
                                 <label><strong>Income:</strong></label>
@@ -124,27 +134,33 @@
                         <div class="mb-3 row">
                             <div class="col-md-4">
                                 <label><strong>Case No:</strong></label>
-                                <input type="text" class="form-control" value="{{ $ad->case_no ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control" value="{{ $ad->case_no ?? 'No Data' }}"
+                                    disabled>
                             </div>
                             <div class="col-md-4">
                                 <label><strong>Date Applied:</strong></label>
-                                <input type="text" class="form-control" value="{{ $ad->date_applied->format('F d, Y') ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control"
+                                    value="{{ $ad?->date_applied?->format('F d, Y') ?? 'No Data' }}" disabled>
                             </div>
                             <div class="col-md-4">
                                 <label><strong>Source of referral:</strong></label>
-                                <input type="text" class="form-control" value="{{ $ad->source_of_referral ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control"
+                                    value="{{ $ad->source_of_referral ?? 'No Data' }}" disabled>
                             </div>
                             <div class="col-md-4">
                                 <label><strong>Problem Presenter:</strong></label>
-                                <input type="text" class="form-control" value="{{ $ad->problem_presented ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control"
+                                    value="{{ $ad->problem_presented ?? 'No Data' }}" disabled>
                             </div>
                             <div class="col-md-4">
                                 <label><strong>Findings:</strong></label>
-                                <input type="text" class="form-control" value="{{ $ad->findings ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control" value="{{ $ad->findings ?? 'No Data' }}"
+                                    disabled>
                             </div>
                             <div class="col-md-4">
                                 <label><strong>Action Taken:</strong></label>
-                                <input type="text" class="form-control" value="{{ $ad->action_taken ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control" value="{{ $ad->action_taken ?? 'No Data' }}"
+                                    disabled>
                             </div>
                         </div>
                         @endforeach
@@ -159,15 +175,18 @@
                         <div class="mb-3 row">
                             <div class="col-md-4">
                                 <label><strong>Company/Agency:</strong></label>
-                                <input type="text" class="form-control" value="{{ $sp->company_agency ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control" value="{{ $sp->company_agency ?? 'No Data' }}"
+                                    disabled>
                             </div>
                             <div class="col-md-4">
                                 <label><strong>4PS Item:</strong></label>
-                                <input type="text" class="form-control" value="{{ $sp['4ps_agency'] ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control" value="{{ $sp['4ps_agency'] ?? 'No Data' }}"
+                                    disabled>
                             </div>
                             <div class="col-md-4">
                                 <label><strong>Indigenous Person:</strong></label>
-                                <input type="text" class="form-control" value="{{ $sp->indigenous_person ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control"
+                                    value="{{ $sp->indigenous_person ?? 'No Data' }}" disabled>
                             </div>
                         </div>
                         @endforeach
@@ -186,11 +205,13 @@
                             </div>
                             <div class="col-md-4">
                                 <label><strong>Contact Person Address:</strong></label>
-                                <input type="text" class="form-control" value="{{ $ce->address ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control" value="{{ $ce->address ?? 'No Data' }}"
+                                    disabled>
                             </div>
                             <div class="col-md-4">
                                 <label><strong>Contact Person Number:</strong></label>
-                                <input type="text" class="form-control" value="{{ $ce->contact_number ?? 'No Data' }}" disabled>
+                                <input type="text" class="form-control" value="{{ $ce->contact_number ?? 'No Data' }}"
+                                    disabled>
                             </div>
                         </div>
                         @endforeach
@@ -208,12 +229,14 @@
                             <!-- Name of Assistance -->
                             <div class="col-md-3">
                                 <label><strong>Name of Assistance:</strong></label>
-                                <input type="text" class="form-control" value="{{ $benefit->name_of_assistance }}" disabled>
+                                <input type="text" class="form-control" value="{{ $benefit->name_of_assistance }}"
+                                    disabled>
                             </div>
                             <!-- Type of Assistance -->
                             <div class="col-md-3">
                                 <label><strong>Type of Assistance:</strong></label>
-                                <input type="text" class="form-control" value="{{ $benefit->type_of_assistance }}" disabled>
+                                <input type="text" class="form-control" value="{{ $benefit->type_of_assistance }}"
+                                    disabled>
                             </div>
                             <!-- Amount -->
                             <div class="col-md-3">
@@ -223,7 +246,8 @@
                             <!-- Date Received -->
                             <div class="col-md-3">
                                 <label><strong>Date Received:</strong></label>
-                                <input type="text" class="form-control" value="{{ $benefit->date_received ?? 'Not Yet Received' }}" disabled>
+                                <input type="text" class="form-control"
+                                    value="{{ $benefit->date_received ?? 'Not Yet Received' }}" disabled>
                             </div>
                         </div>
                         @endforeach
@@ -236,22 +260,40 @@
                         <h5 class="fs-3"><strong>PWD DETAILS:</strong></h5>
                         @foreach ($item?->pwdDetails as $pd)
                         <div class="mb-3 row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
+                                <label><strong>Application Type:</strong></label>
+                                <input type="text" class="form-control" value="{{ $pd->application_type }}" disabled>
+                            </div>
+                            <div class="col-md-4">
+                                <label><strong>PWD Number:</strong></label>
+                                <input type="text" class="form-control" value="{{ $pd->pwd_number }}" disabled>
+                            </div>
+                            <div class="col-md-4">
+                                <label><strong>Blood Type:</strong></label>
+                                <input type="text" class="form-control" value="{{ $pd->blood_type }}" disabled>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-md-4">
                                 <label><strong>Type of Disability:</strong></label>
                                 <input type="text" class="form-control" value="{{ $pd->type_of_disability }}" disabled>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label><strong>Cause of Disability:</strong></label>
                                 <input type="text" class="form-control" value="{{ $pd->cause_of_disability }}" disabled>
                             </div>
-                            <div class="col-md-3">
+                            @if($pd->cause_of_disability === 'Acquired')
+                            <div class="col-md-4">
                                 <label><strong>Acquired:</strong></label>
                                 <input type="text" class="form-control" value="{{ $pd->acquired }}" disabled>
                             </div>
-                            <div class="col-md-3">
+                            @else
+                            <div class="col-md-4">
                                 <label><strong>Congenital/Inborn:</strong></label>
                                 <input type="text" class="form-control" value="{{ $pd->congenital_inborn }}" disabled>
                             </div>
+                            @endif
+
                         </div>
                         <div class="mb-3 row">
                             <div class="col-md-4">
@@ -294,12 +336,14 @@
 
                             <div class="col-md-4">
                                 <label><strong>Status of Employment:</strong></label>
-                                <input type="text" class="form-control" value="{{ $pd->status_of_employment }}" disabled>
+                                <input type="text" class="form-control" value="{{ $pd->status_of_employment }}"
+                                    disabled>
                             </div>
 
                             <div class="col-md-4">
                                 <label><strong>Category of Employment:</strong></label>
-                                <input type="text" class="form-control" value="{{ $pd->category_of_employment }}" disabled>
+                                <input type="text" class="form-control" value="{{ $pd->category_of_employment }}"
+                                    disabled>
                             </div>
                         </div>
 
@@ -307,7 +351,8 @@
                         <div class="mb-3 row">
                             <div class="col-md-4">
                                 <label><strong>Organization Affiliated:</strong></label>
-                                <input type="text" class="form-control" value="{{ $pd->organization_affiliated }}" disabled>
+                                <input type="text" class="form-control" value="{{ $pd->organization_affiliated }}"
+                                    disabled>
                             </div>
 
                             <div class="col-md-4">
@@ -359,7 +404,8 @@
 
                             <div class="mx-auto col-md-3">
                                 <label><strong>Accomplished By.:</strong></label>
-                                <input type="text" class="form-control text-capitalize" value="{{ $pd->accomplished_by }}" disabled>
+                                <input type="text" class="form-control text-capitalize"
+                                    value="{{ $pd->accomplished_by }}" disabled>
                             </div>
                         </div>
                         @endforeach
@@ -374,45 +420,54 @@
 
                         <div class="col-md-4">
                             <label><strong>Fathers Name:</strong></label>
-                            <input type="text" class="form-control" value="{{ $fb->father_name ?? 'Not Set' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $fb->father_name ?? 'Not Set' }}"
+                                disabled>
                         </div>
                         <div class="col-md-4">
                             <label><strong>Occupation:</strong></label>
-                            <input type="text" class="form-control" value="{{ $fb->father_occupation ?? 'Not Set' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $fb->father_occupation ?? 'Not Set' }}"
+                                disabled>
                         </div>
                         <div class="col-md-4">
                             <label><strong>Phone:</strong></label>
-                            <input type="text" class="form-control" value="{{ $fb->father_phone ?? 'Not Set' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $fb->father_phone ?? 'Not Set' }}"
+                                disabled>
                         </div>
                     </div>
                     <div class="mb-3 row">
 
                         <div class="col-md-4">
                             <label><strong>Mothers Name:</strong></label>
-                            <input type="text" class="form-control" value="{{ $fb->mother_name ?? 'Not Set' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $fb->mother_name ?? 'Not Set' }}"
+                                disabled>
                         </div>
                         <div class="col-md-4">
                             <label><strong>Occupation:</strong></label>
-                            <input type="text" class="form-control" value="{{ $fb->mother_occupation ?? 'Not Set' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $fb->mother_occupation ?? 'Not Set' }}"
+                                disabled>
                         </div>
                         <div class="col-md-4">
                             <label><strong>Phone:</strong></label>
-                            <input type="text" class="form-control" value="{{ $fb->mother_phone ?? 'Not Set' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $fb->mother_phone ?? 'Not Set' }}"
+                                disabled>
                         </div>
                     </div>
                     <div class="mb-3 row">
 
                         <div class="col-md-4">
                             <label><strong>Guardian Name:</strong></label>
-                            <input type="text" class="form-control" value="{{ $fb->guardian_name ?? 'Not Set' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $fb->guardian_name ?? 'Not Set' }}"
+                                disabled>
                         </div>
                         <div class="col-md-4">
                             <label><strong>Occupation:</strong></label>
-                            <input type="text" class="form-control" value="{{ $fb->guardian_occupation ?? 'Not Set' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $fb->guardian_occupation ?? 'Not Set' }}"
+                                disabled>
                         </div>
                         <div class="col-md-4">
                             <label><strong>Phone:</strong></label>
-                            <input type="text" class="form-control" value="{{ $fb->guardian_phone ?? 'Not Set' }}" disabled>
+                            <input type="text" class="form-control" value="{{ $fb->guardian_phone ?? 'Not Set' }}"
+                                disabled>
                         </div>
                     </div>
                 </div>

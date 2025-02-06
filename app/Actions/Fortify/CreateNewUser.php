@@ -3,6 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -23,6 +24,7 @@ class CreateNewUser implements CreatesNewUsers
             'last_name' => ['required', 'string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'date_of_birth' => ['required', 'before_or_equal:today'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
@@ -34,8 +36,12 @@ class CreateNewUser implements CreatesNewUsers
             'suffix' => $input['suffix'],
             'email' => $input['email'],
             'phone' => $input['phone'],
-            'barangay' => $input['barangay'],
+            'barangay_id' => $input['barangay_id'],
+            'gender' => $input['gender'],
             'password' => Hash::make($input['password']),
+            'date_of_birth' => $input['date_of_birth'],
+            'age' => Carbon::parse($input['date_of_birth'])->age,
+            'has_minor_child' => $input['has_minor_child']
         ]);
     }
 }

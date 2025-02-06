@@ -21,11 +21,10 @@ return new class extends Migration
             $table->integer('age')->unsigned();
             $table->string('gender');
             $table->string('place_of_birth')->nullable(); // Added place of birth
-            $table->unsignedBigInteger('program_enrolled');
-            $table->foreign('program_enrolled')->references('id')->on('services')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('program_enrolled')->nullable()->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('barangay_id')->nullable(); // Foreign key for barangay
             $table->foreign('barangay_id')->references('id')->on('barangays')->onDelete('set null');
-            $table->enum('civil_status', ['Single', 'Married', 'Widowed', 'Divorced']);
+            $table->string('civil_status')->nullable();
             $table->string('educational_attainment')->nullable(); // Added educational attainment
             $table->string('occupation')->nullable(); // Added occupation
             $table->string('religion')->nullable(); // Added religion
@@ -37,6 +36,14 @@ return new class extends Migration
             $table->string('other_skills')->nullable();
             $table->decimal('latitude', 10, 6)->nullable();
             $table->decimal('longitude', 10, 6)->nullable();
+            $table->timestamp('approved_at')->nullable();
+            $table->timestamp('appearance_date')->nullable();
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('accepted_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('user_id')->constrained('users')->onDelete('set null');
+            $table->string('status')->nullable()->default('pending');
+            $table->string('cancellation_reason')->nullable();
+            $table->string('complete_address')->nullable();
 
             $table->timestamps();
         });

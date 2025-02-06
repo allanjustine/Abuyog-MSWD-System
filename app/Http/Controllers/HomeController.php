@@ -155,7 +155,7 @@ class HomeController extends Controller
             $userid = Auth::user()->id;
 
             // Add orderBy to sort by created_at in descending order
-            $apply = Application::where('user_id', $userid)
+            $apply = Beneficiary::where('user_id', $userid)
                 ->orderBy('created_at', 'desc') // Sorts by most recent first
                 ->get();
 

@@ -13,6 +13,8 @@ class Beneficiary extends Model
 
     protected $casts = [
         'date_of_birth'         =>          'date',
+        'appearance_date'       =>          'date',
+        'approved_at'           =>          'date',
     ];
 
     // Relationship: Beneficiary belongs to a Barangay
@@ -60,5 +62,16 @@ class Beneficiary extends Model
     public function pwdDetails()
     {
         return $this->hasMany(PwdDetail::class)->chaperone();
+    }
+
+    public function acceptedBy() {
+        return $this->belongsTo(User::class, 'accepted_by');
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function approvedBy() {
+        return $this->belongsTo(User::class, 'approved_by');
     }
 }

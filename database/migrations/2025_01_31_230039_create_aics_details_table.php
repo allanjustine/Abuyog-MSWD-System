@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('problem_presented')->nullable();
             $table->text('findings')->nullable();
             $table->text('action_taken')->nullable();
+            $table->string('type_of_assistance')->nullable();
             $table->timestamps();
         });
     }

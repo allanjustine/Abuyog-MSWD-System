@@ -227,13 +227,36 @@
                             </div>
                             <div class="modal-body">
                                 <ul class="list-group">
-                                    @foreach ($services as $service)
-                                        <li class="list-group-item">
-                                            <a href="{{ route('forms', ['id' => $service->id]) }}">
-                                                {{ $service->name }}
-                                            </a>
-                                        </li>
-                                    @endforeach
+                                    @if (Auth::user()->age >= 60)
+                                    <li class="list-group-item">
+                                        <a href="/form/1">
+                                            OSCA(Office of Senior Citizens)
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="/form/4">
+                                            AICS(Assistance to Individuals in Crisis)
+                                        </a>
+                                    </li>
+                                    @if (Auth::user()->has_minor_child === 1)
+                                    <li class="list-group-item">
+                                        <a href="/form/3">
+                                            Solo Parent
+                                        </a>
+                                    </li>
+                                    @endif
+                                    @else
+                                    <li class="list-group-item">
+                                        <a href="/form/3">
+                                            Solo Parent
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="/form/2">
+                                            PWD(Persons with Disabilities)
+                                        </a>
+                                    </li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -261,40 +284,41 @@
                             </thead>
                             <tbody>
                                 @foreach ($apply as $applies)
-                                    <tr>
-                                        <td>{{ $applies->service->name ?? 'No Service Assigned' }}</td>
-                                        <td>{{ $applies->date_applied }}</td>
-                                        <td>{{ $applies->phone }}</td>
-                                        <td class="text-center">
-                                            @if ($applies->status === 'accepted' && $applies->approved_at !== null && $applies->approved_by !== null)
-                                                <span>Approved</span>
-                                            @else
-                                                <span>
-                                                    {{ ucfirst($applies->status) }}
-                                                </span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0);" class="action-link action-link-history"
-                                                onclick="openModal({{ $applies->id }})">
-                                                <i class="fas fa-info-circle"></i>View
-                                            </a>
-                                            {{--  @if ($applies->status != 'rejected' && $applies->status != 'Pending')
-                                                <a class="action-link action-link-download"
-                                                    href="{{ url('generate-pdf/' . $applies->id) }}">
-                                                    <i class="mai-download"></i>Download Form
-                                                </a>
-                                            @else
-                                                <span class="text-muted">Form Not Available</span>
-                                            @endif
-                                            @if ($applies->status == 'Pending')
-                                                <a class="action-link action-link-cancel" href="#"
-                                                    onclick="confirmCancellation('{{ url('cancel_application', $applies->id) }}'); return false;">
-                                                    <i class="mai-trash"></i>Cancel
-                                                </a>
-                                            @endif  --}}
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>{{ $applies->service->name ?? 'No Service Assigned' }}</td>
+                                    <td>{{ $applies?->appearance_date?->format('F j, Y') ?? 'Pending' }}</td>
+                                    <td>{{ $applies->phone }}</td>
+                                    <td class="text-center">
+                                        @if ($applies->status === 'accepted' && $applies->approved_at !== null &&
+                                        $applies->approved_by !== null)
+                                        <span>Approved</span>
+                                        @else
+                                        <span>
+                                            {{ ucfirst($applies->status) }}
+                                        </span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0);" class="action-link action-link-history"
+                                            onclick="openModal({{ $applies->id }})">
+                                            <i class="fas fa-info-circle"></i>View
+                                        </a>
+                                        {{-- @if ($applies->status != 'rejected' && $applies->status != 'Pending')
+                                        <a class="action-link action-link-download"
+                                            href="{{ url('generate-pdf/' . $applies->id) }}">
+                                            <i class="mai-download"></i>Download Form
+                                        </a>
+                                        @else
+                                        <span class="text-muted">Form Not Available</span>
+                                        @endif
+                                        @if ($applies->status == 'Pending')
+                                        <a class="action-link action-link-cancel" href="#"
+                                            onclick="confirmCancellation('{{ url('cancel_application', $applies->id) }}'); return false;">
+                                            <i class="mai-trash"></i>Cancel
+                                        </a>
+                                        @endif --}}
+                                    </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -308,7 +332,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="detailsModalLabel">Application Details</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -329,8 +353,8 @@
                             <p><strong>Reason for Cancelling:</strong> <span id="cancellationReason"></span></p>
                         </div>
 
-                        <div id="requirementsSection">
-                            <p><strong>Requirements to Bring:</strong></p>
+                        <div id="requirementsSection" class="border p-3">
+                            <p class="fs-3"><strong>Requirements to Bring:</strong></p>
                             <ul id="requirementsList"></ul>
                         </div>
                         <div id="aicsTypeSection" style="display: none;">
@@ -338,7 +362,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -417,7 +441,7 @@
                         $('#requirementsList').html(
                             response.requirements && response.requirements.length ?
                             response.requirements.map(function(item) {
-                                return '<li>' + item + '</li>';
+                                return '<li class="text-uppercase fw-bold">' + item + '</li>';
                             }).join('') :
                             '<li>No specific requirements</li>'
                         );
