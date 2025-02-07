@@ -11,7 +11,11 @@
         <h1 class="display-4 text-danger">404 - Not Found</h1>
         <img src="https://http.cat/404" alt="404 gif" class="img-fluid mt-4" style="max-width: 50%;" />
         <p class="mt-4">Oops! The page you're looking for could not be found.</p>
+        @if (Auth::check())
         <a href="/home" class="btn btn-primary">Back to Home</a>
+        @else
+        <a href="/login" class="btn btn-primary">Back to Login</a>
+        @endif
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

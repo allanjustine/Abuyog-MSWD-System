@@ -41,8 +41,8 @@
             <label for="application_type">Application Type <span style="color: red;">*</span>:</label>
             <select name="application_type" id="application_type" class="form-control" required>
                 <option value="" disabled selected>Select Application Type</option>
-                <option value="New Application" {{ old('application_type', $application_type ?? ''
-                    )==='New Application' ? 'selected' : '' }}>
+                <option value="New Applicant" {{ old('application_type', $application_type ?? ''
+                    )==='New Applicant' ? 'selected' : '' }}>
                     New Applicant
                 </option>
                 <option value="Renewal" {{ old('application_type', $application_type ?? '' )==='Renewal'
@@ -157,40 +157,40 @@
                 : '' }}>
                 Deaf or Hard of Hearing
             </option>
-            <option value="intellectual" {{ old('type_of_disability', $type_of_disability ?? ''
-                )==='intellectual' ? 'selected' : '' }}>
+            <option value="Intellectual Disability" {{ old('type_of_disability', $type_of_disability ?? ''
+                )==='Intellectual Disability' ? 'selected' : '' }}>
                 Intellectual Disability
             </option>
-            <option value="learning" {{ old('type_of_disability', $type_of_disability ?? '' )==='learning'
+            <option value="Learning Disability" {{ old('type_of_disability', $type_of_disability ?? '' )==='Learning Disability'
                 ? 'selected' : '' }}>
                 Learning Disability
             </option>
-            <option value="mental" {{ old('type_of_disability', $type_of_disability ?? '' )==='mental'
+            <option value="Mental Disability" {{ old('type_of_disability', $type_of_disability ?? '' )==='Mental Disability'
                 ? 'selected' : '' }}>
                 Mental Disability
             </option>
-            <option value="physical" {{ old('type_of_disability', $type_of_disability ?? '' )==='physical'
+            <option value="Physical Disability (Orthopedic)" {{ old('type_of_disability', $type_of_disability ?? '' )==='Physical Disability (Orthopedic)'
                 ? 'selected' : '' }}>
                 Physical Disability(Orthopedic)
             </option>
-            <option value="psychosocial" {{ old('type_of_disability', $type_of_disability ?? ''
-                )==='psychosocial' ? 'selected' : '' }}>
+            <option value="Speech and Language Impairment" {{ old('type_of_disability', $type_of_disability ?? ''
+                )==='Speech and Language Impairment' ? 'selected' : '' }}>
                 Psychosocial Disability
             </option>
-            <option value="speech" {{ old('type_of_disability', $type_of_disability ?? '' )==='speech'
+            <option value="Visual Disability" {{ old('type_of_disability', $type_of_disability ?? '' )==='Visual Disability'
                 ? 'selected' : '' }}>
                 Speech and Language Impairment
             </option>
-            <option value="visual" {{ old('type_of_disability', $type_of_disability ?? '' )==='visual'
+            <option value="Visual Disability" {{ old('type_of_disability', $type_of_disability ?? '' )==='Visual Disability'
                 ? 'selected' : '' }}>
                 Visual Disability
             </option>
-            <option value="cancer" {{ old('type_of_disability', $type_of_disability ?? '' )==='cancer'
+            <option value="Cancer (RA11215)" {{ old('type_of_disability', $type_of_disability ?? '' )==='Cancer (RA11215)'
                 ? 'selected' : '' }}>
                 Cancer (RA11215)
             </option>
-            <option value="rare_disease" {{ old('type_of_disability', $type_of_disability ?? ''
-                )==='rare_disease' ? 'selected' : '' }}>
+            <option value="Rare Disease (RA10747)" {{ old('type_of_disability', $type_of_disability ?? ''
+                )==='Rare Disease (RA10747)' ? 'selected' : '' }}>
                 Rare Disease(RA10747)
             </option>
         </select>
@@ -318,36 +318,36 @@
                     style="color: red;">*</span></label>
             <select name="educational_attainment" id="educational_attainment" class="form-control" required>
                 <option value="" disabled selected>Select Status</option>
-                <option value="none" {{ old('educational_attainment', $educational_attainment ?? '' )==='none'
+                <option value="No Formal Education" {{ old('educational_attainment', $educational_attainment ?? '' )==='No Formal Education'
                     ? 'selected' : '' }}>
                     None
                 </option>
-                <option value="kindergarten" {{ old('educational_attainment', $educational_attainment ?? ''
-                    )==='kindergarten' ? 'selected' : '' }}>
+                <option value="Kindergarten" {{ old('educational_attainment', $educational_attainment ?? ''
+                    )==='Kindergarten' ? 'selected' : '' }}>
                     Kindergarten
                 </option>
-                <option value="elementary" {{ old('educational_attainment', $educational_attainment ?? ''
-                    )==='elementary' ? 'selected' : '' }}>
+                <option value="Elementary" {{ old('educational_attainment', $educational_attainment ?? ''
+                    )==='Elementary' ? 'selected' : '' }}>
                     Elementary
                 </option>
-                <option value="junior_high" {{ old('educational_attainment', $educational_attainment ?? ''
-                    )==='junior_high' ? 'selected' : '' }}>
+                <option value="High School" {{ old('educational_attainment', $educational_attainment ?? ''
+                    )==='High School' ? 'selected' : '' }}>
                     Junior High School
                 </option>
-                <option value="senior_high" {{ old('educational_attainment', $educational_attainment ?? ''
-                    )==='senior_high' ? 'selected' : '' }}>
+                <option value="Senior High" {{ old('educational_attainment', $educational_attainment ?? ''
+                    )==='Senior High' ? 'selected' : '' }}>
                     Senior High School
                 </option>
-                <option value="college" {{ old('educational_attainment', $educational_attainment ?? ''
-                    )==='college' ? 'selected' : '' }}>
+                <option value="College" {{ old('educational_attainment', $educational_attainment ?? ''
+                    )==='College' ? 'selected' : '' }}>
                     College
                 </option>
-                <option value="vocational" {{ old('educational_attainment', $educational_attainment ?? ''
-                    )==='vocational' ? 'selected' : '' }}>
+                <option value="Vocational" {{ old('educational_attainment', $educational_attainment ?? ''
+                    )==='Vocational' ? 'selected' : '' }}>
                     Vocational
                 </option>
-                <option value="post_graduate" {{ old('educational_attainment', $educational_attainment ?? ''
-                    )==='post_graduate' ? 'selected' : '' }}>
+                <option value="Post Graduate" {{ old('educational_attainment', $educational_attainment ?? ''
+                    )==='Post Graduate' ? 'selected' : '' }}>
                     Post Graduate
                 </option>
             </select>
@@ -357,47 +357,47 @@
             <select name="occupation" id="occupation" class="form-control">
 
                 <option value="" disabled selected>Select Types</option>
-                <option value="manager" {{ old('occupation', $occupation_pwd ?? '' )==='manager'
+                <option value="Managers" {{ old('occupation', $occupation_pwd ?? '' )==='Managers'
                     ? 'selected' : '' }}>
                     Managers
                 </option>
-                <option value="professional" {{ old('occupation', $occupation_pwd ?? '' )==='professional'
+                <option value="Professionals" {{ old('occupation', $occupation_pwd ?? '' )==='Professionals'
                     ? 'selected' : '' }}>
                     Professionals
                 </option>
-                <option value="technicians" {{ old('occupation', $occupation_pwd ?? '' )==='technicians'
+                <option value="Technicians and Associate Professionals" {{ old('occupation', $occupation_pwd ?? '' )==='Technicians and Associate Professionals'
                     ? 'selected' : '' }}>
                     Technicians and Associate Professionals
                 </option>
-                <option value="clerical" {{ old('occupation', $occupation_pwd ?? '' )==='clerical'
+                <option value="Clerical Support Workers" {{ old('occupation', $occupation_pwd ?? '' )==='Clerical Support Workers'
                     ? 'selected' : '' }}>
                     Clerical Support Workers
                 </option>
-                <option value="service_and_sales" {{ old('occupation', $occupation_pwd ?? ''
-                    )==='service_and_sales' ? 'selected' : '' }}>
+                <option value="Service and Sales Workers" {{ old('occupation', $occupation_pwd ?? ''
+                    )==='Service and Sales Workers' ? 'selected' : '' }}>
                     Service and Sales Workers
                 </option>
-                <option value="skilled_agri" {{ old('occupation', $occupation_pwd ?? '' )==='skilled_agri'
+                <option value="Skilled Agricultural, Forestry and Fishery Workers" {{ old('occupation', $occupation_pwd ?? '' )==='Skilled Agricultural, Forestry and Fishery Workers'
                     ? 'selected' : '' }}>
                     Skilled Agricultural, Forestry and Fishery Workers
                 </option>
-                <option value="craft" {{ old('occupation', $occupation_pwd ?? '' )==='craft' ? 'selected'
+                <option value="Craft and Related Trade Workers" {{ old('occupation', $occupation_pwd ?? '' )==='Craft and Related Trade Workers' ? 'selected'
                     : '' }}>
                     Craft and Related Trade Workers
                 </option>
-                <option value="plant_and_machine" {{ old('occupation', $occupation_pwd ?? ''
-                    )==='plant_and_machine' ? 'selected' : '' }}>
+                <option value="Plant and Machine Operators and Assemblers" {{ old('occupation', $occupation_pwd ?? ''
+                    )==='Plant and Machine Operators and Assemblers' ? 'selected' : '' }}>
                     Plant and Machine Operators and Assemblers
                 </option>
-                <option value="elementary_occupation" {{ old('occupation', $occupation_pwd ?? ''
-                    )==='elementary_occupation' ? 'selected' : '' }}>
+                <option value="Elementary Occupations" {{ old('occupation', $occupation_pwd ?? ''
+                    )==='Elementary Occupations' ? 'selected' : '' }}>
                     Elementary Occupations
                 </option>
-                <option value="armed_forces" {{ old('occupation', $occupation_pwd ?? '' )==='armed_forces'
+                <option value="Armed Forces Occupations" {{ old('occupation', $occupation_pwd ?? '' )==='Armed Forces Occupations'
                     ? 'selected' : '' }}>
                     Armed Forces Occupations
                 </option>
-                <option value="others" {{ old('occupation', $occupation_pwd ?? '' )==='others' ? 'selected'
+                <option value="Others" {{ old('occupation', $occupation_pwd ?? '' )==='Others' ? 'selected'
                     : '' }}>
                     Others (Specify)
                 </option>
@@ -415,16 +415,16 @@
             <label for="status_of_employment">Status of Employment <span style="color: red;">*</span></label>
             <select name="status_of_employment" id="status_of_employment" class="form-control" required>
                 <option value="" disabled selected>Select Status</option>
-                <option value="employed" {{ old('status_of_employment', $status_of_employment ?? ''
-                    )==='employed' ? 'selected' : '' }}>
+                <option value="Employed" {{ old('status_of_employment', $status_of_employment ?? ''
+                    )==='Employed' ? 'selected' : '' }}>
                     Employed
                 </option>
-                <option value="unemployed" {{ old('status_of_employment', $status_of_employment ?? ''
-                    )==='unemployed' ? 'selected' : '' }}>
+                <option value="Unemployed" {{ old('status_of_employment', $status_of_employment ?? ''
+                    )==='Unemployed' ? 'selected' : '' }}>
                     Unemployed
                 </option>
-                <option value="self_employed" {{ old('status_of_employment', $status_of_employment ?? ''
-                    )==='self_employed' ? 'selected' : '' }}>
+                <option value="Self-Employed" {{ old('status_of_employment', $status_of_employment ?? ''
+                    )==='Self-Employed' ? 'selected' : '' }}>
                     Self-Employed
                 </option>
             </select>
@@ -434,12 +434,12 @@
             <label for="category_of_employment">Category of Employment:</label>
             <select name="category_of_employment" id="category_of_employment" class="form-control">
                 <option value="" disabled selected>Select Category</option>
-                <option value="government" {{ old('category_of_employment', $category_of_employment ?? ''
-                    )==='government' ? 'selected' : '' }}>
+                <option value="Government" {{ old('category_of_employment', $category_of_employment ?? ''
+                    )==='Government' ? 'selected' : '' }}>
                     Government
                 </option>
-                <option value="private" {{ old('category_of_employment', $category_of_employment ?? ''
-                    )==='private' ? 'selected' : '' }}>
+                <option value="Private" {{ old('category_of_employment', $category_of_employment ?? ''
+                    )==='Private' ? 'selected' : '' }}>
                     Private
                 </option>
             </select>

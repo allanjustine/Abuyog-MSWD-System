@@ -41,16 +41,18 @@ class ApplicationController extends Controller
         // Fetch the specific service using its ID
         $service = Service::findOrFail($id);
 
+        $notAcceptedAge = Auth::user()->age < 60 ?? Auth::user()->date_of_birth?->age < 60;
+
         $alreadyHaveOsca = !$user
-        ->whereHas('beneficiaries', function ($query) use ($userid) {
-            $query->where('program_enrolled', 1)
-                ->where(
-                    'user_id',
-                    $userid
-                );
-        })
-        ->with('beneficiaries')
-        ->exists();
+            ->whereHas('beneficiaries', function ($query) use ($userid) {
+                $query->where('program_enrolled', 1)
+                    ->where(
+                        'user_id',
+                        $userid
+                    );
+            })
+            ->with('beneficiaries')
+            ->exists();
 
         $availableSoloParent = $user->whereHas('beneficiaries', function ($query) use ($userid) {
             $query->where('program_enrolled', 3)
@@ -80,6 +82,10 @@ class ApplicationController extends Controller
         if ($service->id == 3 && !$availableSoloParent) {
 
             return redirect('/myapplication')->with('error', 'You cannot apply for this service. You can submit another after ' . $pwd->created_at->addYears(5)->diffForHumans());
+        }
+
+        if ($notAcceptedAge) {
+            return redirect('/myapplication')->with('error', 'You cannot apply for this service. Because this service is for people who are 60 years old or older.' . ' Your age is ' . (Auth::user()?->age ?: Auth::user()->date_of_birth?->age));
         }
         // Fetch the user's latest application for the given service
         $savedData = Application::where('user_id', Auth::id())
@@ -569,7 +575,7 @@ class ApplicationController extends Controller
 
     public function showApplicationDetailsAdmin($id)
     {
-        $application = Application::with('service')->find($id);
+        $application = Beneficiary::with('service')->find($id);
 
         if (!$application) {
             return redirect()->route('admin.application.view')->with('error', 'Application not found.');
@@ -584,7 +590,7 @@ class ApplicationController extends Controller
     public function generatePDF($id)
     {
         // Fetch the application and eagerly load the service
-        $application = Application::with('service')->findOrFail($id);
+        $application = Beneficiary::with('service')->findOrFail($id);
 
         // Check the service ID to determine which view to use
         $viewName = '';
@@ -921,7 +927,7 @@ class ApplicationController extends Controller
             'civil_status'                      =>          $request->civil_status,
             'annual_income'                     =>          $request->annual_income,
             'educational_attainment'            =>          $request->educational_attainment,
-            'occupation'                        =>          $request->occupation === "others" ? "Others, {$request->other_occupation}" : $request->occupation,
+            'occupation'                        =>          $request->occupation === "Others" ? "Others, {$request->other_occupation}" : $request->occupation,
             'phone'                             =>          $request->phone,
             'age'                               =>          $request->age,
             'email'                             =>          $request->email ?: Auth::user()->email,
@@ -1153,5 +1159,42 @@ class ApplicationController extends Controller
         ]);
 
         return redirect('/myapplication')->with('success', 'Beneficiary added successfully!');
+    }
+
+
+    public function testPdf($id)
+    {
+        // Fetch the application and eagerly load the service
+        $application = Beneficiary::with([
+            'service',
+            'aicsDetails',
+            'familyCompositions',
+            'benefitsReceived',
+            'soloParentDetails',
+            'contactEmergencies',
+            'familyBackgrounds',
+            'pwdDetails'
+        ])->findOrFail($id);
+
+        // Check the service ID to determine which view to use
+        $viewName = '';
+        switch ($application->service->id) {
+            case 1: // If service ID is 2
+                $viewName = 'applications.application_form_osca';
+                break;
+            case 2: // If service ID is 2
+                $viewName = 'applications.application_form_pwd';
+                break;
+            case 3: // If service ID is 3
+                $viewName = 'applications.application_form';
+                break;
+            case 4: // If service ID is 4
+                $viewName = 'applications.application_form_aics';
+                break;
+            default:
+                return back()->with('error', 'No PDF form found for this service.');
+        }
+
+        return view($viewName, compact('application'));
     }
 }

@@ -33,14 +33,14 @@ class HomeController extends Controller
             // Redirect to employee home page
 
 
-            $approved = Application::where('status', 'approved')->orderBy('created_at', 'desc')->get();
-            $cancelled = Application::where('status', 'cancelled')->orderBy('created_at', 'desc')->get();
-            $pending = Application::where('status', 'pending')->orderBy('created_at', 'desc')->get();
+            $approved = Beneficiary::where('status', 'approved')->orderBy('created_at', 'desc')->get();
+            $cancelled = Beneficiary::where('status', 'cancelled')->orderBy('created_at', 'desc')->get();
+            $pending = Beneficiary::where('status', 'pending')->orderBy('created_at', 'desc')->get();
 
-            $approvedApplicationsCount = Application::where('status', 'approved')->count();
-            $cancelledApplicationsCount = Application::where('status', 'cancelled')->count();
-            $pendingApplicationsCount = Application::where('status', 'pending')->count();
-            $totalBeneficiaries = Beneficiary::count();
+            $totalBeneficiaries = Beneficiary::whereNotIn('status', ['cancelled'])->count();
+            $approvedApplicationsCount = Beneficiary::where('status', 'approved')->count();
+            $cancelledApplicationsCount = Beneficiary::where('status', 'cancelled')->count();
+            $pendingApplicationsCount = Beneficiary::where('status', 'pending')->count();
             $service = Service::all();
 
             return view('employee.home', compact(
@@ -57,14 +57,14 @@ class HomeController extends Controller
             // Redirect to employee home page
 
 
-            $approved = Application::where('status', 'approved')->orderBy('created_at', 'desc')->get();
-            $cancelled = Application::where('status', 'cancelled')->orderBy('created_at', 'desc')->get();
-            $pending = Application::where('status', 'pending')->orderBy('created_at', 'desc')->get();
+            $approved = Beneficiary::where('status', 'approved')->orderBy('created_at', 'desc')->get();
+            $cancelled = Beneficiary::where('status', 'cancelled')->orderBy('created_at', 'desc')->get();
+            $pending = Beneficiary::where('status', 'pending')->orderBy('created_at', 'desc')->get();
 
-            $approvedApplicationsCount = Application::where('status', 'approved')->count();
-            $cancelledApplicationsCount = Application::where('status', 'cancelled')->count();
-            $pendingApplicationsCount = Application::where('status', 'pending')->count();
-            $totalBeneficiaries = Beneficiary::count();
+            $approvedApplicationsCount = Beneficiary::where('status', 'approved')->count();
+            $cancelledApplicationsCount = Beneficiary::where('status', 'cancelled')->count();
+            $pendingApplicationsCount = Beneficiary::where('status', 'pending')->count();
+            $totalBeneficiaries = Beneficiary::whereNotIn('status', ['cancelled'])->count();
             $service = Service::all();
 
             return view('operator.home', compact(
@@ -81,18 +81,23 @@ class HomeController extends Controller
 
             $today = Carbon::today();
 
-            $approved = Application::where('status', 'approved')->orderBy('created_at', 'desc')->get();
-            $approvedToday = Application::where('status', 'approved')
-                ->whereDate('date_applied', $today)
+            $approved = Beneficiary::where('status', 'approved')->orderBy('created_at', 'desc')->get();
+            $approvedToday = Beneficiary::where('status', 'approved')
+                ->whereDate('appearance_date', $today)
                 ->orderBy('created_at', 'desc')
                 ->get();
 
-            $cancelled = Application::where('status', 'cancelled')->orderBy('created_at', 'desc')->get();
-            $pending = Application::where('status', 'pending')->orderBy('created_at', 'desc')->get();
+            $cancelled = Beneficiary::where('status', 'cancelled')->orderBy('created_at', 'desc')->get();
+            $pending = Beneficiary::where('status', 'pending')->orderBy('created_at', 'desc')->get();
 
 
-            $approvedApplicationsCount = Application::where('status', 'approved')->count();
-            $totalBeneficiaries = Beneficiary::count();
+            $approvedApplicationsCount = Beneficiary::where('status', 'approved')->count();
+            $releasedBeneficiary = Beneficiary::where('status', 'released')->count();
+            $acceptedBeneficiary = Beneficiary::where('status', 'accepted')->count();
+            $pendingBeneficiary = Beneficiary::where('status', 'pending')->count();
+            $rejectedBeneficiary = Beneficiary::where('status', 'rejected')->count();
+
+            $totalBeneficiaries = Beneficiary::whereNotIn('status', ['cancelled'])->count();
             $totalServices = Service::count();
             $totalUsers = User::count();
 
@@ -105,7 +110,11 @@ class HomeController extends Controller
                 'approvedApplicationsCount',
                 'totalBeneficiaries',
                 'totalServices',
-                'totalUsers'
+                'totalUsers',
+                'releasedBeneficiary',
+                'acceptedBeneficiary',
+                'pendingBeneficiary',
+                'rejectedBeneficiary',
             ));
         }
     }
@@ -135,7 +144,7 @@ class HomeController extends Controller
         $data->email = $request->email;
         $data->phone = $request->phone;
         $data->service = $request->service;
-        $data->date_applied = $request->date_applied;
+        $data->appearance_date = $request->appearance_date;
         $data->status = 'In process';
 
         if (Auth::id()) {

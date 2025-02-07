@@ -104,6 +104,14 @@
                                                         View
                                                     </button>
 
+
+                                                    @if ($item?->status === 'released')
+                                                    <a class="btn btn-primary btn-sm ms-2"
+                                                        href="{{ url('generate-pdf/' . $item?->id) }}">
+                                                        <i class="mdi mdi-download"></i>Download Form
+                                                    </a>
+
+                                                    @else
                                                     <!-- Edit Button -->
                                                     @if ($item?->service->name === "OSCA(Office of Senior Citizens)")
                                                     <a class="btn btn-success btn-sm ms-2"
@@ -123,18 +131,12 @@
                                                         href="/edit-aics/{{ $item?->id }}">Edit</a>
                                                     @endif
 
-                                                    {{-- @if ($item?->status === 'approved')
-                                                    <a class="btn btn-info btn-sm ms-2"
-                                                        href="{{ url('generate-pdf/' . $item?->id) }}">
-                                                        <i class="mai-download"></i>Download Form
-                                                    </a>
-                                                    @endif --}}
-
                                                     <!-- Delete Button with Modal Trigger -->
                                                     <button class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
                                                         data-bs-target="#deleteModal{{ $item?->id }}">
                                                         Delete
                                                     </button>
+                                                    @endif
                                                 </div>
                                             </div>
 
@@ -302,7 +304,8 @@
                                 <!-- View Modal -->
                     </div>
                     @empty
-                    <tr><td colspan="8" class="text-center">No released beneficiary yet</td>
+                    <tr>
+                        <td colspan="8" class="text-center">No released beneficiary yet</td>
                     </tr>
                     @endforelse
                     </tbody>

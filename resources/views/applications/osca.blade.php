@@ -39,7 +39,7 @@
         <div class="form-group col-md-6">
             <label>Birthdate <span style="color: red;">*</span> - Indicate your birthdate correctly</label>
             <input type="date" name="date_of_birth" class="form-control" id="birthdate"
-                value="{{ Auth::user()->date_of_birth }}" required>
+                value="{{ Auth::user()?->date_of_birth?->format('m-d-y') }}" required>
             @error('date_of_birth')
             <small class="text-danger">{{ $message }}</small>
             @enderror

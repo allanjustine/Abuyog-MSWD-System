@@ -96,7 +96,7 @@
                                                 <td>{{ $apply->service->name ?? 'No Service Assigned' }}</td>
                                                 <td>{{ $apply->phone }}</td>
                                                 <td>{{ $apply->email }}</td>
-                                                <td>{{ $apply->date_applied }}</td>
+                                                <td>{{ $apply?->appearance_date?->format('F d, Y') ?: $apply?->created_at?->format('F d, Y') }}</td>
                                                 <td>
                                                     <div class="badge badge-outline-warning">{{ $apply->status }}</div>
                                                     <br>
@@ -143,7 +143,7 @@
                                                 <td>{{ $apply->service->name ?? 'No Service Assigned' }}</td>
                                                 <td>{{ $apply->phone }}</td>
                                                 <td>{{ $apply->email }}</td>
-                                                <td>{{ $apply->date_applied }}</td>
+                                                <td>{{ $apply?->appearance_date?->format('F d, Y') ?: $apply?->created_at?->format('F d, Y') }}</td>
                                                 <td>
                                                     <div class="badge badge-outline-success">{{ $apply->status }}</div>
                                                     <br>
@@ -191,7 +191,7 @@
                                                 <td>{{ $apply->service->name ?? 'No Service Assigned' }}</td>
                                                 <td>{{ $apply->phone }}</td>
                                                 <td>{{ $apply->email }}</td>
-                                                <td>{{ $apply->date_applied }}</td>
+                                                <td>{{ $apply?->appearance_date?->format('F d, Y') ?: $apply?->created_at?->format('F d, Y') }}</td>
                                                 <td>
                                                     <div class="badge badge-outline-danger">{{ $apply->status }}</div>
                                                     <br>

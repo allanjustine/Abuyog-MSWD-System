@@ -266,6 +266,9 @@
                                         </a>
                                     </li>
                                     @endif
+                                    @if(!$availableSoloParent && !$availablePwd)
+                                    <p class="text-center fs-4 fw-bold">No Services Available</p>
+                                    @endif
                                     @endif
                                 </ul>
                             </div>

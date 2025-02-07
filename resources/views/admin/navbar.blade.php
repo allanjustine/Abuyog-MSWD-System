@@ -30,7 +30,6 @@
         /* Set the toggler icon color */
     }
 </style>
-
 <div class="container-fluid page-body-wrapper">
     <!-- partial:partials/_navbar.html -->
     <nav class="flex-row p-0 navbar fixed-top d-flex">
@@ -52,3 +51,4 @@
             </ul>
         </div>
     </nav>
+</div>

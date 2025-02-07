@@ -39,35 +39,35 @@
     <label style="margin-left: 50px;">Case No.</label>
     <span>:</span>
     <span
-      style="font-size: 11px; border-bottom: 1px solid #000; width: 80px; display: inline-block; ">{{ strtoupper( $customFields['case_number'] ?? '') }}</span>
+      style="font-size: 11px; border-bottom: 1px solid #000; width: 80px; display: inline-block; ">{{ $application?->aicsDetails[0]?->case_no ?? '' }}</span>
   </div>
 
   <!-- Right Section -->
   <div class="form-right" style="text-align: right; margin-top: -50px;">
     <label>Date:</label>
     <span
-      style="font-size: 11px; border-bottom: 1px solid #000; width: 90px; display: inline-block; text-align:center;">{{$application->date_applied }}</span>
+      style="font-size: 11px; border-bottom: 1px solid #000; width: 90px; display: inline-block; text-align:center;">{{ $application->appearance_date->format('F d, Y') }}</span>
   </div>
 
   <!-- Left Section -->
   <div class="form-left">
     <label style="margin-left: 50px;">New</label>
     <span style="margin-left: 28px;">:</span>
-    <span style="border-bottom: 1px solid #000; width: 80px; display: inline-block; ">&nbsp;</span>
+    <span style="border-bottom: 1px solid #000; width: 80px; display: inline-block; ">&nbsp; @if($application->aicsDetails[0]?->new_or_old === 'New') Yes @endif</span>
   </div>
 
   <!-- Right Section -->
   <div class="form-right" style="text-align: right; margin-top: -50px;">
     <label style="margin-right: 5px;">Barangay:</label>
     <span
-      style="font-size: 11px; border-bottom: 1px solid #000; width: 80px; display: inline-block; text-align:center; ">{{ strtoupper(Auth::user()->barangay) }}</span>
+      style="font-size: 11px; border-bottom: 1px solid #000; width: 80px; display: inline-block; text-align:center; ">{{ strtoupper($application?->barangay?->name) }}</span>
   </div>
 
   <!-- Left Section -->
   <div class="form-left">
     <label style="margin-left: 50px;">Old</label>
     <span style="margin-left: 35px;">:</span>
-    <span style="border-bottom: 1px solid #000; width: 80px; display: inline-block; ">&nbsp;</span>
+    <span style="border-bottom: 1px solid #000; width: 80px; display: inline-block; ">&nbsp; @if($application->aicsDetails[0]?->new_or_old === 'Old') Yes @endif</span>
   </div>
 
 
@@ -76,67 +76,66 @@
   </h1>
 
 
-
   <!--client data-->
   <div class="container" style="margin-top:20px;">
     <div class="form-left">
       <label>1. Name of Client: </label>
       <span
-        style="font-size: 11px; border-bottom: 1px solid #000; width: 200px; display: inline-block; text-align:center;">{{ strtoupper($application->name) }}</span>
+        style="font-size: 11px; border-bottom: 1px solid #000; width: 200px; display: inline-block; text-align:center;">{{ strtoupper($application?->full_name) }}</span>
     </div>
 
     <div class="form-center" style="text-align: center; margin-top: -50px;">
       <label style="margin-left: 250px;">2. Date of Birth:</label>
       <span
-        style="font-size: 11px; border-bottom: 1px solid #000; width: 80px; display: inline-block;">{{ $customFields['birthdate'] ?? '' }}</span>
+        style="font-size: 11px; border-bottom: 1px solid #000; width: 80px; display: inline-block;">{{ $application?->date_of_birth?->format('F d, Y') ?? '' }}</span>
     </div>
 
     <div class="form-right" style="text-align: right; margin-top: -50px;">
       <label style="margin-right: 5px;">Age:</label>
       <span
-        style="font-size: 11px; border-bottom: 1px solid #000; width: 50px; display: inline-block; text-align:center;">{{$customFields['age'] ?? '' }}</span>
+        style="font-size: 11px; border-bottom: 1px solid #000; width: 50px; display: inline-block; text-align:center;">{{ $application?->age ?? '' }}</span>
     </div>
 
     <div class="form-left" style="margin-top:20px;">
       <label>Address:</label>
       <span
-        style="font-size: 11px; border-bottom: 1px solid #000; width: 200px; display: inline-block; text-align:center; ">{{strtoupper( $customFields['address'] ?? '' )}}</span>
+        style="font-size: 11px; border-bottom: 1px solid #000; width: 200px; display: inline-block; text-align:center; ">{{strtoupper( $application?->complete_address ?: $application?->barangay?->name ?? '' )}}</span>
     </div>
 
     <div class="form-center" style="text-align: center; margin-top: -50px;">
       <label style="margin-left: 100px;">Birthplace:</label>
       <span
-        style="font-size: 11px; border-bottom: 1px solid #000; width: 80px; display: inline-block;">{{strtoupper( $customFields['birthplace'] ?? '' )}}</span>
+        style="font-size: 11px; border-bottom: 1px solid #000; width: 80px; display: inline-block;">{{strtoupper( $application?->place_of_birth ?? '' )}}</span>
     </div>
 
     <div class="form-right" style="text-align: right; margin-top: -50px;">
       <label style="margin-right: 5px;">Civil Status:</label>
       <span
-        style="font-size: 11px; border-bottom: 1px solid #000; width: 80px; display: inline-block; text-align:center;">{{strtoupper( $customFields['status'] ?? '' )}}</span>
+        style="font-size: 11px; border-bottom: 1px solid #000; width: 80px; display: inline-block; text-align:center;">{{strtoupper( $application?->civil_status ?? '' )}}</span>
     </div>
 
     <div class="form-left" style="margin-top:20px;">
       <label>Occupation:</label>
       <span
-        style="font-size: 11px; border-bottom: 1px solid #000; width: 200px; display: inline-block; text-align:center; ">{{strtoupper( $customFields['occupation'] ?? '' )}}</span>
+        style="font-size: 11px; border-bottom: 1px solid #000; width: 200px; display: inline-block; text-align:center; ">{{strtoupper( $application?->occupation ?? '' )}}</span>
     </div>
 
     <div class="form-center" style="text-align: center; margin-top: -50px;">
       <label style="margin-left: 300px;">Educational Attainment:</label>
       <span
-        style="font-size: 11px; border-bottom: 1px solid #000; width: 150px; display: inline-block; text-align:center;">{{ strtoupper($customFields['educational_attainment'] ?? '') }}</span>
+        style="font-size: 11px; border-bottom: 1px solid #000; width: 150px; display: inline-block; text-align:center;">{{ strtoupper($application?->educational_attainment ?? '') }}</span>
     </div>
 
     <div class="form-left" style="margin-top:20px;">
       <label>Source of Referral:</label>
       <span
-        style="font-size: 11px; border-bottom: 1px solid #000; width: 250px; display: inline-block; text-align:center;">{{strtoupper( $customFields['referral_source'] ?? '' )}}</span>
+        style="font-size: 11px; border-bottom: 1px solid #000; width: 250px; display: inline-block; text-align:center;">{{strtoupper( $application?->aicsDetails[0]?->source_of_referral ?? '' )}}</span>
     </div>
 
     <div class="form-center" style="text-align: center; margin-top: -50px;">
       <label style="margin-left: 380px;">Religion:</label>
       <span
-        style="font-size: 11px; border-bottom: 1px solid #000; width: 150px; display: inline-block; text-align:center;">{{strtoupper( $customFields['religion'] ?? '' )}}</span>
+        style="font-size: 11px; border-bottom: 1px solid #000; width: 150px; display: inline-block; text-align:center;">{{strtoupper( $application?->religion ?? '' )}}</span>
     </div>
 
   </div>
@@ -161,253 +160,39 @@
     </thead>
     <tbody>
       <!-- Row 1 -->
+      @for ($i = 0; $i < 8; $i++)
       <tr>
         <td
           style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['person_name_1'] ?? '' )}}
+          {{ strtoupper($application?->familyCompositions[$i]?->name ?? '' )}}
         </td>
         <td
           style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{$customFields['age_1'] ?? '' }}
+          {{ $application?->familyCompositions[$i]?->age ?? '' }}
         </td>
         <td
           style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper( $customFields['sex_1'] ?? '' )}}
+          {{strtoupper( $application?->familyCompositions[$i]?->gender ?? '' )}}
         </td>
         <td
           style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper( $customFields['civil_status_1'] ?? '' )}}
+          {{strtoupper( $application?->familyCompositions[$i]?->civil_status ?? '' )}}
         </td>
         <td
           style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['relation_1'] ?? '' )}}
+          {{ strtoupper($application?->familyCompositions[$i]?->relationship ?? '' )}}
         </td>
         <td
           style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['education_1'] ?? '' )}}
+          {{ strtoupper($application?->familyCompositions[$i]?->educational ?? '' )}}
         </td>
         <td
           style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper( $customFields['occupation_1'] ?? '' )}}
+          {{strtoupper( $application?->familyCompositions[$i]?->occupation ?? '' )}}
         </td>
       </tr>
-      <!-- Row 2 -->
-      <tr>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper($customFields['person_name_2'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ $customFields['age_2'] ?? '' }}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['sex_2'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper( $customFields['civil_status_2'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper( $customFields['relation_2'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['education_2'] ?? '') }}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper( $customFields['occupation_2'] ?? '' )}}
-        </td>
-      </tr>
-      <!-- Row 3 -->
-      <tr>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper( $customFields['person_name_3'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ $customFields['age_3'] ?? '' }}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['sex_3'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['civil_status_3'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['relation_3'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper($customFields['education_3'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['occupation_3'] ?? '') }}
-        </td>
-      </tr>
-      <!-- Row 4 -->
-      <tr>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['person_name_4'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ $customFields['age_4'] ?? '' }}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['sex_4'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['civil_status_4'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['relation_4'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['education_4'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper( $customFields['occupation_4'] ?? '' )}}
-        </td>
-      </tr>
-      <!-- Row 5 -->
-      <tr>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper( $customFields['person_name_5'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ $customFields['age_5'] ?? '' }}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['sex_5'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['civil_status_5'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['relation_5'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['education_5'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['occupation_5'] ?? '' )}}
-        </td>
-      </tr>
-      <!-- Row 6 -->
-      <tr>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper( $customFields['person_name_6'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ $customFields['age_6'] ?? '' }}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['sex_6'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['civil_status_6'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['relation_6'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['education_6'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['occupation_6'] ?? '' )}}
-        </td>
-      </tr>
-      <!-- Row 7 -->
-      <tr>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['person_name_7'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ $customFields['age_7'] ?? '' }}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['sex_7'] ?? '') }}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['civil_status_7'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['relation_7'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['education_7'] ?? '') }}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper( $customFields['occupation_7'] ?? '' )}}
-        </td>
-      </tr>
-      <!-- Row 8 -->
-      <tr>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['person_name_8'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['age_8'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['sex_8'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['civil_status_8'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['relation_8'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper( $customFields['education_8'] ?? '' )}}
-        </td>
-        <td
-          style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($customFields['occupation_8'] ?? '')}}
-        </td>
-      </tr>
+      @endfor
+
     </tbody>
   </table>
 
@@ -421,7 +206,7 @@
         <!-- Reduced height -->
         <div
           style="padding: 5px; font-size: 11px; line-height: 1.3; height: 100%; overflow-y: auto; word-wrap: break-word;">
-          <span>{{strtoupper( $customFields['problem_presented'] ?? '' )}}</span>
+          <span>{{strtoupper( $application?->aicsDetails[0]?->problem_presented ?? '' )}}</span>
         </div>
       </div>
     </div>
@@ -435,7 +220,7 @@
         <!-- Reduced height -->
         <div
           style="padding: 5px; font-size: 11px; line-height: 1.3; height: 100%; overflow-y: auto; word-wrap: break-word;">
-          <span>{{strtoupper( $customFields['findings'] ?? '' )}}</span>
+          <span>{{strtoupper( $application?->aicsDetails[0]?->findings ?? '' )}}</span>
         </div>
       </div>
     </div>
@@ -449,7 +234,7 @@
         <!-- Reduced height -->
         <div
           style="padding: 5px; font-size: 11px; line-height: 1.3; height: 100%; overflow-y: auto; word-wrap: break-word;">
-          <span>{{ strtoupper($customFields['action_taken'] ?? '' )}}</span>
+          <span>{{ strtoupper($application?->aicsDetails[0]?->action_taken ?? '' )}}</span>
         </div>
       </div>
     </div>
@@ -465,15 +250,15 @@
     </div>
     <div class="form-right" style="text-align: right; padding-top:15px;">
       <label style="margin-right: 5px;">Name:</label>
-      <span style="border-bottom: 1px solid #000; width: 150px; display: inline-block; margin-left:10px;"></span>
+      <span style="border-bottom: 1px solid #000; width: 150px; display: inline-block; margin-left:10px; font-size: 13px;">{{ strtoupper($application?->acceptedBy?->full_name ?? '') }}</span>
     </div>
     <div class="form-right" style="text-align: right;">
       <label style="margin-right: 5px;">Date:</label>
-      <span style="border-bottom: 1px solid #000; width: 150px; display: inline-block; margin-left:10px;"></span>
+      <span style="border-bottom: 1px solid #000; width: 150px; display: inline-block; margin-left:10px;">{{ $application?->updated_at?->format('F d, Y') }}</span>
     </div>
     <div class="form-right" style="text-align: right;">
       <label style="margin-right: 5px;">Time:</label>
-      <span style="border-bottom: 1px solid #000; width: 150px; display: inline-block; margin-left:10px;"></span>
+      <span style="border-bottom: 1px solid #000; width: 150px; display: inline-block; margin-left:10px;">{{ $application?->updated_at?->format('h:i A') }}</span>
     </div>
   </div>
 

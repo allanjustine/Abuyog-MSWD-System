@@ -46,7 +46,7 @@
                                 </div>
                             </div>
                             <div class="text-center col-4 col-sm-12 col-xl-4 text-xl-right">
-                                <i class="icon-lg mdi mdi-assistant text-success ms-auto"></i>
+                                <i class="icon-lg mdi mdi-assistant text-danger text-muted ms-auto"></i>
                             </div>
                         </div>
                     </div>
@@ -64,6 +64,74 @@
                             </div>
                             <div class="text-center col-4 col-sm-12 col-xl-4 text-xl-right">
                                 <i class="icon-lg mdi mdi-account-multiple-plus text-success ms-auto"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Total Released Applications</h5>
+                        <div class="row">
+                            <div class="my-auto col-8 col-sm-12 col-xl-7">
+                                <div class="d-flex d-sm-block d-md-flex align-items-center">
+                                    <h2 class="mb-0">{{ $releasedBeneficiary }}</h2>
+                                </div>
+                            </div>
+                            <div class="text-center col-4 col-sm-12 col-xl-4 text-xl-right">
+                                <i class="icon-lg mdi mdi-rocket text-warning ms-auto"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Total Accepted Applications</h5>
+                        <div class="row">
+                            <div class="my-auto col-8 col-sm-12 col-xl-7">
+                                <div class="d-flex d-sm-block d-md-flex align-items-center">
+                                    <h2 class="mb-0">{{ $acceptedBeneficiary }}</h2>
+                                </div>
+                            </div>
+                            <div class="text-center col-4 col-sm-12 col-xl-4 text-xl-right">
+                                <i class="icon-lg mdi mdi-check-all text-info ms-auto"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Total Pending Applications</h5>
+                        <div class="row">
+                            <div class="my-auto col-8 col-sm-12 col-xl-7">
+                                <div class="d-flex d-sm-block d-md-flex align-items-center">
+                                    <h2 class="mb-0">{{ $pendingBeneficiary }}</h2>
+                                </div>
+                            </div>
+                            <div class="text-center col-4 col-sm-12 col-xl-4 text-xl-right">
+                                <i class="icon-lg mdi mdi-clock ms-auto" style="color: rgb(162, 29, 239);"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Total Rejected Applications</h5>
+                        <div class="row">
+                            <div class="my-auto col-8 col-sm-12 col-xl-7">
+                                <div class="d-flex d-sm-block d-md-flex align-items-center">
+                                    <h2 class="mb-0">{{ $rejectedBeneficiary }}</h2>
+                                </div>
+                            </div>
+                            <div class="text-center col-4 col-sm-12 col-xl-4 text-xl-right">
+                                <i class="icon-lg mdi mdi-close ms-auto" style="color: rgb(186, 11, 11);"></i>
                             </div>
                         </div>
                     </div>
@@ -95,7 +163,7 @@
                                                 <td>{{ $apply->service->name ?? 'No Service Assigned' }}</td>
                                                 <td>{{ $apply->phone }}</td>
                                                 <td>{{ $apply->email }}</td>
-                                                <td>{{ $apply->date_applied }}</td>
+                                                <td>{{ $apply?->appearance_date?->format('F d, Y') ?: $apply?->created_at?->format('F d, Y') }}</td>
                                                 <td>
                                                     <div class="badge badge-outline-success">{{ $apply->status }}</div>
                                                     <br>
@@ -144,7 +212,7 @@
                                     <td>{{ $apply->service->name ?? 'No Service Assigned' }}</td>
                                     <td>{{ $apply->phone }}</td>
                                     <td>{{ $apply->email }}</td>
-                                    <td>{{ $apply->date_applied }}</td>
+                                    <td>{{ $apply?->appearance_date?->format('F d, Y') ?: $apply?->created_at?->format('F d, Y') }}</td>
                                     <td>
                                         <div class="badge badge-outline-success">{{ $apply->status }}</div>
                                         <br>
@@ -191,7 +259,7 @@
                                     <td>{{ $apply->service->name ?? 'No Service Assigned' }}</td>
                                     <td>{{ $apply->phone }}</td>
                                     <td>{{ $apply->email }}</td>
-                                    <td>{{ $apply->date_applied }}</td>
+                                    <td>{{ $apply?->appearance_date?->format('F d, Y') ?: $apply?->created_at?->format('F d, Y') }}</td>
                                     <td>
                                         <div class="badge badge-outline-warning">{{ $apply->status }}</div>
                                         <br>
@@ -239,7 +307,7 @@
                                     <td>{{ $apply->service->name ?? 'No Service Assigned' }}</td>
                                     <td>{{ $apply->phone }}</td>
                                     <td>{{ $apply->email }}</td>
-                                    <td>{{ $apply->date_applied }}</td>
+                                    <td>{{ $apply?->appearance_date?->format('F d, Y') ?: $apply?->created_at?->format('F d, Y') }}</td>
                                     <td>
                                         <div class="badge badge-outline-danger">{{ $apply->status }}</div>
                                         <br>

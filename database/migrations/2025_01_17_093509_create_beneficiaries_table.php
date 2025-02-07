@@ -44,6 +44,7 @@ return new class extends Migration
             $table->string('status')->nullable()->default('pending');
             $table->string('cancellation_reason')->nullable();
             $table->string('complete_address')->nullable();
+            $table->integer('message_count')->nullable();
 
             $table->timestamps();
         });

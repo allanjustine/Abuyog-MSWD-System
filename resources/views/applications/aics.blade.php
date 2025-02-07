@@ -47,7 +47,7 @@
         <div class="form-group col-md-5">
             <label>Birthdate <span style="color: red;">*</span> - Indicate your birthdate correctly</label>
             <input type="date" name="date_of_birth" class="form-control" id="birthdate"
-                value="{{ Auth::user()->date_of_birth }}" required>
+                value="{{ Auth::user()?->date_of_birth->format('m-d-y') }}" required>
         </div>
         <div class="form-group col-md-1">
             <label>Age <span style="color: red;">*</span></label>
@@ -57,7 +57,7 @@
         <div class="form-group col-md-3">
             <label>Place of Birth: <span style="color: red;">*</span></label>
             <input type="text" name="place_of_birth" class="form-control" placeholder="Place of Birth"
-                value="{{ old('birthplace', $birthplace ?? '') }}">
+                value="{{ old('birthplace', $birthplace ?? '') }}" required>
         </div>
         <div class="form-group col-md-3">
             <label>Types of Assistance <span style="color: red;">*</span></label>
@@ -87,7 +87,7 @@
         </div>
         <div class="form-group col-md-6">
             Barangay <span style="color: red;">*</span>
-            <select name="barangay" id="" class="form-control">
+            <select name="barangay" id="" class="form-control" required>
                 <option value="" hidden selected>Select Barangay</option>
                 <option value="" disabled>Select Barangay</option>
                 @foreach (\App\Models\Barangay::all() as $barangay)
@@ -125,7 +125,7 @@
         </div>
         <div class="form-group col-md-6">
             <label>Occupation:</label>
-            <input type="text" name="occupation" class="form-control" placeholder="Occupation"
+            <input type="text" name="occupation" class="form-control" placeholder="Occupation" required
                 value="{{ old('occupation', $occupation ?? '') }}">
         </div>
     </div>
@@ -139,7 +139,7 @@
         <div class="form-group col-md-4">
             <label for="source_of_referral">Referral Source:</label>
             <input type="text" name="source_of_referral" class="form-control" placeholder="Referral Source"
-                value="{{ old('source_of_referral', $referral_source ?? '') }}">
+                value="{{ old('source_of_referral', $referral_source ?? '') }}" required>
                 @error('source_of_referral')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
@@ -148,7 +148,7 @@
         <div class="form-group col-md-4">
             <label for="religion">Religion:</label>
             <input type="text" name="religion" class="form-control" placeholder="Religion"
-                value="{{ old('religion', $religion ?? '') }}">
+                value="{{ old('religion', $religion ?? '') }}" required>
         </div>
     </div>
 
@@ -225,11 +225,11 @@
                                                                                                                                             </div>
                                                                                                                                             <div class="form-group col-md-4">
                                                                                                                                                 <label for="relationship">Relation:</label>
-                                                                                                                                                <input type="text" name="relationship[]" id="relationship" class="form-control" value="${member.relation || ''}">
+                                                                                                                                                <input type="text" name="relationship[]" id="relationship" class="form-control" required value="${member.relation || ''}">
                                                                                                                                             </div>
                                                                                                                                             <div class="form-group col-md-4">
                                                                                                                                                 <label for="educational_attainment_fc">Educational Attainment:</label>
-                                                                                                                                                <input type="text" name="educational_attainment_fc[]" id="educational_attainment_fc" class="form-control" value="">
+                                                                                                                                                <input type="text" name="educational_attainment_fc[]" id="educational_attainment_fc" class="form-control" value="" required>
                                                                                                                                             </div>
                                                                                                                                         </div>
                                                                                                                                         <div class="form-row">

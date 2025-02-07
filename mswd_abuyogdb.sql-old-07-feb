@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 07, 2025 at 10:20 AM
--- Server version: 10.4.32-MariaDB
+-- Generation Time: Feb 06, 2025 at 05:13 PM
+-- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -30,9 +30,9 @@ SET time_zone = "+00:00";
 CREATE TABLE `accomplished_bies` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `pwd_detail_id` bigint(20) UNSIGNED NOT NULL,
-  `first_name` varchar(255) DEFAULT NULL,
-  `last_name` varchar(255) DEFAULT NULL,
-  `middle_name` varchar(255) DEFAULT NULL,
+  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `middle_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -53,14 +53,14 @@ INSERT INTO `accomplished_bies` (`id`, `pwd_detail_id`, `first_name`, `last_name
 CREATE TABLE `aics_details` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `beneficiary_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `case_no` varchar(255) DEFAULT NULL,
-  `new_or_old` enum('New','Old') DEFAULT NULL,
+  `case_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `new_or_old` enum('New','Old') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_applied` date DEFAULT NULL,
-  `source_of_referral` varchar(255) DEFAULT NULL,
-  `problem_presented` text DEFAULT NULL,
-  `findings` text DEFAULT NULL,
-  `action_taken` text DEFAULT NULL,
-  `type_of_assistance` varchar(255) DEFAULT NULL,
+  `source_of_referral` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `problem_presented` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `findings` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `action_taken` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type_of_assistance` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -78,11 +78,7 @@ INSERT INTO `aics_details` (`id`, `beneficiary_id`, `case_no`, `new_or_old`, `da
 (14, 49, 'Tempora laboriosam', 'New', '1990-01-10', 'At ullamco aut volup', 'Deserunt voluptatem', 'Accusantium vitae do', 'Elit minus odit rer', NULL, '2025-02-02 07:57:54', '2025-02-02 07:57:54'),
 (15, 52, 'Ipsum quia eaque ve', 'New', '1988-06-30', 'Ipsum voluptatem p', 'Sed voluptatem beata', 'Sed eos est nisi dol', 'Eaque sunt aliquid v', NULL, '2025-02-02 12:34:10', '2025-02-02 12:34:10'),
 (18, 57, NULL, NULL, '2025-02-06', 'asdasd', NULL, NULL, NULL, 'Medical Assistance', '2025-02-05 08:55:50', '2025-02-05 08:55:50'),
-(19, 65, '123', 'New', '2025-02-07', 'asdasd', 'Wa kwarta', 'Haha', 'Pagtrabaho uy', 'Burial Assistance', '2025-02-06 09:08:36', '2025-02-07 01:04:11'),
-(20, 69, NULL, NULL, '2025-02-07', 'Rerum ut laudantium', NULL, NULL, NULL, 'Educational Assistance', '2025-02-07 01:50:28', '2025-02-07 01:50:28'),
-(21, 70, '123', 'Old', '2025-02-10', 'Wa', 'Wa kwarta', 'Haha', 'Pagtrabaho uy', 'Burial Assistance', '2025-02-07 01:57:37', '2025-02-07 02:02:04'),
-(22, 72, NULL, NULL, '2025-02-13', 'Placeat quia tempor', NULL, NULL, NULL, 'Emergency Shelter Assistance', '2025-02-07 02:16:35', '2025-02-07 02:16:35'),
-(23, 73, NULL, NULL, '2025-02-11', 'asdf', NULL, NULL, NULL, 'Transportation Assistance', '2025-02-07 02:17:34', '2025-02-07 02:17:34');
+(19, 65, 'asd', 'New', '2025-02-07', 'Test', 'asd', 'asd', 'asd', 'Medical Assistance', NULL, '2025-02-06 13:27:01');
 
 -- --------------------------------------------------------
 
@@ -92,21 +88,21 @@ INSERT INTO `aics_details` (`id`, `beneficiary_id`, `case_no`, `new_or_old`, `da
 
 CREATE TABLE `applications` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `service_id` bigint(20) UNSIGNED NOT NULL,
   `date_applied` date DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `employee_name` varchar(255) DEFAULT NULL,
+  `employee_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `custom_fields` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`custom_fields`)),
   `approved_at` timestamp NULL DEFAULT NULL,
   `appearance_date` timestamp NULL DEFAULT NULL,
   `approved_by` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `cancellation_reason` varchar(255) DEFAULT NULL
+  `cancellation_reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -125,7 +121,7 @@ INSERT INTO `applications` (`id`, `name`, `email`, `phone`, `service_id`, `date_
 
 CREATE TABLE `barangays` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `latitude` decimal(10,6) NOT NULL,
   `longitude` decimal(10,6) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -461,27 +457,27 @@ INSERT INTO `barangays` (`id`, `name`, `latitude`, `longitude`, `created_at`, `u
 
 CREATE TABLE `beneficiaries` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `first_name` varchar(255) DEFAULT NULL,
-  `middle_name` varchar(255) DEFAULT NULL,
-  `last_name` varchar(255) DEFAULT NULL,
-  `suffix` varchar(255) DEFAULT NULL,
+  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `middle_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `suffix` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
   `age` int(10) UNSIGNED DEFAULT NULL,
-  `gender` varchar(255) DEFAULT NULL,
-  `place_of_birth` varchar(255) DEFAULT NULL,
+  `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `place_of_birth` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `program_enrolled` bigint(20) UNSIGNED NOT NULL,
   `barangay_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `complete_address` varchar(255) DEFAULT NULL,
-  `civil_status` varchar(255) DEFAULT NULL,
-  `educational_attainment` varchar(255) DEFAULT NULL,
-  `occupation` varchar(255) DEFAULT NULL,
-  `religion` varchar(255) DEFAULT NULL,
-  `monthly_income` varchar(255) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `id_number` varchar(255) DEFAULT NULL,
-  `annual_income` varchar(255) DEFAULT NULL,
-  `other_skills` varchar(255) DEFAULT NULL,
+  `complete_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `civil_status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `educational_attainment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `occupation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `religion` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `monthly_income` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `annual_income` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `other_skills` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `latitude` decimal(10,6) DEFAULT NULL,
   `longitude` decimal(10,6) DEFAULT NULL,
   `approved_at` timestamp NULL DEFAULT NULL,
@@ -489,9 +485,8 @@ CREATE TABLE `beneficiaries` (
   `approved_by` bigint(20) UNSIGNED DEFAULT NULL,
   `accepted_by` bigint(20) UNSIGNED DEFAULT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `status` varchar(255) DEFAULT 'pending',
-  `message_count` int(2) NOT NULL DEFAULT 0,
-  `cancellation_reason` varchar(255) DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT 'pending',
+  `cancellation_reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -500,52 +495,42 @@ CREATE TABLE `beneficiaries` (
 -- Dumping data for table `beneficiaries`
 --
 
-INSERT INTO `beneficiaries` (`id`, `first_name`, `middle_name`, `last_name`, `suffix`, `date_of_birth`, `age`, `gender`, `place_of_birth`, `program_enrolled`, `barangay_id`, `complete_address`, `civil_status`, `educational_attainment`, `occupation`, `religion`, `monthly_income`, `phone`, `email`, `id_number`, `annual_income`, `other_skills`, `latitude`, `longitude`, `approved_at`, `appearance_date`, `approved_by`, `accepted_by`, `user_id`, `status`, `message_count`, `cancellation_reason`, `created_at`, `updated_at`) VALUES
-(3, 'jonas miguel', 'villotee', 'Balongag', NULL, '2001-02-22', 23, 'Male', 'Abuyog', 1, 11, NULL, 'Single', 'College', 'Student', 'Other', 'Below 5,000', '09268307424', 'jm@gmail.com', '123456', 'Below 60,000', 'test', NULL, NULL, NULL, NULL, NULL, 3, NULL, 'rejected', 0, 'wwewwaadf', '2025-01-19 19:12:06', '2025-02-05 06:26:53'),
-(4, 'Desirae', 'Escano', 'Navarro', NULL, '1975-06-29', 33, 'Female', 'Lorem eum dolorem ad', 2, 279, NULL, 'Divorced', 'No Formal Education', 'Magni minus sit vol', 'Ex blanditiis sed ve', 'Below 5,000', '+1 (853) 984-5192', 'jm@gmail.com', '133', '60,000 - 120,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'rejected', 0, 'totot', '2025-01-19 19:24:15', '2025-02-05 06:09:02'),
-(8, 'Sopoline', 'Brody Mcfarland', 'Thornton', NULL, '1994-04-21', 30, 'Female', 'Ut laboriosam quam', 4, 182, NULL, 'Married', 'Postgraduate', 'Sed totam cupidatat', 'Eos alias elit vit', 'Below 5,000', '09061573601', 'lily@gmail.com', '123-456', 'Below 60,000', 'Ea ut sit quasi reru', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-01-25 12:00:40', '2025-02-02 12:04:39'),
-(9, 'Baxter', 'Kyle Nelson', 'Carlson', NULL, '2003-12-17', 21, 'Male', 'Et nemo in delectus', 3, 253, NULL, 'Widowed', 'Postgraduate', 'Dolores suscipit ips', 'Harum sed molestiae', 'Below 5,000', '+1 (796) 782-1255', 'labli@gmail.com', '123456', 'Below 60,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-01-27 07:03:22', '2025-02-02 12:48:04'),
-(12, 'Basil', 'Gwendolyn Bradley', 'Arnold', NULL, '2016-02-08', 8, 'Female', 'Vel aliquid doloribu', 1, 223, NULL, 'Divorced', 'High School', 'Nulla enim ducimus', NULL, NULL, NULL, NULL, NULL, 'Above 180,000', 'Quidem proident aut', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-01-31 17:00:16', '2025-01-31 17:00:16'),
-(15, 'Rachel', 'Mariko Hall', 'Mcfarland', NULL, '2014-08-24', NULL, NULL, 'Ipsam et qui itaque', 4, 171, NULL, 'Divorced', 'College', 'Sit impedit ipsum', 'Ducimus voluptates', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-01 00:06:15', '2025-02-01 00:06:15'),
-(16, 'Kitra', 'Risa Nixon', 'Alexander', NULL, '2009-03-24', NULL, NULL, 'Sunt sint incididu', 4, 65, NULL, 'Widowed', 'Elementary', 'Quae ab laborum Dis', 'Quidem id eum quasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-01 00:07:12', '2025-02-01 00:07:12'),
-(17, 'Anjolie', 'Test', 'Donaldson', NULL, '2015-06-10', 9, 'Female', 'Alias qui et fugiat', 3, 168, NULL, 'Single', 'High School', 'Dolor veniam anim v', 'Eum rerum saepe cum', NULL, '+1 (898) 623-2983', NULL, NULL, 'Above 180,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-01 02:55:00', '2025-02-01 04:08:34'),
-(18, 'Craig', NULL, 'Ramirez', NULL, '2021-07-21', NULL, 'Male', 'Ducimus culpa facer', 3, 19, NULL, 'Single', 'College', 'Voluptas asperiores', 'Eveniet nihil dolor', NULL, '+1 (787) 556-6102', NULL, NULL, '60,000 - 120,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-01 02:56:39', '2025-02-01 02:56:39'),
-(20, 'Ingrid', 'Hu Santana', 'Hickman', NULL, '2023-04-15', 1, 'Male', 'Illum molestiae fug', 1, 165, NULL, 'Single', 'College', 'Minim ut similique m', NULL, NULL, NULL, NULL, NULL, 'Above 180,000', 'Facere suscipit aut', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-01 04:34:18', '2025-02-01 04:34:18'),
-(26, 'Simon', NULL, 'Thompson', NULL, '2003-11-26', 21, 'Female', 'Quo deleniti aut ali', 2, 76, NULL, 'Single', 'Postgraduate', 'Ut fugiat odio moles', 'Fugiat est voluptatu', NULL, '+1 (133) 913-8532', NULL, NULL, '60,000 - 120,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 02:19:39', '2025-02-02 02:19:39'),
-(27, 'Arsenio', 'Barrett Nguyen', 'Matthews', NULL, '2017-06-15', 7, 'Female', 'Dolores quo mollit a', 1, 131, NULL, 'Divorced', 'High School', 'Et ad animi nulla v', NULL, NULL, NULL, NULL, NULL, 'Below 60,000', 'Iste rerum voluptatu', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 05:01:46', '2025-02-02 05:01:46'),
-(28, 'Paul', NULL, 'Mcmahon', NULL, '1979-05-05', 45, 'Male', 'Exercitation unde om', 2, 193, NULL, 'Married', 'College', 'Officia totam volupt', 'Tempora quas eiusmod', NULL, '+1 (525) 747-8577', NULL, NULL, '60,000 - 120,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 05:02:42', '2025-02-02 05:02:42'),
-(29, 'Petra', 'Beau Mcgee', 'Mercado', NULL, '2014-04-17', 10, 'Male', 'Quae velit velit ip', 3, 298, NULL, 'Married', 'Elementary', 'Amet et consequatur', 'Cupiditate sit anim', NULL, '+1 (219) 226-4236', NULL, NULL, 'Above 180,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 05:04:12', '2025-02-02 05:04:12'),
-(30, 'Cally', 'Haviva Roach', 'Johnson', NULL, '2023-03-16', 1, NULL, 'Laboris voluptas seq', 4, 149, NULL, 'Married', 'Postgraduate', 'Culpa consectetur de', 'Quia iure fuga Aute', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 05:05:57', '2025-02-02 05:05:57'),
-(32, 'Aline', NULL, 'Mathews', NULL, '2000-07-16', 24, 'Male', 'Rerum amet vel exer', 2, 160, NULL, 'Widowed', 'College', 'Ut fuga Et aute sap', 'Et magna rerum sunt', NULL, '+1 (369) 264-1541', NULL, NULL, '120,000 - 180,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 05:19:03', '2025-02-02 05:19:03'),
-(33, 'Hasad', 'Christopher Mcclure', 'Richmond', NULL, '1984-05-26', 40, 'Female', 'Placeat mollit sequ', 3, 178, NULL, 'Widowed', 'No Formal Education', 'Cupidatat pariatur', 'Et qui nostrum incid', NULL, '+1 (173) 123-8464', NULL, NULL, '60,000 - 120,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 05:19:38', '2025-02-02 05:19:38'),
-(34, 'Honorato', 'Cairo Padilla', 'Vang', NULL, '2002-01-24', 23, 'Female', 'Nisi commodi sit deb', 3, 59, NULL, 'Married', 'Postgraduate', 'Tempore reprehender', 'Illo pariatur Minim', NULL, '+1 (893) 321-8271', NULL, NULL, 'Above 180,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 05:19:45', '2025-02-02 05:19:45'),
-(35, 'Barrett', 'Anne Walker', 'Mack', NULL, '2021-07-11', 3, NULL, 'Cupidatat sit volup', 4, 236, NULL, 'Divorced', 'College', 'Et maiores delectus', 'Aut qui deserunt qui', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 05:20:06', '2025-02-02 05:20:06'),
-(41, 'Hillary', 'Audrey Pierce', 'Sullivan', NULL, '2003-09-23', 21, 'Male', 'Cillum fuga Dolor d', 1, 216, NULL, 'Widowed', 'High School', 'Labore nemo magnam d', NULL, NULL, NULL, NULL, NULL, '60,000 - 120,000', 'Ut sapiente dolore n', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 05:45:25', '2025-02-02 05:45:25'),
-(42, 'Jordan', 'Colton Bowen', 'Sanchez', NULL, '1974-04-25', 50, 'Male', 'Cumque et labore ess', 3, 196, NULL, 'Single', 'High School', 'Voluptates eaque omn', 'Illum totam nihil c', NULL, '+1 (377) 241-2773', NULL, NULL, '120,000 - 180,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 05:46:13', '2025-02-02 05:46:13'),
-(43, 'Gavin', 'Nathan Buchanan', 'Ramsey', NULL, '1985-07-10', 39, 'Female', 'Fuga Atque et corru', 3, 120, NULL, 'Divorced', 'College', 'Eos debitis volupta', 'Odit qui est illum', NULL, '+1 (945) 654-5712', NULL, NULL, '120,000 - 180,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 05:46:42', '2025-02-02 05:46:42'),
-(44, 'Selma', NULL, 'Ortiz', NULL, '1970-04-12', 54, 'Male', 'Quae sed soluta nihi', 2, 1, NULL, 'Married', 'High School', 'Molestias quam molli', 'Blanditiis minus nes', NULL, '+1 (408) 548-4352', NULL, NULL, '60,000 - 120,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 05:47:25', '2025-02-02 05:47:25'),
-(46, 'Kenyon', 'Kiona Morrison', 'Patrick', NULL, '1997-12-19', 27, 'Female', 'Laudantium iste ad', 1, 121, NULL, 'Single', 'Elementary', 'Aut sit deserunt ip', NULL, NULL, NULL, NULL, NULL, 'Below 60,000', 'Sed et porro tenetur', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 07:11:55', '2025-02-02 07:11:55'),
-(47, 'Tamekah', NULL, 'Logan', NULL, '2017-10-08', 7, 'Female', 'Minim rerum non offi', 1, 203, NULL, 'Widowed', 'High School', 'Dolor eos velit ci', NULL, NULL, NULL, NULL, NULL, '60,000 - 120,000', 'Quidem reprehenderit', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 07:14:35', '2025-02-02 07:14:35'),
-(49, 'Danielle', 'Ariana Atkinson', 'Swanson', NULL, '1998-12-13', 26, NULL, 'Est consectetur lor', 4, 148, NULL, 'Married', 'Postgraduate', 'Et architecto et mai', 'Facere nostrud sint', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 07:57:54', '2025-02-02 07:57:54'),
-(50, 'Daria', 'Kyra Cooley', 'Reilly', NULL, '2011-07-23', 13, 'Female', 'Sunt dignissimos qu', 3, 212, NULL, 'Divorced', 'No Formal Education', 'Molestiae magna dolo', 'Molestias corrupti', NULL, '+1 (493) 865-5196', NULL, NULL, '120,000 - 180,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 08:13:34', '2025-02-02 08:13:34'),
-(51, 'Byron', 'Cally Melendez', 'Gamble', NULL, '1987-05-24', 37, 'Female', 'Sunt ad quia labore', 1, 260, NULL, 'Divorced', 'College', 'Quia et nostrum mole', NULL, NULL, NULL, NULL, NULL, '60,000 - 120,000', 'Assumenda veritatis', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 09:11:34', '2025-02-02 10:19:11'),
-(52, 'Steven', 'Sage Nicholson', 'Crane', NULL, '1990-03-14', 34, NULL, 'Tempora omnis commod', 4, 113, NULL, 'Divorced', 'College', 'Reprehenderit qui mi', 'Labore rerum et exce', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', 0, NULL, '2025-02-02 12:34:10', '2025-02-02 12:34:10'),
-(54, 'Lab', NULL, 'Chavez', NULL, '2016-01-13', 59, 'Female', 'Abuyog leyte', 1, 32, 'Abuyog leyte', 'Single', 'College Graduate', 'Student', NULL, NULL, '09949420699', 'sircsaira@gmail.com', NULL, '1223', 'asdasd', NULL, NULL, '2025-02-05 06:26:47', '2025-02-05 16:00:00', 2, 3, 15, 'released', 0, NULL, '2025-02-05 05:28:13', '2025-02-07 01:06:01'),
-(57, 'Lab', ' ', ' Chavez', '', '2016-01-13', 60, NULL, 'Abuyog leyte', 4, 32, 'Abuyog leyte', 'Single', 'College Graduate', 'Student', 'Adventist', NULL, '09949420699', 'sircsaira@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-06 06:57:08', '2025-02-05 16:00:00', 2, 3, 15, 'released', 0, NULL, '2025-02-05 08:55:50', '2025-02-07 01:13:53'),
-(58, 'Lab', ' ', ' Chavez', '', '1989-03-24', 59, 'Female', 'Quod sint alias esse', 3, 311, 'Pariatur Et expedit', 'Single', 'College Level', 'Qui minim soluta ex', 'Ullamco enim sed ab', '342', '09949420699', 'sircsaira@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '1983-11-28 16:00:00', NULL, NULL, 15, 'pending', 0, NULL, '2025-02-06 02:30:02', '2025-02-06 02:30:02'),
-(62, 'Lab', NULL, 'Chavez', NULL, '1982-01-17', 59, 'Female', NULL, 2, 64, NULL, 'Single', 'Senior High', 'professional', NULL, NULL, '09949420699', 'sircsaira@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-06 06:53:23', '2025-11-18 16:00:00', 2, 2, 15, 'approved', 0, NULL, '2025-02-06 03:55:55', '2025-02-06 06:53:23'),
-(63, 'Kylan', 'Aspen Martinez', 'Morrison', NULL, '1980-02-12', 44, 'Female', 'Aute veritatis ab ni', 1, 211, NULL, 'Widowed', 'Elementary', 'Culpa pariatur Aut', NULL, NULL, NULL, NULL, NULL, 'Below 60,000', 'Ullam beatae odit re', NULL, NULL, '2025-02-06 07:23:18', NULL, 2, 2, NULL, 'approved', 0, NULL, '2025-02-06 07:19:40', '2025-02-06 07:19:40'),
-(64, 'Rachel', NULL, 'Bruce', NULL, '2003-08-25', 21, 'Female', 'Magnam velit ut in r', 2, 267, NULL, 'Single', 'College', 'Impedit vel sunt f', 'Exercitation volupta', NULL, '+1 (597) 704-3473', NULL, NULL, '120,000 - 180,000', NULL, NULL, NULL, '2025-02-06 07:24:29', NULL, 2, 2, NULL, 'released', 0, NULL, '2025-02-06 07:24:29', '2025-02-07 00:55:46'),
-(65, 'Lab', ' ', ' Chavez', '', '2016-01-13', 60, NULL, 'Abuyog leyte', 4, 32, 'Abuyog leyte', 'Single', 'College Graduate', 'Student', 'Adventist', NULL, '09949420699', 'sircsaira@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-07 01:04:11', '2025-02-06 16:00:00', 2, 3, 15, 'released', 0, NULL, '2025-02-06 09:08:36', '2025-02-07 01:04:44'),
-(66, 'Lab', NULL, 'Cha', NULL, '2025-02-07', 0, 'Female', 'Abuyog', 1, 56, NULL, 'Single', 'College', 'Student', NULL, NULL, '09268307424', NULL, NULL, 'Below 60,000', 'Wa', NULL, NULL, '2025-02-07 01:07:33', NULL, 2, 2, NULL, 'released', 0, NULL, '2025-02-07 01:07:33', '2025-02-07 01:09:52'),
-(67, 'Jonas', 'Villote', 'Balongag', NULL, '2002-02-07', 23, 'Male', 'Abuyog Leyte', 1, 37, NULL, 'Single', 'College', 'Stufent', NULL, NULL, '09925730026', NULL, NULL, 'Below 60,000', 'N/A', NULL, NULL, '2025-02-07 01:23:40', NULL, 2, 2, NULL, 'released', 0, NULL, '2025-02-07 01:23:40', '2025-02-07 01:24:18'),
-(68, 'Lablay', NULL, 'Chavezzz', NULL, '2025-02-02', 0, 'Female', 'Abuyog', 3, 7, NULL, 'Widowed', 'Elementary', 'Student', 'Adventist', NULL, '09268307424', NULL, NULL, '60,000 - 120,000', NULL, NULL, NULL, '2025-02-07 01:33:31', NULL, 2, 2, NULL, 'released', 2, NULL, '2025-02-07 01:33:31', '2025-02-07 06:05:10'),
-(69, 'admin', ' ', ' jordan', '', '2017-09-09', 7, NULL, 'Sint ullamco atque', 4, 230, 'Eiusmod nobis minus', 'Deserunt cupidatat o', 'Elementary Level', 'Omnis beatae cupidit', 'Mollitia eligendi qu', NULL, '09064209450', 'admin@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-06 16:00:00', NULL, 3, 2, 'accepted', 0, NULL, '2025-02-07 01:50:28', '2025-02-07 07:45:01'),
-(70, 'Lovely', ' Escano', ' Chavez', '', '1962-02-07', 63, NULL, 'Abuyog', 4, 56, 'Abuyog leyte', 'Single', 'Vocational', 'Student', 'Adventist', NULL, '09268307424', 's.crl0043@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-07 02:02:04', '2025-02-09 16:00:00', 2, 3, 25, 'released', 0, NULL, '2025-02-07 01:57:37', '2025-02-07 02:02:46'),
-(71, 'elizabeth', 'mamasig', 'sebios', NULL, '1940-01-01', 85, 'Male', 'Abuyog Leyte', 1, 22, 'Barangay capilian', 'Married', 'Post Graduate', 'N/a', NULL, NULL, '09164321071', 'elizabeth.sebios@gmail.com', NULL, '1000', 'N/a', NULL, NULL, NULL, '2025-02-11 16:00:00', NULL, NULL, 18, 'rejected', 0, 'Di diay ko', '2025-02-07 02:00:06', '2025-02-07 07:44:58'),
-(72, 'admin', ' ', ' jordan', '', '2021-04-15', 3, NULL, 'Ex ut eaque commodo', 4, 154, 'Reiciendis earum adi', 'Sint omnis earum dol', 'Post Graduate', 'Dolor aut optio pro', 'Cupidatat atque pari', NULL, '09064209450', 'admin@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-12 16:00:00', NULL, 3, 2, 'accepted', 0, NULL, '2025-02-07 02:16:35', '2025-02-07 07:44:40'),
-(73, 'admin', ' ', ' jordan', '', '2025-02-08', NULL, NULL, 'asd', 4, 5, 'asd', 'asdf', 'Elementary Graduate', 'asda', 'asdf', NULL, '09064209450', 'admin@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-10 16:00:00', NULL, 3, 2, 'accepted', 0, NULL, '2025-02-07 02:17:34', '2025-02-07 07:44:50'),
-(74, 'Juuju', NULL, 'Ju', NULL, '2025-02-07', 0, 'Male', 'Abuyog Leyte', 1, 56, NULL, 'Single', 'College', 'Student', NULL, NULL, '09064209450', NULL, NULL, 'Above 180,000', 'Wa', NULL, NULL, '2025-02-07 08:43:56', NULL, 2, 2, NULL, 'released', 0, NULL, '2025-02-07 08:43:56', '2025-02-07 08:45:46');
+INSERT INTO `beneficiaries` (`id`, `first_name`, `middle_name`, `last_name`, `suffix`, `date_of_birth`, `age`, `gender`, `place_of_birth`, `program_enrolled`, `barangay_id`, `complete_address`, `civil_status`, `educational_attainment`, `occupation`, `religion`, `monthly_income`, `phone`, `email`, `id_number`, `annual_income`, `other_skills`, `latitude`, `longitude`, `approved_at`, `appearance_date`, `approved_by`, `accepted_by`, `user_id`, `status`, `cancellation_reason`, `created_at`, `updated_at`) VALUES
+(3, 'jonas miguel', 'villotee', 'Balongag', NULL, '2001-02-22', 23, 'Male', 'Abuyog', 1, 11, NULL, 'Single', 'College', 'Student', 'Other', 'Below 5,000', '09268307424', 'jm@gmail.com', '123456', 'Below 60,000', 'test', NULL, NULL, NULL, NULL, NULL, 3, NULL, 'rejected', 'wwewwaadf', '2025-01-19 19:12:06', '2025-02-05 06:26:53'),
+(4, 'Desirae', 'Escano', 'Navarro', NULL, '1975-06-29', 33, 'Female', 'Lorem eum dolorem ad', 2, 279, NULL, 'Divorced', 'No Formal Education', 'Magni minus sit vol', 'Ex blanditiis sed ve', 'Below 5,000', '+1 (853) 984-5192', 'jm@gmail.com', '133', '60,000 - 120,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'rejected', 'totot', '2025-01-19 19:24:15', '2025-02-05 06:09:02'),
+(8, 'Sopoline', 'Brody Mcfarland', 'Thornton', NULL, '1994-04-21', 30, 'Female', 'Ut laboriosam quam', 4, 182, NULL, 'Married', 'Postgraduate', 'Sed totam cupidatat', 'Eos alias elit vit', 'Below 5,000', '09061573601', 'lily@gmail.com', '123-456', 'Below 60,000', 'Ea ut sit quasi reru', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-01-25 12:00:40', '2025-02-02 12:04:39'),
+(9, 'Baxter', 'Kyle Nelson', 'Carlson', NULL, '2003-12-17', 21, 'Male', 'Et nemo in delectus', 3, 253, NULL, 'Widowed', 'Postgraduate', 'Dolores suscipit ips', 'Harum sed molestiae', 'Below 5,000', '+1 (796) 782-1255', 'labli@gmail.com', '123456', 'Below 60,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-01-27 07:03:22', '2025-02-02 12:48:04'),
+(12, 'Basil', 'Gwendolyn Bradley', 'Arnold', NULL, '2016-02-08', 8, 'Female', 'Vel aliquid doloribu', 1, 223, NULL, 'Divorced', 'High School', 'Nulla enim ducimus', NULL, NULL, NULL, NULL, NULL, 'Above 180,000', 'Quidem proident aut', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-01-31 17:00:16', '2025-01-31 17:00:16'),
+(15, 'Rachel', 'Mariko Hall', 'Mcfarland', NULL, '2014-08-24', NULL, NULL, 'Ipsam et qui itaque', 4, 171, NULL, 'Divorced', 'College', 'Sit impedit ipsum', 'Ducimus voluptates', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-01 00:06:15', '2025-02-01 00:06:15'),
+(16, 'Kitra', 'Risa Nixon', 'Alexander', NULL, '2009-03-24', NULL, NULL, 'Sunt sint incididu', 4, 65, NULL, 'Widowed', 'Elementary', 'Quae ab laborum Dis', 'Quidem id eum quasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-01 00:07:12', '2025-02-01 00:07:12'),
+(17, 'Anjolie', 'Test', 'Donaldson', NULL, '2015-06-10', 9, 'Female', 'Alias qui et fugiat', 3, 168, NULL, 'Single', 'High School', 'Dolor veniam anim v', 'Eum rerum saepe cum', NULL, '+1 (898) 623-2983', NULL, NULL, 'Above 180,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-01 02:55:00', '2025-02-01 04:08:34'),
+(18, 'Craig', NULL, 'Ramirez', NULL, '2021-07-21', NULL, 'Male', 'Ducimus culpa facer', 3, 19, NULL, 'Single', 'College', 'Voluptas asperiores', 'Eveniet nihil dolor', NULL, '+1 (787) 556-6102', NULL, NULL, '60,000 - 120,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-01 02:56:39', '2025-02-01 02:56:39'),
+(20, 'Ingrid', 'Hu Santana', 'Hickman', NULL, '2023-04-15', 1, 'Male', 'Illum molestiae fug', 1, 165, NULL, 'Single', 'College', 'Minim ut similique m', NULL, NULL, NULL, NULL, NULL, 'Above 180,000', 'Facere suscipit aut', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-01 04:34:18', '2025-02-01 04:34:18'),
+(26, 'Simon', NULL, 'Thompson', NULL, '2003-11-26', 21, 'Female', 'Quo deleniti aut ali', 2, 76, NULL, 'Single', 'Postgraduate', 'Ut fugiat odio moles', 'Fugiat est voluptatu', NULL, '+1 (133) 913-8532', NULL, NULL, '60,000 - 120,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 02:19:39', '2025-02-02 02:19:39'),
+(27, 'Arsenio', 'Barrett Nguyen', 'Matthews', NULL, '2017-06-15', 7, 'Female', 'Dolores quo mollit a', 1, 131, NULL, 'Divorced', 'High School', 'Et ad animi nulla v', NULL, NULL, NULL, NULL, NULL, 'Below 60,000', 'Iste rerum voluptatu', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 05:01:46', '2025-02-02 05:01:46'),
+(28, 'Paul', NULL, 'Mcmahon', NULL, '1979-05-05', 45, 'Male', 'Exercitation unde om', 2, 193, NULL, 'Married', 'College', 'Officia totam volupt', 'Tempora quas eiusmod', NULL, '+1 (525) 747-8577', NULL, NULL, '60,000 - 120,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 05:02:42', '2025-02-02 05:02:42'),
+(29, 'Petra', 'Beau Mcgee', 'Mercado', NULL, '2014-04-17', 10, 'Male', 'Quae velit velit ip', 3, 298, NULL, 'Married', 'Elementary', 'Amet et consequatur', 'Cupiditate sit anim', NULL, '+1 (219) 226-4236', NULL, NULL, 'Above 180,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 05:04:12', '2025-02-02 05:04:12'),
+(30, 'Cally', 'Haviva Roach', 'Johnson', NULL, '2023-03-16', 1, NULL, 'Laboris voluptas seq', 4, 149, NULL, 'Married', 'Postgraduate', 'Culpa consectetur de', 'Quia iure fuga Aute', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 05:05:57', '2025-02-02 05:05:57'),
+(32, 'Aline', NULL, 'Mathews', NULL, '2000-07-16', 24, 'Male', 'Rerum amet vel exer', 2, 160, NULL, 'Widowed', 'College', 'Ut fuga Et aute sap', 'Et magna rerum sunt', NULL, '+1 (369) 264-1541', NULL, NULL, '120,000 - 180,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 05:19:03', '2025-02-02 05:19:03'),
+(33, 'Hasad', 'Christopher Mcclure', 'Richmond', NULL, '1984-05-26', 40, 'Female', 'Placeat mollit sequ', 3, 178, NULL, 'Widowed', 'No Formal Education', 'Cupidatat pariatur', 'Et qui nostrum incid', NULL, '+1 (173) 123-8464', NULL, NULL, '60,000 - 120,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 05:19:38', '2025-02-02 05:19:38'),
+(34, 'Honorato', 'Cairo Padilla', 'Vang', NULL, '2002-01-24', 23, 'Female', 'Nisi commodi sit deb', 3, 59, NULL, 'Married', 'Postgraduate', 'Tempore reprehender', 'Illo pariatur Minim', NULL, '+1 (893) 321-8271', NULL, NULL, 'Above 180,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 05:19:45', '2025-02-02 05:19:45'),
+(35, 'Barrett', 'Anne Walker', 'Mack', NULL, '2021-07-11', 3, NULL, 'Cupidatat sit volup', 4, 236, NULL, 'Divorced', 'College', 'Et maiores delectus', 'Aut qui deserunt qui', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 05:20:06', '2025-02-02 05:20:06'),
+(41, 'Hillary', 'Audrey Pierce', 'Sullivan', NULL, '2003-09-23', 21, 'Male', 'Cillum fuga Dolor d', 1, 216, NULL, 'Widowed', 'High School', 'Labore nemo magnam d', NULL, NULL, NULL, NULL, NULL, '60,000 - 120,000', 'Ut sapiente dolore n', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 05:45:25', '2025-02-02 05:45:25'),
+(42, 'Jordan', 'Colton Bowen', 'Sanchez', NULL, '1974-04-25', 50, 'Male', 'Cumque et labore ess', 3, 196, NULL, 'Single', 'High School', 'Voluptates eaque omn', 'Illum totam nihil c', NULL, '+1 (377) 241-2773', NULL, NULL, '120,000 - 180,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 05:46:13', '2025-02-02 05:46:13'),
+(43, 'Gavin', 'Nathan Buchanan', 'Ramsey', NULL, '1985-07-10', 39, 'Female', 'Fuga Atque et corru', 3, 120, NULL, 'Divorced', 'College', 'Eos debitis volupta', 'Odit qui est illum', NULL, '+1 (945) 654-5712', NULL, NULL, '120,000 - 180,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 05:46:42', '2025-02-02 05:46:42'),
+(44, 'Selma', NULL, 'Ortiz', NULL, '1970-04-12', 54, 'Male', 'Quae sed soluta nihi', 2, 1, NULL, 'Married', 'High School', 'Molestias quam molli', 'Blanditiis minus nes', NULL, '+1 (408) 548-4352', NULL, NULL, '60,000 - 120,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 05:47:25', '2025-02-02 05:47:25'),
+(46, 'Kenyon', 'Kiona Morrison', 'Patrick', NULL, '1997-12-19', 27, 'Female', 'Laudantium iste ad', 1, 121, NULL, 'Single', 'Elementary', 'Aut sit deserunt ip', NULL, NULL, NULL, NULL, NULL, 'Below 60,000', 'Sed et porro tenetur', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 07:11:55', '2025-02-02 07:11:55'),
+(47, 'Tamekah', NULL, 'Logan', NULL, '2017-10-08', 7, 'Female', 'Minim rerum non offi', 1, 203, NULL, 'Widowed', 'High School', 'Dolor eos velit ci', NULL, NULL, NULL, NULL, NULL, '60,000 - 120,000', 'Quidem reprehenderit', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 07:14:35', '2025-02-02 07:14:35'),
+(49, 'Danielle', 'Ariana Atkinson', 'Swanson', NULL, '1998-12-13', 26, NULL, 'Est consectetur lor', 4, 148, NULL, 'Married', 'Postgraduate', 'Et architecto et mai', 'Facere nostrud sint', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 07:57:54', '2025-02-02 07:57:54'),
+(50, 'Daria', 'Kyra Cooley', 'Reilly', NULL, '2011-07-23', 13, 'Female', 'Sunt dignissimos qu', 3, 212, NULL, 'Divorced', 'No Formal Education', 'Molestiae magna dolo', 'Molestias corrupti', NULL, '+1 (493) 865-5196', NULL, NULL, '120,000 - 180,000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 08:13:34', '2025-02-02 08:13:34'),
+(51, 'Byron', 'Cally Melendez', 'Gamble', NULL, '1987-05-24', 37, 'Female', 'Sunt ad quia labore', 1, 260, NULL, 'Divorced', 'College', 'Quia et nostrum mole', NULL, NULL, NULL, NULL, NULL, '60,000 - 120,000', 'Assumenda veritatis', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 09:11:34', '2025-02-02 10:19:11'),
+(52, 'Steven', 'Sage Nicholson', 'Crane', NULL, '1990-03-14', 34, NULL, 'Tempora omnis commod', 4, 113, NULL, 'Divorced', 'College', 'Reprehenderit qui mi', 'Labore rerum et exce', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'pending', NULL, '2025-02-02 12:34:10', '2025-02-02 12:34:10'),
+(57, 'Lab', ' ', ' Chavez', '', '2016-01-13', 60, NULL, 'Abuyog leyte', 4, 32, 'Abuyog leyte', 'Single', 'College Graduate', 'Student', 'Adventist', NULL, '09949420699', 'sircsaira@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-06 06:57:08', '2025-02-05 16:00:00', 2, 3, 15, 'approved', NULL, '2025-02-05 08:55:50', '2025-02-06 06:57:08'),
+(58, 'Lab', ' ', ' Chavez', '', '1989-03-24', 59, 'Female', 'Quod sint alias esse', 3, 311, 'Pariatur Et expedit', 'Single', 'College Level', 'Qui minim soluta ex', 'Ullamco enim sed ab', '342', '09949420699', 'sircsaira@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '1983-11-28 16:00:00', NULL, NULL, 15, 'pending', NULL, '2025-02-06 02:30:02', '2025-02-06 02:30:02'),
+(62, 'Lab', NULL, 'Chavez', NULL, '1982-01-17', 59, 'female', NULL, 2, 64, NULL, 'Single', 'senior_high', 'professional', NULL, NULL, '09949420699', 'sircsaira@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-06 06:53:23', '2025-11-18 16:00:00', 2, 2, 15, 'approved', NULL, '2025-02-05 03:55:55', '2025-02-06 06:53:23'),
+(64, 'Rachel', NULL, 'Bruce', NULL, '2003-08-25', 21, 'Female', 'Magnam velit ut in r', 2, 267, NULL, 'Single', 'College', 'Impedit vel sunt f', 'Exercitation volupta', NULL, '+1 (597) 704-3473', NULL, NULL, '120,000 - 180,000', NULL, NULL, NULL, '2025-02-06 13:02:15', NULL, 2, 2, NULL, 'released', NULL, '2025-02-06 07:24:29', '2025-02-06 14:17:52'),
+(65, 'Lab', ' ', ' Chavez', '', '2016-01-13', 60, NULL, 'Abuyog leyte', 4, 32, 'Abuyog leyte', 'Single', 'College Graduate', 'Student', 'Adventist', NULL, '09949420699', 'sircsaira@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-06 13:27:01', '2025-02-06 16:00:00', 2, 3, 15, 'released', NULL, '2025-02-06 09:08:36', '2025-02-06 14:18:16'),
+(67, 'Lab', NULL, 'Chavez', NULL, '2016-01-13', 60, 'Female', 'Abuyog leyte', 1, 32, 'Abuyog leyte', 'Single', 'College Graduate', 'Student', NULL, NULL, '09949420699', 'sircsaira@gmail.com', NULL, '123', 'asdasd', NULL, NULL, NULL, '2025-02-06 16:00:00', NULL, NULL, 15, 'pending', NULL, '2025-02-05 15:18:02', '2025-02-06 15:18:02');
 
 -- --------------------------------------------------------
 
@@ -556,12 +541,12 @@ INSERT INTO `beneficiaries` (`id`, `first_name`, `middle_name`, `last_name`, `su
 CREATE TABLE `benefits_received` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `beneficiary_id` bigint(20) UNSIGNED NOT NULL,
-  `name_of_assistance` varchar(255) NOT NULL,
+  `name_of_assistance` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `amount` decimal(10,2) DEFAULT NULL,
   `date_received` date DEFAULT NULL,
-  `status` varchar(255) NOT NULL DEFAULT 'Pending',
-  `not_received_reason` text DEFAULT NULL,
-  `type_of_assistance` varchar(255) NOT NULL DEFAULT 'Others',
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Pending',
+  `not_received_reason` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type_of_assistance` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Others',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -578,9 +563,7 @@ INSERT INTO `benefits_received` (`id`, `beneficiary_id`, `name_of_assistance`, `
 (5, 3, 'scholarship program', 50000.00, NULL, 'Not Received', NULL, 'Educational', '2025-01-23 19:54:01', '2025-01-24 01:04:29'),
 (6, 4, 'scholarship program', 50000.00, '2025-01-24', 'Received', NULL, 'Educational', '2025-01-23 19:54:01', '2025-01-24 01:08:36'),
 (7, 4, 'medical support', 5000.00, '2025-01-24', 'Received', NULL, 'Medical', '2025-01-24 01:01:21', '2025-01-24 01:04:18'),
-(14, 65, 'Aics', 2.00, '2025-02-07', 'Received', NULL, 'Burial Assistance', '2025-02-07 01:04:44', '2025-02-07 01:04:44'),
-(15, 57, 'Aics', 10000.00, '2025-02-07', 'Received', NULL, 'Medical Assistance', '2025-02-07 01:13:53', '2025-02-07 01:13:53'),
-(16, 70, 'Aics', 5.00, '2025-02-07', 'Received', NULL, 'Burial Assistance', '2025-02-07 02:02:46', '2025-02-07 02:02:46');
+(14, 65, 'Aics', 200.00, '2025-02-06', 'Received', NULL, 'Medical Assistance', '2025-02-06 14:18:16', '2025-02-06 14:18:16');
 
 -- --------------------------------------------------------
 
@@ -589,8 +572,8 @@ INSERT INTO `benefits_received` (`id`, `beneficiary_id`, `name_of_assistance`, `
 --
 
 CREATE TABLE `cache` (
-  `key` varchar(255) NOT NULL,
-  `value` mediumtext NOT NULL,
+  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -599,50 +582,20 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('0db084d73ddf281adab27f4d644a0800', 'i:1;', 1738893583),
-('0db084d73ddf281adab27f4d644a0800:timer', 'i:1738893583;', 1738893583),
-('270449d34295413a5a1b910175c6208e', 'i:1;', 1738893499),
-('270449d34295413a5a1b910175c6208e:timer', 'i:1738893499;', 1738893499),
 ('30dc4533dfafd67923c2bcaf20d1ee32', 'i:1;', 1738738685),
 ('30dc4533dfafd67923c2bcaf20d1ee32:timer', 'i:1738738685;', 1738738685),
-('3101fa3a49a7355e0eb2a840f03b0e80', 'i:1;', 1738917485),
-('3101fa3a49a7355e0eb2a840f03b0e80:timer', 'i:1738917485;', 1738917485),
-('4007a77d61f38f0a451d12d0610c1f37', 'i:1;', 1738835281),
-('4007a77d61f38f0a451d12d0610c1f37:timer', 'i:1738835281;', 1738835281),
-('415886638bfb6d1276c7b037dec12fe2', 'i:1;', 1738918422),
-('415886638bfb6d1276c7b037dec12fe2:timer', 'i:1738918422;', 1738918422),
-('5793bf1bfc8e31789fcf075b09082eb5', 'i:1;', 1738893030),
-('5793bf1bfc8e31789fcf075b09082eb5:timer', 'i:1738893030;', 1738893030),
-('57bc340b768240bc71899f9cec326b87', 'i:1;', 1738917522),
-('57bc340b768240bc71899f9cec326b87:timer', 'i:1738917522;', 1738917522),
-('62f6764ce3900ca6fe94fc37f330e5a5', 'i:2;', 1738917500),
-('62f6764ce3900ca6fe94fc37f330e5a5:timer', 'i:1738917500;', 1738917500),
-('6b801e0706537ffd8809f8548c9779cd', 'i:1;', 1738892151),
-('6b801e0706537ffd8809f8548c9779cd:timer', 'i:1738892151;', 1738892151),
-('7cbeb0036cfc340dd3575bd7ba11aefa', 'i:1;', 1738917467),
-('7cbeb0036cfc340dd3575bd7ba11aefa:timer', 'i:1738917467;', 1738917467),
-('83722385b126f8825efd310322616a0e', 'i:1;', 1738893741),
-('83722385b126f8825efd310322616a0e:timer', 'i:1738893741;', 1738893741),
-('887309d048beef83ad3eabf2a79a64a389ab1c9f', 'i:1;', 1738893213),
-('887309d048beef83ad3eabf2a79a64a389ab1c9f:timer', 'i:1738893213;', 1738893213),
-('a06530ca9a7e3707387eea48ed0beb2a', 'i:1;', 1738911787),
-('a06530ca9a7e3707387eea48ed0beb2a:timer', 'i:1738911787;', 1738911787),
-('a690d1fb45e49d8463b62d74867f25ff', 'i:1;', 1738893251),
-('a690d1fb45e49d8463b62d74867f25ff:timer', 'i:1738893251;', 1738893251),
+('4007a77d61f38f0a451d12d0610c1f37', 'i:1;', 1738853701),
+('4007a77d61f38f0a451d12d0610c1f37:timer', 'i:1738853701;', 1738853701),
+('57bc340b768240bc71899f9cec326b87', 'i:1;', 1738830413),
+('57bc340b768240bc71899f9cec326b87:timer', 'i:1738830413;', 1738830413),
 ('a739eb2cce820da781b0b30981a58db5', 'i:1;', 1738833116),
 ('a739eb2cce820da781b0b30981a58db5:timer', 'i:1738833115;', 1738833115),
-('ab99253ddeaa5a4fbd3ace83b0682b23', 'i:1;', 1738916796),
-('ab99253ddeaa5a4fbd3ace83b0682b23:timer', 'i:1738916796;', 1738916796),
-('c525a5357e97fef8d3db25841c86da1a', 'i:1;', 1738835478),
-('c525a5357e97fef8d3db25841c86da1a:timer', 'i:1738835478;', 1738835478),
-('c559ce6440ef714c0e125cc4c9d3cce8', 'i:1;', 1738916261),
-('c559ce6440ef714c0e125cc4c9d3cce8:timer', 'i:1738916261;', 1738916261),
+('c525a5357e97fef8d3db25841c86da1a', 'i:1;', 1738841247),
+('c525a5357e97fef8d3db25841c86da1a:timer', 'i:1738841247;', 1738841247),
+('c559ce6440ef714c0e125cc4c9d3cce8', 'i:1;', 1738831221),
+('c559ce6440ef714c0e125cc4c9d3cce8:timer', 'i:1738831221;', 1738831221),
 ('d705d38f09e57c5916c5360104cc1825', 'i:1;', 1738738142),
-('d705d38f09e57c5916c5360104cc1825:timer', 'i:1738738141;', 1738738142),
-('e49b6a0551e27a13f57cd9a2ae910395', 'i:1;', 1738890616),
-('e49b6a0551e27a13f57cd9a2ae910395:timer', 'i:1738890616;', 1738890616),
-('siraics@gmail.com|10.10.2.254', 'i:1;', 1738916796),
-('siraics@gmail.com|10.10.2.254:timer', 'i:1738916796;', 1738916796);
+('d705d38f09e57c5916c5360104cc1825:timer', 'i:1738738141;', 1738738142);
 
 -- --------------------------------------------------------
 
@@ -651,8 +604,8 @@ INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
 --
 
 CREATE TABLE `cache_locks` (
-  `key` varchar(255) NOT NULL,
-  `owner` varchar(255) NOT NULL,
+  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `owner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -665,10 +618,10 @@ CREATE TABLE `cache_locks` (
 CREATE TABLE `contact_emergencies` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `beneficiary_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `contact_number` varchar(255) DEFAULT NULL,
-  `relationship` varchar(255) DEFAULT 'Not set',
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contact_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `relationship` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT 'Not set',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -687,8 +640,7 @@ INSERT INTO `contact_emergencies` (`id`, `beneficiary_id`, `name`, `address`, `c
 (8, 42, 'Joshua Ramsey', 'Blanditiis est nihi', '+1 (463) 558-9851', 'Not set', '2025-02-02 05:46:13', '2025-02-02 05:46:13'),
 (9, 43, 'Prescott Callahan', 'Dolor iusto quaerat', '+1 (413) 874-1012', 'Not set', '2025-02-02 05:46:42', '2025-02-02 05:46:42'),
 (10, 50, 'Celeste Newton', 'Elit ad voluptatem', '+1 (414) 405-4923', 'Not set', '2025-02-02 08:13:34', '2025-02-02 08:13:34'),
-(11, 58, 'Kai Rosa', 'Quia omnis voluptas', '954', 'Labore esse amet se', '2025-02-06 02:30:02', '2025-02-06 02:30:02'),
-(12, 68, 'Wa', 'Abuuog', '09123456789', 'Not set', '2025-02-07 01:33:31', '2025-02-07 01:33:31');
+(11, 58, 'Kai Rosa', 'Quia omnis voluptas', '954', 'Labore esse amet se', '2025-02-06 02:30:02', '2025-02-06 02:30:02');
 
 -- --------------------------------------------------------
 
@@ -698,21 +650,21 @@ INSERT INTO `contact_emergencies` (`id`, `beneficiary_id`, `name`, `address`, `c
 
 CREATE TABLE `deceased` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `middle_name` varchar(255) DEFAULT NULL,
-  `last_name` varchar(255) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
+  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `middle_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `barangay_id` bigint(20) UNSIGNED DEFAULT NULL,
   `service_id` bigint(20) UNSIGNED DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
   `age` int(11) DEFAULT NULL,
-  `gender` varchar(255) DEFAULT NULL,
-  `civil_status` varchar(255) DEFAULT NULL,
-  `gov_id_number` varchar(255) DEFAULT NULL,
-  `program_specific_id` varchar(255) DEFAULT NULL,
+  `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `civil_status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gov_id_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `program_specific_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_of_application` date DEFAULT NULL,
-  `assistance_availed` varchar(255) DEFAULT NULL,
+  `assistance_availed` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -734,11 +686,11 @@ INSERT INTO `deceased` (`id`, `first_name`, `middle_name`, `last_name`, `email`,
 
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -751,15 +703,15 @@ CREATE TABLE `failed_jobs` (
 CREATE TABLE `family_backgrounds` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `beneficiary_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `father_name` varchar(255) DEFAULT NULL,
-  `mother_name` varchar(255) DEFAULT NULL,
-  `guardian_name` varchar(255) DEFAULT NULL,
-  `father_occupation` varchar(255) DEFAULT NULL,
-  `mother_occupation` varchar(255) DEFAULT NULL,
-  `guardian_occupation` varchar(255) DEFAULT NULL,
-  `father_phone` varchar(255) DEFAULT NULL,
-  `mother_phone` varchar(255) DEFAULT NULL,
-  `guardian_phone` varchar(255) DEFAULT NULL,
+  `father_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mother_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `guardian_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `father_occupation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mother_occupation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `guardian_occupation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `father_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mother_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `guardian_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -786,15 +738,15 @@ INSERT INTO `family_backgrounds` (`id`, `beneficiary_id`, `father_name`, `mother
 CREATE TABLE `family_compositions` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `beneficiary_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `relationship` varchar(255) DEFAULT NULL,
-  `age` varchar(255) DEFAULT NULL,
-  `civil_status` varchar(255) DEFAULT NULL,
-  `occupation` varchar(255) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `relationship` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `age` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `civil_status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `occupation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `birthday` date DEFAULT NULL,
-  `educational` varchar(255) DEFAULT NULL,
-  `income` varchar(255) DEFAULT NULL,
-  `gender` varchar(255) DEFAULT NULL,
+  `educational` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `income` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -851,20 +803,10 @@ INSERT INTO `family_compositions` (`id`, `beneficiary_id`, `name`, `relationship
 (77, 9, 'Lamar Simon', 'Nisi facilis volupta', '95', 'Married', 'Autem adipisicing ve', '2012-07-03', 'No Formal Education', 'Below 60,000', NULL, '2025-02-02 12:48:04', '2025-02-02 12:48:04'),
 (78, 9, 'Erin Bender', 'Nihil cupidatat exce', '43', 'Married', 'Exercitation quisqua', '2020-09-15', 'College', 'Below 60,000', NULL, '2025-02-02 12:48:04', '2025-02-02 12:48:04'),
 (79, 9, 'Zenaida Potts', 'Et est proident et', '42', 'Married', 'Fugiat recusandae O', '1980-08-12', 'No Formal Education', '120,000 - 180,000', NULL, '2025-02-02 12:48:04', '2025-02-02 12:48:04'),
-(81, 54, 'asda', 'sdasdasd', '12', 'asdasd', 'asdasd', NULL, NULL, '123', NULL, '2025-02-05 05:28:13', '2025-02-05 05:28:13'),
 (85, 57, 'asda', 'asdf', '12', 'asdf', 'asdf', NULL, 'asdf', NULL, 'Female', '2025-02-05 08:55:50', '2025-02-05 08:55:50'),
 (86, 58, 'Danielle Ferrell', 'Eos non deleniti ani', '79', 'Rerum corrupti nihi', 'Aut aliquip quibusda', '2017-02-28', 'Exercitation exercit', '884', NULL, '2025-02-06 02:30:02', '2025-02-06 02:30:02'),
-(87, 63, 'Gil Singleton', 'Ea voluptatem Ducim', '64', 'Married', 'Illo ea consectetur', NULL, NULL, 'Below 60,000', NULL, '2025-02-06 07:19:40', '2025-02-06 07:19:40'),
 (88, 65, 'asdfas', 'asdf', '12', 'asdf', 'adsfsdaf', NULL, 'asdf', NULL, 'Female', '2025-02-06 09:08:36', '2025-02-06 09:08:36'),
-(89, 66, 'Papsi', 'Paps', '20', 'Married', 'Wa', NULL, NULL, 'Above 180,000', NULL, '2025-02-07 01:07:33', '2025-02-07 01:07:33'),
-(90, 67, 'N/A', 'N/A', '49', 'Married', 'N/A', NULL, NULL, 'Below 60,000', NULL, '2025-02-07 01:23:40', '2025-02-07 01:23:40'),
-(91, 68, 'Papsi', 'Paps', '0', 'Married', 'Wa', '2025-02-06', 'College', '1', NULL, '2025-02-07 01:33:31', '2025-02-07 01:33:31'),
-(92, 69, 'Ulysses Chaney', 'A alias consequuntur', '53', 'Commodi voluptate cu', 'In mollit magna duci', NULL, 'Doloremque veritatis', NULL, 'Male', '2025-02-07 01:50:28', '2025-02-07 01:50:28'),
-(93, 70, 'Papsi', 'Paps', '50', 'Single', 'Wa', NULL, 'College', NULL, 'Male', '2025-02-07 01:57:37', '2025-02-07 01:57:37'),
-(94, 71, 'N/a', 'N/A', '50', 'N/A', 'N/A', NULL, NULL, 'N/A', NULL, '2025-02-07 02:00:06', '2025-02-07 02:00:06'),
-(95, 72, 'Colton Peterson', 'Non in quia atque ei', '86', 'Deserunt rerum volup', 'Consequatur Pariatu', NULL, 'Quis quis velit in', NULL, 'Female', '2025-02-07 02:16:35', '2025-02-07 02:16:35'),
-(96, 73, 'asd', 'asd', '12', 'asdasd', 'asd', NULL, 'asd', NULL, 'Female', '2025-02-07 02:17:34', '2025-02-07 02:17:34'),
-(97, 74, 'N/A', 'N/A', '50', 'Married', 'N/A', NULL, NULL, 'Below 60,000', NULL, '2025-02-07 08:43:56', '2025-02-07 08:43:56');
+(90, 67, 'asdasd', 'asdasd', '12', 'asdasd', 'asdasd', NULL, NULL, '12', NULL, '2025-02-06 15:18:02', '2025-02-06 15:18:02');
 
 -- --------------------------------------------------------
 
@@ -886,8 +828,8 @@ CREATE TABLE `gis` (
 
 CREATE TABLE `jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `queue` varchar(255) NOT NULL,
-  `payload` longtext NOT NULL,
+  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `attempts` tinyint(3) UNSIGNED NOT NULL,
   `reserved_at` int(10) UNSIGNED DEFAULT NULL,
   `available_at` int(10) UNSIGNED NOT NULL,
@@ -901,13 +843,13 @@ CREATE TABLE `jobs` (
 --
 
 CREATE TABLE `job_batches` (
-  `id` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `total_jobs` int(11) NOT NULL,
   `pending_jobs` int(11) NOT NULL,
   `failed_jobs` int(11) NOT NULL,
-  `failed_job_ids` longtext NOT NULL,
-  `options` mediumtext DEFAULT NULL,
+  `failed_job_ids` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `options` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `cancelled_at` int(11) DEFAULT NULL,
   `created_at` int(11) NOT NULL,
   `finished_at` int(11) DEFAULT NULL
@@ -921,7 +863,7 @@ CREATE TABLE `job_batches` (
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -961,8 +903,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -974,11 +916,11 @@ CREATE TABLE `password_reset_tokens` (
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `abilities` text DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -994,32 +936,32 @@ CREATE TABLE `personal_access_tokens` (
 CREATE TABLE `pwd_details` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `beneficiary_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `type_of_disability` varchar(255) DEFAULT NULL,
-  `cause_of_disability` varchar(255) DEFAULT NULL,
-  `acquired` varchar(255) DEFAULT NULL,
-  `congenital_inborn` varchar(255) DEFAULT NULL,
-  `house_no_and_street` varchar(255) DEFAULT NULL,
-  `municipality` varchar(255) DEFAULT NULL,
-  `province` varchar(255) DEFAULT NULL,
-  `region` varchar(255) DEFAULT NULL,
-  `landline_no` varchar(255) DEFAULT NULL,
-  `email_address` varchar(255) DEFAULT NULL,
-  `status_of_employment` varchar(255) DEFAULT NULL,
-  `category_of_employment` varchar(255) DEFAULT NULL,
-  `types_of_employment` varchar(255) DEFAULT NULL,
-  `organization_affiliated` varchar(255) DEFAULT NULL,
-  `contact_person` varchar(255) DEFAULT NULL,
-  `office_address` varchar(255) DEFAULT NULL,
-  `tel_no` varchar(255) DEFAULT NULL,
-  `sss_no` varchar(255) DEFAULT NULL,
-  `gsis_no` varchar(255) DEFAULT NULL,
-  `pag_ibig_no` varchar(255) DEFAULT NULL,
-  `psn_no` varchar(255) DEFAULT NULL,
-  `philhealth_no` varchar(255) DEFAULT NULL,
-  `accomplished_by` enum('applicant','guardian','representative') DEFAULT NULL,
-  `blood_type` varchar(255) DEFAULT NULL,
-  `pwd_number` varchar(255) DEFAULT NULL,
-  `application_type` varchar(255) DEFAULT NULL,
+  `type_of_disability` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cause_of_disability` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `acquired` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `congenital_inborn` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `house_no_and_street` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `municipality` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `province` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `region` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `landline_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status_of_employment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `category_of_employment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `types_of_employment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `organization_affiliated` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contact_person` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `office_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tel_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sss_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gsis_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pag_ibig_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `psn_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `philhealth_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `accomplished_by` enum('applicant','guardian','representative') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `blood_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pwd_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `application_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1029,13 +971,13 @@ CREATE TABLE `pwd_details` (
 --
 
 INSERT INTO `pwd_details` (`id`, `beneficiary_id`, `type_of_disability`, `cause_of_disability`, `acquired`, `congenital_inborn`, `house_no_and_street`, `municipality`, `province`, `region`, `landline_no`, `email_address`, `status_of_employment`, `category_of_employment`, `types_of_employment`, `organization_affiliated`, `contact_person`, `office_address`, `tel_no`, `sss_no`, `gsis_no`, `pag_ibig_no`, `psn_no`, `philhealth_no`, `accomplished_by`, `blood_type`, `pwd_number`, `application_type`, `created_at`, `updated_at`) VALUES
-(4, 26, 'Physical Disability (Orthopedic)', 'Other, Cause of Disability Other Test', 'Other, Acquired other test', 'Other, Other, Congenital/Inborn Other Test', 'Illo aliqua Fugit', 'Elit ullamco repreh', 'Modi tenetur ad dele', 'Iure quasi quibusdam', 'Et totam sed dolores', 'fybyp@mailinator.com', 'Self-Employed', 'Full-Time', 'Other', 'Gallegos Mayo Co', 'Vel Nam eveniet del', 'Aut nihil aliquid od', 'Occaecat corporis vi', 'Unde consequatur Te', 'Sunt neque est in e', 'Perspiciatis dolore', 'Libero quos esse do', 'Velit dolorem atque', 'applicant', 'A', NULL, 'New Applicant', '2025-02-02 02:19:39', '2025-02-02 03:00:38'),
+(4, 26, 'Physical Disability (Orthopedic)', 'Other, Cause of Disability Other Test', 'Other, Acquired other test', 'Other, Other, Congenital/Inborn Other Test', 'Illo aliqua Fugit', 'Elit ullamco repreh', 'Modi tenetur ad dele', 'Iure quasi quibusdam', 'Et totam sed dolores', 'fybyp@mailinator.com', 'Self-Employed', 'Full-Time', 'Other', 'Gallegos Mayo Co', 'Vel Nam eveniet del', 'Aut nihil aliquid od', 'Occaecat corporis vi', 'Unde consequatur Te', 'Sunt neque est in e', 'Perspiciatis dolore', 'Libero quos esse do', 'Velit dolorem atque', 'guardian', 'A', NULL, NULL, '2025-02-02 02:19:39', '2025-02-02 03:00:38'),
 (5, 28, 'Physical Disability (Orthopedic)', 'Congenital/Inborn', 'Injury', 'Down Syndrome', 'Omnis a porro harum', 'Facere laudantium i', 'Dolor deserunt place', 'Nulla nemo ipsum mod', 'Ut libero error eum', 'nyfihyb@mailinator.com', 'Retired', 'Part-Time', 'Remote', 'Ray and Mcleod Inc', 'Blanditiis suscipit', 'Labore qui earum mol', 'Voluptates qui dolor', 'Alias nihil irure no', 'Nostrud voluptas in', 'Sint ullamco sit et', 'Sunt non velit exe', 'Quasi incidunt id', 'applicant', 'B', 'AS-FSDS-W23-KSK40SA', 'New Applicant', '2025-02-02 05:02:42', '2025-02-05 01:58:01'),
-(6, 32, 'Rare Disease (RA10747)', 'Down Syndrome', 'Injury', 'Down Syndrome', 'Maxime tempor archit', 'Tempor ad repellendu', 'Omnis error recusand', 'Voluptatem Laudanti', 'Commodi enim molesti', 'cafekyreta@mailinator.com', 'Other', 'Part-Time', 'Remote', 'Steele Patton Trading', 'Corrupti aute cillu', 'Laborum aute rerum h', 'Mollit expedita qui', 'Iure ea voluptas et', 'Enim dolore vel et f', 'Ratione voluptatem', 'Voluptatum ratione n', 'Eum aliquid enim aut', 'applicant', NULL, NULL, 'Renewal', '2025-02-02 05:19:03', '2025-02-02 05:19:03'),
-(7, 4, 'Speech and Language Impairment', 'ADHD', 'Cerebral Palsy', 'Down Syndrome', 'Voluptas quo et ut o', 'Commodo dolore liber', 'In rem est vel quis', 'Aliquam delectus la', 'Beatae dolorem delen', 'nyzeq@mailinator.com', 'Unemployed', 'Temporary', 'Office', 'Blankenship Sanford Plc', 'Quia eum sunt volup', 'Quam nemo eligendi n', 'Asperiores unde non', 'Aut quo sit volupta', 'Assumenda reiciendis', 'Nulla omnis voluptat', 'Aut exercitation sus', 'Modi ipsa quidem no', 'applicant', NULL, NULL, 'New Applicant', '2025-02-02 05:42:32', '2025-02-02 05:42:32'),
-(8, 44, 'Mental Disability', 'Acquired', 'Other, Wako balo sakit ayo', 'ADHD', 'Earum rem et magna v', 'Consequat Officiis', 'Omnis rerum aut quas', 'Do nihil in exercita', 'Eius dolore aliquid', 'rote@mailinator.com', 'Self-Employed', 'Full-Time', 'Remote', 'Floyd Reynolds Traders', 'Iure nisi commodo vo', 'Voluptas recusandae', 'Sequi est doloremqu', 'Consequatur omnis p', 'Sequi ipsum quod con', 'Consectetur velit e', 'Eaque perferendis di', 'Voluptatem maxime ve', 'applicant', 'A', 'F2-SDS-V092-KSDXCV2', 'Renewal', '2025-02-02 05:47:25', '2025-02-05 02:42:09'),
-(11, 62, 'Psychosocial Disability', 'acquired', 'injury', NULL, 'Veniam accusantium', 'Laborum culpa non e', 'Animi porro ea numq', 'Molestias animi tem', 'Debitis consequatur', 'sircsaira@gmail.com', 'Employed', 'government', 'Seasonal', 'Salinas Ingram Traders', 'Culpa iure esse so', 'Consequuntur tempora', 'Cupidatat voluptatem', 'Ut doloribus dolorem', 'Odit maxime ratione', 'Dolore laborum at pa', 'Ea sint ullamco qui', 'In est nostrum aliqu', 'applicant', 'Laborum dolore qui e', '115', 'New Applicant', '2025-02-06 03:55:55', '2025-02-06 03:55:55'),
-(12, 64, 'Learning Disability', 'Acquired', 'Chronic Illness', 'ADHD', 'Et eum in sunt cupid', 'Duis qui voluptatem', 'Quia odio lorem labo', 'Eu molestiae commodi', 'Pariatur Nihil nisi', 'favifyvegi@mailinator.com', 'Self-Employed', 'Contractual', 'Field', 'Rhodes and Marsh Inc', 'Distinctio A qui re', 'Irure cupiditate ull', 'Voluptatem Similiqu', 'Adipisci reprehender', 'Quam veniam et eum', 'Voluptate sunt in qu', 'Reiciendis dolor et', 'Quo officiis soluta', 'applicant', 'Eiusmod sed neque vo', '397', 'Renewal', '2025-02-06 07:24:29', '2025-02-06 07:24:29');
+(6, 32, 'Rare Disease (RA10747)', 'Down Syndrome', 'Injury', 'Down Syndrome', 'Maxime tempor archit', 'Tempor ad repellendu', 'Omnis error recusand', 'Voluptatem Laudanti', 'Commodi enim molesti', 'cafekyreta@mailinator.com', 'Other', 'Part-Time', 'Remote', 'Steele Patton Trading', 'Corrupti aute cillu', 'Laborum aute rerum h', 'Mollit expedita qui', 'Iure ea voluptas et', 'Enim dolore vel et f', 'Ratione voluptatem', 'Voluptatum ratione n', 'Eum aliquid enim aut', 'applicant', NULL, NULL, NULL, '2025-02-02 05:19:03', '2025-02-02 05:19:03'),
+(7, 4, 'Speech and Language Impairment', 'ADHD', 'Cerebral Palsy', 'Down Syndrome', 'Voluptas quo et ut o', 'Commodo dolore liber', 'In rem est vel quis', 'Aliquam delectus la', 'Beatae dolorem delen', 'nyzeq@mailinator.com', 'Unemployed', 'Temporary', 'Office', 'Blankenship Sanford Plc', 'Quia eum sunt volup', 'Quam nemo eligendi n', 'Asperiores unde non', 'Aut quo sit volupta', 'Assumenda reiciendis', 'Nulla omnis voluptat', 'Aut exercitation sus', 'Modi ipsa quidem no', 'representative', NULL, NULL, NULL, '2025-02-02 05:42:32', '2025-02-02 05:42:32'),
+(8, 44, 'Mental Disability', 'Acquired', 'Other, Wako balo sakit ayo', 'ADHD', 'Earum rem et magna v', 'Consequat Officiis', 'Omnis rerum aut quas', 'Do nihil in exercita', 'Eius dolore aliquid', 'rote@mailinator.com', 'Self-Employed', 'Full-Time', 'Remote', 'Floyd Reynolds Traders', 'Iure nisi commodo vo', 'Voluptas recusandae', 'Sequi est doloremqu', 'Consequatur omnis p', 'Sequi ipsum quod con', 'Consectetur velit e', 'Eaque perferendis di', 'Voluptatem maxime ve', 'representative', 'A', 'F2-SDS-V092-KSDXCV2', 'Renewal', '2025-02-02 05:47:25', '2025-02-05 02:42:09'),
+(11, 62, 'psychosocial', 'acquired', 'injury', NULL, 'Veniam accusantium', 'Laborum culpa non e', 'Animi porro ea numq', 'Molestias animi tem', 'Debitis consequatur', 'sircsaira@gmail.com', 'employed', 'government', 'Seasonal', 'Salinas Ingram Traders', 'Culpa iure esse so', 'Consequuntur tempora', 'Cupidatat voluptatem', 'Ut doloribus dolorem', 'Odit maxime ratione', 'Dolore laborum at pa', 'Ea sint ullamco qui', 'In est nostrum aliqu', 'guardian', 'Laborum dolore qui e', '115', 'New Application', '2025-02-06 03:55:55', '2025-02-06 03:55:55'),
+(12, 64, 'Learning Disability', 'Acquired', 'Chronic Illness', 'ADHD', 'Et eum in sunt cupid', 'Duis qui voluptatem', 'Quia odio lorem labo', 'Eu molestiae commodi', 'Pariatur Nihil nisi', 'favifyvegi@mailinator.com', 'Self-Employed', 'Contractual', 'Field', 'Rhodes and Marsh Inc', 'Distinctio A qui re', 'Irure cupiditate ull', 'Voluptatem Similiqu', 'Adipisci reprehender', 'Quam veniam et eum', 'Voluptate sunt in qu', 'Reiciendis dolor et', 'Quo officiis soluta', 'guardian', 'Eiusmod sed neque vo', '397', 'Renewal', '2025-02-06 07:24:29', '2025-02-06 07:24:29');
 
 -- --------------------------------------------------------
 
@@ -1045,9 +987,9 @@ INSERT INTO `pwd_details` (`id`, `beneficiary_id`, `type_of_disability`, `cause_
 
 CREATE TABLE `services` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1069,11 +1011,11 @@ INSERT INTO `services` (`id`, `name`, `description`, `image`, `created_at`, `upd
 --
 
 CREATE TABLE `sessions` (
-  `id` varchar(255) NOT NULL,
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `ip_address` varchar(45) DEFAULT NULL,
-  `user_agent` text DEFAULT NULL,
-  `payload` longtext NOT NULL,
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_agent` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1082,13 +1024,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('3R1ffoVycJdl0aia2EkQjRV6JWJ2RCNy5ZrDUAId', 2, '10.10.2.254', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoialBqdjFFNFRrME9kbFFMQVkzeEUzOWJGT2NISzBlRXNCSzlySkZVbSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHA6Ly8xMzYuMjM5LjE5Ni4xNzg6NTAwNS9ob21lIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1738919588),
-('ECNlHFqmDNYsQ8ASYc8QqRZXekS7xYofOKssqSgb', 2, '131.226.110.224', 'Mozilla/5.0 (Linux; Android 14; V2248) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36 VivoBrowser/12.3.3.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiVnRhNDl4eG5uOHRQM3J1dmd2OXhMMDNMenk2dXBEdlJjWEtFV0lFMCI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjQzOiJodHRwOi8vMTM2LjIzOS4xOTYuMTc4OjUwMDUvZ2VuZXJhdGUtcGRmLzY0Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1738918425),
-('pwtIqpo4v5lq18LqZtOp8LaJDTgVVvYzfn0dj8nk', 2, '131.226.110.224', 'Mozilla/5.0 (Linux; Android 14; V2248 Build/UP1A.231005.007_NONFC; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/132.0.6834.122 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/492.0.0.59.109;]', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiNmxsclRpSTFxWjVRWEhZYUdYd2VibmV1ZmtmS2x0Ulk2bWFPR3F0eSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTE6Imh0dHA6Ly8xMzYuMjM5LjE5Ni4xNzg6NTAwNS9zaG93YmVuZWZpY2lhcmllc19hZG1pbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1738918614),
-('RmF5H0CyKzRk99vzHbu0O5AyrZcrU5EkZDeQX3fL', 2, '49.145.162.28', 'Mozilla/5.0 (Linux; Android 11; RMX3511 Build/RP1A.201005.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/131.0.6778.261 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/491.0.0.46.109;]', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiYU5xV09wNGoyTjNvNWFRRjVBaWc5Q3ZGRmtsRkcwYzlPT2dOOFhIdiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMzYuMjM5LjE5Ni4xNzg6NTAwNS9zaG93bmV3YmVuZWZpdHMiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO30=', 1738916237),
-('rWZnWul14JQfCRoBLXOL8y5qSPogEzVoYq77Ms7b', NULL, '10.10.2.254', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiRVVuVGZoeUNac0JsSzhneGlHNTVZNDBBaTlkMDdQSEk4blNUSTBTaSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly8xMzYuMjM5LjE5Ni4xNzg6NTAwNS9tYW5pZmVzdC5qc29uIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1738914321),
-('sEiOxa6iLWvrbP2I8zIcZsyzCbTHq8IOguNklWzh', NULL, '173.252.95.1', 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicGlGeWZoRlVzaVlEdUpZeXR0anZGamZjVmRCNUczSmp4OWNNQkNTWiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMzYuMjM5LjE5Ni4xNzg6NTAwNSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1738911705),
-('vz2aNqHoPk5zHCeWmtlBGNBkc4iXfxcsjBDqyTWw', 2, '49.145.162.28', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Mobile Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoieFhuRFlyUERFZlgxeGhHZkl5YWxkd1R0czVZc3Rtdnp3RlY2d2txUSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMzYuMjM5LjE5Ni4xNzg6NTAwNS9hZGQtc29sby1wYXJlbnQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO30=', 1738917408);
+('rSSGvPk0paIHQgQUk6WOEUHOmQoaaanFTVZAlxb4', 15, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoidzRxRnpXTjdOcGFjVkx0Sk85cFNVcXREVzBma2xHekwzV2d5a2xNaiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzU6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9teWFwcGxpY2F0aW9uIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTU7fQ==', 1738857938);
 
 -- --------------------------------------------------------
 
@@ -1098,10 +1034,10 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 
 CREATE TABLE `sms_logs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `phone_number` varchar(255) NOT NULL,
-  `message` text NOT NULL,
-  `status` varchar(255) NOT NULL,
-  `error_message` text DEFAULT NULL,
+  `phone_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `error_message` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1165,21 +1101,9 @@ INSERT INTO `sms_logs` (`id`, `phone_number`, `message`, `status`, `error_messag
 (52, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-06 06:19:00', '2025-02-06 06:19:00'),
 (53, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-06 09:09:21', '2025-02-06 09:09:21'),
 (54, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-06 09:09:23', '2025-02-06 09:09:23'),
-(55, '+1 (597) 704-3473', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-07 00:55:46', '2025-02-07 00:55:46'),
-(56, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-07 01:04:44', '2025-02-07 01:04:44'),
-(57, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-07 01:06:01', '2025-02-07 01:06:01'),
-(58, '+639268307424', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-07 01:09:52', '2025-02-07 01:09:52'),
-(59, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-07 01:13:53', '2025-02-07 01:13:53'),
-(60, '+639925730026', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-07 01:24:18', '2025-02-07 01:24:18'),
-(61, '+639268307424', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-07 02:00:36', '2025-02-07 02:00:36'),
-(62, '+639268307424', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-07 02:02:46', '2025-02-07 02:02:46'),
-(63, '+639268307424', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-07 02:43:29', '2025-02-07 02:43:29'),
-(64, '+639268307424', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-07 02:47:05', '2025-02-07 02:47:05'),
-(65, '+639268307424', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-07 06:05:10', '2025-02-07 06:05:10'),
-(66, '+639064209450', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-07 07:44:43', '2025-02-07 07:44:43'),
-(67, '+639064209450', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-07 07:44:51', '2025-02-07 07:44:51'),
-(68, '+639064209450', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-07 07:45:02', '2025-02-07 07:45:02'),
-(69, '+639064209450', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-07 08:45:46', '2025-02-07 08:45:46');
+(55, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-06 13:04:54', '2025-02-06 13:04:54'),
+(56, '+1 (597) 704-3473', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-06 14:17:52', '2025-02-06 14:17:52'),
+(57, '+639949420699', 'Your application has been approved. Please log in to your account for further instructions.', 'Sent', NULL, '2025-02-06 14:18:16', '2025-02-06 14:18:16');
 
 -- --------------------------------------------------------
 
@@ -1190,11 +1114,11 @@ INSERT INTO `sms_logs` (`id`, `phone_number`, `message`, `status`, `error_messag
 CREATE TABLE `solo_parent_details` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `beneficiary_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `company_agency` varchar(255) DEFAULT NULL,
-  `four_ps_beneficiary` varchar(255) DEFAULT NULL,
-  `indigenous_person` varchar(255) DEFAULT NULL,
-  `classification_circumtances` varchar(255) DEFAULT NULL,
-  `needs_problems` varchar(255) DEFAULT NULL,
+  `company_agency` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `four_ps_beneficiary` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `indigenous_person` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `classification_circumtances` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `needs_problems` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1213,8 +1137,7 @@ INSERT INTO `solo_parent_details` (`id`, `beneficiary_id`, `company_agency`, `fo
 (8, 42, 'Salazar and Heath Associates', 'yes', 'no', 'Et consequatur Aliq', 'Blanditiis consectet', '2025-02-02 05:46:13', '2025-02-02 05:46:13'),
 (9, 43, 'Herring Peck Associates', 'no', 'no', 'Consequuntur exercit', 'Adipisci eaque dolor', '2025-02-02 05:46:42', '2025-02-02 05:46:42'),
 (10, 50, 'Phillips and Clarke Plc', 'no', 'no', 'Officiis reiciendis', 'Velit autem dolore e', '2025-02-02 08:13:34', '2025-02-02 08:13:34'),
-(11, 58, 'Olson and Luna Co', 'Yes', 'Yes', 'Voluptate libero cum', 'Officia eum exceptur', '2025-02-06 02:30:02', '2025-02-06 02:30:02'),
-(12, 68, 'Wa', 'no', 'yes', 'Laborum dolore qui e', 'Laborum dolore qui e Laborum dolore qui e', '2025-02-07 01:33:31', '2025-02-07 01:33:31');
+(11, 58, 'Olson and Luna Co', 'Yes', 'Yes', 'Voluptate libero cum', 'Officia eum exceptur', '2025-02-06 02:30:02', '2025-02-06 02:30:02');
 
 -- --------------------------------------------------------
 
@@ -1224,27 +1147,27 @@ INSERT INTO `solo_parent_details` (`id`, `beneficiary_id`, `company_agency`, `fo
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `last_name` varchar(255) NOT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `middle_name` varchar(255) DEFAULT NULL,
-  `suffix` varchar(255) DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
-  `phone` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `middle_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `suffix` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `barangay_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `usertype` enum('beneficiary','employee','operator','admin') NOT NULL,
+  `usertype` enum('beneficiary','employee','operator','admin') COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `two_factor_secret` text DEFAULT NULL,
-  `two_factor_recovery_codes` text DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `two_factor_secret` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `two_factor_recovery_codes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `two_factor_confirmed_at` timestamp NULL DEFAULT NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `current_team_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `profile_photo_path` varchar(2048) DEFAULT NULL,
+  `profile_photo_path` varchar(2048) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
-  `age` varchar(255) DEFAULT NULL,
-  `gender` varchar(255) DEFAULT NULL,
+  `age` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `has_minor_child` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1253,10 +1176,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `email`, `phone`, `barangay_id`, `usertype`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `two_factor_confirmed_at`, `remember_token`, `current_team_id`, `profile_photo_path`, `created_at`, `updated_at`, `date_of_birth`, `age`, `gender`, `has_minor_child`) VALUES
-(1, 'chavez', 'lovely rose', 'escano', NULL, 'rlovie0403@gmail.com', '09268307424', 3, 'beneficiary', '2024-12-31 17:50:02', '$2y$12$L1k.3TNVvkzajntCnXFwPufl3XoNdc/3dOityspQ9OJBBSXzAHM8e', NULL, NULL, NULL, 'OcjmQKwQonjSPJ2POSIjejzHhH15XUKA11NTzTbeGgt5WNcHTmMgSTkEzTMS', NULL, NULL, '2025-01-15 17:49:22', '2025-01-15 17:49:22', '2001-01-18', '4', 'Female', 0),
-(2, 'jordan', 'admin', NULL, NULL, 'admin@gmail.com', '09064209450', 5, 'admin', '2024-12-31 18:01:21', '$2y$12$GkbjYgXOLmaNVeOIrkLHwOQUUBTFhN0OBh95pJNTK8Vd/n2PE/7I.', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-15 17:59:23', '2025-01-15 17:59:23', '2010-01-09', '60', 'Rather not to say', 0),
+(1, 'chavez', 'lovely rose', 'escano', NULL, 'rlovie0403@gmail.com', '09268307424', 3, 'beneficiary', '2024-12-31 17:50:02', '$2y$12$L1k.3TNVvkzajntCnXFwPufl3XoNdc/3dOityspQ9OJBBSXzAHM8e', NULL, NULL, NULL, 'tCxVUhrjwMqybazDSBvRpWFjlKJyBKjELsA0EoD0eBeKnnEFaeSDIpavLiIZ', NULL, NULL, '2025-01-15 17:49:22', '2025-01-15 17:49:22', '2001-01-18', '4', 'Female', 0),
+(2, 'jordan', 'admin', NULL, NULL, 'admin@gmail.com', '09064209450', 5, 'admin', '2024-12-31 18:01:21', '$2y$12$GkbjYgXOLmaNVeOIrkLHwOQUUBTFhN0OBh95pJNTK8Vd/n2PE/7I.', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-15 17:59:23', '2025-01-15 17:59:23', '2010-01-09', '2', 'Rather not to say', 0),
 (3, 'tocson', 'employee', NULL, NULL, 'employeetocson@gmail.com', '', 2, 'employee', '2025-01-14 03:15:28', '$2y$12$P7PqW1T5c2nTK08QnHCmqePf4L/2/jMCLn1XtgeisN6U.oVRLX/6C', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-16 03:15:13', '2025-01-16 03:15:13', '2001-01-18', '2', 'Female', 0),
-(4, 'operator', 'mswd', NULL, NULL, 'operator@gmail.com', '09268307424', 12, 'operator', '2025-01-16 11:09:36', '$2y$12$dN1WpdMN6iT5Iymxs33Y/eJwigE7WoaqEjgtMzYkKoF.PQC6.AEmu', NULL, NULL, NULL, 'ct5IPuXRCAPqRU8S4mnkojBF9XHnSLSEPjYwShlA5Y9BCXJBpLrbDXNlEVyC', NULL, NULL, '2025-01-17 11:08:58', '2025-01-17 11:08:58', '2010-01-13', '5', 'Male', 0),
+(4, 'operator', 'mswd', NULL, NULL, 'operator@gmail.com', '09268307424', 12, 'operator', '2025-01-16 11:09:36', '$2y$12$dN1WpdMN6iT5Iymxs33Y/eJwigE7WoaqEjgtMzYkKoF.PQC6.AEmu', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-17 11:08:58', '2025-01-17 11:08:58', '2010-01-13', '5', 'Male', 0),
 (5, 'BALONGAG', 'djfiq', NULL, NULL, 'jm@gmail.com', '758668', 23, 'beneficiary', NULL, '$2y$12$sacRxPjRQhwG1tZPYJ95X.2ROIE.WiUyJ0.UCi35qDD210l.NmejC', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-19 08:22:34', '2025-01-19 08:22:34', '2016-01-13', '76', 'Female', 0),
 (6, 'BALONGAG', 'djfiq', NULL, NULL, 'try@gmail.com', '758668', 2, 'beneficiary', NULL, '$2y$12$aWJR6ReLt0Nma4Kw.WSZlOqjtd2HHPLPspk7b9z6c9An5yuMS8GAu', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-19 08:23:46', '2025-01-19 08:23:46', '2001-01-18', '5', 'Rather not to say', 0),
 (7, 'BALONGAG', 'JONAS Miguel', 'vill', NULL, 'tryyy@gmail.com', '09054524106', 5, 'beneficiary', '2025-01-09 08:25:58', '$2y$12$zPLaYS03A8WZIKLKni5DFeH1ape75pYSPl5v2T7HyNDgpk/xHQTny', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-19 08:25:12', '2025-01-19 08:25:12', '2010-01-17', '3', 'Female', 0),
@@ -1276,10 +1199,7 @@ INSERT INTO `users` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `
 (21, 'Aguilar', 'Sebastian', 'Cynthia Conley', 'Eveniet aliquip fac', 'dywuz@mailinator.com', '+1 (323) 631-3364', 15, 'beneficiary', NULL, '$2y$12$LYcv1tpSK5Lty9WOPoCsOexoBVURMu/vW6Cx3f0qmTfCNOoMFa.n2', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-05 03:23:51', '2025-02-05 03:23:51', '1998-04-03', '60', 'Rather not to say', 0),
 (22, 'Blankenship', 'Ivan', 'Silas Suarez', 'Autem quia similique', 'wufibime@mailinator.com', '+1 (729) 758-9016', 288, 'beneficiary', NULL, '$2y$12$clvKMTGWY.D815v8HOw.k.PdkY9bJNnJkXGuf2lWHB/6PdE1lnJj2', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-05 07:44:57', '2025-02-05 07:44:57', '2008-08-06', '16', 'Male', 0),
 (23, 'Patterson', 'Alisa', 'Jin Tyler', 'Maxime cumque nesciu', 'bywiqa@mailinator.com', '+1 (316) 741-4913', 51, 'beneficiary', NULL, '$2y$12$1OAjlSXf/CYQMjTgiJyEQuPmnGiZccfk2f8HkHnop40QWrbgMMk12', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-05 07:47:19', '2025-02-05 07:47:19', '1984-09-13', '40', 'Rather not to say', 1),
-(24, 'Flores', 'Brooke', 'Rajah Berg', 'Qui corrupti velit', 'rega@mailinator.com', '+1 (298) 481-3981', 275, 'beneficiary', NULL, '$2y$12$i0/VpqW.XLlmj2UBEIqVauMrFZ5yJoVr8yi4oJn1UtQR1nOv7h0QW', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-05 07:47:40', '2025-02-05 07:47:40', '1982-09-07', '42', 'Male', 0),
-(25, 'Chavez', 'Lovely', 'Escano', NULL, 's.crl0043@gmail.com', '09268307424', 56, 'beneficiary', '2025-02-07 01:37:43', '$2y$12$YM2w9l52eNmLizMIXQBFkuOUXCR5RXkcJQ8XCdIQM8J3EnCqIbjLy', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-07 01:36:43', '2025-02-07 01:37:43', '1962-02-07', '63', 'Female', 1),
-(26, 'Balongag', 'Jonas', NULL, 'Villote', 'jonasmiguelbalongag@gmail.com', '09925730026', 8, 'beneficiary', '2025-02-07 01:53:12', '$2y$12$jDzCMKVgPPuOZoysmDihE.kCS8DSMKxuKs7c8J3VXMWHXvQJQ6PD2', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-07 01:52:23', '2025-02-07 01:53:12', '1973-02-07', '52', 'Male', 1),
-(27, 'Dayaguit', 'Jellamay', 'Managabanag', NULL, 'dayaguitjellamay@gmail.com', '09659247108', 9, 'beneficiary', NULL, '$2y$12$mf8aI51G62pp5PGoQDGyue.IBsWxwq3ujDOzo2ubjxg0eJ3s3O7nW', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-07 08:13:56', '2025-02-07 08:13:56', '2001-07-13', '23', 'Female', 0);
+(24, 'Flores', 'Brooke', 'Rajah Berg', 'Qui corrupti velit', 'rega@mailinator.com', '+1 (298) 481-3981', 275, 'beneficiary', NULL, '$2y$12$i0/VpqW.XLlmj2UBEIqVauMrFZ5yJoVr8yi4oJn1UtQR1nOv7h0QW', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-05 07:47:40', '2025-02-05 07:47:40', '1982-09-07', '42', 'Male', 0);
 
 -- --------------------------------------------------------
 
@@ -1290,8 +1210,8 @@ INSERT INTO `users` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `
 CREATE TABLE `user_meta` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `meta_key` varchar(255) NOT NULL,
-  `meta_value` longtext NOT NULL,
+  `meta_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `meta_value` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1573,7 +1493,7 @@ ALTER TABLE `accomplished_bies`
 -- AUTO_INCREMENT for table `aics_details`
 --
 ALTER TABLE `aics_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `applications`
@@ -1591,19 +1511,19 @@ ALTER TABLE `barangays`
 -- AUTO_INCREMENT for table `beneficiaries`
 --
 ALTER TABLE `beneficiaries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `benefits_received`
 --
 ALTER TABLE `benefits_received`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `contact_emergencies`
 --
 ALTER TABLE `contact_emergencies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `deceased`
@@ -1627,7 +1547,7 @@ ALTER TABLE `family_backgrounds`
 -- AUTO_INCREMENT for table `family_compositions`
 --
 ALTER TABLE `family_compositions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT for table `gis`
@@ -1669,19 +1589,19 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `sms_logs`
 --
 ALTER TABLE `sms_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `solo_parent_details`
 --
 ALTER TABLE `solo_parent_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `user_meta`

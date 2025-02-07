@@ -1537,4 +1537,16 @@ class AdminController extends Controller
 
         return back()->with('success', 'Beneficiary marked as released successfully');
     }
+
+    public function sendSms($id)
+    {
+        $beneficiary = Beneficiary::findOrFail($id);
+
+        $applicationController = new ApplicationController();
+        $applicationController->sendSMSNotification($beneficiary->phone);
+
+        $beneficiary->increment('message_count');
+
+        return back()->with('success', "SMS sent Successfully to number {$beneficiary->phone}");
+    }
 }

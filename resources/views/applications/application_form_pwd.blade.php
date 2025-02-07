@@ -33,7 +33,6 @@
     </style>
 </head>
 
-
 <div class="page" style="margin-top: -20px; margin-left: 20px; margin-right: 20px;">
     <div style="font-size:10px;">
         <div style="display: flex; align-items: center; justify-content: center; padding-top: 5px;">
@@ -57,14 +56,14 @@
                                 1.
                                 <!-- NEW APPLICANT Option -->
                                 <div
-                                    style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['application_type']) && $customFields['application_type'] === 'new_applicant' ? 'black' : 'white' }};">
+                                    style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application->pwdDetails[0]?->application_type === 'New Applicant' ? 'black' : 'white' }};">
                                 </div>
 
                                 <a style="font-weight: bold; margin-right: 4px;">NEW APPLICANT</a>
 
                                 <!-- RENEWAL Option -->
                                 <div
-                                    style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 40px; background-color: {{ isset($customFields['application_type']) && $customFields['application_type'] === 'renewal' ? 'black' : 'white' }};">
+                                    style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 40px; background-color: {{ $application->pwdDetails[0]?->application_type === 'Renewal' ? 'black' : 'white' }};">
                                 </div>
                                 <a style="font-weight: bold; margin-right: 4px;">RENEWAL</a>
                             </td>
@@ -87,13 +86,13 @@
                                     DISABILITY NUMBER
                                     (RR-PPMM-BBB-NNNNNNN)</a>
                                 <span
-                                    style="display: block; min-height: 12px;">{{ $customFields['pwd_num'] ?? '' }}</span>
+                                    style="display: block; min-height: 12px;">{{ $application?->pwdDetails[0]?->pwd_number ?? '' }}</span>
                             </td>
                             <td colspan="2"
                                 style="border: 1px solid #000; padding: 1px 4px; width: 25%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 2px;">3. Date Applied
                                     (mm/dd/yyyy)</a>
-                                <span style="display: block; min-height: 12px;">{{ $application->date_applied }}</span>
+                                <span style="display: block; min-height: 12px;">{{ $application?->appearance_date?->format('m/d/Y') ?? $application?->created_at?->format('m/d/Y') }}</span>
                             </td>
                             <td rowspan="3" style="padding: 2px 4px; width: 20%; vertical-align: top;"></td>
                         </tr>
@@ -109,26 +108,26 @@
                             <td style="border: 1px solid #000; padding: 4px 6px; width: 20%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 4px;">LAST NAME:</a>
                                 <span
-                                    style="display: block; min-height: 15px;">{{ strtoupper( $customFields['last_name'] ?? '' )}}</span>
+                                    style="display: block; min-height: 15px;">{{ strtoupper( $application?->last_name ?? '' )}}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 3px; width: 20%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 4px;">FIRST NAME:</a>
-                                <span style="display: block; min-height: 20px;">{{strtoupper(  $application->name) }}</span>
+                                <span style="display: block; min-height: 20px;">{{strtoupper(  $application->first_name ?? '') }}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 3px; width: 18%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 4px;">MIDDLE NAME:</a>
                                 <span
-                                    style="display: block; min-height: 20px;">{{strtoupper(  $customFields['middle_name'] ?? '') }}</span>
+                                    style="display: block; min-height: 20px;">{{strtoupper(  $application?->middle_name ?? '') }}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 3px; width: 10%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 4px;">SUFFIX:</a>
                                 <span
-                                    style="display: block; min-height: 20px;">{{strtoupper(  $customFields['suffix'] ?? '' )}}</span>
+                                    style="display: block; min-height: 20px;">{{strtoupper(  $application?->suffix ?? '' )}}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 3px; width: 12%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 4px;">BLOOD TYPE:</a>
                                 <span
-                                    style="display: block; min-height: 20px;">{{strtoupper(  $customFields['blood_type'] ?? '') }}</span>
+                                    style="display: block; min-height: 20px;">{{strtoupper(  $application?->pwdDetails[0]?->blood_type ?? '') }}</span>
                             </td>
 
                         </tr>
@@ -146,23 +145,32 @@
                                 <a style="font-weight: bold; display: block; margin-bottom: 2px;">5. DATE OF BIRTH
                                     (mm/dd/yyyy)</a>
                                 <span
-                                    style="display: block; min-height: 15px;">{{ $customFields['birthdate'] ?? '' }}</span>
+                                    style="display: block; min-height: 15px;">{{ $application?->date_of_birth->format('m/d/Y') ?? '' }}</span>
                             </td>
                             <td
-                                style="border: 1px solid #000; padding: 1px 4px; width: 20%; vertical-align: top; line-height: 1.2;">
+                                style="border: 1px solid #000; padding: 1px 4px; width: 10%; vertical-align: top; line-height: 1.2;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 2px;">6. SEX:</a>
                                 <div
-                                    style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['sex']) && $customFields['sex'] === 'female' ? 'black' : 'white' }};">
+                                    style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 10px; background-color: {{ $application?->gender === 'Female' ? 'black' : 'white' }};">
                                 </div>
                                 <a style="font-weight: bold; margin-right: 8px; ">FEMALE</a>
+                            </td>
+                            <td
+                                style="border: 1px solid #000; padding: 1px 4px; width: 10%; vertical-align: top; line-height: 1.2;">
+                                <div style="display: inline-block; margin-top: 15px;">
+                                    <div
+                                        style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 10px; background-color: {{ $application?->gender === 'Male' ? 'black' : 'white' }};">
+                                    </div>
+                                    <a style="font-weight: bold; margin-right: 8px; ">MALE</a>
+                                </div>
                             </td>
                             <td
                                 style="border: 1px solid #000; padding: 1px 4px; width: 20%; vertical-align: top; line-height: 1.2;">
                                 <div style="display: inline-block; margin-top: 15px;">
                                     <div
-                                        style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 10px; background-color: {{ isset($customFields['sex']) && $customFields['sex'] === 'male' ? 'black' : 'white' }};">
+                                        style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 10px; background-color: {{ $application?->gender === 'Rather not to say' ? 'black' : 'white' }};">
                                     </div>
-                                    <a style="font-weight: bold; margin-right: 8px; ">MALE</a>
+                                    <a style="font-weight: bold; margin-right: 8px; ">RATHER NOT TO SAY</a>
                                 </div>
                             </td>
                         </tr>
@@ -177,23 +185,23 @@
                                 <a style="font-weight: bold; display: block; margin-bottom: 4px;">7. CIVIL STATUS:</a>
                                 <span style="display: block; min-height: 10px;">
                                     <div
-                                        style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['civil_status']) && $customFields['civil_status'] === 'single' ? 'black' : 'white' }};">
+                                        style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->civil_status === 'Single' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 40px; ">Single</span>
                                     <div
-                                        style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['civil_status']) && $customFields['civil_status'] === 'separated' ? 'black' : 'white' }};">
+                                        style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->civil_status === 'Separated' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 40px; ">Separated</span>
                                     <div
-                                        style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['civil_status']) && $customFields['civil_status'] === 'cohabitation' ? 'black' : 'white' }};">
+                                        style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->civil_status === 'Cohabitation' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 40px; ">Cohabitation (live-in)</span>
                                     <div
-                                        style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['civil_status']) && $customFields['civil_status'] === 'married' ? 'black' : 'white' }};">
+                                        style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->civil_status === 'Married' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 40px; ">Married</span>
                                     <div
-                                        style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['civil_status']) && $customFields['civil_status'] === 'widow' ? 'black' : 'white' }};">
+                                        style="width: 5px; height: 5px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->civil_status === 'Widowed' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 25px; ">Widow/er</span>
                                 </span>
@@ -211,51 +219,51 @@
                                     DISABILITY:</a>
                                 <span style="display: block; min-height: 12px;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['type_of_disability']) && $customFields['type_of_disability'] === 'deaf' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->type_of_disability === 'Deaf or hard of Hearing' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 20px; ">Deaf or hard of Hearing</span>
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['type_of_disability']) && $customFields['type_of_disability'] === 'psychosocial' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->type_of_disability === 'Psychosocial Disability' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 5px; ">Psychosocial Disability</span>
                                 </span>
                                 <span style="display: block; min-height: 12px;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['type_of_disability']) && $customFields['type_of_disability'] === 'intellectual' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->type_of_disability === 'Intellectual Disability' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 34px; ">Intellectual Disability</span>
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['type_of_disability']) && $customFields['type_of_disability'] === 'speech' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->type_of_disability === 'Speech and Language Impairment' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 5px; ">Speech and Language Impairment</span>
                                 </span>
                                 <span style="display: block; min-height: 12px;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['type_of_disability']) && $customFields['type_of_disability'] === 'learning' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->type_of_disability === 'Learning Disability' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 43px; ">Learning Disability</span>
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['type_of_disability']) && $customFields['type_of_disability'] === 'visual' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->type_of_disability === 'Visual Disability' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 5px; ">Visual Disability</span>
                                 </span>
                                 <span style="display: block; min-height: 12px;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['type_of_disability']) && $customFields['type_of_disability'] === 'mental' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->type_of_disability === 'Mental Disability' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 52px; ">Mental Disability</span>
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['type_of_disability']) && $customFields['type_of_disability'] === 'cancer' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->type_of_disability === 'Cancer (RA11215)' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 40px; ">Cancer (RA11215)</span>
                                 </span>
                                 <span style="display: block; min-height: 12px;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['type_of_disability']) && $customFields['type_of_disability'] === 'physical' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->type_of_disability === 'Physical Disability (Orthopedic)' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 5px; ">Physical Disability (Orthopedic)</span>
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 2px; background-color: {{ isset($customFields['type_of_disability']) && $customFields['type_of_disability'] === 'rare_disease' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 2px; background-color: {{ $application?->pwdDetails[0]?->type_of_disability === 'Rare Disease (RA10747)' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 40px; ">Rare Disease (RA10747)</span>
                                 </span>
@@ -266,58 +274,58 @@
                                     DISABLITY:</a>
                                 <span style="display: block; min-height: 12px;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 5px; background-color: {{ isset($customFields['cause_of_disability']) && $customFields['cause_of_disability'] === 'congenital' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 5px; background-color: {{ $application?->pwdDetails[0]?->cause_of_disability === 'Congenital/Inborn' ? 'black' : 'white' }};">
                                     </div>
                                     <a style="font-weight: bold; margin-right: 2px; ">Congenital/Inborn</a>
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 5px; background-color: {{ isset($customFields['cause_of_disability']) && $customFields['cause_of_disability'] === 'acquired' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 5px; background-color: {{ $application?->pwdDetails[0]?->cause_of_disability === 'Acquired' ? 'black' : 'white' }};">
                                     </div>
                                     <a style="font-weight: bold; margin-right: 40px; ">Acquired</a>
                                 </span>
                                 <span style="display: block; min-height: 12px; margin-top:5px; margin-left:10px;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 15px; background-color: {{ isset($customFields['congenital_or_inborn']) && $customFields['congenital_or_inborn'] === 'autism' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 15px; background-color: {{ $application?->pwdDetails[0]?->congenital_inborn === 'Autism' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 40px; ">Autism</span>
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 5px; background-color: {{ isset($customFields['for_acquired']) && $customFields['for_acquired'] === 'chronic' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 5px; background-color: {{ $application?->pwdDetails[0]?->acquired === 'Chronic Illness' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 40px; ">Chronic Illness</span>
                                 </span>
                                 <span style="display: block; min-height: 12px; margin-left:10px;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 15px; background-color: {{ isset($customFields['congenital_or_inborn']) && $customFields['congenital_or_inborn'] === 'adhd' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 15px; background-color: {{ $application?->pwdDetails[0]?->congenital_inborn === 'ADHD' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 40px; ">ADHD</span>
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 7px; background-color: {{ isset($customFields['for_acquired']) && $customFields['for_acquired'] === 'cerebral_palsy' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 7px; background-color: {{ $application?->pwdDetails[0]?->acquired === 'Cerebral Palsy' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 40px; ">Cerebral Palsy</span>
                                 </span>
                                 <span style="display: block; min-height: 12px; margin-left:10px;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 15px; background-color: {{ isset($customFields['congenital_or_inborn']) && $customFields['congenital_or_inborn'] === 'cerebral' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 15px; background-color: {{ $application?->pwdDetails[0]?->congenital_inborn === 'Cerebral Palsy' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 5px; ">Cerebral Palsy</span>
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 5px; background-color: {{ isset($customFields['for_acquired']) && $customFields['for_acquired'] === 'injury' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 5px; background-color: {{ $application?->pwdDetails[0]?->acquired === 'Injury' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 40px; ">Injury</span>
                                 </span>
                                 <span style="display: block; min-height: 12px; margin-left:10px;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 15px; background-color: {{ isset($customFields['congenital_or_inborn']) && $customFields['congenital_or_inborn'] === 'down_syndrome' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 15px; background-color: {{ $application?->pwdDetails[0]?->congenital_inborn === 'Down Syndrome' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 1px; ">Down Syndrome</span>
 
                                     <!-- Others -->
 
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 1px; background-color: {{ isset($customFields['for_acquired']) && $customFields['for_acquired'] === 'others' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 1px; background-color: {{ str_contains($application?->pwdDetails[0]?->acquired, 'Other,') ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 40px;">Others:
                                         <span
-                                            style="border-bottom: 1px solid #000; width: 80px; display: inline-block; ">{{ strtoupper( $customFields['specify_cause_of_disability_acquired'] ?? '') }}</span>
+                                            style="border-bottom: 1px solid #000; width: 100px; display: inline-block; font-size: 8px;">{{ strtoupper( str_contains($application?->pwdDetails[0]?->acquired, 'Other,') ? $application?->pwdDetails[0]?->acquired : '' ?? '') }}</span>
 
                                     </span>
                                 </span>
@@ -328,11 +336,11 @@
                                 <span style="display: block; min-height: 12px; margin-left:23px;">
 
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 1px; background-color: {{ isset($customFields['congenital_or_inborn']) && $customFields['congenital_or_inborn'] === 'others' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 1px; background-color: {{ str_contains($application?->pwdDetails[0]?->congenital_inborn, 'Other,') ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 40px;">Others:
                                         <span
-                                            style="border-bottom: 1px solid #000; width: 80px; display: inline-block; ">{{ strtoupper( $customFields['specify_cause_of_disability_congenital'] ?? '' )}}</span>
+                                            style="border-bottom: 1px solid #000; width: 100px; display: inline-block; font-size: 8px; ">{{ strtoupper( str_contains($application?->pwdDetails[0]?->congenital_inborn, 'Other,') ? $application?->pwdDetails[0]?->congenital_inborn : '' ?? '' )}}</span>
 
                                     </span>
 
@@ -362,27 +370,27 @@
                                 <a style="font-weight: bold; display: block; margin-bottom: 4px;">House No. and
                                     Street:</a>
                                 <span
-                                    style="display: block; min-height: 10px;">{{ strtoupper( $customFields['street'] ?? '')}}</span>
+                                    style="display: block; min-height: 10px;">{{ strtoupper( $application?->pwdDetails[0]?->house_no_and_street ?? '')}}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 1px 4px; width: 20%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 4px;">Barangay:</a>
                                 <span
-                                    style="display: block; min-height: 10px;">{{strtoupper( $customFields['barangay'] ?? '' )}}</span>
+                                    style="display: block; min-height: 10px;">{{strtoupper( $application?->barangay?->name ?? '' )}}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 1px 4px; width: 20%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 4px;">Municipality:</a>
                                 <span
-                                    style="display: block; min-height: 10px;">{{strtoupper(  $customFields['municipality'] ?? '' )}}</span>
+                                    style="display: block; min-height: 10px;">{{strtoupper(  $application?->pwdDetails[0]?->municipality ?? '' )}}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 1px 4px; width: 20%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 4px;">Province:</a>
                                 <span
-                                    style="display: block; min-height: 10px;">{{ strtoupper( $customFields['province'] ?? '' )}}</span>
+                                    style="display: block; min-height: 10px;">{{ strtoupper( $application?->pwdDetails[0]?->province ?? '' )}}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 1px 4px; width: 20%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 4px;">Region:</a>
                                 <span
-                                    style="display: block; min-height: 10px;">{{strtoupper(  $customFields['region'] ?? '') }}</span>
+                                    style="display: block; min-height: 10px;">{{strtoupper(  $application?->pwdDetails[0]?->region ?? '') }}</span>
                             </td>
                         </tr>
                     </table>
@@ -405,15 +413,15 @@
                             <td style="border: 1px solid #000; padding: 1px 4px; width: 25%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 4px;">Landline No.:</a>
                                 <span
-                                    style="display: block; min-height: 10px;">{{ $customFields['landline'] ?? '' }}</span>
+                                    style="display: block; min-height: 10px;">{{ $application?->pwdDetails[0]?->landline_no ?? '' }}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 1px 4px; width: 30%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 4px;">Mobile No.:</a>
-                                <span style="display: block; min-height: 10px;">{{ $application->phone }}</span>
+                                <span style="display: block; min-height: 10px;">{{ $application?->phone }}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 1px 4px; width: 45%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 4px;">E-mail Address:</a>
-                                <span style="display: block; min-height: 10px;">{{ $application->email }}</span>
+                                <span style="display: block; min-height: 10px;">{{ $application?->pwdDetails[0]?->email_address }}</span>
                             </td>
                         </tr>
                     </table>
@@ -428,41 +436,41 @@
                                 <a style="font-weight: bold; display: block;">EDUCATIONAL ATTAINMENT:</a>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['educational_attainment']) && $customFields['educational_attainment'] === 'none' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->educational_attainment === 'No Formal Education' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 80px;">None</span>
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['educational_attainment']) && $customFields['educational_attainment'] === 'senior_high' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->educational_attainment === 'Senior High' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 5px;">Senior High School</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['educational_attainment']) && $customFields['educational_attainment'] === 'kindergarten' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->educational_attainment === 'Kindergarten' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 46px;">Kindergarten</span>
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['educational_attainment']) && $customFields['educational_attainment'] === 'college' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->educational_attainment === 'College' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 5px;">College</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['educational_attainment']) && $customFields['educational_attainment'] === 'elementary' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->educational_attainment === 'Elementary' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 53px;">Elementary</span>
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['educational_attainment']) && $customFields['educational_attainment'] === 'vocational' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->educational_attainment === 'Vocational' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 5px;">Vocational</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['educational_attainment']) && $customFields['educational_attainment'] === 'junior_high' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->educational_attainment === 'High School' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 20px;">Junior High School</span>
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['educational_attainment']) && $customFields['educational_attainment'] === 'post_graduate' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->educational_attainment === 'Postgraduate' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-right: 5px;">Post Graduate</span>
                                 </span>
@@ -472,74 +480,74 @@
                                 <a style="font-weight: bold; display: block;">OCCUPATION:</a>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['occupation_pwd']) && $customFields['occupation_pwd'] === 'manager' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->occupation === 'Managers' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Managers</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['occupation_pwd']) && $customFields['occupation_pwd'] === 'professional' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->occupation === 'Professionals' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Professionals</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['occupation_pwd']) && $customFields['occupation_pwd'] === 'technicians' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->occupation === 'Technicians and Associate Professionals' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Technicians and Associate Professionals</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['occupation_pwd']) && $customFields['occupation_pwd'] === 'clerical' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->occupation === 'Clerical Support Workers' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Clerical Support Workers</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['occupation_pwd']) && $customFields['occupation_pwd'] === 'service_and_sales' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->occupation === 'Service and Sales Workers' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Service and Sales Workers</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['occupation_pwd']) && $customFields['occupation_pwd'] === 'skilled_agri' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->occupation === 'Skilled Agricultural, Forestry and Fishery' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Skilled Agricultural, Forestry and Fishery
                                         Workers</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['occupation_pwd']) && $customFields['occupation_pwd'] === 'craft' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->occupation === 'Craft and Related Trade Workders' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Craft and Related Trade Workders</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['occupation_pwd']) && $customFields['occupation_pwd'] === 'plant_and_machine' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->occupation === 'Plant and Machine Operators and' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Plant and Machine Operators and
                                         Assemblers</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['occupation_pwd']) && $customFields['occupation_pwd'] === 'elementary_occupation' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->occupation === 'Elementary Occupations' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Elementary Occupations</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['occupation_pwd']) && $customFields['occupation_pwd'] === 'armed_forces' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->occupation === 'Armed Forces Occupations' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Armed Forces Occupations</span>
                                 </span>
                                 <span style="display: block;">
-                                    @if(isset($customFields['occupation_pwd']) && $customFields['occupation_pwd'] === 'others')
+                                    @if(str_contains($application?->occupation, 'Others'))
                                         <div
                                             style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: black;">
                                         </div>
                                         <span style="margin-right: 40px;">Others:
                                             <span
-                                                style="border-bottom: 1px solid #000; width: 80px; display: inline-block; ">{{ $customFields['specify_occupation'] ?? 'N/A' }}</span>
+                                                style="border-bottom: 1px solid #000; width: 80px; display: inline-block; ">{{ $application?->occupation ?? 'N/A' }}</span>
 
                                         </span>
                                     @endif
@@ -552,21 +560,21 @@
                                 <a style="font-weight: bold; display: block;">13. STATUS OF EMPLOYMENT:</a>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['status_of_employment']) && $customFields['status_of_employment'] === 'employed' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->status_of_employment === 'Employed' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Employed</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['status_of_employment']) && $customFields['status_of_employment'] === 'unemployed' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->status_of_employment === 'Unemployed' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Unemployed</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['status_of_employment']) && $customFields['status_of_employment'] === 'self_employed' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->status_of_employment === 'Self-Employed' ? 'black' : 'white' }};">
                                     </div>
-                                    <span style="margin-left: 10px;">Self-employed</span>
+                                    <span style="margin-left: 10px;">Self-Employed</span>
                                 </span>
                             </td>
                             <td rowspan="2"
@@ -574,25 +582,25 @@
                                 <a style="font-weight: bold; display: block;">13. b. TYPES OF EMPLOYMENT:</a>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['types_of_employment']) && $customFields['types_of_employment'] === 'permanent_or_regular' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->types_of_employment === 'Permanent Or Regular' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Permanent/Regular</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['types_of_employment']) && $customFields['types_of_employment'] === 'seasonal' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->types_of_employment === 'Seasonal' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Seasonal</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['types_of_employment']) && $customFields['types_of_employment'] === 'casual' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->types_of_employment === 'Casual' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Casual</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['types_of_employment']) && $customFields['types_of_employment'] === 'emergency' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->types_of_employment === 'Emergency' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Emergency</span>
                                 </span>
@@ -603,13 +611,13 @@
                                 <a style="font-weight: bold; display: block;">13. a. CATEGORY OF EMPLOYMENT:</a>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['category_of_employment']) && $customFields['category_of_employment'] === 'government' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->category_of_employment === 'Government' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Government</span>
                                 </span>
                                 <span style="display: block;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['category_of_employment']) && $customFields['category_of_employment'] === 'private' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->category_of_employment === 'Private' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="margin-left: 10px;">Private</span>
                                 </span>
@@ -638,22 +646,22 @@
                                 <a style="font-weight: bold; display: block; margin-bottom: 2px;">Organization
                                     Affiliated:</a>
                                 <span
-                                    style="display: block; min-height: 10px;">{{ strtoupper( $customFields['org_affiliate'] ?? '' )}}</span>
+                                    style="display: block; min-height: 10px;">{{ strtoupper( $application?->pwdDetails[0]?->organization_affiliated ?? '' )}}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 1px 4px; width: 25%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 2px;">Contact Person:</a>
                                 <span
-                                    style="display: block; min-height: 10px;">{{ $customFields['org_contact_person'] ?? '' }}</span>
+                                    style="display: block; min-height: 10px;">{{ $application?->pwdDetails[0]?->contact_person ?? '' }}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 1px 4px; width: 25%; vertical-align: top;">
                                 <a style="font-weight: bold;display: block; margin-bottom: 2px;">Office Address:</a>
                                 <span
-                                    style="display: block; min-height: 10px;">{{strtoupper(  $customFields['org_office'] ?? '' )}}</span>
+                                    style="display: block; min-height: 10px;">{{strtoupper(  $application?->pwdDetails[0]?->office_address ?? '' )}}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 1px 4px; width: 25%; vertical-align: top;">
                                 <a style="font-weight: bold;display: block; margin-bottom: 2px;">Tel. Nos.:</a>
                                 <span
-                                    style="display: block; min-height: 10px;">{{ $customFields['org_tel_no'] ?? '' }}</span>
+                                    style="display: block; min-height: 10px;">{{ $application?->pwdDetails[0]?->tel_no ?? '' }}</span>
                             </td>
                         </tr>
                     </table>
@@ -677,27 +685,27 @@
                             <td style="border: 1px solid #000; padding: 1px 4px; width: 20%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 2px;">SSS NO.:</a>
                                 <span
-                                    style="display: block; min-height: 10px;">{{ $customFields['sss_no'] ?? '' }}</span>
+                                    style="display: block; min-height: 10px;">{{ $application?->pwdDetails[0]?->sss_no ?? '' }}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 1px 4px; width: 20%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 2px;">GSIS NO.:</a>
                                 <span
-                                    style="display: block; min-height: 10px;">{{ $customFields['gsis_no'] ?? '' }}</span>
+                                    style="display: block; min-height: 10px;">{{ $application?->pwdDetails[0]?->gsis_no ?? '' }}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 1px 4px; width: 20%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 2px;">PAG-IBIG NO.:</a>
                                 <span
-                                    style="display: block; min-height: 10px;">{{ $customFields['pag_ibig_no'] ?? '' }}</span>
+                                    style="display: block; min-height: 10px;">{{ $application?->pwdDetails[0]?->pag_ibig_no ?? '' }}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 1px 4px; width: 20%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 2px;">PSN NO.:</a>
                                 <span
-                                    style="display: block; min-height: 10px;">{{ $customFields['psn_no'] ?? '' }}</span>
+                                    style="display: block; min-height: 10px;">{{ $application?->pwdDetails[0]?->psn_no ?? '' }}</span>
                             </td>
                             <td style="border: 1px solid #000; padding: 1px 4px; width: 20%; vertical-align: top;">
                                 <a style="font-weight: bold; display: block; margin-bottom: 2px;">PhilHealth NO.:</a>
                                 <span
-                                    style="display: block; min-height: 10px;">{{ $customFields['philhealth_no'] ?? '' }}</span>
+                                    style="display: block; min-height: 10px;">{{ $application?->pwdDetails[0]?->philhealth_no ?? '' }}</span>
                             </td>
                         </tr>
                     </table>
@@ -749,15 +757,15 @@
 
                             </td>
                             <td style="border: 1px solid #000; padding: 3px; width: 20%; vertical-align: top;">
-                                <span> {{strtoupper(  $customFields['father_name'] ?? '') }}</span>
+                                <span> {{strtoupper(  $application?->familyBackgrounds[0]?->father_name ?? '') }}</span>
 
                             </td>
                             <td style="border: 1px solid #000; padding: 4px 6px; width: 20%; vertical-align: top;">
-                                <span>{{strtoupper(  $customFields['father_occupation'] ?? '') }}</span>
+                                <span>{{strtoupper(  $application?->familyBackgrounds[0]?->father_occupation ?? '') }}</span>
 
                             </td>
                             <td style="border: 1px solid #000; padding: 3px; width: 20%; vertical-align: top;">
-                                <span>{{ $customFields['father_contact'] ?? '' }}</span>
+                                <span>{{ $application?->familyBackgrounds[0]?->father_phone ?? '' }}</span>
 
                             </td>
 
@@ -775,15 +783,15 @@
 
                             </td>
                             <td style="border: 1px solid #000; padding: 3px; width: 20%; vertical-align: top;">
-                                <span> {{ strtoupper( $customFields['mother_name'] ?? '' )}}</span>
+                                <span> {{ strtoupper( $application?->familyBackgrounds[0]?->mother_name ?? '' )}}</span>
 
                             </td>
                             <td style="border: 1px solid #000; padding: 4px 6px; width: 20%; vertical-align: top;">
-                                <span>{{strtoupper(  $customFields['mother_occupation'] ?? '') }}</span>
+                                <span>{{strtoupper(  $application?->familyBackgrounds[0]?->mother_occupation ?? '') }}</span>
 
                             </td>
                             <td style="border: 1px solid #000; padding: 3px; width: 20%; vertical-align: top;">
-                                <span>{{ $customFields['mother_contact'] ?? '' }}</span>
+                                <span>{{ $application?->familyBackgrounds[0]?->mother_phone ?? '' }}</span>
 
                             </td>
 
@@ -801,15 +809,15 @@
 
                             </td>
                             <td style="border: 1px solid #000; padding: 3px; width: 20%; vertical-align: top;">
-                                <span> {{strtoupper(  $customFields['guardian_name'] ?? '' )}}</span>
+                                <span> {{strtoupper(  $application?->familyBackgrounds[0]?->guardian_name ?? '' )}}</span>
 
                             </td>
                             <td style="border: 1px solid #000; padding: 4px 6px; width: 20%; vertical-align: top;">
-                                <span>{{strtoupper(  $customFields['guardian_occupation'] ?? '' )}}</span>
+                                <span>{{strtoupper(  $application?->familyBackgrounds[0]?->guardian_occupation ?? '' )}}</span>
 
                             </td>
                             <td style="border: 1px solid #000; padding: 3px; width: 20%; vertical-align: top;">
-                                <span>{{ $customFields['guardian_contact'] ?? '' }}</span>
+                                <span>{{ $application?->familyBackgrounds[0]?->guardian_phone ?? '' }}</span>
 
                             </td>
 
@@ -868,19 +876,19 @@
                                 <a style="font-weight: bold;">18. ACCOMPLISHED BY:</a>
                                 <span style="display: block; min-height: 10px; margin-bottom:15px; margin-top:20px;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['role']) && $customFields['role'] === 'applicant' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->accomplished_by === 'applicant' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="font-weight: bold; margin-left: 10px;">Applicant</span>
                                 </span>
                                 <span style="display: block; min-height: 1px;margin-bottom:15px;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['role']) && $customFields['role'] === 'guardian' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->accomplished_by === 'guardian' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="font-weight: bold; margin-left: 10px; ">Guardian</span>
                                 </span>
                                 <span style="display: block; min-height: 1px; margin-bottom:-30px;">
                                     <div
-                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ isset($customFields['role']) && $customFields['role'] === 'representative' ? 'black' : 'white' }};">
+                                        style="width: 6px; height: 6px; border: 1px solid black; border-radius: 50%; display: inline-block; margin-left: 20px; background-color: {{ $application?->pwdDetails[0]?->accomplished_by === 'representative' ? 'black' : 'white' }};">
                                     </div>
                                     <span style="font-weight: bold; margin-left: 10px; ">Representative</span>
                                 </span>
@@ -901,15 +909,15 @@
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; padding: 3px; width: 20%; vertical-align: top;">
-                                <span> {{strtoupper(  $customFields['applicant_lastname'] ?? '' )}}</span>
+                                <span> {{strtoupper(  $application?->pwdDetails[0]?->accomplishedBies[0]?->last_name ?? '' )}}</span>
 
                             </td>
                             <td style="border: 1px solid #000; padding: 4px 6px; width: 20%; vertical-align: top;">
-                                <span>{{strtoupper(  $customFields['applicant_firstname'] ?? '') }}</span>
+                                <span>{{strtoupper(  $application?->pwdDetails[0]?->accomplishedBies[0]?->first_name ?? '') }}</span>
 
                             </td>
                             <td style="border: 1px solid #000; padding: 3px; width: 20%; vertical-align: top;">
-                                <span>{{strtoupper(  $customFields['applicant_middlename'] ?? '' )}}</span>
+                                <span>{{strtoupper(  $application?->pwdDetails[0]?->accomplishedBies[0]?->middle_name ?? '' )}}</span>
                             </td>
                         </tr>
                         <tr>
@@ -1088,15 +1096,14 @@
         </table>
         <!-- Signature Section -->
         <div
-            style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; width: 40%; font-size: 12px; margin-left: 380px; margin-top:-40px;">
+            style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; width: 40%; font-size: 12px; margin-left: 380px; margin-top:-60px;">
             <!-- Name centered above the underline -->
             <span style="text-align: center; display: block; width: 100%; margin-bottom: 5px;">
-                {{strtoupper(  $application->name) }} {{ strtoupper( $customFields['middle_name'] ?? '' )}} {{strtoupper(  $customFields['last_name'] ?? '') }}
-                {{ $customFields['suffix'] ?? '' }}
+                {{strtoupper(  $application->full_name) }}
             </span>
             <!-- Underline -->
             <span style="border-top: 2px solid #000; width: 100%; display: block;"></span>
-            <a style="margin-top: 5px; text-align: center;">Printed Name and Signature of PWD</a>
+            <a style="margin-top: 5px; margin-left: 20px;text-align: center;">Printed Name and Signature of PWD</a>
         </div>
     </div>
 </div>

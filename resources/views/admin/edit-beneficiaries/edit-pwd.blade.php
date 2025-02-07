@@ -308,6 +308,7 @@
                                             <option value="Psychological Disability" {{ isset($beneficiary->pwdDetails[0]) && $beneficiary?->pwdDetails[0]?->type_of_disability === 'Psychological Disability' ? 'selected' : '' }}>Psychological Disability</option>
                                             <option value="Speech and Language Impairment" {{ isset($beneficiary->pwdDetails[0]) && $beneficiary?->pwdDetails[0]?->type_of_disability === 'Speech and Language Impairment' ? 'selected' : '' }}>Speech and Language Impairment</option>
                                             <option value="Visual Disability" {{ isset($beneficiary->pwdDetails[0]) && $beneficiary?->pwdDetails[0]?->type_of_disability === 'Visual Disability' ? 'selected' : '' }}>Visual Disability</option>
+                                            <option value="Cancer (RA11215)" {{ isset($beneficiary->pwdDetails[0]) && $beneficiary?->pwdDetails[0]?->type_of_disability === 'Cancer (RA11215)' ? 'selected' : '' }}>Rare Disease (RA10747)</option>
                                             <option value="Rare Disease (RA10747)" {{ isset($beneficiary->pwdDetails[0]) && $beneficiary?->pwdDetails[0]?->type_of_disability === 'Rare Disease (RA10747)' ? 'selected' : '' }}>Rare Disease (RA10747)</option>
                                         </select>
                                         @error('type_of_disability')

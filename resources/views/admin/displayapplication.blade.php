@@ -135,6 +135,14 @@
                                             data-bs-target="#releasedModal{{ $item->id }}">
                                             Release
                                         </a>
+                                        @if ($item->message_count < 2)
+                                        <form action="/send-sms/{{ $item->id }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-warning btn-dark btn-sm w-100 d-flex gap-1 align-items-center justify-content-center">
+                                               <i class="mdi mdi-send"></i> <span>{{ $item->message_count < 1 ? 'Send SMS' : 'Resend SMS' }}</span>
+                                            </button>
+                                            </form>
+                                        @endif
                                         @endif
                                         @if ($item->status === 'accepted' && $item->approved_at === null &&
                                         $item->approved_by === null)

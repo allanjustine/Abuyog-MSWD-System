@@ -247,8 +247,11 @@
                                             name="educational_attainment">
                                             <option value="">Select</option>
                                             <option value="No Formal Education">No Formal Education</option>
+                                            <option value="Kindergarten">Kindergarten</option>
                                             <option value="Elementary">Elementary</option>
                                             <option value="High School">High School</option>
+                                            <option value="Senior School">Senior School</option>
+                                            <option value="Vocational">Vocational</option>
                                             <option value="College">College</option>
                                             <option value="Postgraduate">Postgraduate</option>
                                         </select>
@@ -321,6 +324,7 @@
                                             <option value="Speech and Language Impairment">Speech and Language
                                                 Impairment</option>
                                             <option value="Visual Disability">Visual Disability</option>
+                                            <option value="Cancer (RA11215)">Cancer (RA11215)</option>
                                             <option value="Rare Disease (RA10747)">Rare Disease (RA10747)</option>
                                         </select>
                                         @error('type_of_disability')

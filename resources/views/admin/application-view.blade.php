@@ -99,7 +99,7 @@
                     <p><strong>Email:</strong> {{ $application->email }}</p>
                     <p><strong>Phone:</strong> {{ $application->phone }}</p>
                     <p><strong>Service:</strong> {{ $application->service->name ?? 'No Service Assigned' }}</p>
-                    <p><strong>Date Applied:</strong> {{ $application->date_applied }}</p>
+                    <p><strong>Date Applied:</strong> {{ $application?->appearance_date?->format('F d, Y') ?: $apply?->created_at?->format('F d, Y') }}</p>
                     <p><strong>Status:</strong> {{ $application->status }}</p>
 
                     @if ($application->custom_fields)
