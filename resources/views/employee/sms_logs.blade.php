@@ -44,7 +44,7 @@
                                 <tr>
                                     <td>{{ $log->phone_number }}</td>
                                     <td>{{ $log->status }}</td>
-                                    <td>{{ $log->message ?? 'No message' }}</td>
+                                    <td><p class="text-break">{{ $log->message ?? 'No message' }}</p></td>
                                     <td>{{ $log->created_at }}</td>
                                     <td>
                                         @if ($log->status === 'Failed')

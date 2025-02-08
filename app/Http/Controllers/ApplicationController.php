@@ -69,22 +69,24 @@ class ApplicationController extends Controller
         })->exists();
 
         $pwd = Beneficiary::where('user_id', $userid)->where('program_enrolled', 2)->first();
+        $pwdExists = Beneficiary::where('user_id', $userid)->where('program_enrolled', 2)->exists();
         $soloParent = Beneficiary::where('user_id', $userid)->where('program_enrolled', 3)->first();
+        $soloParentExists = Beneficiary::where('user_id', $userid)->where('program_enrolled', 3)->exists();
 
         if ($service->id == 1 && !$alreadyHaveOsca) {
             return redirect('/myapplication')->with('error', 'You cannot apply for this service. You can submit only once');
         }
 
-        if ($service->id == 2 && !$availablePwd) {
-            return redirect('/myapplication')->with('error', 'You cannot apply for this service. You have already applied. You can submit another after ' . $pwd->created_at->addYears(1)->diffForHumans());
+        if ($service->id == 2 && !$availablePwd && $pwdExists) {
+            return redirect('/myapplication')->with('error', 'You cannot apply for this service. You have already applied. You can submit another after ' . $pwd?->created_at?->addYears(1)->diffForHumans());
         }
 
-        if ($service->id == 3 && !$availableSoloParent) {
+        if ($service->id == 3 && !$availableSoloParent && $soloParentExists) {
 
-            return redirect('/myapplication')->with('error', 'You cannot apply for this service. You can submit another after ' . $pwd->created_at->addYears(5)->diffForHumans());
+            return redirect('/myapplication')->with('error', 'You cannot apply for this service. You can submit another after ' . $soloParent?->created_at?->addYears(5)->diffForHumans());
         }
 
-        if ($notAcceptedAge) {
+        if ($notAcceptedAge && $service->id == 1 || $service->id == 4 || Auth::user()->has_minor_child === 1) {
             return redirect('/myapplication')->with('error', 'You cannot apply for this service. Because this service is for people who are 60 years old or older.' . ' Your age is ' . (Auth::user()?->age ?: Auth::user()->date_of_birth?->age));
         }
         // Fetch the user's latest application for the given service
@@ -628,15 +630,18 @@ class ApplicationController extends Controller
         // Find the approved application
         $application = Application::findOrFail($id);
 
+
+        $message = "Your application has been approved. Please log in to your account for further instructions.\n\n-FROM MSWD ABUYOG.\n" . now()->format('F d, Y');
+
         // Send SMS using IPROG SMS API
-        $this->sendSMSNotification($application->phone);
+        $this->sendSMSNotification($application->phone, $message);
 
         return redirect()->route('show.application')->with('success', 'SMS Sent!');
     }
 
 
 
-    public function sendSMSNotification($phoneNumber)
+    public function sendSMSNotification($phoneNumber, $message)
     {
         // Normalize phone number format
         if (substr($phoneNumber, 0, 1) === '0') {
@@ -644,7 +649,6 @@ class ApplicationController extends Controller
         }
 
         $client = new GClient();
-        $message = 'Your application has been approved. Please log in to your account for further instructions.';
         $status = 'Sent'; // Default status to Failed
 
         try {

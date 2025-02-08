@@ -29,6 +29,9 @@
         <div class="form-group col-md-4">
             <label>Date for Personal Appearance <span style="color: red;">*</span></label>
             <input type="date" name="appearance_date" id="appearance_date" class="form-control" required>
+            @error('appearance_date')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
         </div>
     </div>
 

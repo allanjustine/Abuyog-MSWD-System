@@ -232,43 +232,43 @@
                             <div class="modal-body">
                                 <ul class="list-group">
                                     @if (Auth::user()->age >= 60)
-                                    @if($alreadyHaveOsca)
-                                    <li class="list-group-item">
-                                        <a href="/form/1">
-                                            OSCA(Office of Senior Citizens)
-                                        </a>
-                                    </li>
-                                    @endif
-                                    <li class="list-group-item">
-                                        <a href="/form/4">
-                                            AICS(Assistance to Individuals in Crisis)
-                                        </a>
-                                    </li>
-                                    @if (Auth::user()->has_minor_child === 1)
-                                    <li class="list-group-item">
-                                        <a href="/form/3">
-                                            Solo Parent
-                                        </a>
-                                    </li>
-                                    @endif
+                                        @if($alreadyHaveOsca)
+                                        <li class="list-group-item">
+                                            <a href="/form/1">
+                                                OSCA(Office of Senior Citizens)
+                                            </a>
+                                        </li>
+                                        @endif
+                                        <li class="list-group-item">
+                                            <a href="/form/4">
+                                                AICS(Assistance to Individuals in Crisis)
+                                            </a>
+                                        </li>
+                                        @if (Auth::user()->has_minor_child === 1)
+                                        <li class="list-group-item">
+                                            <a href="/form/3">
+                                                Solo Parent
+                                            </a>
+                                        </li>
+                                        @endif
                                     @else
-                                    @if($availableSoloParent)
-                                    <li class="list-group-item">
-                                        <a href="/form/3">
-                                            Solo Parent
-                                        </a>
-                                    </li>
-                                    @endif
-                                    @if($availablePwd)
-                                    <li class="list-group-item">
-                                        <a href="/form/2">
-                                            PWD(Persons with Disabilities)
-                                        </a>
-                                    </li>
-                                    @endif
-                                    @if(!$availableSoloParent && !$availablePwd)
-                                    <p class="text-center fs-4 fw-bold">No Services Available</p>
-                                    @endif
+                                        @if($availableSoloParent || !$isSoloParentExists)
+                                        <li class="list-group-item">
+                                            <a href="/form/3">
+                                                Solo Parent
+                                            </a>
+                                        </li>
+                                        @endif
+                                        @if($availablePwd || !$isPwdExists)
+                                        <li class="list-group-item">
+                                            <a href="/form/2">
+                                                PWD(Persons with Disabilities)
+                                            </a>
+                                        </li>
+                                        @endif
+                                        @if(!$availableSoloParent && !$availablePwd && $isSoloParentExists && $isPwdExists)
+                                            <p class="text-center fs-4 fw-bold">No Services Available</p>
+                                        @endif
                                     @endif
                                 </ul>
                             </div>

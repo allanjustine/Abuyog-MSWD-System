@@ -15,6 +15,7 @@ use Livewire\WithPagination;
 use App\Models\BenefitReceived;
 use App\Models\FamilyBackground;
 use App\Models\FamilyComposition;
+use App\Models\ForSpdOrSpoUseOnly;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -108,10 +109,10 @@ class AdminController extends Controller
                 if ($from && $to) {
                     $query->where(function ($q) use ($from, $to) {
                         $q->whereBetween('appearance_date', [$from, $to])
-                          ->orWhere(function ($q) use ($from, $to) {
-                              $q->whereNull('appearance_date')
-                                ->whereBetween('created_at', [$from, $to]);
-                          });
+                            ->orWhere(function ($q) use ($from, $to) {
+                                $q->whereNull('appearance_date')
+                                    ->whereBetween('created_at', [$from, $to]);
+                            });
                     });
                 }
             })
@@ -593,13 +594,15 @@ class AdminController extends Controller
 
         $aicsType = AicsDetail::where('beneficiary_id', $application->id)->first();
 
+        $soloParentDetail = SoloParentDetail::where('beneficiary_id', $application->id)->first();
+
         $application->update([
             'approved_by'           =>          Auth::user()->id,
             'approved_at'           =>          now(),
             'status'                =>          'approved'
         ]);
 
-        if($application->service->id === 4) {
+        if ($application->service->id === 4) {
             $request->validate([
                 'case_no'           =>          ['required'],
                 'new_or_old'        =>          ['required'],
@@ -613,6 +616,22 @@ class AdminController extends Controller
                 'problem_presented' =>          $request->problem_presented,
                 'findings'          =>          $request->findings,
                 'action_taken'      =>          $request->action_taken,
+            ]);
+        }
+        if ($application->service->id === 3) {
+            $request->validate([
+                'status'         =>          ['required'],
+                'id_type'        =>          ['required'],
+                'card_number'    =>          ['required'],
+                'category'       =>          ['required'],
+            ]);
+
+            ForSpdOrSpoUseOnly::create([
+                'solo_parent_detail_id'           =>          $soloParentDetail->id,
+                'status'                          =>          $request->status,
+                'id_type'                         =>          $request->id_type,
+                'card_number'                     =>          $request->card_number,
+                'category'                        =>          $request->category,
             ]);
         }
 
@@ -804,7 +823,7 @@ class AdminController extends Controller
         }
 
         if (Auth::user()->usertype === 'admin') {
-            $url = '/showbeneficiaries_admin';
+            $url = '/displayapplication';
         } else if (Auth::user()->usertype === 'operator') {
             $url = '/showbeneficiaries_operator';
         } else {
@@ -1008,7 +1027,7 @@ class AdminController extends Controller
             ]
         );
         if (Auth::user()->usertype === 'admin') {
-            $url = '/showbeneficiaries_admin';
+            $url = '/displayapplication';
         } else if (Auth::user()->usertype === 'operator') {
             $url = '/showbeneficiaries_operator';
         } else {
@@ -1238,7 +1257,7 @@ class AdminController extends Controller
 
         ]);
         if (Auth::user()->usertype === 'admin') {
-            $url = '/showbeneficiaries_admin';
+            $url = '/displayapplication';
         } else if (Auth::user()->usertype === 'operator') {
             $url = '/showbeneficiaries_operator';
         } else {
@@ -1281,7 +1300,7 @@ class AdminController extends Controller
             'occupation'                        =>          ['required', 'min:1', 'max:255', 'string'],
             'phone'                             =>          ['required', 'min:1', 'max:255', 'string'],
             'application_type'                  =>          ['required', 'min:1', 'max:255', 'string'],
-            'pwd_number'                        =>          ['required', 'min:1', 'max:255', 'string'],
+            'pwd_number'                        =>          ['nullable', 'required_if:application_type,Renewal', 'min:1', 'max:255', 'string'],
             'blood_type'                        =>          ['required', 'min:1', 'max:255', 'string'],
             'type_of_disability'                =>          ['required', 'min:1', 'max:255', 'string'],
             'cause_of_disability'               =>          ['required', 'min:1', 'max:255', 'string'],
@@ -1503,7 +1522,7 @@ class AdminController extends Controller
             'guardian_phone'              =>          $request->guardian_phone,
         ]);
         if (Auth::user()->usertype === 'admin') {
-            $url = '/showbeneficiaries_admin';
+            $url = '/displayapplication';
         } else if (Auth::user()->usertype === 'operator') {
             $url = '/showbeneficiaries_operator';
         } else {
@@ -1518,13 +1537,16 @@ class AdminController extends Controller
         $beneficiary = Beneficiary::findOrFail($id);
 
         $applicationController = new ApplicationController();
-        $applicationController->sendSMSNotification($beneficiary->phone);
+
+        $message = "Your request has been approved. Please proceed to the MSWD office for further instructions.\n\n-FROM MSWD ABUYOG.\n" . now()->format('F d, Y');
+
+        $applicationController->sendSMSNotification($beneficiary->phone, $message);
 
         $beneficiary->update([
             'status'        =>          'released'
         ]);
 
-        if($beneficiary->service->id == 4) {
+        if ($beneficiary->service->id == 4) {
             BenefitReceived::create([
                 'beneficiary_id'            =>          $beneficiary->id,
                 'name_of_assistance'        =>          'Aics',
@@ -1543,7 +1565,9 @@ class AdminController extends Controller
         $beneficiary = Beneficiary::findOrFail($id);
 
         $applicationController = new ApplicationController();
-        $applicationController->sendSMSNotification($beneficiary->phone);
+
+        $message = "Your request has been approved. Please proceed to the MSWD office for further instructions.\n\n-FROM MSWD ABUYOG.\n" . now()->format('F d, Y');
+        $applicationController->sendSMSNotification($beneficiary->phone, $message);
 
         $beneficiary->increment('message_count');
 

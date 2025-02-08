@@ -73,6 +73,13 @@
         .form-row {
             margin-bottom: 1rem;
         }
+        .swal2-html-container {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .swal2-title {
+            color: black !important;
+        }
     </style>
 </head>
 
@@ -118,27 +125,27 @@
                         @endif
                     </div>
                     <div class="card-body">
-                        <form action="/add-aics" method="POST">
+                        <form action="/add-aics" method="POST" id="formDiv">
                             @csrf
 
                             <div class="row form-row">
                                 <div class="col-md-3">
                                     <label for="lastName" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" name="last_name">
+                                    <input type="text" class="form-control" id="lastName" name="last_name" value="{{ old('last_name') }}">
                                     @error('last_name')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-3">
                                     <label for="firstName" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" name="first_name">
+                                    <input type="text" class="form-control" id="firstName" name="first_name" value="{{ old('first_name') }}">
                                     @error('first_name')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-3">
                                     <label for="middleName" class="form-label">Middle Name (Optional)</label>
-                                    <input type="text" class="form-control" id="middleName" name="middle_name">
+                                    <input type="text" class="form-control" id="middleName" name="middle_name" is-optional value="{{ old('middle_name') }}">
                                     @error('middle_name')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -146,7 +153,7 @@
 
                                 <div class="col-md-3">
                                     <label for="placeOfBirth" class="form-label">Place of Birth</label>
-                                    <input type="text" class="form-control" id="placeOfBirth" name="place_of_birth">
+                                    <input type="text" class="form-control" id="placeOfBirth" name="place_of_birth" value="{{ old('place_of_birth') }}">
                                     @error('place_of_birth')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -156,25 +163,25 @@
                             <div class="row form-row">
                                 <div class="col-md-3">
                                     <label for="dateOfBirth" class="form-label">Date of Birth</label>
-                                    <input type="date" class="form-control" id="dateOfBirth" name="date_of_birth">
+                                    <input type="date" class="form-control" id="dateOfBirth" name="date_of_birth" value="{{ old('date_of_birth') }}">
                                     @error('date_of_birth')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-3">
                                     <label for="age" class="form-label">Age</label>
-                                    <input type="text" class="form-control" id="age" name="age" readonly>
+                                    <input type="text" class="form-control" id="age" name="age" readonly value="{{ old('age') }}">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="religion" class="form-label">Religion</label>
-                                    <input type="text" class="form-control" id="religion" name="religion">
+                                    <input type="text" class="form-control" id="religion" name="religion" value="{{ old('religion') }}">
                                     @error('religion')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-3">
                                     <label for="phone" class="form-label">Phone</label>
-                                    <input type="text" class="form-control" id="phone" name="phone">
+                                    <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') }}">
                                     @error('phone')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -190,7 +197,7 @@
                                         <select name="barangay" id="barangaySelect" class="form-select">
                                             <option value="">Select Barangay</option>
                                             @foreach ($barangays as $barangay)
-                                            <option value="{{ $barangay->id }}" data-lat="{{ $barangay->latitude }}"
+                                            <option value="{{ $barangay->id }}" data-lat="{{ $barangay->latitude }}" {{ old('barangay')==$barangay->id ? 'selected' : ""}}
                                                 data-lng="{{ $barangay->longitude }}">
                                                 {{ $barangay->name }}
                                             </option>
@@ -205,10 +212,10 @@
                                         <label for="civilStatus" class="form-label">Civil Status</label>
                                         <select class="form-select" id="civilStatus" name="civil_status">
                                             <option value="">Select</option>
-                                            <option value="Single">Single</option>
-                                            <option value="Married">Married</option>
-                                            <option value="Widowed">Widowed</option>
-                                            <option value="Divorced">Divorced</option>
+                                            <option value="Single" {{ old('civil_status') == 'Single' ? 'selected' : '' }}>Single</option>
+                                            <option value="Married" {{ old('civil_status') == 'Married' ? 'selected' : '' }}>Married</option>
+                                            <option value="Widowed" {{ old('civil_status') == 'Widowed' ? 'selected' : '' }}>Widowed</option>
+                                            <option value="Divorced" {{ old('civil_status') == 'Divorced' ? 'selected' : '' }}>Divorced</option>
                                         </select>
                                         @error('civil_status')
                                         <small class="text-danger">{{ $message }}</small>
@@ -223,11 +230,11 @@
                                         <select class="form-select" id="educationalAttainment"
                                             name="educational_attainment">
                                             <option value="">Select</option>
-                                            <option value="No Formal Education">No Formal Education</option>
-                                            <option value="Elementary">Elementary</option>
-                                            <option value="High School">High School</option>
-                                            <option value="College">College</option>
-                                            <option value="Postgraduate">Postgraduate</option>
+                                            <option value="No Formal Education" {{ old('educational_attainment') == 'No Formal Education' ? 'selected' : '' }}>No Formal Education</option>
+                                            <option value="Elementary" {{ old('educational_attainment') == 'Elementary' ? 'selected' : '' }}>Elementary</option>
+                                            <option value="High School" {{ old('educational_attainment') == 'High School' ? 'selected' : '' }}>High School</option>
+                                            <option value="College" {{ old('educational_attainment') == 'College' ? 'selected' : '' }}>College</option>
+                                            <option value="Postgraduate" {{ old('educational_attainment') == 'Postgraduate' ? 'selected' : '' }}>Postgraduate</option>
                                         </select>
                                         @error('educational_attainment')
                                         <small class="text-danger">{{ $message }}</small>
@@ -235,7 +242,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="occupation" class="form-label">Occupation</label>
-                                        <input type="text" class="form-control" id="occupation" name="occupation">
+                                        <input type="text" class="form-control" id="occupation" name="occupation" value="{{ old('occupation') }}">
                                         @error('occupation')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -273,7 +280,7 @@
                                                 <option value="Female" {{ old('gender_fc.0')=='Female' ? 'selected' : ''
                                                     }}>Female</option>
                                             </select>
-                                            @error('gender_fc')
+                                            @error('gender_fc.*')
                                             <small class="text-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
@@ -364,7 +371,7 @@
                                 <div class="row form-row">
                                     <div class="col-md-4">
                                         <label for="caseNo" class="form-label">Case No</label>
-                                        <input type="text" class="form-control" id="caseNo" name="case_no">
+                                        <input type="text" class="form-control" id="caseNo" name="case_no" value="{{ old('case_no') }}">
                                         @error('case_no')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -375,8 +382,8 @@
                                         <label for="new_or_old" class="form-label">New or Old</label>
                                         <select class="form-select" id="new_or_old" name="new_or_old">
                                             <option value="">Select</option>
-                                            <option value="New">New</option>
-                                            <option value="Old">Old</option>
+                                            <option value="New" {{ old('new_or_old')=='New' ? 'selected' : '' }}>New</option>
+                                            <option value="Old" {{ old('new_or_old')=='Old' ? 'selected' : '' }}>Old</option>
                                         </select>
                                         @error('new_or_old')
                                         <small class="text-danger">{{ $message }}</small>
@@ -386,7 +393,7 @@
                                     <!-- Date Applied -->
                                     <div class="col-md-4">
                                         <label for="dateApplied" class="form-label">Date Applied</label>
-                                        <input type="date" class="form-control" id="dateApplied" name="date_applied">
+                                        <input type="date" class="form-control" id="dateApplied" name="date_applied" value="{{ old('date_applied') }}">
                                         @error('date_applied')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -397,7 +404,7 @@
                                 <div class="row form-row">
                                     <div class="col-md-6">
                                         <label for="sourceReferral" class="form-label">Source of Referral</label>
-                                        <input type="text" class="form-control" id="sourceReferral"
+                                        <input type="text" class="form-control" id="sourceReferral" value="{{ old('source_of_referral') }}"
                                             name="source_of_referral">
                                         @error('source_of_referral')
                                         <small class="text-danger">{{ $message }}</small>
@@ -407,7 +414,7 @@
                                     <!-- Problem Presented -->
                                     <div class="col-md-6">
                                         <label for="problemPresented" class="form-label">Problem Presented</label>
-                                        <input type="text" class="form-control" id="problemPresented"
+                                        <input type="text" class="form-control" id="problemPresented" value="{{ old('problem_presented') }}"
                                             name="problem_presented">
                                         @error('problem_presented')
                                         <small class="text-danger">{{ $message }}</small>
@@ -419,7 +426,7 @@
                                 <div class="row form-row">
                                     <div class="col-md-6">
                                         <label for="findings" class="form-label">Findings</label>
-                                        <textarea class="form-control" id="findings" name="findings"></textarea>
+                                        <textarea class="form-control" id="findings" name="findings">{{ old('findings') }}</textarea>
                                         @error('findings')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -428,7 +435,7 @@
                                     <!-- Action Taken -->
                                     <div class="col-md-6">
                                         <label for="actionTaken" class="form-label">Action Taken</label>
-                                        <textarea class="form-control" id="actionTaken" name="action_taken"></textarea>
+                                        <textarea class="form-control" id="actionTaken" name="action_taken">{{ old('action_taken') }}</textarea>
                                         @error('action_taken')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -446,6 +453,7 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -494,6 +502,65 @@
             }
         });
 
+    </script>
+
+    <script>
+        document.getElementById('formDiv').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let isValid = true;
+            let emptyFields = [];
+
+            document.querySelectorAll('#formDiv input, #formDiv textarea, #formDiv select').forEach(function(field) {
+                if (field.value === "" || field.value === null && !field.hasAttribute('is-optional')) {
+                    if(!field.hasAttribute('is-optional')) {
+                        isValid = false;
+                        emptyFields.push(field.name);
+                        field.classList.add('is-invalid');
+                    }
+                } else {
+                    field.classList.add('is-valid');
+                    field.classList.remove('is-invalid');
+                }
+                if(field.hasAttribute('is-optional')) {
+                    field.classList.remove('is-invalid');
+                }
+            });
+
+            if (!isValid) {
+                let fieldList = emptyFields.join('<br> ');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Please fill in the following fields first',
+                    html: `<p class="fw-bold fs-3"><ul><li class="text-danger">${fieldList}</li></ul></p>`,
+                });
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'All fields are filled',
+                    text: 'Thank you for filling all fields. You may now click on the Submit button to save the data.',
+                    confirmButtonText: 'Save Data',
+                    confirmButtonColor: '#007bff',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Saving...',
+                            html: `Please wait, saving may take some time and checking empty fields.<br>Thank you for your patience.`,
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        setTimeout(() => {
+                            Swal.close();
+                            document.getElementById('formDiv').submit();
+
+                        }, 4000);
+                    }
+                });
+            }
+        });
     </script>
 </body>
 

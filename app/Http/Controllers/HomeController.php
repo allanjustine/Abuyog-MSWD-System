@@ -191,7 +191,10 @@ class HomeController extends Controller
                 ->latest();
             })->exists();
 
-            return view('user.my_application', compact('apply', 'services', 'alreadyHaveOsca', 'availableSoloParent', 'availablePwd'));
+            $isPwdExists = Beneficiary::where('user_id', $userid)->where('program_enrolled', 2)->exists();
+            $isSoloParentExists = Beneficiary::where('user_id', $userid)->where('program_enrolled', 3)->exists();
+
+            return view('user.my_application', compact('apply', 'services', 'alreadyHaveOsca', 'availableSoloParent', 'availablePwd', 'isPwdExists', 'isSoloParentExists'));
         } else {
             return redirect()->back();
         }

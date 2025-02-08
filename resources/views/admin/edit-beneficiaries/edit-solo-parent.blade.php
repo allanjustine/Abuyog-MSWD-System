@@ -286,7 +286,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label for="dateOfBirth" class="form-label">Birthday</label>
-                                            <input type="date" class="form-control" id="dateOfBirthFc" name="birthday[{{ $fc->id }}]" value="{{ isset($beneficiary->familyCompositions[0]) && $fc?->birthday?->format('Y-m-d') ?? '' }}">
+                                            <input type="date" class="form-control" id="dateOfBirthFc" name="birthday[{{ $fc->id }}]" value="{{ $fc?->birthday?->format('Y-m-d') ?? '' }}">
                                             @error('birthday.*')
                                             <small class="text-danger">{{ $message }}</small>
                                             @enderror
@@ -306,10 +306,10 @@
                                             <select class="form-select" id="civilStatus" name="civil_status_fc[{{ $fc->id }}]">
                                                 <option value="" hidden selected>Select</option>
                                                 <option value="" disabled>Select</option>
-                                                <option value="Single" {{ isset($beneficiary->familyCompositions[0]) && $fc->civil_status == 'Single' ? 'selected' : '' }}>Single</option>
-                                                <option value="Married" {{ isset($beneficiary->familyCompositions[0]) && $fc->civil_status == 'Married' ? 'selected' : '' }}>Married</option>
-                                                <option value="Widowed" {{ isset($beneficiary->familyCompositions[0]) && $fc->civil_status == 'Widowed' ? 'selected' : '' }}>Widowed</option>
-                                                <option value="Divorced" {{ isset($beneficiary->familyCompositions[0]) && $fc->civil_status == 'Divorced' ? 'selected' : '' }}>Divorced</option>
+                                                <option value="Single" {{ $fc->civil_status == 'Single' ? 'selected' : '' }}>Single</option>
+                                                <option value="Married" {{ $fc->civil_status == 'Married' ? 'selected' : '' }}>Married</option>
+                                                <option value="Widowed" {{ $fc->civil_status == 'Widowed' ? 'selected' : '' }}>Widowed</option>
+                                                <option value="Divorced" {{ $fc->civil_status == 'Divorced' ? 'selected' : '' }}>Divorced</option>
                                             </select>
                                             @error('civil_status_fc.*')
                                             <small class="text-danger">{{ $message }}</small>
@@ -331,11 +331,11 @@
                                                 Attainment</label>
                                             <select class="form-select" id="educationalAttainment" name="educational_attainment_fc[{{ $fc->id }}]">
                                                 <option value="">Select</option>
-                                                <option value="No Formal Education" {{ isset($beneficiary->familyCompositions[0]) && $fc->educational == 'No Formal Education' ? 'selected' : '' }}>No Formal Education</option>
-                                                <option value="Elementary" {{ isset($beneficiary->familyCompositions[0]) && $fc->educational == 'Elementary' ? 'selected' : '' }}>Elementary</option>
-                                                <option value="High School" {{ isset($beneficiary->familyCompositions[0]) && $fc->educational == 'High School' ? 'selected' : '' }}>High School</option>
-                                                <option value="College" {{ isset($beneficiary->familyCompositions[0]) && $fc->educational == 'College' ? 'selected' : '' }}>College</option>
-                                                <option value="Postgraduate" {{ isset($beneficiary->familyCompositions[0]) && $fc->educational == 'Postgraduate' ? 'selected' : '' }}>Postgraduate</option>
+                                                <option value="No Formal Education" {{ $fc->educational == 'No Formal Education' ? 'selected' : '' }}>No Formal Education</option>
+                                                <option value="Elementary" {{ $fc->educational == 'Elementary' ? 'selected' : '' }}>Elementary</option>
+                                                <option value="High School" {{ $fc->educational == 'High School' ? 'selected' : '' }}>High School</option>
+                                                <option value="College" {{ $fc->educational == 'College' ? 'selected' : '' }}>College</option>
+                                                <option value="Postgraduate" {{ $fc->educational == 'Postgraduate' ? 'selected' : '' }}>Postgraduate</option>
                                             </select>
                                             @error('educational_attainment_fc.*')
                                             <small class="text-danger">{{ $message }}</small>
@@ -343,13 +343,13 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label for="income" class="form-label">Monthly Income</label>
-                                            <select name="income" class="form-select" id="income[{{ $fc->id }}]">
+                                            <select name="income[{{ $fc->id }}]" class="form-select" id="income[{{ $fc->id }}]">
                                                 <option value="" hidden selected>Select Monthly Income</option>
                                                 <option value="" disabled>Select Monthly Income</option>
-                                                <option value="Below 60,000" {{ isset($beneficiary->familyCompositions[0]) && $fc->income == 'Below 60,000' ? 'selected' : '' }}>Below 60,000</option>
-                                                <option value="60,000 - 120,000" {{ isset($beneficiary->familyCompositions[0]) && $fc->income == '60,000 - 120,000' ? 'selected' : '' }}>60,000 - 120,000</option>
-                                                <option value="120,000 - 180,000" {{ isset($beneficiary->familyCompositions[0]) && $fc->income == '120,000 - 180,000' ? 'selected' : '' }}>120,000 - 180,000</option>
-                                                <option value="Above 180,000" {{ isset($beneficiary->familyCompositions[0]) && $fc->income == 'Above 180,000' ? 'selected' : '' }}>Above 180,000</option>
+                                                <option value="Below 60,000" {{ $fc->income == 'Below 60,000' ? 'selected' : '' }}>Below 60,000</option>
+                                                <option value="60,000 - 120,000" {{ $fc->income == '60,000 - 120,000' ? 'selected' : '' }}>60,000 - 120,000</option>
+                                                <option value="120,000 - 180,000" {{ $fc->income == '120,000 - 180,000' ? 'selected' : '' }}>120,000 - 180,000</option>
+                                                <option value="Above 180,000" {{ $fc->income == 'Above 180,000' ? 'selected' : '' }}>Above 180,000</option>
                                             </select>
                                             @error('income.*')
                                             <small class="text-danger">{{ $message }}</small>

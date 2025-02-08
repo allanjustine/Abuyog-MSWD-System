@@ -70,6 +70,13 @@
         .form-row {
             margin-bottom: 1rem;
         }
+        .swal2-html-container {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .swal2-title {
+            color: black !important;
+        }
 
     </style>
 </head>
@@ -115,7 +122,7 @@
                         @endif
                     </div>
                     <div class="card-body">
-                        <form action="/add-solo-parent" method="POST">
+                        <form action="/add-solo-parent" method="POST" id="formDiv">
                             @csrf
 
                             <div class="row form-row">
@@ -135,7 +142,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="middleName" class="form-label">Middle Name (Optional)</label>
-                                    <input type="text" class="form-control" id="middleName" name="middle_name">
+                                    <input type="text" class="form-control" id="middleName" is-optional name="middle_name">
                                     @error('middle_name')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -346,7 +353,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label for="income" class="form-label">Monthly Income</label>
-                                            <select name="income" class="form-select" id="income[]">
+                                            <select name="income[]" class="form-select" id="income[]">
                                                 <option value="" hidden selected>Select Monthly Income</option>
                                                 <option value="" disabled>Select Monthly Income</option>
                                                 <option value="Below 60,000" {{ old('income.0') == 'Below 60,000' ? 'selected' : '' }}>Below 60,000</option>
@@ -460,6 +467,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             let fieldCount = 1;
@@ -517,6 +525,64 @@
             }
         });
 
+    </script>
+    <script>
+        document.getElementById('formDiv').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let isValid = true;
+            let emptyFields = [];
+
+            document.querySelectorAll('#formDiv input, #formDiv textarea, #formDiv select').forEach(function(field) {
+                if (field.value === "" || field.value === null && !field.hasAttribute('is-optional')) {
+                    if(!field.hasAttribute('is-optional')) {
+                        isValid = false;
+                        emptyFields.push(field.name);
+                        field.classList.add('is-invalid');
+                    }
+                } else {
+                    field.classList.add('is-valid');
+                    field.classList.remove('is-invalid');
+                }
+                if(field.hasAttribute('is-optional')) {
+                    field.classList.remove('is-invalid');
+                }
+            });
+
+            if (!isValid) {
+                let fieldList = emptyFields.join('<br> ');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Please fill in the following fields first',
+                    html: `<p class="fw-bold fs-3"><ul><li class="text-danger">${fieldList}</li></ul></p>`,
+                });
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'All fields are filled',
+                    text: 'Thank you for filling all fields. You may now click on the Submit button to save the data.',
+                    confirmButtonText: 'Save Data',
+                    confirmButtonColor: '#007bff',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Saving...',
+                            html: `Please wait, saving may take some time and checking empty fields.<br>Thank you for your patience.`,
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        setTimeout(() => {
+                            Swal.close();
+                            document.getElementById('formDiv').submit();
+
+                        }, 4000);
+                    }
+                });
+            }
+        });
     </script>
 </body>
 

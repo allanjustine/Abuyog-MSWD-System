@@ -19,6 +19,9 @@
             text-overflow: ellipsis;
             max-width: 150px;
         }
+        .swal2-title {
+            color: red !important;
+        }
     </style>
 </head>
 
@@ -125,37 +128,64 @@
                                 <td>{{ $item->acceptedBy->full_name ?? 'Pending' }}</td>
                                 <td>
                                     <!-- View Button -->
-                                    <div class="gap-2 d-flex flex-column">
-                                        <a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#viewModal{{ $item?->id }}">
-                                            View
-                                        </a>
-                                        @if ($item->status === 'approved')
-                                        <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#releasedModal{{ $item->id }}">
-                                            Release
-                                        </a>
-                                        @if ($item->message_count < 2)
-                                        <form action="/send-sms/{{ $item->id }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-warning btn-dark btn-sm w-100 d-flex gap-1 align-items-center justify-content-center">
-                                               <i class="mdi mdi-send"></i> <span>{{ $item->message_count < 1 ? 'Send SMS' : 'Resend SMS' }}</span>
-                                            </button>
-                                            </form>
-                                        @endif
-                                        @endif
-                                        @if ($item->status === 'accepted' && $item->approved_at === null &&
-                                        $item->approved_by === null)
-                                        <a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#ApproveModal{{ $item->id }}">
-                                            Approve
-                                        </a>
-                                        <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#RejectModal{{ $item->id }}">
-                                            Reject
-                                        </a>
-                                        @endif
-                                    </div>
+                                    <div x-data="{open: false, loading: true}"
+                                            class="d-flex justify-content-center flex-column" x-init="loading = false">
+                                            <button type="button" @click="open = !open"
+                                                class="mb-3 btn btn-primary rounded-full d-flex align-items-center justify-content-center">
+                                                <span class="spinner-border spinner-border-sm"
+                                                    x-show="loading"></span><i class="mdi mdi-minus" x-show="open"
+                                                    x-cloak></i><i class="mdi mdi-plus" x-show="!open"
+                                                    x-cloak></i></button>
+                                            <div x-cloak x-show="open">
+                                                <div class="gap-2 d-flex flex-column">
+                                                    <a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#viewModal{{ $item?->id }}">
+                                                        View
+                                                    </a>
+                                                    @if ($item->status === 'approved')
+                                                    <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#releasedModal{{ $item->id }}">
+                                                        Release
+                                                    </a>
+                                                    @if ($item->message_count < 2)
+                                                    <form @if($item->phone !== null) action="/send-sms/{{ $item->id }}" id="sendSmsForm" method="POST" @endif>
+                                                        @csrf
+                                                        <button @if( $item->phone === null) id="noPhone" @else id="sendSms" @endif type="submit" class="btn btn-warning btn-dark btn-sm w-100 d-flex gap-1 align-items-center justify-content-center">
+                                                           <i class="mdi mdi-send"></i> <span>{{ $item->message_count < 1 ? 'Send SMS' : 'Resend SMS' }}</span>
+                                                        </button>
+                                                        </form>
+                                                    @endif
+                                                    @endif
+                                                    @if ($item->status === 'accepted' && $item->approved_at === null &&
+                                                    $item->approved_by === null)
+                                                    <a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#ApproveModal{{ $item->id }}">
+                                                        Approve
+                                                    </a>
+                                                    @endif
+                                                    @if ($item?->service->name === "OSCA(Office of Senior Citizens)")
+                                                    <a class="btn btn-success btn-sm"
+                                                    href="/edit-osca/{{ $item?->id }}">Edit</a>
+                                                    @elseif($item?->service->name === "PWD(Persons with Disabilities)")
+
+                                                    <a class="btn btn-success btn-sm"
+                                                    href="/edit-pwd/{{ $item?->id }}">Edit</a>
+                                                    @elseif($item?->service->name === "Solo Parent")
+
+                                                    <a class="btn btn-success btn-sm"
+                                                    href="/edit-solo-parent/{{ $item?->id }}">Edit</a>
+                                                    @elseif($item?->service->name === "AICS(Assistance to Individuals in Crisis)")
+                                                    <a class="btn btn-success btn-sm"
+                                                    href="/edit-aics/{{ $item?->id }}">Edit</a>
+                                                    @endif
+                                                    <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#RejectModal{{ $item->id }}">
+                                                        Reject
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                 </td>
                             </tr>
                             <div class="modal fade" id="releasedModal{{ $item?->id }}" tabindex="-1"
@@ -177,8 +207,9 @@
                                                     undone.
                                                 </p>
                                                 @if($item->service->id === 4)
-                                                    <p class="fw-bold fs-5">For AICS, Please Enter an Amount</p>
-                                                    <input type="text" name="amount" class="form-control" required placeholder="Enter Amount">
+                                                <p class="fw-bold fs-5">For AICS, Please Enter an Amount</p>
+                                                <p class="fw-bold fs-6">Do you wish to continue this release? Application  Type Of Assitance got <span class="fw-bold text-danger">{{ $item?->aicsDetails[0]?->type_of_assistance ?? 'Not set' }}</span></p>
+                                                    <input type="number" name="amount" class="form-control" required placeholder="Enter Amount">
                                                 @endif
                                             </div>
                                             <div class="modal-footer">
@@ -198,7 +229,7 @@
                                             @csrf
                                             <div class="modal-header">
                                                 <h1 class="modal-title fs-5" id="ApproveModal{{ $item->id }}Label">
-                                                    Confirm...
+                                                    Confirming...
                                                 </h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
@@ -363,7 +394,7 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="problem_presented">Problem Presented.</label>
-                                                            <input type="text" name="problem_presented" required placeholder="Please enter case no." class="form-control">
+                                                            <input type="text" name="problem_presented" required placeholder="Please enter problem presented." class="form-control">
                                                             @error('problem_presented')
                                                                 <small class="text-danger">{{ $message }}</small>
                                                             @enderror
@@ -374,7 +405,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="findings">Findings</label>
-                                                                <input type="text" name="findings" required placeholder="Please enter case no." class="form-control">
+                                                                <input type="text" name="findings" required placeholder="Please enter findings." class="form-control">
                                                                 @error('findings')
                                                                     <small class="text-danger">{{ $message }}</small>
                                                                 @enderror
@@ -383,7 +414,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="action_taken">Action Taken</label>
-                                                            <input type="text" name="action_taken" required placeholder="Please enter case no." class="form-control">
+                                                            <input type="text" name="action_taken" required placeholder="Please enter action taken." class="form-control">
                                                             @error('action-taken')
                                                                 <small class="text-danger">{{ $message }}</small>
                                                             @enderror
@@ -391,7 +422,61 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                @endif
+                                            @endif
+                                            @if ($item->service->id == 3)
+                                                <div class="container" style="display: none;" id="aics-data{{ $item->id }}">
+                                                    <h2 class="mt-3 fw-bold text-uppercase fs-4">For Solo Parents</h2>
+                                                    <h2 class="mt-3 fw-bold text-uppercase fs-4 text-danger">FOR SPD/SPO USE ONLY</h2>
+                                                    <div class="form-row row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="card_number">Solo Parent Identification Card Number.</label>
+                                                                <input type="text" name="card_number" required placeholder="Please enter solo parent identification card number." class="form-control">
+                                                                @error('card_number')
+                                                                    <small class="text-danger">{{ $message }}</small>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="id_type">ID Type</label>
+                                                                <select name="id_type" id="" required class="form-select">
+                                                                    <option value="" hidden selected>Please select ID Type</option>
+                                                                    <option value="" disabled>Please select ID Type</option>
+                                                                    <option value="New">New</option>
+                                                                    <option value="Renewal">Renewal</option>
+                                                                </select>
+                                                                @error('id_type')
+                                                                    <small class="text-danger">{{ $message }}</small>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="status">Status</label>
+                                                                <select name="status" id="" required class="form-select">
+                                                                    <option value="" hidden selected>Please select status</option>
+                                                                    <option value="" disabled>Please select status</option>
+                                                                    <option value="Approved">Approved</option>
+                                                                    <option value="Disapproved">Disapproved</option>
+                                                                </select>
+                                                                @error('status')
+                                                                    <small class="text-danger">{{ $message }}</small>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="category">Solo Parent Category.</label>
+                                                                <input type="text" name="category" required placeholder="Please enter solo parent category." class="form-control">
+                                                                @error('category')
+                                                                    <small class="text-danger">{{ $message }}</small>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
@@ -487,12 +572,73 @@
         @include('admin.script')
     </div>
     <script>
+        @if (session('success'))
+            Swal.fire({
+                title: 'Success.',
+                text: "{{ session('success') }}",
+                icon: 'success',
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'Close',
+                confirmButtonColor: '#3085d6',
+                reverseButtons: true,
+            });
+        @endif
+    </script>
+    <script>
         @if ($errors->any())
         $(document).ready(function() {
             $('#RejectModal{{ $item->id }}').modal('show');
             $('#ApproveModal{{ $item->id }}').modal('show');
         });
         @endif
+    </script>
+     <script>
+        document.getElementById('sendSms').addEventListener('click', function (event) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                html: `Please check the number before sending.<br>Sending an SMS costs 1 credit.<br>Do you wish to continue?`,
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Send',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#3085d6',
+                reverseButtons: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Sending...',
+                        html: `Please wait, sending the SMS may take some time.<br>Thank you for your patience.`,
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    setTimeout(() => {
+                        Swal.close();
+                        document.getElementById('sendSmsForm').submit();
+
+                    }, 3000);
+                }
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('noPhone').addEventListener('click', function (event) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Ops.',
+                html: `This beneficiary has no phone number. <br>Please check the number before sending to avoid errors.<br>Thank You.`,
+                icon: 'warning',
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: 'Close',
+                confirmButtonColor: '#3085d6',
+                reverseButtons: true,
+            });
+        });
     </script>
 </body>
 

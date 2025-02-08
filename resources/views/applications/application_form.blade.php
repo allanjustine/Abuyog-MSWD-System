@@ -315,31 +315,31 @@ $customFields = json_decode($application->custom_fields, true);
 
 
     <div> STATUS
-      <div style="width: 12px; height: 12px;  border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 50px;"></div>
+      <div style="width: 12px; height: 12px;  border: 1px solid black; border-radius: 2px; display: inline-block; margin-left: 50px; background-color: {{ isset($application->soloParentDetails[0]?->forSpdOrSpoUseOnlies[0]) && $application->soloParentDetails[0]?->forSpdOrSpoUseOnlies[0]?->status === 'Approved' ? 'black' : 'white' }};"></div>
       <span style="margin-right: 8px; ">Approved</span>
-      <div style="width: 12px; height: 12px;  border: 1px solid black; border-radius: 2px; display: inline-block;"></div>
+      <div style="width: 12px; height: 12px;  border: 1px solid black; border-radius: 2px; display: inline-block; background-color: {{ isset($application->soloParentDetails[0]?->forSpdOrSpoUseOnlies[0]) && $application->soloParentDetails[0]?->forSpdOrSpoUseOnlies[0]?->id_type === 'New' ? 'black' : 'white' }};"></div>
       <span style="margin-right: 8px;">New</span>
-      <div style="width: 12px; height: 12px; border: 1px solid black; border-radius: 2px; display: inline-block;"></div>
+      <div style="width: 12px; height: 12px; border: 1px solid black; border-radius: 2px; display: inline-block; background-color: {{ isset($application->soloParentDetails[0]?->forSpdOrSpoUseOnlies[0]) && $application->soloParentDetails[0]?->forSpdOrSpoUseOnlies[0]?->id_type === 'Renewal' ? 'black' : 'white' }};"></div>
       <span style="margin-right: 8px;">Renewal</span>
-      <div style="width: 12px; height: 12px; border: 1px solid black; border-radius: 2px; display: inline-block;"></div>
+      <div style="width: 12px; height: 12px; border: 1px solid black; border-radius: 2px; display: inline-block; background-color: {{ isset($application->soloParentDetails[0]?->forSpdOrSpoUseOnlies[0]) && $application->soloParentDetails[0]?->forSpdOrSpoUseOnlies[0]?->status === 'Disapproved' ? 'black' : 'white' }};"></div>
       <span style="margin-right: 8px;" >Disapproved</span>
     </div>
 
       <!-- Left Section -->
   <div class="form-left" style="margin-top: 10px;">
     <label>Solo Parent Identification Card Number:</label>
-    <span style="border-bottom: 1px solid #000; width: 150px; display: inline-block; ">&nbsp;</span>
+    <span style="border-bottom: 1px solid #000; width: 150px; display: inline-block; ">&nbsp; {{ $application->soloParentDetails[0]?->forSpdOrSpoUseOnlies[0]?->card_number ?? '' }}</span>
   </div>
 
     <!-- Right Section -->
   <div class="form-right" style="text-align: right; margin-top: -50px;">
     <label>Date Issuance:</label>
-    <span style="border-bottom: 1px solid #000; width: 90px; display: inline-block;"></span>
+    <span style="border-bottom: 1px solid #000; width: 90px; display: inline-block;"> {{ $application->soloParentDetails[0]?->forSpdOrSpoUseOnlies[0]?->created_at?->format('F d, Y') }}</span>
   </div>
 
   <div class="form-left" style="margin-top: 10px;">
     <label>Solo Parent Category:</label>
-    <span style="border-bottom: 1px solid #000; width: 200px; display: inline-block; ">&nbsp;</span>
+    <span style="border-bottom: 1px solid #000; width: 200px; display: inline-block; ">&nbsp; {{ $application->soloParentDetails[0]?->forSpdOrSpoUseOnlies[0]?->category ?? '' }}</span>
   </div>
 
 
