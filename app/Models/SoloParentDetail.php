@@ -13,7 +13,7 @@ class SoloParentDetail extends Model
         return $this->belongsTo(Beneficiary::class);
     }
 
-    public function forSpdOrSpoUseOnlies() {
-        return $this->hasMany(ForSpdOrSpoUseOnly::class);
+    public function forSpdOrSpoUseOnly() {
+        return $this->hasOne(ForSpdOrSpoUseOnly::class);
     }
 }
