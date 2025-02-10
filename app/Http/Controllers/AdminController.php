@@ -366,30 +366,46 @@ class AdminController extends Controller
 
     public function newBenefitsshow()
     {
-        // Eager load the barangay and benefitsReceived relationships
         $beneficiaries = Beneficiary::with('barangay', 'benefitsReceived')->get();
         $services = Service::all();
         $barangays = Barangay::all(); // Fetch all barangays if needed
 
-        // Fetch distinct name_of_assistance values
-        $assistanceList = BenefitReceived::distinct()->pluck('name_of_assistance')->toArray();
+        $assistanceList = BenefitReceived::select(
+            'name_of_assistance',
+            'type_of_assistance',
+            'amount',
+            'date_received'
+        )->distinct()->get();
 
-        $totalBeneficiaries = $beneficiaries->count();
-
-        return view('admin.newbenefits', compact('barangays', 'services', 'beneficiaries', 'assistanceList', 'totalBeneficiaries'));
+        return view('admin.newbenefits', compact('assistanceList', 'services', 'barangays', 'beneficiaries', ));
     }
-
 
     public function filterBeneficiaries(Request $request)
     {
-        $ageFrom = $request->age_from;
-        $ageTo = $request->age_to;
+        $barangay = $request->barangay;
 
-        $beneficiaries = Beneficiary::whereRaw("TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) BETWEEN ? AND ?", [$ageFrom, $ageTo])->get();
+        $query = Beneficiary::query();
+
+        if ($barangay) {
+            $query->where('barangay_id', $barangay);
+        }
+
+        $beneficiaries = $query->get();
 
         return response()->json($beneficiaries);
     }
 
+    public function generateBeneficiaries(Request $request)
+    {
+        $beneficiaryIds = $request->input('beneficiary_ids');
+        $assistanceName = $request->input('name_of_assistance');
+
+        if (!empty($beneficiaryIds)) {
+            // Logic to associate the beneficiaries with assistance if needed
+        }
+
+        return response()->json(['success' => true, 'message' => 'Beneficiaries generated successfully.']);
+    }
 
     public function addAssistance(Request $request)
     {
