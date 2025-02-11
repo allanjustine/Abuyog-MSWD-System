@@ -229,25 +229,25 @@
                             <!-- Name of Assistance -->
                             <div class="col-md-3">
                                 <label><strong>Name of Assistance:</strong></label>
-                                <input type="text" class="form-control" value="{{ $benefit->name_of_assistance }}"
+                                <input type="text" class="form-control" value="{{ $benefit?->assistance?->name_of_assistance }}"
                                     disabled>
                             </div>
                             <!-- Type of Assistance -->
                             <div class="col-md-3">
                                 <label><strong>Type of Assistance:</strong></label>
-                                <input type="text" class="form-control" value="{{ $benefit->type_of_assistance }}"
+                                <input type="text" class="form-control" value="{{ $benefit?->assistance?->type_of_assistance }}"
                                     disabled>
                             </div>
                             <!-- Amount -->
                             <div class="col-md-3">
                                 <label><strong>Amount:</strong></label>
-                                <input type="text" class="form-control" value="{{ $benefit->amount }}" disabled>
+                                <input type="text" class="form-control" value="{{ $benefit?->assistance?->amount }}" disabled>
                             </div>
                             <!-- Date Received -->
                             <div class="col-md-3">
-                                <label><strong>Date Received:</strong></label>
+                                <label><strong>Date Given:</strong></label>
                                 <input type="text" class="form-control"
-                                    value="{{ $benefit->date_received ?? 'Not Yet Received' }}" disabled>
+                                    value="{{ $benefit?->assistance?->date_received?->format('F d, Y \a\t h:i A') ?? 'Not Yet Given' }}" disabled>
                             </div>
                         </div>
                         @endforeach

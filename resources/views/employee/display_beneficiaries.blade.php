@@ -66,7 +66,6 @@
                                 <td>{{ $item?->approved_at?->diffForHumans() ?? $item?->created_at->diffForHumans()
                                     }}</td>
                                 <td>
-                                <td>
                                     <div class="d-flex justify-content-around">
                                         <!-- View Button -->
                                         <div x-data="{open: false, loading: true}"

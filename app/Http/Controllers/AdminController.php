@@ -7,6 +7,7 @@ use App\Models\Service;
 use App\Models\Application;
 use App\Models\Beneficiary;
 use App\Models\AicsDetail;
+use App\Models\Assistance;
 use App\Models\PwdDetail;
 use App\Models\SoloParentDetail;
 use App\Models\ContactEmergency;
@@ -364,20 +365,15 @@ class AdminController extends Controller
 
 
 
-    public function newBenefitsshow()
+    public function newBenefitsshow(Request $request)
     {
         $beneficiaries = Beneficiary::with('barangay', 'benefitsReceived')->get();
         $services = Service::all();
         $barangays = Barangay::all(); // Fetch all barangays if needed
 
-        $assistanceList = BenefitReceived::select(
-            'name_of_assistance',
-            'type_of_assistance',
-            'amount',
-            'date_received'
-        )->distinct()->get();
+        $assistanceList = Assistance::with(['benefitReceiveds', 'benefitReceiveds.assistance', 'benefitReceiveds.beneficiary'])->get();
 
-        return view('admin.newbenefits', compact('assistanceList', 'services', 'barangays', 'beneficiaries', ));
+        return view('admin.newbenefits', compact('assistanceList', 'services', 'barangays', 'beneficiaries'));
     }
 
     public function filterBeneficiaries(Request $request)
@@ -407,16 +403,16 @@ class AdminController extends Controller
         return response()->json(['success' => true, 'message' => 'Beneficiaries generated successfully.']);
     }
 
-    public function addAssistance(Request $request)
+    public function getBeneficiaries(Request $request)
     {
         $minAge = $request->input('min_age');
         $maxAge = $request->input('max_age');
-        $serviceId = $request->input('service_id');
+        $serviceIds = $request->input('service_ids');
         $limit = $request->input('limit');
-        $barangayId = $request->input('barangay');
-        $nameOfAssistance = $request->input('name_of_assistance');
+        $barangayIds = $request->input('barangay_ids');
+        $assistanceIds = $request->input('assistance_ids');
 
-        $query = Beneficiary::query();
+        $query = Beneficiary::query()->whereIn('status', ['Released', 'Approved']);
 
         if ($minAge) {
             $query->where('age', '>=', $minAge);
@@ -425,31 +421,47 @@ class AdminController extends Controller
         if ($maxAge) {
             $query->where('age', '<=', $maxAge);
         }
-        if ($serviceId) {
-            $query->where('program_enrolled', $serviceId); // Use 'program_enrolled' instead of 'service_id'
+        if ($serviceIds) {
+            $query->whereIn('program_enrolled', $serviceIds); // Use 'program_enrolled' instead of 'service_id'
         }
-        if ($barangayId) {
-            $query->where('barangay_id', $barangayId); // Use 'barangay_id' for barangay filter
+        if ($barangayIds) {
+            $query->whereIn('barangay_id', $barangayIds); // Use 'barangay_id' for barangay filter
         }
-        if ($nameOfAssistance && is_array($nameOfAssistance)) {
-            $excludedBeneficiaries = BenefitReceived::whereIn('name_of_assistance', $nameOfAssistance)
-                ->pluck('beneficiary_id')
-                ->toArray();
+        if ($assistanceIds) {
+            $excludedBeneficiaries = BenefitReceived::whereIn('assistance_id', $assistanceIds)
+                ->pluck('beneficiary_id');
 
             $query->whereNotIn('id', $excludedBeneficiaries);
         }
 
         // Eager load the benefitsReceived relationship for the beneficiaries
-        $beneficiaries = $query->with('benefitsReceived')->paginate($limit);
+        $beneficiaries = $query->with(['benefitsReceived', 'barangay'])->take($limit)->get();
 
         // Retrieve all services for the dropdown
         $services = Service::all();
         $barangays = Barangay::all();
-        $assistanceList = BenefitReceived::distinct()->pluck('name_of_assistance')->toArray();
 
         $totalBeneficiaries = $beneficiaries->count();
 
-        return view('admin.newbenefits', compact('totalBeneficiaries', 'beneficiaries', 'services', 'barangays', 'nameOfAssistance', 'assistanceList'));
+        $beneficiaryIds = $beneficiaries->pluck('id');
+
+        $beneficiaryData = $beneficiaries->map(function ($beneficiary) {
+            return [
+                'name'              =>      $beneficiary->full_name,
+                'age'               =>      $beneficiary->age,
+                'barangay'          =>      $beneficiary->barangay->name,
+            ];
+        });
+
+        return response()->json([
+            'totalBeneficiaries'        =>          $totalBeneficiaries,
+            'beneficiaries'             =>          $beneficiaryData,
+            'services'                  =>          $services,
+            'barangays'                 =>          $barangays,
+            'beneficiary_ids'           =>          $beneficiaryIds
+
+        ], 200);
+        // return view('admin.newbenefits', compact('totalBeneficiaries', 'beneficiaries', 'services', 'barangays', 'nameOfAssistance'));
     }
 
 
@@ -1588,5 +1600,148 @@ class AdminController extends Controller
         $beneficiary->increment('message_count');
 
         return back()->with('success', "SMS sent Successfully to number {$beneficiary->phone}");
+    }
+
+    public function addNewAssistance(Request $request)
+    {
+        $request->validate([
+            'name_of_assistance'        =>          ['required'],
+            'type_of_assistance'        =>          ['required'],
+        ]);
+
+        Assistance::create([
+            'name_of_assistance'        =>          $request->name_of_assistance,
+            'amount'                    =>          $request->amount,
+            'type_of_assistance'        =>          $request->type_of_assistance
+        ]);
+
+        return back()->with('success', 'Assistance added successfully');
+    }
+
+    private function getRequirements($application)
+    {
+        $requirements = [];
+
+        if (!$application->service) {
+            return ['No specific requirements'];
+        }
+
+        if ($application->service->id == 4) { // AICS service
+            $aicsType = $application->aicsDetails[0]->type_of_assistance ?? 'Default';
+
+
+            switch ($aicsType) {
+                case 'Medical Assistance':
+                    $requirements = [
+                        'Barangay Certification/Certificate of Indigency - 1 original and 2 photocopy',
+                        'Medical Certification/Clinical Abstract issued within 3 months (with signature and license number of the attending physician - 1 original and 2 photocopy',
+                        'Statement of Account/Billing Statement(for Billing) - 1 original and 2 photocopy',
+                        'Pharmacy Receipt - 1 original and 2 photocopy',
+                        "Doctor's Prescription - 1 original and 2 photocopy",
+                        'Fully accomplished Application Form'
+                    ];
+                    break;
+                case 'Burial Assistance':
+                    $requirements = [
+                        'Barangay Certification/Certificate of Indigency - 1 original and 2 photocopy',
+                        'Registered Death Certificate - 1 original and 2 photocopy',
+                        'Funeral Contract - 1 original and 2 photocopy',
+                        'Senior Citizen Certification (deceased senior citizen) - 1 original and 2 photocopy',
+                        "Senior Citizen's Id (deceased senior citizen) - Certified True Copy and 2 photocopy",
+                        'Fully accomplished Application Form'
+                    ];
+                    break;
+                case 'Transportation Assistance':
+                    $requirements = [
+                        'Barangay Certification/Certificate of Indigency - 1 original and 2 photocopy',
+                        'Social Case Study Report - 2 Original Copy',
+                        'Letter Request - 1 original and 2 photocopy',
+                        'Fully accomplished Application Form'
+                    ];
+                    break;
+                case 'Food Assistance':
+                    $requirements = [
+                        'Intake/Interview of clients suffering from starvation to determine eligibility for assistance',
+                        'Fully accomplished Application Form'
+                    ];
+                    break;
+                case 'Emergency Shelter Assistance':
+                    $requirements = [
+                        'Fully accomplished Application Form',
+                        'Bureau of Fire Protection Certification',
+                        "Intake/Interview of client to determine one's eligibility for assistance",
+                        'Picture of the damaged house - 3 copies',
+                        'Fully accomplished Application Form'
+                    ];
+                    break;
+                case 'Educational Assistance':
+                    $requirements = [
+                        'Any valid ID/Barangay Certificate/ Certificate of Indigency - 3 photocopies',
+                        'School ID of student/beneficiary - 3 photocopies',
+                        'Certificate of Enrollment or Registration - 1 original and 2 photocopy',
+                        'Assessment Form/Statement of Account - 1 original and 2 photocopy',
+                        'Social Case Study Report (SCSR) from the MSWDO',
+                        'Fully accomplished Application Form'
+                    ];
+                    break;
+                default:
+                    $requirements = ['No specific requirements'];
+                    break;
+            }
+        } else {
+            // Other services' requirements
+            switch ($application->service->id) {
+                case 1:
+                    $requirements = ['Valid ID', 'Accomplished Certification and Authorization', 'Certificate of Existence', 'Fully accomplished Application Form'];
+                    break;
+                case 2:
+                    $requirements = ['Updated Barangay Certificate', '1x1 ID Picture', 'Birth Certificate / Voter\'s Certification', 'Medical Certificate', 'Whole Body picture of PWD applicant', 'Fully accomplished Application Form'];
+                    break;
+                case 3:
+                    $requirements = ['Certificate of No Marriage (CENOMAR)', '2×2 Photo', 'Fully accomplished Application Form', 'PSA Birth Certificate/s', 'Spouse’s Death Certificate', 'Certificate of Annulment/Nullity of Marriage', 'Income Tax Return (ITR) or Document Showing Income Level', 'Barangay Certificate', 'Proof of Financial Status', 'Supporting Documents/Certificates'];
+                    break;
+                default:
+                    $requirements = ['No specific requirements'];
+                    break;
+            }
+        }
+
+        return collect($requirements);
+    }
+
+    public function submitAssistance(Request $request, $id)
+    {
+        $assistance = Assistance::findOrFail($id);
+        $idsData = $request->beneficiary_ids_data;
+        $beneficiaries = Beneficiary::whereIn('id', explode(',', $idsData[0]))->get();
+
+
+        foreach ($beneficiaries as $beneficiary) {
+            $beneficiaryCreated = BenefitReceived::create([
+                'beneficiary_id'            =>          $beneficiary->id,
+                'assistance_id'             =>          $assistance->id,
+                'status'                    =>          'Pending',
+            ]);
+
+            $requirements = $this->getRequirements($beneficiary);
+
+            $sms = new ApplicationController();
+
+            $message = "Good day, {$beneficiary->full_name}! You are eligible for the {$beneficiaryCreated->assistance->name_of_assistance}. Kindly visit MSWD OFFICE of Abuyog to claim/avail the assistance. Please bring:\n{$requirements->map(fn ($requirement) => '- ' . $requirement)->implode("\n")}. For inquiries, contact us at 09367639686. Thank you!";
+
+            $sms->sendSMSNotification($beneficiary->phone, $message);
+
+            $beneficiary->increment('message_count');
+        }
+
+        if($beneficiaries->count() <= 0) {
+            return back()->with('error','No beneficiaries selected.');
+        }
+
+        $assistance->update([
+            'date_received'     =>      now()
+        ]);
+
+        return back()->with('success', 'Assistance submitted successfully');
     }
 }

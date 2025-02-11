@@ -131,7 +131,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/shownewbenefits', [AdminController::class, 'newBenefitsshow'])->name('admin.add_newbenefits');
     Route::post('/filter-beneficiaries', [AdminController::class, 'filterBeneficiaries'])->name('filterBeneficiaries');
     Route::get('/all_benefitsreceived', [AdminController::class, 'AllbenefitsReceived'])->name('admin.all_benefitsreceived');
-    Route::get('/add_assistance', [AdminController::class, 'addAssistance'])->name('addAssistance');
+    Route::get('/get-beneficiaries', [AdminController::class, 'getBeneficiaries']);
     Route::post('add-assistance-to-beneficiaries', [AdminController::class, 'addAssistanceToBeneficiaries'])->name('addAssistanceToBeneficiaries');
     Route::get('/filter-benefits-received', [AdminController::class, 'filterBenefitsReceived'])->name('filterBenefitsReceived');
     Route::get('/inventory', [AdminController::class, 'Inventory'])->name('admin.inventory');
@@ -207,6 +207,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     //edit opertor
     Route::get('/showbeneficiaries_operator', [OperatorController::class, 'showbeneficiaries_operator'])->name('show.beneficiaries_operator_index');
+
+
+    Route::post('/add-new-assistance', [AdminController::class, 'addNewAssistance']);
+    Route::post('/add-benefits/{id}', [AdminController::class, 'submitAssistance']);
 });
 
 Route::group(['middleware' => ['role-admin', 'auth']], function () {

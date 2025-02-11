@@ -9,20 +9,20 @@ class BenefitReceived extends Model
 {
     use HasFactory;
 
-    protected $table = 'benefits_received'; 
-    protected $fillable = [
-        'beneficiary_id', 
-        'name_of_assistance', 
-        'type_of_assistance', 
-        'amount', 
-        'date_received',
-        'status',
-        'not_received_reason',
+    protected $table = 'benefits_received';
+    protected $guarded = [];
+
+    protected $casts = [
+        'date_received' => 'datetime',
     ];
 
     public function beneficiary()
-{
-    return $this->belongsTo(Beneficiary::class, 'beneficiary_id');
-}
+    {
+        return $this->belongsTo(Beneficiary::class, 'beneficiary_id');
+    }
 
+    public function assistance()
+    {
+        return $this->belongsTo(Assistance::class);
+    }
 }

@@ -16,6 +16,7 @@ class CreateBenefitsReceivedTable extends Migration
         Schema::create('benefits_received', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('beneficiary_id'); // Foreign key for beneficiaries
+            $table->foreignId('assistance_id')->nullable()->constrained('assistances')->onDelete('cascade');
             $table->string('name_of_assistance'); // Name of the assistance
             $table->decimal('amount', 10, 2)->nullable(); // Amount of the assistance
             $table->date('date_received')->nullable()->default(null);

@@ -128,9 +128,28 @@ Yah ang ingon diay, sakto na lagi tong dropdown ang application. Like ang pagka 
 Tanggalon nalang tong uban nga wala na mention, wa toy gamit na HAHAHAHA
 
 
+
 Diba yah na mention namo tong FOR RELEASE nga button na ma notify ug sms ang user beneficiaries? Ma change nalang kaha tong status nga for release pud.
 
 Nya sa RELEASED button pud, mo diretso diba sa beneficiaries nga database? Naa pud baya mi to database nga assistance_received gi fk ra namo. Masulod pud unta to ang amount sa nadawat(nullable kasi pwede siya foods e), name, ang type of assistance, nya status. Kasi BENEFICIARIES e, which means naay nadawat.
 
 Nya tong button gani nga add beneficiaries? Pwede pud to butngan sa ubos about assistance received. Kapila pud sya pwede ka add parehas atong family... Para sunod, ma detect na sa admin if nakadawat naba na siya, para dili na magbalik2.
+
+
+Yah kining ginamean ba nako na after RELEASED button is mo sulod tong assistance received(like ang amount nya type of assistance)? Sa AICS ra diay to yah. Kay ang sa OSCA, PWD, nya Solo Parent kay ID ra diay ila madawat after application.
+
+Ayy oo lagi yah, fixed na HAHAHHHA pero dili
+
+"Your application has been approved. Please log in to your account for further instructions." Sa employee na dira na part, nya ichange pud nga ACCEPTED, nya butngan sa ubos ug FROM MSWD ABUYOG.
+
+Ing ani nalang kaya nang sa admin like:
+"Your request has been approved. Please proceed to the MSWD office to claim it." Or 
+"Your request has been approved. Please proceed to the MSWD office for further instructions." HAHAHHAHAHAH ikaw bahala yah
+
+Good eve yah naa pa diay pa tabang nimo ba if okay nimo ug when ka free. Kini bang sa new benefits sa admin nga part? Pina usab diay ni.
+
+Ang flow kasi dira mo display diba tanang list of beneficiaries? Nya i-filter sa admin ang pasok ra anang new benefits(pwede ra by age, by limit or by programs, etc. pwede ra isa ana), unya inig okay na, mo list down na ang filtered beneficiaries sa ubos nya iclick dayon tong button na add assistance to selected beneficiaries, pag add ana, ang filtered beneficiaries nga na display sa ubos is ma butngan to ug assistance received ilang data. Pero not received pa ang status kay ang employee man ang mo click sa button ug received ba. Pero kana nga flow namo is mali gayud.
+
+
+Dapat daw, ang ma list down dira sa ubos is ang all assistance gikan sa benefits_received na database. Ang first na buhaton is mag add ug new assistance ang admin, after ana ma display dayon kanang new assistance sa mga napadisplay. Naa untay button na generate (sa actions na ibutang) nya inig click, ngara na mo sulod tong filter beneficiaries na gibuhat namo, once okay na, ang mga filtered beneficiaries is mabutngan ug data(katong gi add sa admin na new benefits) pero ang status is not received pa, ang employee na ang mo click sa received button ato, pero if generated na, view button nalang, katong filtered beneficiaries name ang makita
 

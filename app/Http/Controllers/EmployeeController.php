@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Application;
+use App\Models\Assistance;
 use App\Models\Service;
 use App\Models\Beneficiary;
 use App\Models\Barangay;
@@ -253,19 +254,31 @@ class EmployeeController extends Controller
     //release assistance
 
 
-    public function releaseAssistance()
+    public function releaseAssistance(Request $request)
     {
         // Eager load the barangay and benefitsReceived relationships
-        $beneficiaries = Beneficiary::with('barangay', 'benefitsReceived')->get();
+        $assistance_name = $request->name_of_assistance;
+        $beneficiaries = Beneficiary::with('barangay', 'benefitsReceived')
+        ->whereHas('benefitsReceived', function($query) use ($assistance_name) {
+            $query->whereHas('assistance', function ($query) use ($assistance_name) {
+                $query->where('name_of_assistance', 'like', '%' . $assistance_name . '%');
+            });
+        })
+        ->get();
         $services = Service::all();
         $barangays = Barangay::all(); // Fetch all barangays if needed
 
         // Fetch distinct name_of_assistance values
-        $assistanceList = BenefitReceived::distinct()->pluck('name_of_assistance')->toArray();
 
-        $nameOfAssistance = null;
+        $assistances = Assistance::all();
+        $assistanceList = BenefitReceived::whereHas('assistance', function ($query) use ($assistance_name) {
+            $query->where('name_of_assistance', 'like', '%' . $assistance_name . '%');
+        })
+            ->get();
 
-        return view('employee.assistance_release', compact('barangays', 'services', 'beneficiaries', 'assistanceList', 'nameOfAssistance'));
+        $nameOfAssistance = $assistance_name ?: null;
+
+        return view('employee.assistance_release', compact('barangays', 'services', 'beneficiaries', 'assistanceList', 'nameOfAssistance', 'assistances'));
     }
 
 

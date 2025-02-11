@@ -14,6 +14,11 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <style>
+            .swal2-title {
+                color: black !important;
+            }
+        </style>
 </head>
 
 <body>
@@ -28,22 +33,18 @@
                 <div class="card-header">
                     Monitor the Release of Assistance or Benefits
                 </div>
-
-
-
-
-                <form action="{{ route('filterBenefits') }}" method="GET" class="mb-3">
+                <form class="mb-3">
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="mb-3 col-md-6">
                             <label for="name_of_assistance" class="form-label" style="margin-top: 5%;">Filter
                                 Beneficiaries by the name of Assistance</label>
                             <select name="name_of_assistance" id="name_of_assistance" class="form-control">
                                 <option value="">-- Select Assistance --</option>
-                                @foreach ($assistanceList as $assistance)
-                                    <option value="{{ $assistance }}"
-                                        {{ isset($nameOfAssistance) && $nameOfAssistance == $assistance ? 'selected' : '' }}>
-                                        {{ $assistance }}
-                                    </option>
+                                @foreach ($assistances as $assistance)
+                                <option value="{{ $assistance->name_of_assistance }}" {{
+                                    $nameOfAssistance==$assistance->name_of_assistance ? 'selected' : '' }}>
+                                    {{ $assistance->name_of_assistance }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -60,6 +61,7 @@
                     <table class="table table-sm table-bordered table-striped">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>First Name</th>
                                 <th>Middle Name</th>
                                 <th>Last Name</th>
@@ -67,64 +69,46 @@
                                 <th>Phone</th>
                                 <th>Program Enrolled</th>
                                 <th>Barangay</th>
+                                <th>Total Benefits Have</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($beneficiaries as $beneficiary)
-                                <tr>
+                            @forelse ($beneficiaries as $beneficiary)
+                            <tr>
+                                <td>{{ $beneficiary->id }}</td>
+                                <td>{{ $beneficiary->first_name }}</td>
+                                <td>{{ $beneficiary->middle_name }}</td>
+                                <td>{{ $beneficiary->last_name }}</td>
+                                <td>{{ $beneficiary->email }}</td>
+                                <td>{{ $beneficiary->phone }}</td>
+                                <td>{{ $beneficiary->service ? $beneficiary->service->name : 'No Program' }}</td>
+                                <td>{{ $beneficiary->barangay->name ?? 'No Barangay' }}</td>
+                                <td>
+                                    <strong>Total: </strong>{{ $beneficiary->benefitsReceived->count() }} <br>
+                                    <strong>
+                                        Pending:
+                                    </strong>
+                                    {{ $beneficiary->benefitsReceived->where('status', 'Pending')->count() }} <br>
+                                    <strong>
+                                        Received:
+                                    </strong>
+                                    {{ $beneficiary->benefitsReceived->where('status', 'Received')->count() }} <br>
+                                    <strong>
+                                        Not Received:
+                                    </strong>
+                                    {{ $beneficiary->benefitsReceived->where('status', 'Not Received')->count() }} <br>
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-around">
+                                        <!-- View Button -->
+                                        <button class="btn btn-info btn-sm" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#viewModal{{ $beneficiary->id }}">
+                                            View
+                                        </button>
+                                    </div>
+                                </td>
 
-                                    <td>{{ $beneficiary->first_name }}</td>
-                                    <td>{{ $beneficiary->middle_name }}</td>
-                                    <td>{{ $beneficiary->last_name }}</td>
-                                    <td>{{ $beneficiary->email }}</td>
-                                    <td>{{ $beneficiary->phone }}</td>
-                                    <td>{{ $beneficiary->service ? $beneficiary->service->name : 'No Program' }}</td>
-                                    <td>{{ $beneficiary->barangay->name ?? 'No Barangay' }}</td>
-                                    <td>
-                                        <div class="d-flex justify-content-around">
-                                            <!-- View Button -->
-                                            <button class="btn btn-info btn-sm" type="button" data-bs-toggle="modal"
-                                                data-bs-target="#viewModal{{ $beneficiary->id }}">
-                                                View
-                                            </button>
-
-                                            @foreach ($beneficiary->benefitsReceived as $benefit)
-                                                <!-- Only show benefits that match the selected assistance -->
-                                                @if ($benefit->name_of_assistance === $nameOfAssistance)
-                                                    @if ($benefit->status === 'pending')
-                                                        <!-- Mark as Received Button -->
-                                                        <form
-                                                            action="{{ route('benefits.markReceived', $benefit->id) }}"
-                                                            method="POST" style="display: inline;">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-success btn-sm">Mark
-                                                                as
-                                                                Received</button>
-                                                        </form>
-
-                                                        <!-- Mark as Not Received Button -->
-                                                        <form
-                                                            action="{{ route('benefits.markNotReceived', $benefit->id) }}"
-                                                            method="POST" style="display: inline;">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-warning btn-sm">Mark
-                                                                as Not
-                                                                Received</button>
-                                                        </form>
-                                                    @elseif ($benefit->status === 'Received')
-                                                        <button type="button" class="btn btn-success btn-sm"
-                                                            disabled>Received</button>
-                                                    @elseif ($benefit->status === 'Not Received')
-                                                        <button type="button" class="btn btn-danger btn-sm"
-                                                            disabled>Not
-                                                            Received</button>
-                                                    @endif
-                                                @endif
-                                            @endforeach
-                                        </div>
-                                    </td>
-                                </tr>
 
                                 <!-- View Modal -->
                                 <div class="modal fade" id="viewModal{{ $beneficiary->id }}" tabindex="-1"
@@ -189,7 +173,7 @@
                                                         <div class="form-group">
                                                             <label><strong>Date of Birth:</strong></label>
                                                             <input type="text" class="form-control"
-                                                                value="{{ $beneficiary->date_of_birth }}" disabled>
+                                                                value="{{ $beneficiary?->date_of_birth?->format('F d, Y') }}" disabled>
                                                         </div>
                                                         <div class="form-group">
                                                             <label><strong>Age:</strong></label>
@@ -222,61 +206,58 @@
                                                     <div class="col-md-12">
                                                         <h5><strong>Assistance Received:</strong></h5>
                                                         @foreach ($beneficiary->benefitsReceived as $benefit)
-                                                            <div class="form-group">
-                                                                <label><strong>Name of Assistance:</strong></label>
-                                                                <input type="text" class="form-control"
-                                                                    value="{{ $benefit->name_of_assistance }}"
-                                                                    disabled>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label><strong>Type of Assistance:</strong></label>
-                                                                <input type="text" class="form-control"
-                                                                    value="{{ $benefit->type_of_assistance }}"
-                                                                    disabled>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label><strong>Amount:</strong></label>
-                                                                <input type="text" class="form-control"
-                                                                    value="{{ $benefit->amount }}" disabled>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label><strong>Date Received:</strong></label>
-                                                                <input type="text" class="form-control"
-                                                                    value="{{ $benefit->date_received ?? 'Not Yet Received' }}"
-                                                                    disabled>
-                                                            </div>
+                                                        <div class="form-group">
+                                                            <label><strong>Name of Assistance:</strong></label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $benefit->assistance->name_of_assistance }}"
+                                                                disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label><strong>Type of Assistance:</strong></label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $benefit->assistance->type_of_assistance }}"
+                                                                disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label><strong>Amount:</strong></label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $benefit->assistance->amount }}" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label><strong>Date Received:</strong></label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $benefit?->date_received?->format('F d, Y \a\t h:i A') ?? 'Not Yet Received' }}"
+                                                                disabled>
+                                                        </div>
 
-                                                            <!-- Conditional Action Buttons -->
-                                                            @if ($benefit->status === 'Pending')
-                                                                <!-- Mark as Received Button -->
-                                                                <form
-                                                                    action="{{ route('benefits.markReceived', $benefit->id) }}"
-                                                                    method="POST" style="display: inline;">
-                                                                    @csrf
-                                                                    <button type="submit"
-                                                                        class="btn btn-success">Mark as
-                                                                        Received</button>
-                                                                </form>
+                                                        <!-- Conditional Action Buttons -->
+                                                        @if ($benefit->status === 'Pending')
+                                                        <!-- Mark as Received Button -->
+                                                        <form
+                                                            action="{{ route('benefits.markReceived', $benefit->id) }}"
+                                                            method="POST" style="display: inline;">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-success">Mark as
+                                                                Received</button>
+                                                        </form>
 
-                                                                <!-- Mark as Not Received Button -->
-                                                                <form
-                                                                    action="{{ route('benefits.markNotReceived', $benefit->id) }}"
-                                                                    method="POST" style="display: inline;">
-                                                                    @csrf
-                                                                    <button type="submit"
-                                                                        class="btn btn-warning">Mark as Not
-                                                                        Received</button>
-                                                                </form>
-                                                            @elseif ($benefit->status === 'Received')
-                                                                <button type="button" class="btn btn-success"
-                                                                    disabled>Received</button>
-                                                            @elseif ($benefit->status === 'Not Received')
-                                                                <button type="button" class="btn btn-danger"
-                                                                    disabled>Not
-                                                                    Received</button>
-                                                            @endif
+                                                        <!-- Mark as Not Received Button -->
+                                                        <form
+                                                            action="{{ route('benefits.markNotReceived', $benefit->id) }}"
+                                                            method="POST" style="display: inline;">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-warning">Mark as Not
+                                                                Received</button>
+                                                        </form>
+                                                        @elseif ($benefit->status === 'Received')
+                                                        <button type="button" class="btn btn-success"
+                                                            disabled>Received</button>
+                                                        @elseif ($benefit->status === 'Not Received')
+                                                        <button type="button" class="btn btn-danger" disabled>Not
+                                                            Received</button>
+                                                        @endif
 
-                                                            <hr>
+                                                        <hr class="my-4">
                                                         @endforeach
                                                     </div>
                                                 </div>
@@ -288,13 +269,15 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="10" class="text-center">{{ request()->has('name_of_assistance') ? 'No assistance found' : 'No assistance added yet' }}</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
-                @endforeach
-                </tbody>
-                </table>
             </div>
         </div>
     </div>

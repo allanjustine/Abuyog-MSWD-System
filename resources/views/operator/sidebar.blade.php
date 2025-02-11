@@ -118,8 +118,7 @@
                         </h5>
                     </div>
                 </div>
-                <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i
-                        class="mdi mdi-dots-vertical"></i></a>
+                <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
                 <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
                     aria-labelledby="profile-dropdown">
                     <a href="#" class="dropdown-item preview-item">
@@ -234,7 +233,7 @@
         </li>
 
         <li class="nav-item menu-items">
-            <a class="nav-link" href="{{ url('shownewbenefits_operator') }}">
+            <a class="nav-link" href="{{ url('shownewbenefits') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-assistant"></i>
                 </span>
@@ -242,14 +241,14 @@
             </a>
         </li>
 
-        <li class="nav-item menu-items">
+        {{-- <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('all_benefitsreceived_operator') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-cash"></i>
                 </span>
                 <span class="menu-title">All Benefits Received</span>
             </a>
-        </li>
+        </li> --}}
 
         <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('inventory_operator') }}">

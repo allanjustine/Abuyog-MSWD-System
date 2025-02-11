@@ -294,14 +294,14 @@
             </a>
         </li>
 
-        <li class="nav-item menu-items">
+        {{-- <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('all_benefitsreceived') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-cash"></i>
                 </span>
                 <span class="menu-title">All Benefits Received</span>
             </a>
-        </li>
+        </li> --}}
 
         <!-- Other Menu Items -->
         <li class="nav-item menu-items">
