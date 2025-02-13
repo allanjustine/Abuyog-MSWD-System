@@ -6,7 +6,7 @@
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">
-            {{ __('Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
+            {{ __('Please verify your account first by clicking the email verification.') }}
         </div>
 
         @if (session('status') == 'verification-link-sent')
@@ -27,9 +27,9 @@
             </form>
 
             <div>
-                <a href="{{ route('profile.show') }}"
+                 <!-- <a href="{{ route('profile.show') }}"
                     class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    {{ __('Edit Profile') }}</a>
+                    {{ __('Edit Profile') }}</a>  -->
 
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf

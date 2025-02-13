@@ -242,7 +242,7 @@ Route::group(['middleware' => ['role-admin', 'auth']], function () {
 
 
     Route::get('/add_service_view', [AdminController::class, 'addview']);
-    Route::get('/showservices', [AdminController::class, 'showservices']);
+    Route::get('/showservices', [AdminController::class, 'showservices'])->name('admin.showservices');
     Route::post('/upload_service', [AdminController::class, 'upload']);
     Route::get('/deleteservices/{id}', [AdminController::class, 'deleteservices']);
     Route::get('/editservices/{id}', [AdminController::class, 'editservices']);

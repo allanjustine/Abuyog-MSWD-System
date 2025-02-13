@@ -122,42 +122,6 @@
                         <h5 class="mb-0 font-weight-normal">MSWDO</h5>
                     </div>
                 </div>
-                <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
-                <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
-                    aria-labelledby="profile-dropdown">
-                    <a href="#" class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <div class="preview-icon bg-dark rounded-circle">
-                                <i class="mdi mdi-settings text-primary"></i>
-                            </div>
-                        </div>
-                        <div class="preview-item-content">
-                            <p class="mb-1 preview-subject ellipsis text-small">Account settings</p>
-                        </div>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <div class="preview-icon bg-dark rounded-circle">
-                                <i class="mdi mdi-onepassword text-info"></i>
-                            </div>
-                        </div>
-                        <div class="preview-item-content">
-                            <p class="mb-1 preview-subject ellipsis text-small">Change Password</p>
-                        </div>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <div class="preview-icon bg-dark rounded-circle">
-                                <i class="mdi mdi-calendar-today text-success"></i>
-                            </div>
-                        </div>
-                        <div class="preview-item-content">
-                            <p class="mb-1 preview-subject ellipsis text-small">To-do list</p>
-                        </div>
-                    </a>
-                </div>
             </div>
         </li>
         <li class="nav-item nav-category">
@@ -172,59 +136,15 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-
-        <!-- Beneficiaries Menu -->
-        <li class="nav-item menu-items" id="beneficiariesMenu">
-            <a class="nav-link" href="#" onclick="toggleSubMenu(event, 'beneficiariesSubMenu')">
-                <span class="menu-icon">
-                    <i class="mdi mdi-account-group"></i>
-                </span>
-                <span class="menu-title">Beneficiaries</span>
-            </a>
-        </li>
-
-        <ul class="sub-menu {{ request()->is('showbeneficiaries_admin*') || request()->routeIs('show.beneficiaries_admin') ? '' : 'hidden' }}"
-            id="beneficiariesSubMenu">
-            <li class="nav-item">
-                <a class="{{ request()->path() === 'showbeneficiaries_admin' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="{{ route('show.beneficiaries_admin') }}">
-                    <i class="mdi mdi-view-list"></i> ALL
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="{{ request()->query('service') === 'OSCA(Office of Senior Citizens)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="/showbeneficiaries_admin?service=OSCA(Office of Senior Citizens)">
-                    <i class="mdi mdi-face"></i> OSCA
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="{{ request()->query('service') === 'PWD(Persons with Disabilities)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="/showbeneficiaries_admin?service=PWD(Persons with Disabilities)">
-                    <i class="mdi mdi-wheelchair-accessibility"></i> PWD
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="{{ request()->query('service') === 'Solo Parent' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="/showbeneficiaries_admin?service=Solo Parent">
-                    <i class="mdi mdi-human-male-female"></i> Solo Parent
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="{{ request()->query('service') === 'AICS(Assistance to Individuals in Crisis)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="/showbeneficiaries_admin?service=AICS(Assistance to Individuals in Crisis)">
-                    <i class="mdi mdi-account-multiple"></i> AICS
-                </a>
-            </li>
-        </ul>
-
         <li class="nav-item menu-items">
-            <a class="nav-link" href="{{ url('showservices') }}">
+            <a class="nav-link" href="{{ url('gis') }}">
                 <span class="menu-icon">
-                    <i class="mdi mdi-file-document-box"></i>
+                    <i class="mdi mdi-map-marker-multiple"></i>
                 </span>
-                <span class="menu-title">All Services</span>
+                <span class="menu-title">Mapping</span>
             </a>
         </li>
+
         <div x-data="{ open: {{ request()->is('displayapplication*') ? 'true' : 'false' }} }">
             <li class="nav-item menu-items {{ request()->is('displayapplication*') ? 'active' : '' }}">
                 <button class="nav-link" type="button" @click="open = !open" style="width: 225px;">
@@ -267,12 +187,57 @@
                 </li>
             </ul>
         </div>
-        <li class="nav-item menu-items">
-            <a class="nav-link" href="{{ url('gis') }}">
+
+        <!-- Beneficiaries Menu -->
+        <li class="nav-item menu-items" id="beneficiariesMenu">
+            <a class="nav-link" href="" onclick="toggleSubMenu(event, 'beneficiariesSubMenu')">
                 <span class="menu-icon">
-                    <i class="mdi mdi-map-marker-multiple"></i>
+                    <i class="mdi mdi-account-group"></i>
                 </span>
-                <span class="menu-title">Mapping</span>
+                <span class="menu-title">Beneficiaries</span>
+            </a>
+        </li>
+
+        <ul class="sub-menu {{ request()->is('showbeneficiaries_admin*') || request()->routeIs('show.beneficiaries_admin') ? '' : 'hidden' }}"
+            id="beneficiariesSubMenu">
+            <li class="nav-item menu-items">
+                <a class="{{ request()->path() === 'showbeneficiaries_admin' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="{{ route('show.beneficiaries_admin') }}">
+                    <i class="mdi mdi-view-list"></i> <span class="menu-title">All</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="{{ request()->query('service') === 'OSCA(Office of Senior Citizens)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/showbeneficiaries_admin?service=OSCA(Office of Senior Citizens)">
+                    <i class="mdi mdi-face"></i> OSCA
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="{{ request()->query('service') === 'PWD(Persons with Disabilities)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/showbeneficiaries_admin?service=PWD(Persons with Disabilities)">
+                    <i class="mdi mdi-wheelchair-accessibility"></i> PWD
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="{{ request()->query('service') === 'Solo Parent' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/showbeneficiaries_admin?service=Solo Parent">
+                    <i class="mdi mdi-human-male-female"></i> Solo Parent
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="{{ request()->query('service') === 'AICS(Assistance to Individuals in Crisis)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/showbeneficiaries_admin?service=AICS(Assistance to Individuals in Crisis)">
+                    <i class="mdi mdi-account-multiple"></i> AICS
+                </a>
+            </li>
+        </ul>
+
+        <li class="nav-item menu-items">
+            <a class="nav-link" href="{{ url('shownewbenefits') }}">
+                <span class="menu-icon">
+                    <i class="mdi mdi-assistant"></i>
+                </span>
+                <span class="menu-title">Other Benefits</span>
             </a>
         </li>
 
@@ -285,14 +250,55 @@
             </a>
         </li>
 
-        <li class="nav-item menu-items">
-            <a class="nav-link" href="{{ url('shownewbenefits') }}">
+
+        <!-- Beneficiaries Menu -->
+        <li class="nav-item menu-items" id="adminMenu">
+            <a class="nav-link" href="" onclick="toggleSubMenu(event, 'adminSubMenu')">
                 <span class="menu-icon">
-                    <i class="mdi mdi-assistant"></i>
+                    <i class="mdi mdi-account-group"></i>
                 </span>
-                <span class="menu-title">New Benefits</span>
+                <span class="menu-title">Administration</span>
             </a>
         </li>
+
+        <ul class="sub-menu {{ request()->is('showservices*') || request()->routeIs('admin.showservices') ? '' : 'hidden' }}"
+            id="adminSubMenu">
+            <li class="nav-item menu-items">
+                <a class="{{ request()->path() === 'showservices' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="{{ route('admin.showservices') }}">
+                    <i class="mdi mdi-file-document-box"></i> <span class="menu-title">All Services</span>
+                </a>
+            </li>
+            <li class="nav-item menu-items">
+                <a class="{{ request()->path() === 'deceased' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="{{ route('admin.deceased') }}">
+                    <i class="mdi mdi-coffin"></i> <span class="menu-title">All Deceased</span>
+                </a>
+            </li>
+            <li class="nav-item menu-items">
+                <a class="{{ request()->path() === 'showusermanagement' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="{{ route('showusermanagement.index') }}">
+                    <i class="mdi mdi-account-key"></i> <span class="menu-title">User Management</span>
+                </a>
+            </li>
+        </ul>
+
+
+
+        {{--  <li class="nav-item menu-items">
+            <a class="nav-link" href="{{ url('showservices') }}">
+                <span class="menu-icon">
+                    <i class="mdi mdi-file-document-box"></i>
+                </span>
+                <span class="menu-title">All Services</span>
+            </a>
+        </li>  --}}
+
+
+
+
+
+
 
         {{-- <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('all_benefitsreceived') }}">
@@ -303,16 +309,7 @@
             </a>
         </li> --}}
 
-        <!-- Other Menu Items -->
-        <li class="nav-item menu-items">
-            <a class="nav-link" href="{{ url('inventory') }}">
-                <span class="menu-icon">
-                    <i class="mdi mdi-calculator-variant"></i>
-                </span>
-                <span class="menu-title">Inventory</span>
-            </a>
-        </li>
-        <li class="nav-item menu-items">
+        {{--  <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('deceased') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-coffin"></i>
@@ -327,7 +324,7 @@
                 </span>
                 <span class="menu-title">User Management</span>
             </a>
-        </li>
+        </li>  --}}
     </ul>
 </nav>
 <script>
