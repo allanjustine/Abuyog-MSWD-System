@@ -1575,13 +1575,17 @@ class AdminController extends Controller
         ]);
 
         if ($beneficiary->service->id == 4) {
-            BenefitReceived::create([
-                'beneficiary_id'            =>          $beneficiary->id,
+            $assistance = Assistance::create([
                 'name_of_assistance'        =>          'Aics',
                 'amount'                    =>          $request->amount,
                 'date_received'             =>          now(),
-                'status'                    =>          'Received',
                 'type_of_assistance'        =>          $beneficiary->aicsDetails[0]->type_of_assistance
+            ]);
+
+            BenefitReceived::create([
+                'beneficiary_id'            =>          $beneficiary->id,
+                'assistance_id'             =>          $assistance->id,
+                'status'                    =>          'Received',
             ]);
         }
 

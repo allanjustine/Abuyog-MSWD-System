@@ -205,30 +205,28 @@
                                                     </div>
                                                     <div class="row" style="padding: 0 15px;">
                                                         <!-- Service Section -->
-                                                        <div class="col-md-6">
-                                                            <label for="service_id" class="form-label"
-                                                                style="margin-top: 5%;">Select
-                                                                Programs (if applicable)</label>
-                                                            <div class="p-1 border rounded" style="margin-top:5%;">
-                                                                <select name="service_ids[]" id="service_id" multiple
-                                                                    style="height: 200px;" class="form-control">
-                                                                    <option value="">-- Select Service --</option>
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="serviceSelect" class="form-label"
+                                                                style="margin-top: 5%;">Select Programs (if applicable)</label>
+                                                            <div class="p-1 border rounded" style="margin-top:11.5%;">
+                                                                <ul class="gap-2 p-1 m-3 d-flex justify-content-start align-items-start flex-column"
+                                                                    style="height: 200px; overflow-y: auto;"
+                                                                    class="w-100">
                                                                     @foreach ($services as $service)
-                                                                    <option value="{{ $service->id }}" {{
-                                                                        request('service_id')==$service->id ? 'selected'
-                                                                        :
-                                                                        ''
-                                                                        }}>
-                                                                        {{ $service->name }}
-                                                                    </option>
+                                                                    <li>
+                                                                        <input style="width: 20px; height: 20px;"
+                                                                            type="checkbox"
+                                                                            id="service_{{ $service->id }}"
+                                                                            value="{{ $service->id }}"
+                                                                            name="service_ids[]" {{
+                                                                            request('service')==$service->id ?
+                                                                        'checked' : ''}}>
+                                                                        <label for="service_{{ $service->id }}">{{
+                                                                            $service->name }}</label>
+                                                                    </li>
                                                                     @endforeach
-                                                                </select>
+                                                                </ul>
                                                             </div>
-                                                            <small class="text-muted">Hold Ctrl (Windows) or Cmd (Mac)
-                                                                to
-                                                                select
-                                                                multiple
-                                                                options.</small>
                                                         </div>
 
                                                         <div class="col-md-6">
@@ -236,26 +234,26 @@
                                                                 style="margin-top: 5%;">Exclude Beneficiaries Who
                                                                 Received
                                                                 Assistance Before</label>
-                                                            <div class="p-1 border rounded">
-                                                                <select name="assistance_ids[]" id="assistance_ids"
-                                                                class="form-control" multiple style="height: 200px;">
-                                                                @foreach ($assistanceList->whereNotIn('id',
-                                                                [$assistance->id]) as $assistance2)
-                                                                <option value="{{ $assistance2->id }}" {{
-                                                                    in_array($assistance2->id, old('assistance_ids',
-                                                                    []))
-                                                                    ?
-                                                                    'selected' : '' }}>
-                                                                    {{ $assistance2->name_of_assistance }}
-                                                                </option>
-                                                                @endforeach
-                                                            </select>
+                                                                <div class="p-1 border rounded" style="margin-top:5%;">
+                                                                <ul class="gap-2 p-1 m-3 d-flex justify-content-start align-items-start flex-column"
+                                                                    style="height: 200px; overflow-y: auto;"
+                                                                    class="w-100">
+                                                                    @foreach ($assistanceList->whereNotIn('id',
+                                                                    [$assistance->id]) as $assistance2)
+                                                                    <li>
+                                                                        <input style="width: 20px; height: 20px;"
+                                                                            type="checkbox"
+                                                                            id="assistance2_{{ $assistance2->id }}"
+                                                                            value="{{ $assistance2->id }}"
+                                                                            name="assistance2_ids[]" {{
+                                                                            request('assistance2')==$assistance2->id ?
+                                                                        'checked' : ''}}>
+                                                                        <label for="assistance2_{{ $assistance2->id }}">{{
+                                                                            $assistance2->name_of_assistance }}</label>
+                                                                    </li>
+                                                                    @endforeach
+                                                                </ul>
                                                             </div>
-                                                            <small class="text-muted">Hold Ctrl (Windows) or Cmd (Mac)
-                                                                to
-                                                                select
-                                                                multiple
-                                                                options.</small>
                                                         </div>
                                                     </div>
                                                     <div class="row" style="padding: 0 15px;">

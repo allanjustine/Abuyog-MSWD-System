@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <!-- Add Bootstrap CSS (if not already included) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
 
     <style>
@@ -119,6 +122,16 @@
             white-space: nowrap;
             overflow: hidden;
             width: fit-content;
+        }
+
+        .content .title {
+            text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.7);
+            /* Adds black shadow */
+        }
+
+        .content span {
+            text-shadow: 1px 2px 4px rgba(244, 236, 236, 0.5);
+            /* Subtle shadow for smaller text */
         }
     </style>
 
@@ -225,19 +238,31 @@
             <!-- Slide 1 -->
             <div class="swiper-slide">
                 <img src="../assets/img/mswd-2.jpg" alt="MSWD Image 1">
-
+                <div class="content">
+                    <h3 class="title">
+                        MUNICIPAL SOCIAL WELFARE AND DEVELOPMENT OFFICE</h3>
+                    <span>Municipality Of Abuyog</span>
+                </div>
             </div>
 
             <!-- Slide 2 -->
             <div class="swiper-slide">
                 <img src="../assets/img/mswd-1.jpg" alt="MSWD Image 2">
-
+                <div class="content">
+                    <h3 class="title">
+                        MUNICIPAL SOCIAL WELFARE AND DEVELOPMENT OFFICE</h3>
+                    <span>Municipality Of Abuyog</span>
+                </div>
             </div>
 
             <!-- Slide 3 -->
             <div class="swiper-slide">
                 <img src="../assets/img/mswd-3.jpg" alt="MSWD Image 3">
-
+                <div class="content">
+                    <h3 class="title">
+                        MUNICIPAL SOCIAL WELFARE AND DEVELOPMENT OFFICE</h3>
+                    <span>Municipality Of Abuyog</span>
+                </div>
             </div>
         </div>
         <!-- Swiper Navigation -->
@@ -252,24 +277,29 @@
         <div class="py-3 page-section mt-md-n5 custom-index">
             <div class="container">
                 <div class="row justify-content-center">
+                    <!-- Vision -->
                     <div class="py-3 col-md-4 py-md-0">
-                        <div class="card-service wow fadeInUp">
+                        <div class="card-service wow fadeInUp" data-bs-toggle="modal" data-bs-target="#visionModal">
                             <div class="text-white circle-shape bg-secondary">
                                 <span class="mai-bulb"></span>
                             </div>
                             <p>Vision</p>
                         </div>
                     </div>
+
+                    <!-- Mission -->
                     <div class="py-3 col-md-4 py-md-0">
-                        <div class="card-service wow fadeInUp">
+                        <div class="card-service wow fadeInUp" data-bs-toggle="modal" data-bs-target="#missionModal">
                             <div class="text-white circle-shape bg-primary">
                                 <span class="mai-shield-checkmark"></span>
                             </div>
                             <p>Mission</p>
                         </div>
                     </div>
+
+                    <!-- Mandate -->
                     <div class="py-3 col-md-4 py-md-0">
-                        <div class="card-service wow fadeInUp">
+                        <div class="card-service wow fadeInUp" data-bs-toggle="modal" data-bs-target="#mandateModal">
                             <div class="text-white circle-shape bg-accent">
                                 <span class="mai-clipboard"></span>
                             </div>
@@ -280,9 +310,54 @@
             </div>
         </div>
     </div>
-    <div class="typing-container">
-        <h1 id="animated-text"></h1>
+    <!-- Vision Modal -->
+    <div class="modal fade" id="visionModal" tabindex="-1" aria-labelledby="visionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="visionModalLabel">Vision</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Your vision content goes here.
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Mission Modal -->
+    <div class="modal fade" id="missionModal" tabindex="-1" aria-labelledby="missionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="missionModalLabel">Mission</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Your mission content goes here.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mandate Modal -->
+    <div class="modal fade" id="mandateModal" tabindex="-1" aria-labelledby="mandateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mandateModalLabel">Mandate</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Your mandate content goes here.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="typing-container">
+        <h1 id="animated-text"></h1>
+    </div> -->
 
 
     <div id="services-section">
@@ -356,7 +431,7 @@
         });
 
 
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const texts = [
                 "MUNICIPAL SOCIAL WELFARE", "AND", "DEVELOPMENT OFFICE", "Municipality Of Abuyog"
             ]; // Add your texts here
@@ -387,6 +462,9 @@
             typeText();
         });
     </script>
+
+    <!-- Bootstrap JS (for modal functionality) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

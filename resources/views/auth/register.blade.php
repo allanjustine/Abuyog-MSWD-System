@@ -5,6 +5,7 @@
                 style="border-radius: 50%; width: 100px; height: 100px;">
         </x-slot>
 
+
         <x-validation-errors class="mb-4" />
 
         <style>
@@ -12,9 +13,11 @@
                 text-transform: uppercase;
             }
         </style>
+       
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
+            <h1 style="text-align: center; font-size: 2rem; font-weight: bold; margin-bottom: 20px;">REGISTRATION FORM</h1>
 
             <div>
                 <x-label for="last_name" value="{{ __('Last Name') }}" />
@@ -53,7 +56,7 @@
                     <option value="" selected hidden>Select Barangay</option>
                     <option value="" disabled>Select Barangay</option>
                     @foreach (\App\Models\Barangay::all() as $barangay)
-                    <option value="{{ $barangay->id }}" {{ old('barangay_id')==$barangay->id ? 'selected' : ""}}>{{
+                                    <option value="{{ $barangay->id }}" {{ old('barangay_id') == $barangay->id ? 'selected' : ""}}>{{
                         $barangay->name }}</option>
                     @endforeach
                 </select>
@@ -63,9 +66,9 @@
                 <select name="gender" id="gender" class="block w-full mt-1 form-control" required>
                     <option value="" selected hidden>Select Gender</option>
                     <option value="" disabled>Select Gender</option>
-                    <option value="Male" {{ old('gender')=='Male' ? 'selected' : "" }}>Male</option>
-                    <option value="Female" {{ old('gender')=='Female' ? 'selected' : "" }}>Female</option>
-                    <option value="Rather not to say" {{ old('gender')=='Rather not to say' ? 'selected' : "" }}>Rather
+                    <option value="Male" {{ old('gender') == 'Male' ? 'selected' : "" }}>Male</option>
+                    <option value="Female" {{ old('gender') == 'Female' ? 'selected' : "" }}>Female</option>
+                    <option value="Rather not to say" {{ old('gender') == 'Rather not to say' ? 'selected' : "" }}>Rather
                         not to say</option>
                 </select>
             </div>
@@ -101,34 +104,34 @@
             </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-            <div class="mt-4">
-                <x-label for="terms">
-                    <div class="flex items-center">
-                        <x-checkbox name="terms" id="terms" required />
+                        <div class="mt-4">
+                            <x-label for="terms">
+                                <div class="flex items-center">
+                                    <x-checkbox name="terms" id="terms" required />
 
-                        <div class="ms-2">
-                            {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                            'terms_of_service' =>
-                            '<a target="_blank" href="' .
-                                        route('terms.show') .
-                                        '"
-                                class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'
-                                .
-                                __('Terms of Service') .
-                                '</a>',
-                            'privacy_policy' =>
-                            '<a target="_blank" href="' .
-                                        route('policy.show') .
-                                        '"
-                                class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'
-                                .
-                                __('Privacy Policy') .
-                                '</a>',
-                            ]) !!}
+                                    <div class="ms-2">
+                                        {!! __('I agree to the :terms_of_service and :privacy_policy', [
+                    'terms_of_service' =>
+                        '<a target="_blank" href="' .
+                        route('terms.show') .
+                        '"
+                                            class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'
+                        .
+                        __('Terms of Service') .
+                        '</a>',
+                    'privacy_policy' =>
+                        '<a target="_blank" href="' .
+                        route('policy.show') .
+                        '"
+                                            class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'
+                        .
+                        __('Privacy Policy') .
+                        '</a>',
+                ]) !!}
+                                    </div>
+                                </div>
+                            </x-label>
                         </div>
-                    </div>
-                </x-label>
-            </div>
             @endif
 
             <div class="flex items-center justify-end mt-4">

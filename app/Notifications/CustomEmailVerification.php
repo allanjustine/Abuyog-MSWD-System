@@ -5,6 +5,7 @@ namespace App\Notifications;
 use Illuminate\Auth\Notifications\VerifyEmail as BaseVerifyEmail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Carbon;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class CustomEmailVerification extends BaseVerifyEmail
 {
@@ -33,4 +34,10 @@ class CustomEmailVerification extends BaseVerifyEmail
             ['id' => $notifiable->getKey(), 'hash' => sha1($notifiable->getEmailForVerification())]
         );
     }
+    public function toMail($notifiable)
+{
+    return (new MailMessage)
+        ->subject('Verify Your Email Address')
+        ->markdown('emails.custom-verification', ['url' => $this->verificationUrl($notifiable)]);
+}
 }
