@@ -17,6 +17,7 @@ use App\Models\BenefitReceived;
 use App\Models\FamilyBackground;
 use App\Models\FamilyComposition;
 use App\Models\ForSpdOrSpoUseOnly;
+use App\Models\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -804,6 +805,8 @@ class AdminController extends Controller
 
         ]);
 
+        $original = $beneficiary->getOriginal();
+
         $beneficiary->update([
             'last_name'                 =>         $request->last_name,
             'first_name'                =>         $request->first_name,
@@ -820,6 +823,75 @@ class AdminController extends Controller
             'age'                       =>         $request->age,
             'phone'                     =>         $request->phone,
         ]);
+
+        $logEntry = 'Updated beneficiary record with the following changes: ';
+        $changedData = [];
+
+        if ($original['last_name'] !== $request->last_name) {
+            $changedData[] = "Last Name: {$original['last_name']} → {$request->last_name}";
+        }
+
+        if ($original['first_name'] !== $request->first_name) {
+            $changedData[] = "First Name: {$original['first_name']} → {$request->first_name}";
+        }
+
+        if ($original['middle_name'] !== $request->middle_name) {
+            $changedData[] = "Middle Name: {$original['middle_name']} → {$request->middle_name}";
+        }
+
+        if ($original['place_of_birth'] !== $request->place_of_birth) {
+            $changedData[] = "Place of Birth: {$original['place_of_birth']} → {$request->place_of_birth}";
+        }
+
+        if ($original['civil_status'] !== $request->civil_status) {
+            $changedData[] = "Civil Status: {$original['civil_status']} → {$request->civil_status}";
+        }
+
+        if ($original['date_of_birth'] !== $request->date_of_birth) {
+            $changedData[] = "Date of Birth: {$original['date_of_birth']} → {$request->date_of_birth}";
+        }
+
+        if ($original['gender'] !== $request->gender) {
+            $changedData[] = "Gender: {$original['gender']} → {$request->gender}";
+        }
+
+        if ($original['barangay_id'] !== $request->barangay) {
+            $changedData[] = "Barangay: {$original['barangay_id']} → {$request->barangay}";
+        }
+
+        if ($original['educational_attainment'] !== $request->educational_attainment) {
+            $changedData[] = "Educational Attainment: {$original['educational_attainment']} → {$request->educational_attainment}";
+        }
+
+        if ($original['occupation'] !== $request->occupation) {
+            $changedData[] = "Occupation: {$original['occupation']} → {$request->occupation}";
+        }
+
+        if ($original['annual_income'] !== $request->annual_income) {
+            $changedData[] = "Annual Income: {$original['annual_income']} → {$request->annual_income}";
+        }
+
+        if ($original['other_skills'] !== $request->other_skills) {
+            $changedData[] = "Other Skills: {$original['other_skills']} → {$request->other_skills}";
+        }
+
+        if ($original['age'] !== $request->age) {
+            $changedData[] = "Age: {$original['age']} → {$request->age}";
+        }
+
+        if ($original['phone'] !== $request->phone) {
+            $changedData[] = "Phone: {$original['phone']} → {$request->phone}";
+        }
+
+        if (count($changedData) > 0) {
+            $logEntry .= implode(', ', $changedData);
+
+            Log::create([
+                'user_id'           =>       Auth::id(),
+                'beneficiary_id'    =>       $beneficiary->id,
+                'log_entry'         =>       $logEntry,
+            ]);
+        }
 
         if ($request->has('family_composition_data')) {
             foreach ($request->family_composition_data as $index => $data) {
@@ -995,6 +1067,8 @@ class AdminController extends Controller
 
         ]);
 
+        $original = $beneficiary->getOriginal();
+
         $beneficiary->update([
             'last_name'                 =>         $request->last_name,
             'first_name'                =>         $request->first_name,
@@ -1009,6 +1083,68 @@ class AdminController extends Controller
             'age'                       =>         $request->age,
             'phone'                     =>         $request->phone,
         ]);
+
+        $logEntry = 'Updated beneficiary record with the following changes: ';
+        $changedData = [];
+
+        // Compare and log only updated fields
+        if ($original['last_name'] !== $request->last_name) {
+            $changedData[] = "Last Name: {$original['last_name']} → {$request->last_name}";
+        }
+
+        if ($original['first_name'] !== $request->first_name) {
+            $changedData[] = "First Name: {$original['first_name']} → {$request->first_name}";
+        }
+
+        if ($original['middle_name'] !== $request->middle_name) {
+            $changedData[] = "Middle Name: {$original['middle_name']} → {$request->middle_name}";
+        }
+
+        if ($original['place_of_birth'] !== $request->place_of_birth) {
+            $changedData[] = "Place of Birth: {$original['place_of_birth']} → {$request->place_of_birth}";
+        }
+
+        if ($original['date_of_birth'] !== $request->date_of_birth) {
+            $changedData[] = "Date of Birth: {$original['date_of_birth']} → {$request->date_of_birth}";
+        }
+
+        if ($original['religion'] !== $request->religion) {
+            $changedData[] = "Religion: {$original['religion']} → {$request->religion}";
+        }
+
+        if ($original['civil_status'] !== $request->civil_status) {
+            $changedData[] = "Civil Status: {$original['civil_status']} → {$request->civil_status}";
+        }
+
+        if ($original['barangay_id'] !== $request->barangay) {
+            $changedData[] = "Barangay: {$original['barangay_id']} → {$request->barangay}";
+        }
+
+        if ($original['occupation'] !== $request->occupation) {
+            $changedData[] = "Occupation: {$original['occupation']} → {$request->occupation}";
+        }
+
+        if ($original['educational_attainment'] !== $request->educational_attainment) {
+            $changedData[] = "Educational Attainment: {$original['educational_attainment']} → {$request->educational_attainment}";
+        }
+
+        if ($original['age'] !== $request->age) {
+            $changedData[] = "Age: {$original['age']} → {$request->age}";
+        }
+
+        if ($original['phone'] !== $request->phone) {
+            $changedData[] = "Phone: {$original['phone']} → {$request->phone}";
+        }
+
+        if (count($changedData) > 0) {
+            $logEntry .= implode(', ', $changedData);
+
+            Log::create([
+                'user_id'           =>      Auth::id(),
+                'beneficiary_id'    =>      $beneficiary->id,
+                'log_entry'         =>      $logEntry,
+            ]);
+        }
 
         if ($request->has('family_composition_data')) {
             foreach ($request->family_composition_data as $index => $data) {
@@ -1215,6 +1351,8 @@ class AdminController extends Controller
 
         ]);
 
+        $original = $beneficiary->getOriginal();
+
         $beneficiary->update([
             'last_name'                         =>          $request->last_name,
             'first_name'                        =>          $request->first_name,
@@ -1231,6 +1369,75 @@ class AdminController extends Controller
             'phone'                             =>          $request->phone,
             'age'                               =>          $request->age,
         ]);
+
+        $logEntry = 'Updated beneficiary record with the following changes: ';
+        $changedData = [];
+
+        if ($original['last_name'] !== $request->last_name) {
+            $changedData[] = "Last Name: {$original['last_name']} → {$request->last_name}";
+        }
+
+        if ($original['first_name'] !== $request->first_name) {
+            $changedData[] = "First Name: {$original['first_name']} → {$request->first_name}";
+        }
+
+        if ($original['middle_name'] !== $request->middle_name) {
+            $changedData[] = "Middle Name: {$original['middle_name']} → {$request->middle_name}";
+        }
+
+        if ($original['place_of_birth'] !== $request->place_of_birth) {
+            $changedData[] = "Place of Birth: {$original['place_of_birth']} → {$request->place_of_birth}";
+        }
+
+        if ($original['date_of_birth'] !== $request->date_of_birth) {
+            $changedData[] = "Date of Birth: {$original['date_of_birth']} → {$request->date_of_birth}";
+        }
+
+        if ($original['religion'] !== $request->religion) {
+            $changedData[] = "Religion: {$original['religion']} → {$request->religion}";
+        }
+
+        if ($original['gender'] !== $request->gender) {
+            $changedData[] = "Gender: {$original['gender']} → {$request->gender}";
+        }
+
+        if ($original['barangay_id'] !== $request->barangay) {
+            $changedData[] = "Barangay: {$original['barangay_id']} → {$request->barangay}";
+        }
+
+        if ($original['civil_status'] !== $request->civil_status) {
+            $changedData[] = "Civil Status: {$original['civil_status']} → {$request->civil_status}";
+        }
+
+        if ($original['annual_income'] !== $request->annual_income) {
+            $changedData[] = "Annual Income: {$original['annual_income']} → {$request->annual_income}";
+        }
+
+        if ($original['educational_attainment'] !== $request->educational_attainment) {
+            $changedData[] = "Educational Attainment: {$original['educational_attainment']} → {$request->educational_attainment}";
+        }
+
+        if ($original['occupation'] !== $request->occupation) {
+            $changedData[] = "Occupation: {$original['occupation']} → {$request->occupation}";
+        }
+
+        if ($original['phone'] !== $request->phone) {
+            $changedData[] = "Phone: {$original['phone']} → {$request->phone}";
+        }
+
+        if ($original['age'] !== $request->age) {
+            $changedData[] = "Age: {$original['age']} → {$request->age}";
+        }
+
+        if (count($changedData) > 0) {
+            $logEntry .= implode(', ', $changedData);
+
+            Log::create([
+                'user_id'           =>      Auth::id(),
+                'beneficiary_id'    =>      $beneficiary->id,
+                'log_entry'         =>      $logEntry,
+            ]);
+        }
 
         if ($request->has('family_composition_data')) {
             foreach ($request->family_composition_data as $index => $data) {
@@ -1358,6 +1565,8 @@ class AdminController extends Controller
             'accomplished_by'                   =>          ['required', 'min:1', 'max:255', 'string'],
         ]);
 
+
+
         $beneficiary = Beneficiary::create([
             'program_enrolled'                  =>          $pwdId,
             'last_name'                         =>          $request->last_name,
@@ -1484,6 +1693,8 @@ class AdminController extends Controller
             'accomplished_by'                   =>          ['required', 'min:1', 'max:255', 'string'],
         ]);
 
+        $original = $beneficiary->getOriginal();
+
         $beneficiary->update([
             'last_name'                         =>          $request->last_name,
             'first_name'                        =>          $request->first_name,
@@ -1499,6 +1710,71 @@ class AdminController extends Controller
             'phone'                             =>          $request->phone,
             'age'                               =>          $request->age,
         ]);
+
+        $logEntry = 'Updated beneficiary record with the following changes: ';
+        $changedData = [];
+
+        if ($original['last_name'] !== $request->last_name) {
+            $changedData[] = "Last Name: {$original['last_name']} → {$request->last_name}";
+        }
+
+        if ($original['first_name'] !== $request->first_name) {
+            $changedData[] = "First Name: {$original['first_name']} → {$request->first_name}";
+        }
+
+        if ($original['place_of_birth'] !== $request->place_of_birth) {
+            $changedData[] = "Place of Birth: {$original['place_of_birth']} → {$request->place_of_birth}";
+        }
+
+        if ($original['date_of_birth'] !== $request->date_of_birth) {
+            $changedData[] = "Date of Birth: {$original['date_of_birth']} → {$request->date_of_birth}";
+        }
+
+        if ($original['religion'] !== $request->religion) {
+            $changedData[] = "Religion: {$original['religion']} → {$request->religion}";
+        }
+
+        if ($original['gender'] !== $request->gender) {
+            $changedData[] = "Gender: {$original['gender']} → {$request->gender}";
+        }
+
+        if ($original['barangay_id'] !== $request->barangay) {
+            $changedData[] = "Barangay: {$original['barangay_id']} → {$request->barangay}";
+        }
+
+        if ($original['civil_status'] !== $request->civil_status) {
+            $changedData[] = "Civil Status: {$original['civil_status']} → {$request->civil_status}";
+        }
+
+        if ($original['annual_income'] !== $request->annual_income) {
+            $changedData[] = "Annual Income: {$original['annual_income']} → {$request->annual_income}";
+        }
+
+        if ($original['educational_attainment'] !== $request->educational_attainment) {
+            $changedData[] = "Educational Attainment: {$original['educational_attainment']} → {$request->educational_attainment}";
+        }
+
+        if ($original['occupation'] !== $request->occupation) {
+            $changedData[] = "Occupation: {$original['occupation']} → {$request->occupation}";
+        }
+
+        if ($original['phone'] !== $request->phone) {
+            $changedData[] = "Phone: {$original['phone']} → {$request->phone}";
+        }
+
+        if ($original['age'] !== $request->age) {
+            $changedData[] = "Age: {$original['age']} → {$request->age}";
+        }
+
+        if (count($changedData) > 0) {
+            $logEntry .= implode(', ', $changedData);
+
+            Log::create([
+                'user_id'           =>   Auth::id(),
+                'beneficiary_id'    =>   $beneficiary->id,
+                'log_entry'         =>   $logEntry,
+            ]);
+        }
 
         $acquired = $request->acquired === 'Other' ? 'Other, ' . $request->other_acquired : $request->acquired;
         $cause_of_disability = $request->cause_of_disability === 'Other' ? 'Other, ' . $request->other_cause_of_disability : $request->cause_of_disability;
@@ -1731,15 +2007,15 @@ class AdminController extends Controller
 
             $sms = new ApplicationController();
 
-            $message = "Good day, {$beneficiary->full_name}! You are eligible for the {$beneficiaryCreated->assistance->name_of_assistance}. Kindly visit MSWD OFFICE of Abuyog to claim/avail the assistance. Please bring:\n{$requirements->map(fn ($requirement) => '- ' . $requirement)->implode("\n")}. For inquiries, contact us at 09367639686. Thank you!";
+            $message = "Good day, {$beneficiary->full_name}! You are eligible for the {$beneficiaryCreated->assistance->name_of_assistance}. Kindly visit MSWD OFFICE of Abuyog to claim/avail the assistance. Please bring:\n{$requirements->map(fn($requirement) => '- ' .$requirement)->implode("\n")}. For inquiries, contact us at 09367639686. Thank you!";
 
             $sms->sendSMSNotification($beneficiary->phone, $message);
 
             $beneficiary->increment('message_count');
         }
 
-        if($beneficiaries->count() <= 0) {
-            return back()->with('error','No beneficiaries selected.');
+        if ($beneficiaries->count() <= 0) {
+            return back()->with('error', 'No beneficiaries selected.');
         }
 
         $assistance->update([
@@ -1747,5 +2023,17 @@ class AdminController extends Controller
         ]);
 
         return back()->with('success', 'Assistance submitted successfully');
+    }
+
+    public function displayAllLogs()
+    {
+        $logs = Log::query()->with(['user', 'beneficiary'])->get([
+            'user_id',
+            'beneficiary_id',
+            'log_entry',
+            'created_at'
+        ]);
+
+        return view('admin.logs', compact('logs'));
     }
 }

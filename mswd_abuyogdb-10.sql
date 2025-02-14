@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 14, 2025 at 04:22 AM
+-- Generation Time: Feb 13, 2025 at 12:36 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,8 +43,7 @@ CREATE TABLE `accomplished_bies` (
 
 INSERT INTO `accomplished_bies` (`id`, `pwd_detail_id`, `first_name`, `last_name`, `middle_name`, `created_at`, `updated_at`) VALUES
 (3, 11, 'Hillary', 'Terrell', 'Erica Frost', '2025-02-06 03:55:55', '2025-02-06 03:55:55'),
-(5, 15, 'Melberth', 'Dancil', 'C.', '2025-02-08 09:02:06', '2025-02-08 09:02:06'),
-(6, 16, 'Brooke', 'Flores', 'Rajah Berg', '2025-02-14 01:56:40', '2025-02-14 01:56:40');
+(5, 15, 'Melberth', 'Dancil', 'C.', '2025-02-08 09:02:06', '2025-02-08 09:02:06');
 
 -- --------------------------------------------------------
 
@@ -86,8 +85,7 @@ INSERT INTO `aics_details` (`id`, `beneficiary_id`, `case_no`, `new_or_old`, `da
 (23, 73, '2', 'New', '2025-02-11', 'asdf', 'asd', 'aa', 'sd', 'Transportation Assistance', '2025-02-07 02:17:34', '2025-02-08 00:51:33'),
 (24, 75, 'Eiusmod consequatur', 'New', '2017-12-21', 'Animi ea modi tempo', 'Excepteur voluptas e', 'Consectetur aut obca', 'Porro qui cupiditate', NULL, '2025-02-08 03:31:42', '2025-02-08 03:31:42'),
 (25, 76, 'Incididunt eu perfer', 'Old', '2021-04-08', 'Impedit sed nesciun', 'Libero quidem tempor', 'Est aute ea ut repe', 'Sunt facilis aute an', NULL, '2025-02-08 03:36:24', '2025-02-08 03:36:24'),
-(26, 78, 'Fugiat molestiae ex', 'New', '1983-07-20', 'Aliquip architecto m', 'Sed saepe at reicien', 'Quia ullamco id dolo', 'Cum repudiandae nost', NULL, '2025-02-08 03:52:17', '2025-02-08 03:52:17'),
-(27, 91, NULL, NULL, '2025-02-17', 'Incidunt nulla lore', NULL, NULL, NULL, 'Medical Assistance', '2025-02-14 02:12:48', '2025-02-14 02:12:48');
+(26, 78, 'Fugiat molestiae ex', 'New', '1983-07-20', 'Aliquip architecto m', 'Sed saepe at reicien', 'Quia ullamco id dolo', 'Cum repudiandae nost', NULL, '2025-02-08 03:52:17', '2025-02-08 03:52:17');
 
 -- --------------------------------------------------------
 
@@ -326,7 +324,7 @@ INSERT INTO `beneficiaries` (`id`, `first_name`, `middle_name`, `last_name`, `su
 (69, 'admin', ' ', ' jordan', '', '2017-09-09', 7, NULL, 'Sint ullamco atque', 4, 23, 'Eiusmod nobis minus', 'Deserunt cupidatat o', 'Elementary Level', 'Omnis beatae cupidit', 'Mollitia eligendi qu', NULL, '09064209450', 'admin@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-08 02:45:36', '2025-02-06 16:00:00', 2, 3, 2, 'released', 0, NULL, '2025-02-07 01:50:28', '2025-02-08 02:46:19'),
 (70, 'Lovely', ' Escano', ' Chavez', '', '1962-02-07', 63, NULL, 'Abuyog', 4, 56, 'Abuyog leyte', 'Single', 'Vocational', 'Student', 'Adventist', NULL, '09268307424', 's.crl0043@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-07 02:02:04', '2025-02-09 16:00:00', 2, 3, 25, 'released', 1, NULL, '2025-02-07 01:57:37', '2025-02-11 03:09:32'),
 (71, 'elizabeth', 'mamasig', 'sebios', NULL, '1940-01-01', 85, 'Male', 'Abuyog Leyte', 1, 22, 'Barangay capilian', 'Married', 'Post Graduate', 'N/a', NULL, NULL, '09164321071', 'elizabeth.sebios@gmail.com', NULL, '1000', 'N/a', NULL, NULL, NULL, '2025-02-11 16:00:00', NULL, NULL, 18, 'rejected', 0, 'Di diay ko', '2025-02-07 02:00:06', '2025-02-07 07:44:58'),
-(72, 'admin', NULL, 'jordan', '', '2021-04-15', 3, NULL, 'Ex ut eaque commodo', 4, 15, 'Reiciendis earum adi', 'Married', 'Elementary', 'Dolor aut optio pro', 'Cupidatat atque pari', NULL, '09064209450', 'admin@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-08 01:49:24', '2025-02-12 16:00:00', 2, 3, 2, 'released', 0, NULL, '2025-02-07 02:16:35', '2025-02-14 03:20:24'),
+(72, 'admin', ' ', ' jordan', '', '2021-04-15', 3, NULL, 'Ex ut eaque commodo', 4, 15, 'Reiciendis earum adi', 'Sint omnis earum dol', 'Post Graduate', 'Dolor aut optio pro', 'Cupidatat atque pari', NULL, '09064209450', 'admin@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-08 01:49:24', '2025-02-12 16:00:00', 2, 3, 2, 'released', 0, NULL, '2025-02-07 02:16:35', '2025-02-13 05:18:06'),
 (73, 'admin', ' ', ' jordan', '', '2025-02-08', NULL, NULL, 'asd', 4, 5, 'asd', 'asdf', 'Elementary Graduate', 'asda', 'asdf', NULL, '09064209450', 'admin@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-13 09:36:19', '2025-02-10 16:00:00', 2, 3, 2, 'released', 2, NULL, '2025-02-07 02:17:34', '2025-02-13 09:36:46'),
 (74, 'Juuju', NULL, 'Ju', NULL, '2025-02-07', 0, 'Male', 'Abuyog Leyte', 1, 56, NULL, 'Single', 'College', 'Student', NULL, NULL, '09064209450', NULL, NULL, 'Above 180,000', 'Wa', NULL, NULL, '2025-02-07 08:43:56', NULL, 2, 2, NULL, 'released', 1, NULL, '2025-02-07 08:43:56', '2025-02-13 05:29:55'),
 (75, 'Kirestin', 'Kamal Byers', 'Mack', NULL, '2014-02-21', 10, NULL, 'Aut sunt dolorum et', 4, 18, NULL, 'Married', 'High School', 'Sint dolore animi a', 'Sit incididunt sequ', NULL, '+1 (846) 282-8007', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-08 03:31:42', NULL, 2, 2, NULL, 'released', 0, NULL, '2025-02-08 03:31:42', '2025-02-13 05:19:54'),
@@ -335,14 +333,11 @@ INSERT INTO `beneficiaries` (`id`, `first_name`, `middle_name`, `last_name`, `su
 (78, 'Odessa', NULL, 'Silva', NULL, '2015-10-19', 9, NULL, 'Dolore quos eum sit', 4, 26, NULL, 'Widowed', 'No Formal Education', 'Ipsum sit quia obc', 'Ea dolor distinctio', NULL, '+1 (342) 714-1374', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-08 03:52:17', NULL, 2, 2, NULL, 'released', 0, NULL, '2025-02-08 03:52:17', '2025-02-13 05:17:26'),
 (79, 'Belle', NULL, 'Craft', NULL, '1971-06-08', 53, 'Male', 'Necessitatibus in et', 1, 16, NULL, 'Married', 'Postgraduate', 'Anim ut possimus ex', NULL, NULL, '+1 (653) 195-8177', NULL, NULL, 'Above 180,000', 'Soluta possimus nob', NULL, NULL, '2025-02-08 03:53:41', NULL, 2, 2, NULL, 'approved', 1, NULL, '2025-02-08 03:53:41', '2025-02-13 05:29:56'),
 (80, 'Camille', 'Hiroko Delacruz', 'Savageee', NULL, '1983-01-17', 42, 'Female', 'Necessitatibus culpa', 3, 22, NULL, 'Married', 'College', 'Omnis reprehenderit', 'Est dolorem consequa', NULL, '+1 (889) 714-6702', NULL, NULL, 'Below 60,000', NULL, NULL, NULL, '2025-02-08 03:54:18', NULL, 2, 2, NULL, 'approved', 0, NULL, '2025-02-08 03:54:18', '2025-02-11 00:54:20'),
-(81, 'Lindley Mae', NULL, 'Chavezzz', NULL, '2025-01-12', 0, 'Male', 'Abuyog', 1, 10, NULL, 'Divorced', 'College', 'Student', NULL, NULL, '09268307424', NULL, NULL, 'Above 180,000', 'Wa', NULL, NULL, '2025-02-08 03:54:58', NULL, 2, 2, NULL, 'released', 1, NULL, '2025-02-08 03:54:58', '2025-02-14 02:51:41'),
+(81, 'Lindley Mae', NULL, 'Chavezzz', NULL, '2025-02-08', 0, 'Male', 'Abuyog', 1, 10, NULL, 'Divorced', 'College', 'Student', NULL, NULL, '09268307424', NULL, NULL, 'Above 180,000', 'Wa', NULL, NULL, '2025-02-08 03:54:58', NULL, 2, 2, NULL, 'released', 1, NULL, '2025-02-08 03:54:58', '2025-02-13 05:29:57'),
 (82, 'Nita', NULL, 'Velazquez', NULL, '2008-08-17', 16, 'Female', 'Sed ab quas eum aspe', 2, 5, NULL, 'Widowed', 'Postgraduate', 'Excepteur aliqua Te', 'Accusamus eu assumen', NULL, '+1 (267) 953-8984', NULL, NULL, '120,000 - 180,000', NULL, NULL, NULL, '2025-02-08 04:19:15', NULL, 2, 2, NULL, 'released', 1, NULL, '2025-02-08 04:19:15', '2025-02-13 05:29:58'),
 (83, 'Hanna', NULL, 'Fitzpatrick', NULL, '2012-05-19', 12, 'Male', 'Ab asperiores neque', 3, 13, NULL, 'Widowed', 'College', 'Et nostrud suscipit', 'Quo repellendus Nam', NULL, '+1 (751) 663-4462', NULL, NULL, '120,000 - 180,000', NULL, NULL, NULL, '2025-02-08 04:19:59', NULL, 2, 2, NULL, 'approved', 0, NULL, '2025-02-08 04:19:59', '2025-02-08 04:19:59'),
 (87, 'Melberth', ' C.', ' Dancil', ' None', '2010-10-01', 59, 'Female', 'Perspiciatis explic', 3, 41, 'Vero molestias et en', 'Voluptate pariatur', 'Elementary Graduate', 'Ex sunt qui necessit', 'Non aliquam quas eli', '758', '09673701823', 'melberthdancil04@gmail.com', NULL, NULL, NULL, NULL, NULL, '2025-02-08 09:12:25', '2025-09-06 16:00:00', 2, 3, 17, 'approved', 0, NULL, '2025-02-08 09:01:49', '2025-02-08 09:12:25'),
-(88, 'Melberth', NULL, 'Dancil', NULL, '2017-09-28', 59, 'male', NULL, 2, 9, NULL, 'Widowed', 'Kindergarten', 'Service and Sales Workers', NULL, NULL, '09673701823', 'melberthdancil04@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '2025-05-01 16:00:00', NULL, 3, 17, 'accepted', 0, NULL, '2025-02-08 09:02:05', '2025-02-13 09:42:49'),
-(89, 'Brooke', ' Rajah Berg', ' Flores', ' Qui corrupti velit', '2011-08-19', 42, 'Female', 'Aspernatur et aut ip', 3, 1, 'Eaque laborum Fuga', 'Voluptatem neque an', 'College Level', 'Omnis necessitatibus', 'Voluptatum qui enim', '993', '+1 (298) 481-3981', 'rega@mailinator.com', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-14 16:00:00', NULL, NULL, 24, 'pending', 0, NULL, '2025-02-14 01:56:17', '2025-02-14 01:56:17'),
-(90, 'Brooke', NULL, 'Flores', NULL, '1990-08-19', 42, 'male', NULL, 2, 35, NULL, 'Divorced', 'Senior High', 'Clerical Support Workers', NULL, NULL, '+1 (298) 481-3981', 'rega@mailinator.com', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-14 16:00:00', NULL, NULL, 24, 'pending', 0, NULL, '2025-02-14 01:56:40', '2025-02-14 01:56:40'),
-(91, 'Brooke', ' Rajah Berg', ' Flores', ' Qui corrupti velit', '1994-10-31', 30, NULL, 'Et esse aut eos in', 4, 20, 'Ex ut numquam provid', 'Et quibusdam ea qui', 'Highschool Graduate', 'Voluptas qui dolorib', 'Mollitia voluptate m', NULL, '+1 (298) 481-3981', 'rega@mailinator.com', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-16 16:00:00', NULL, NULL, 24, 'pending', 0, NULL, '2025-02-14 02:12:48', '2025-02-14 02:12:48');
+(88, 'Melberth', NULL, 'Dancil', NULL, '2017-09-28', 59, 'male', NULL, 2, 9, NULL, 'Widowed', 'Kindergarten', 'Service and Sales Workers', NULL, NULL, '09673701823', 'melberthdancil04@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '2025-05-01 16:00:00', NULL, 3, 17, 'accepted', 0, NULL, '2025-02-08 09:02:05', '2025-02-13 09:42:49');
 
 -- --------------------------------------------------------
 
@@ -420,28 +415,26 @@ INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
 ('270449d34295413a5a1b910175c6208e:timer', 'i:1738893499;', 1738893499),
 ('30dc4533dfafd67923c2bcaf20d1ee32', 'i:1;', 1738738685),
 ('30dc4533dfafd67923c2bcaf20d1ee32:timer', 'i:1738738685;', 1738738685),
-('3101fa3a49a7355e0eb2a840f03b0e80', 'i:1;', 1739501468),
-('3101fa3a49a7355e0eb2a840f03b0e80:timer', 'i:1739501467;', 1739501467),
+('3101fa3a49a7355e0eb2a840f03b0e80', 'i:1;', 1739234269),
+('3101fa3a49a7355e0eb2a840f03b0e80:timer', 'i:1739234269;', 1739234269),
 ('4007a77d61f38f0a451d12d0610c1f37', 'i:1;', 1738835281),
 ('4007a77d61f38f0a451d12d0610c1f37:timer', 'i:1738835281;', 1738835281),
 ('415886638bfb6d1276c7b037dec12fe2', 'i:1;', 1738918422),
 ('415886638bfb6d1276c7b037dec12fe2:timer', 'i:1738918422;', 1738918422),
 ('5793bf1bfc8e31789fcf075b09082eb5', 'i:1;', 1738893030),
 ('5793bf1bfc8e31789fcf075b09082eb5:timer', 'i:1738893030;', 1738893030),
-('57bc340b768240bc71899f9cec326b87', 'i:1;', 1739502155),
-('57bc340b768240bc71899f9cec326b87:timer', 'i:1739502155;', 1739502155),
-('62f6764ce3900ca6fe94fc37f330e5a5', 'i:2;', 1739497965),
-('62f6764ce3900ca6fe94fc37f330e5a5:timer', 'i:1739497965;', 1739497965),
+('57bc340b768240bc71899f9cec326b87', 'i:1;', 1739236225),
+('57bc340b768240bc71899f9cec326b87:timer', 'i:1739236225;', 1739236225),
+('62f6764ce3900ca6fe94fc37f330e5a5', 'i:1;', 1739176602),
+('62f6764ce3900ca6fe94fc37f330e5a5:timer', 'i:1739176602;', 1739176602),
 ('6b801e0706537ffd8809f8548c9779cd', 'i:1;', 1738892151),
 ('6b801e0706537ffd8809f8548c9779cd:timer', 'i:1738892151;', 1738892151),
 ('7719a1c782a1ba91c031a682a0a2f8658209adbf', 'i:1;', 1739444512),
 ('7719a1c782a1ba91c031a682a0a2f8658209adbf:timer', 'i:1739444512;', 1739444512),
 ('79bf084aead0ac260f938182e997180f', 'i:1;', 1739179953),
 ('79bf084aead0ac260f938182e997180f:timer', 'i:1739179953;', 1739179953),
-('7bbed76ac0c1e4d43845caf9d6ceb34a', 'i:4;', 1739498165),
-('7bbed76ac0c1e4d43845caf9d6ceb34a:timer', 'i:1739498165;', 1739498165),
-('7cbeb0036cfc340dd3575bd7ba11aefa', 'i:1;', 1739502104),
-('7cbeb0036cfc340dd3575bd7ba11aefa:timer', 'i:1739502104;', 1739502104),
+('7cbeb0036cfc340dd3575bd7ba11aefa', 'i:1;', 1738917467),
+('7cbeb0036cfc340dd3575bd7ba11aefa:timer', 'i:1738917467;', 1738917467),
 ('83722385b126f8825efd310322616a0e', 'i:1;', 1739243305),
 ('83722385b126f8825efd310322616a0e:timer', 'i:1739243305;', 1739243305),
 ('8455f7984f5e725a9555b4b3b61a51e9', 'i:1;', 1739411294),
@@ -525,8 +518,7 @@ INSERT INTO `contact_emergencies` (`id`, `beneficiary_id`, `name`, `address`, `c
 (13, 77, 'Ezekiel Booth', 'Dolore ad a nulla do', '+1 (903) 494-4099', 'Not set', '2025-02-08 03:42:36', '2025-02-08 03:42:36'),
 (14, 80, 'Shay Peterson', 'Vel ipsam ut dolorem', '+1 (492) 673-9653', 'Not set', '2025-02-08 03:54:18', '2025-02-08 03:54:18'),
 (15, 83, 'Tobias Hammond', 'Dignissimos numquam', '+1 (131) 408-8093', 'Not set', '2025-02-08 04:19:59', '2025-02-08 04:19:59'),
-(18, 87, 'Willow Frye', 'Et assumenda corrupt', '322', 'Nam voluptatem Sapi', '2025-02-08 09:01:49', '2025-02-08 09:01:49'),
-(19, 89, 'Samson Trujillo', 'Soluta qui corporis', '988', 'Non et distinctio P', '2025-02-14 01:56:17', '2025-02-14 01:56:17');
+(18, 87, 'Willow Frye', 'Et assumenda corrupt', '322', 'Nam voluptatem Sapi', '2025-02-08 09:01:49', '2025-02-08 09:01:49');
 
 -- --------------------------------------------------------
 
@@ -615,8 +607,7 @@ INSERT INTO `family_backgrounds` (`id`, `beneficiary_id`, `father_name`, `mother
 (11, 62, 'Amanda Bryant', 'Travis Reeves', 'Brielle Stanton', 'Distinctio Sint et', 'A saepe qui omnis cu', 'Ipsum excepteur qui', '+1 (897) 457-9004', '+1 (182) 636-8985', '+1 (777) 414-4465', '2025-02-06 03:55:55', '2025-02-06 03:55:55'),
 (12, 64, 'Thaddeus Battle', 'Slade Long', 'Jordan Britt', 'Lorem sunt voluptas', 'Aut id libero quibus', 'Modi repellendus Et', '+1 (497) 949-3331', '+1 (807) 714-8323', '+1 (326) 953-4516', '2025-02-06 07:24:29', '2025-02-06 07:24:29'),
 (13, 82, 'Leila Sullivan', 'Desiree Pugh', 'Montana Madden', 'Est saepe porro sit', 'Aut at natus qui lab', 'Molestias nisi repel', '+1 (943) 506-6673', '+1 (273) 466-2509', '+1 (109) 178-3648', '2025-02-08 04:19:15', '2025-02-08 04:19:15'),
-(15, 88, 'Kibo Orr', 'Wynter Woods', 'Graham Burns', 'Repudiandae aliquip', 'Natus doloremque del', 'Voluptatum vel assum', '+1 (582) 651-8498', '+1 (278) 516-1804', '+1 (727) 195-3184', '2025-02-08 09:02:06', '2025-02-08 09:02:06'),
-(16, 90, 'Gil Buchanan', 'Carla Hubbard', 'Rhiannon Warren', 'Autem at recusandae', 'Officia eveniet vel', 'Sapiente libero et s', '+1 (972) 659-3122', '+1 (186) 828-4352', '+1 (313) 682-6066', '2025-02-14 01:56:40', '2025-02-14 01:56:40');
+(15, 88, 'Kibo Orr', 'Wynter Woods', 'Graham Burns', 'Repudiandae aliquip', 'Natus doloremque del', 'Voluptatum vel assum', '+1 (582) 651-8498', '+1 (278) 516-1804', '+1 (727) 195-3184', '2025-02-08 09:02:06', '2025-02-08 09:02:06');
 
 -- --------------------------------------------------------
 
@@ -700,7 +691,7 @@ INSERT INTO `family_compositions` (`id`, `beneficiary_id`, `name`, `relationship
 (92, 69, 'Ulysses Chaney', 'A alias consequuntur', '53', 'Commodi voluptate cu', 'In mollit magna duci', NULL, 'Doloremque veritatis', NULL, 'Male', '2025-02-07 01:50:28', '2025-02-07 01:50:28'),
 (93, 70, 'Papsi', 'Paps', '50', 'Single', 'Wa', NULL, 'College', NULL, 'Male', '2025-02-07 01:57:37', '2025-02-07 01:57:37'),
 (94, 71, 'N/a', 'N/A', '50', 'N/A', 'N/A', NULL, NULL, 'N/A', NULL, '2025-02-07 02:00:06', '2025-02-07 02:00:06'),
-(95, 72, 'Colton Peterson', 'Non in quia atque ei', '86', 'Married', 'Consequatur Pariatu', NULL, 'Elementary', NULL, 'Female', '2025-02-07 02:16:35', '2025-02-14 03:20:24'),
+(95, 72, 'Colton Peterson', 'Non in quia atque ei', '86', 'Deserunt rerum volup', 'Consequatur Pariatu', NULL, 'Quis quis velit in', NULL, 'Female', '2025-02-07 02:16:35', '2025-02-07 02:16:35'),
 (96, 73, 'asd', 'asd', '12', 'asdasd', 'asd', NULL, 'asd', NULL, 'Female', '2025-02-07 02:17:34', '2025-02-07 02:17:34'),
 (97, 74, 'N/A', 'N/A', '50', 'Married', 'N/A', NULL, NULL, 'Below 60,000', NULL, '2025-02-07 08:43:56', '2025-02-07 08:43:56'),
 (98, 75, 'David Beasley', 'Consectetur fugit', '95', 'Divorced', 'Fugiat atque aut bl', NULL, 'Postgraduate', NULL, 'Male', '2025-02-08 03:31:42', '2025-02-08 03:31:42'),
@@ -711,9 +702,7 @@ INSERT INTO `family_compositions` (`id`, `beneficiary_id`, `name`, `relationship
 (103, 80, 'Brynn Keller', 'Id distinctio Repre', '96', 'Divorced', 'Sit aspernatur repre', '1985-03-10', 'Postgraduate', '60,000 - 120,000', NULL, '2025-02-08 03:54:18', '2025-02-08 03:54:18'),
 (104, 81, 'Papsi', 'Paps', '2', 'Divorced', 'Wa', NULL, NULL, 'Above 180,000', NULL, '2025-02-08 03:54:58', '2025-02-08 03:54:58'),
 (105, 83, 'Ivy Frank', 'Maiores nemo fugiat', '58', 'Divorced', 'Cupidatat vero anim', '2002-07-17', 'Postgraduate', 'Below 60,000', NULL, '2025-02-08 04:19:59', '2025-02-08 05:27:27'),
-(108, 87, 'Kaden Sykes', 'Tenetur et facere qu', '84', 'Praesentium distinct', 'Cillum qui necessita', '1980-12-16', 'Aut et occaecat moll', '644', NULL, '2025-02-08 09:01:49', '2025-02-08 09:01:49'),
-(109, 89, 'Jarrod Weber', 'Officiis non perspic', '33', 'Laboris sit ipsam s', 'Tempora nihil est i', '2020-12-08', 'Fugiat exercitation', '25', NULL, '2025-02-14 01:56:17', '2025-02-14 01:56:17'),
-(110, 91, 'Sharon Keller', 'Maxime ullamco velit', '78', 'Minim quibusdam ulla', 'Est consectetur vit', NULL, 'Tempor duis ea velit', NULL, 'Male', '2025-02-14 02:12:48', '2025-02-14 02:12:48');
+(108, 87, 'Kaden Sykes', 'Tenetur et facere qu', '84', 'Praesentium distinct', 'Cillum qui necessita', '1980-12-16', 'Aut et occaecat moll', '644', NULL, '2025-02-08 09:01:49', '2025-02-08 09:01:49');
 
 -- --------------------------------------------------------
 
@@ -789,29 +778,6 @@ CREATE TABLE `job_batches` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `logs`
---
-
-CREATE TABLE `logs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `beneficiary_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `log_entry` longtext DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `logs`
---
-
-INSERT INTO `logs` (`id`, `user_id`, `beneficiary_id`, `log_entry`, `created_at`, `updated_at`) VALUES
-(1, 3, 81, 'Updated beneficiary record with the following changes: Date of Birth: 2025-02-12 00:00:00 → 2025-01-12, Barangay: 10 → 10, Age: 0 → 0', '2025-02-14 02:51:41', '2025-02-14 02:51:41'),
-(2, 2, 72, 'Updated beneficiary record with the following changes: Last Name:  jordan → jordan, Middle Name:   → , Date of Birth: 2021-04-15 00:00:00 → 2021-04-15, Civil Status: Sint omnis earum dol → Married, Barangay: 15 → 15, Educational Attainment: Post Graduate → Elementary, Age: 3 → 3', '2025-02-14 03:20:24', '2025-02-14 03:20:24');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `migrations`
 --
 
@@ -851,8 +817,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (78, '2025_02_06_111518_create_accomplished_bies_table', 8),
 (79, '2025_02_08_155800_create_for_spd_or_spo_use_onlies_table', 9),
 (80, '2025_01_23_153241_create_assistances_table', 10),
-(81, '0001_01_01_000004_create_barangays_table', 11),
-(82, '2025_02_14_085445_create_logs_table', 12);
+(81, '0001_01_01_000004_create_barangays_table', 11);
 
 -- --------------------------------------------------------
 
@@ -937,8 +902,7 @@ INSERT INTO `pwd_details` (`id`, `beneficiary_id`, `type_of_disability`, `cause_
 (11, 62, 'Psychosocial Disability', 'acquired', 'injury', NULL, 'Veniam accusantium', 'Laborum culpa non e', 'Animi porro ea numq', 'Molestias animi tem', 'Debitis consequatur', 'sircsaira@gmail.com', 'Employed', 'government', 'Seasonal', 'Salinas Ingram Traders', 'Culpa iure esse so', 'Consequuntur tempora', 'Cupidatat voluptatem', 'Ut doloribus dolorem', 'Odit maxime ratione', 'Dolore laborum at pa', 'Ea sint ullamco qui', 'In est nostrum aliqu', 'applicant', 'Laborum dolore qui e', '115', 'New Applicant', '2025-02-06 03:55:55', '2025-02-06 03:55:55'),
 (12, 64, 'Learning Disability', 'Acquired', 'Chronic Illness', 'ADHD', 'Et eum in sunt cupid', 'Duis qui voluptatem', 'Quia odio lorem labo', 'Eu molestiae commodi', 'Pariatur Nihil nisi', 'favifyvegi@mailinator.com', 'Self-Employed', 'Contractual', 'Field', 'Rhodes and Marsh Inc', 'Distinctio A qui re', 'Irure cupiditate ull', 'Voluptatem Similiqu', 'Adipisci reprehender', 'Quam veniam et eum', 'Voluptate sunt in qu', 'Reiciendis dolor et', 'Quo officiis soluta', 'applicant', 'Eiusmod sed neque vo', '397', 'Renewal', '2025-02-06 07:24:29', '2025-02-06 07:24:29'),
 (13, 82, 'Visual Disability', 'Congenital/Inborn', NULL, 'Cerebral Palsy', 'Laudantium sit id', 'Accusamus molestiae', 'Voluptatem esse qui', 'Quidem ullam et id', 'Ut voluptas consequa', 'nuhovyde@mailinator.com', 'Retired', 'Temporary', 'Other', 'Guzman Mercado Inc', 'Illo aperiam nihil o', 'Est et nisi qui odit', 'Voluptate quis fugit', 'Qui pariatur Quos s', 'Esse maiores explic', 'Sint qui rerum impe', 'Cupiditate dolorem v', 'Laborum aut ex offic', 'guardian', 'Esse incididunt aut', '967', 'Renewal', '2025-02-08 04:19:15', '2025-02-08 04:19:15'),
-(15, 88, 'Speech and Language Impairment', 'acquired', 'injury', NULL, 'Amet aut culpa sit', 'Saepe architecto pos', 'Aut voluptatibus nos', 'Quis est pariatur', 'Sit voluptates simil', 'melberthdancil04@gmail.com', 'Employed', 'Private', 'Permanent Or Regular', 'Melton and Whitaker Associates', 'Veritatis occaecat u', 'Dolores id ea quia i', 'Ex nemo labore cupid', 'Voluptatum commodi v', 'Sint voluptas vero', 'Voluptatem Nesciunt', 'Et saepe quae nostru', 'Dolore consequat Re', 'applicant', 'Temporibus dolores d', '386', 'New Applicant', '2025-02-08 09:02:06', '2025-02-08 09:02:06'),
-(16, 90, 'Learning Disability', 'acquired', 'injury', NULL, 'Atque labore suscipi', 'Ut similique aut rep', 'Minim voluptatem Vo', 'Accusantium sed nihi', 'Vel velit in eius in', 'rega@mailinator.com', 'Unemployed', 'Government', 'Permanent Or Regular', 'Langley Petersen Trading', 'Hic dolorum Nam iust', 'Doloribus nostrum et', 'Soluta voluptas corr', 'At eu tempore non a', 'Eiusmod porro nisi i', 'Aliqua Vero volupta', 'Rerum quia aut sequi', 'Adipisicing aperiam', 'applicant', 'Aut facere pariatur', '570', 'Renewal', '2025-02-14 01:56:40', '2025-02-14 01:56:40');
+(15, 88, 'Speech and Language Impairment', 'acquired', 'injury', NULL, 'Amet aut culpa sit', 'Saepe architecto pos', 'Aut voluptatibus nos', 'Quis est pariatur', 'Sit voluptates simil', 'melberthdancil04@gmail.com', 'Employed', 'Private', 'Permanent Or Regular', 'Melton and Whitaker Associates', 'Veritatis occaecat u', 'Dolores id ea quia i', 'Ex nemo labore cupid', 'Voluptatum commodi v', 'Sint voluptas vero', 'Voluptatem Nesciunt', 'Et saepe quae nostru', 'Dolore consequat Re', 'applicant', 'Temporibus dolores d', '386', 'New Applicant', '2025-02-08 09:02:06', '2025-02-08 09:02:06');
 
 -- --------------------------------------------------------
 
@@ -985,7 +949,10 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('MqXLik8GwLhSaP3VfPzbvhRVExg0tZ9k6rQVzqDW', 2, '10.10.2.254', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiN0JsVXVzSHZwQ2lOVXRoamhMaEdtbWlqdG52Unp4MEY1VTNKV09oMSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHA6Ly8xMzYuMjM5LjE5Ni4xNzg6NTAwNS9sb2dzIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1739503232);
+('0wMVzGniG1aIUJEguRpn05OBPpZs1GjA3Vl3kcJn', 29, '192.168.56.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiMTNZSzJkYkhNWUd2ZVppajlDVHgwaUZYaUZoTHZidk04QVpnbXo2SSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly8xOTIuMTY4LjU2LjE6ODAwMC9lbWFpbC92ZXJpZnkiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyOTtzOjM6InVybCI7YToxOntzOjg6ImludGVuZGVkIjtzOjI5OiJodHRwOi8vMTkyLjE2OC41Ni4xOjgwMDAvaG9tZSI7fX0=', 1739444457),
+('A622hqJZ8KUmngadRbpTopmwdOxIoVBrwZK34vfb', 2, '192.168.56.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiNlhTNFZQREY5M1E3dHloMXRTQzV6VGkxQk5BZnR0TEVjZXJPUWtzNCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDg6Imh0dHA6Ly8xOTIuMTY4LjU2LjE6ODAwMC9zaG93YmVuZWZpY2lhcmllc19hZG1pbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1739440846),
+('n1C5PqBvaipkstE14pQQln1CeGlP5FTsL4sCd7Oq', NULL, '192.168.56.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiM2ZZeDJGazkxTklwUU54aDFKZDZmTU52UTloaUhZT0s0WWRtbHZLdCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjQ6Imh0dHA6Ly8xOTIuMTY4LjU2LjE6ODAwMCI7fX0=', 1739444576),
+('pxaJXkYbmGY2rnWs0flHIBGyA2scRju5bWYryrva', 3, '192.168.56.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoia05uRUZNa05odFFPV0dHNGxYR3FSUVdQQWxFcWRGUmZodU5DNHc0SCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDY6Imh0dHA6Ly8xOTIuMTY4LjU2LjE6ODAwMC9kaXNwbGF5X2JlbmVmaWNpYXJpZXMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTozO30=', 1739439794);
 
 -- --------------------------------------------------------
 
@@ -1154,8 +1121,7 @@ INSERT INTO `solo_parent_details` (`id`, `beneficiary_id`, `company_agency`, `fo
 (13, 77, 'Barnes and Barker Associates', 'no', 'yes', 'Eveniet irure in la', 'Dicta aut consequat', '2025-02-08 03:42:36', '2025-02-08 03:42:36'),
 (14, 80, 'Hays Marks Plc', 'no', 'no', 'Aperiam est commodi', 'Deleniti reiciendis', '2025-02-08 03:54:18', '2025-02-08 03:54:18'),
 (15, 83, 'Summers and Richards Associates', 'yes', 'yes', 'Sint corporis eu ut', 'Aliqua Quos ipsum', '2025-02-08 04:19:59', '2025-02-08 04:19:59'),
-(18, 87, 'Malone Howell Trading', 'No', 'Yes', 'Sed non sint aut par', 'Architecto in vel do', '2025-02-08 09:01:49', '2025-02-08 09:01:49'),
-(19, 89, 'Reyes Moran Traders', 'Yes', 'No', 'Et cupidatat amet s', 'Error vero qui est', '2025-02-14 01:56:17', '2025-02-14 01:56:17');
+(18, 87, 'Malone Howell Trading', 'No', 'Yes', 'Sed non sint aut par', 'Architecto in vel do', '2025-02-08 09:01:49', '2025-02-08 09:01:49');
 
 -- --------------------------------------------------------
 
@@ -1197,7 +1163,7 @@ INSERT INTO `users` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `
 (1, 'chavez', 'lovely rose', 'escano', NULL, 'rlovie0403@gmail.com', '09268307424', 3, 'beneficiary', '2024-12-31 17:50:02', '$2y$12$L1k.3TNVvkzajntCnXFwPufl3XoNdc/3dOityspQ9OJBBSXzAHM8e', NULL, NULL, NULL, 'OcjmQKwQonjSPJ2POSIjejzHhH15XUKA11NTzTbeGgt5WNcHTmMgSTkEzTMS', NULL, NULL, '2025-01-15 17:49:22', '2025-01-15 17:49:22', '2001-01-18', '4', 'Female', 0),
 (2, 'jordan', 'admin', NULL, NULL, 'admin@gmail.com', '09064209450', 5, 'admin', '2024-12-31 18:01:21', '$2y$12$GkbjYgXOLmaNVeOIrkLHwOQUUBTFhN0OBh95pJNTK8Vd/n2PE/7I.', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-15 17:59:23', '2025-01-15 17:59:23', '2010-01-09', '60', 'Rather not to say', 0),
 (3, 'tocson', 'employee', NULL, NULL, 'employeetocson@gmail.com', '', 2, 'employee', '2025-01-14 03:15:28', '$2y$12$P7PqW1T5c2nTK08QnHCmqePf4L/2/jMCLn1XtgeisN6U.oVRLX/6C', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-16 03:15:13', '2025-01-16 03:15:13', '2001-01-18', '2', 'Female', 0),
-(4, 'operator', 'mswd', NULL, NULL, 'operator@gmail.com', '09268307424', 12, 'operator', '2025-01-16 11:09:36', '$2y$12$dN1WpdMN6iT5Iymxs33Y/eJwigE7WoaqEjgtMzYkKoF.PQC6.AEmu', NULL, NULL, NULL, 'POjYXFG5cJ6EVOe8KXqhbUzpjiAkUGJvnhyIBH3P4xYQfYf6ild97ng4FpV3', NULL, NULL, '2025-01-17 11:08:58', '2025-01-17 11:08:58', '2010-01-13', '5', 'Male', 0),
+(4, 'operator', 'mswd', NULL, NULL, 'operator@gmail.com', '09268307424', 12, 'operator', '2025-01-16 11:09:36', '$2y$12$dN1WpdMN6iT5Iymxs33Y/eJwigE7WoaqEjgtMzYkKoF.PQC6.AEmu', NULL, NULL, NULL, 'OCPnJ21WOi6PXwpD7VwsIxidsxjMRbpZZnMlPfaeiApSmITtfxHIwqNqq5Ty', NULL, NULL, '2025-01-17 11:08:58', '2025-01-17 11:08:58', '2010-01-13', '5', 'Male', 0),
 (5, 'BALONGAG', 'djfiq', NULL, NULL, 'jm@gmail.com', '758668', 23, 'beneficiary', NULL, '$2y$12$sacRxPjRQhwG1tZPYJ95X.2ROIE.WiUyJ0.UCi35qDD210l.NmejC', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-19 08:22:34', '2025-01-19 08:22:34', '2016-01-13', '76', 'Female', 0),
 (6, 'BALONGAG', 'djfiq', NULL, NULL, 'try@gmail.com', '758668', 2, 'beneficiary', NULL, '$2y$12$aWJR6ReLt0Nma4Kw.WSZlOqjtd2HHPLPspk7b9z6c9An5yuMS8GAu', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-19 08:23:46', '2025-01-19 08:23:46', '2001-01-18', '5', 'Rather not to say', 0),
 (7, 'BALONGAG', 'JONAS Miguel', 'vill', NULL, 'tryyy@gmail.com', '09054524106', 5, 'beneficiary', '2025-01-09 08:25:58', '$2y$12$zPLaYS03A8WZIKLKni5DFeH1ape75pYSPl5v2T7HyNDgpk/xHQTny', NULL, NULL, NULL, NULL, NULL, NULL, '2025-01-19 08:25:12', '2025-01-19 08:25:12', '2010-01-17', '3', 'Female', 0),
@@ -1217,7 +1183,7 @@ INSERT INTO `users` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `
 (21, 'Aguilar', 'Sebastian', 'Cynthia Conley', 'Eveniet aliquip fac', 'dywuz@mailinator.com', '+1 (323) 631-3364', 15, 'beneficiary', NULL, '$2y$12$LYcv1tpSK5Lty9WOPoCsOexoBVURMu/vW6Cx3f0qmTfCNOoMFa.n2', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-05 03:23:51', '2025-02-05 03:23:51', '1998-04-03', '60', 'Rather not to say', 0),
 (22, 'Blankenship', 'Ivan', 'Silas Suarez', 'Autem quia similique', 'wufibime@mailinator.com', '+1 (729) 758-9016', 288, 'beneficiary', NULL, '$2y$12$clvKMTGWY.D815v8HOw.k.PdkY9bJNnJkXGuf2lWHB/6PdE1lnJj2', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-05 07:44:57', '2025-02-05 07:44:57', '2008-08-06', '16', 'Male', 0),
 (23, 'Patterson', 'Alisa', 'Jin Tyler', 'Maxime cumque nesciu', 'bywiqa@mailinator.com', '+1 (316) 741-4913', 51, 'beneficiary', NULL, '$2y$12$1OAjlSXf/CYQMjTgiJyEQuPmnGiZccfk2f8HkHnop40QWrbgMMk12', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-05 07:47:19', '2025-02-05 07:47:19', '1984-09-13', '40', 'Rather not to say', 1),
-(24, 'Flores', 'Brooke', 'Rajah Berg', 'Qui corrupti velit', 'rega@mailinator.com', '+1 (298) 481-3981', 275, 'beneficiary', '2025-02-14 01:55:36', '$2y$12$YM2w9l52eNmLizMIXQBFkuOUXCR5RXkcJQ8XCdIQM8J3EnCqIbjLy', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-05 07:47:40', '2025-02-05 07:47:40', '1982-09-07', '42', 'Male', 0),
+(24, 'Flores', 'Brooke', 'Rajah Berg', 'Qui corrupti velit', 'rega@mailinator.com', '+1 (298) 481-3981', 275, 'beneficiary', NULL, '$2y$12$i0/VpqW.XLlmj2UBEIqVauMrFZ5yJoVr8yi4oJn1UtQR1nOv7h0QW', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-05 07:47:40', '2025-02-05 07:47:40', '1982-09-07', '42', 'Male', 0),
 (25, 'Chavez', 'Lovely', 'Escano', NULL, 's.crl0043@gmail.com', '09268307424', 56, 'beneficiary', '2025-02-07 01:37:43', '$2y$12$YM2w9l52eNmLizMIXQBFkuOUXCR5RXkcJQ8XCdIQM8J3EnCqIbjLy', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-07 01:36:43', '2025-02-07 01:37:43', '1962-02-07', '63', 'Female', 1),
 (26, 'Balongag', 'Jonas', NULL, 'Villote', 'jonasmiguelbalongag@gmail.com', '09925730026', 8, 'beneficiary', '2025-02-07 01:53:12', '$2y$12$jDzCMKVgPPuOZoysmDihE.kCS8DSMKxuKs7c8J3VXMWHXvQJQ6PD2', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-07 01:52:23', '2025-02-07 01:53:12', '1973-02-07', '52', 'Male', 1),
 (27, 'Dayaguit', 'Jellamay', 'Managabanag', NULL, 'dayaguitjellamay@gmail.com', '09659247108', 9, 'beneficiary', NULL, '$2y$12$mf8aI51G62pp5PGoQDGyue.IBsWxwq3ujDOzo2ubjxg0eJ3s3O7nW', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-07 08:13:56', '2025-02-07 08:13:56', '2001-07-13', '23', 'Female', 0),
@@ -1448,14 +1414,6 @@ ALTER TABLE `job_batches`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `logs`
---
-ALTER TABLE `logs`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `logs_user_id_foreign` (`user_id`),
-  ADD KEY `logs_beneficiary_id_foreign` (`beneficiary_id`);
-
---
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -1532,13 +1490,13 @@ ALTER TABLE `user_meta`
 -- AUTO_INCREMENT for table `accomplished_bies`
 --
 ALTER TABLE `accomplished_bies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `aics_details`
 --
 ALTER TABLE `aics_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `applications`
@@ -1562,7 +1520,7 @@ ALTER TABLE `barangays`
 -- AUTO_INCREMENT for table `beneficiaries`
 --
 ALTER TABLE `beneficiaries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `benefits_received`
@@ -1574,7 +1532,7 @@ ALTER TABLE `benefits_received`
 -- AUTO_INCREMENT for table `contact_emergencies`
 --
 ALTER TABLE `contact_emergencies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `deceased`
@@ -1592,13 +1550,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `family_backgrounds`
 --
 ALTER TABLE `family_backgrounds`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `family_compositions`
 --
 ALTER TABLE `family_compositions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT for table `for_spd_or_spo_use_onlies`
@@ -1619,16 +1577,10 @@ ALTER TABLE `jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `logs`
---
-ALTER TABLE `logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1640,7 +1592,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `pwd_details`
 --
 ALTER TABLE `pwd_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -1658,7 +1610,7 @@ ALTER TABLE `sms_logs`
 -- AUTO_INCREMENT for table `solo_parent_details`
 --
 ALTER TABLE `solo_parent_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1732,13 +1684,6 @@ ALTER TABLE `family_compositions`
 --
 ALTER TABLE `for_spd_or_spo_use_onlies`
   ADD CONSTRAINT `for_spd_or_spo_use_onlies_solo_parent_detail_id_foreign` FOREIGN KEY (`solo_parent_detail_id`) REFERENCES `solo_parent_details` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `logs`
---
-ALTER TABLE `logs`
-  ADD CONSTRAINT `logs_beneficiary_id_foreign` FOREIGN KEY (`beneficiary_id`) REFERENCES `beneficiaries` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `logs_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `pwd_details`

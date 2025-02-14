@@ -169,16 +169,48 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-
-
-        <li class="nav-item menu-items">
-            <a class="nav-link" href="{{ url('showapplication') }}">
-                <span class="menu-icon">
-                    <i class="mdi mdi-file-account"></i>
-                </span>
-                <span class="menu-title">Applications</span>
-            </a>
-        </li>
+        <div x-data="{ open: {{ request()->is('showapplication*') ? 'true' : 'false' }} }">
+            <li class="nav-item menu-items {{ request()->is('showapplication*') ? 'active' : '' }}">
+                <button class="nav-link" type="button" @click="open = !open" style="width: 225px;">
+                    <span class="menu-icon">
+                        <i class="mdi mdi-file-account"></i>
+                    </span>
+                    <span class="menu-title">Applications</span>
+                </button>
+            </li>
+            <ul x-cloak x-show="open" class="sub-menu">
+                <li class="nav-item">
+                    <a class="{{ request()->path() === 'showapplication' && request()->query('status') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                        href="{{ url('showapplication') }}">
+                        <i class="mdi mdi-view-list"></i> ALL
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="{{ request()->query('status') === 'approved' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                        href="/showapplication?status=approved">
+                        <i class="mdi mdi-check-all"></i> Approved
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="{{ request()->query('status') === 'accepted' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                        href="/showapplication?status=accepted">
+                        <i class="mdi mdi-headset"></i> For Interview
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="{{ request()->query('status') === 'pending' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                        href="/showapplication?status=pending">
+                        <i class="mdi mdi-clock"></i> Pending
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="{{ request()->query('status') === 'rejected' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                        href="/showapplication?status=rejected">
+                        <i class="mdi mdi-close"></i> Rejected
+                    </a>
+                </li>
+            </ul>
+        </div>
 
         <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('display_beneficiaries') }}">
@@ -188,6 +220,40 @@
                 <span class="menu-title">Beneficiaries</span>
             </a>
         </li>
+
+        <ul class="sub-menu {{ request()->is('display_beneficiaries*') || request()->routeIs('show.beneficiaries_admin') ? '' : 'hidden' }}"
+            id="beneficiariesSubMenu">
+            <li class="nav-item menu-items">
+                <a class="{{ request()->path() === 'display_beneficiaries' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/display_beneficiaries">
+                    <i class="mdi mdi-view-list"></i> <span class="menu-title">All</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="{{ request()->query('service') === 'OSCA(Office of Senior Citizens)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/display_beneficiaries?service=OSCA(Office of Senior Citizens)">
+                    <i class="mdi mdi-face"></i> OSCA
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="{{ request()->query('service') === 'PWD(Persons with Disabilities)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/display_beneficiaries?service=PWD(Persons with Disabilities)">
+                    <i class="mdi mdi-wheelchair-accessibility"></i> PWD
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="{{ request()->query('service') === 'Solo Parent' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/display_beneficiaries?service=Solo Parent">
+                    <i class="mdi mdi-human-male-female"></i> Solo Parent
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="{{ request()->query('service') === 'AICS(Assistance to Individuals in Crisis)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/display_beneficiaries?service=AICS(Assistance to Individuals in Crisis)">
+                    <i class="mdi mdi-account-multiple"></i> AICS
+                </a>
+            </li>
+        </ul>
 
         <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('assistance_release') }}">

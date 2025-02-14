@@ -86,7 +86,7 @@
                                     <div x-data="{open: false, loading: true}"
                                         class="d-flex justify-content-center flex-column" x-init="loading = false">
                                         <button type="button" @click="open = !open"
-                                            class="mb-3 btn btn-primary rounded-full d-flex align-items-center justify-content-center">
+                                            class="mb-3 rounded-full btn btn-primary d-flex align-items-center justify-content-center">
                                             <span class="spinner-border spinner-border-sm"
                                                 x-show="loading"></span><i class="mdi mdi-minus" x-show="open"
                                                 x-cloak></i><i class="mdi mdi-plus" x-show="!open"
@@ -111,8 +111,7 @@
 
                                                 <a class="btn btn-success btn-sm ms-2"
                                                     href="/edit-solo-parent/{{ $item?->id }}">Edit</a>
-                                                @elseif($item?->service->name === "AICS(Assistance to Individuals in
-                                                Crisis)")
+                                                @elseif($item?->service->name === "AICS(Assistance to Individuals in Crisis)")
 
                                                 <a class="btn btn-success btn-sm ms-2"
                                                     href="/edit-aics/{{ $item?->id }}">Edit</a>
@@ -126,10 +125,15 @@
                                                 @endif --}}
 
                                                 <!-- Delete Button with Modal Trigger -->
-                                                <button class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
+                                                {{-- <button class="btn btn-danger btn-sm ms-2" data-bs-toggle="modal"
                                                     data-bs-target="#deleteModal{{ $item?->id }}">
                                                     Delete
-                                                </button>
+                                                </button> --}}
+                                                @if ($item?->status === 'released')
+                                                    <a class="btn btn-primary btn-sm ms-2" href="{{ url('generate-pdf/' . $item?->id) }}">
+                                                        <i class="mdi mdi-download"></i>Download Form
+                                                    </a>
+                                                 @endif
                                             </div>
                                         </div>
 

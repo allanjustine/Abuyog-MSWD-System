@@ -28,7 +28,26 @@ class HomeController extends Controller
         if (Auth::user()->usertype == 'beneficiary') {
             // Redirect to user home page (normal user)
             $service = Service::all();
-            return view('user.home', compact('service'));
+            $totalBeneficiaries = Beneficiary::where('user_id', Auth::id())->count();
+            $totalBeneficiariesRejected = Beneficiary::where('user_id', Auth::id())->where('status', 'rejected')->count();
+            $totalBeneficiariesCancelled = Beneficiary::where('user_id', Auth::id())->where('status', 'cancelled')->count();
+            $totalBeneficiariesApproved = Beneficiary::where('user_id', Auth::id())->where('status', 'approved')->count();
+            $totalBeneficiariesReleased = Beneficiary::where('user_id', Auth::id())->where('status', 'released')->count();
+            $totalBeneficiariesAccepted = Beneficiary::where('user_id', Auth::id())->where('status', 'accepted')->count();
+            $totalBenefitsReceived = Beneficiary::where('user_id', Auth::id())->withCount('benefitsReceived')
+                ->get()
+                ->sum('benefits_received_count');
+
+            return view('user.home', compact(
+                'service',
+                'totalBeneficiaries',
+                'totalBeneficiariesApproved',
+                'totalBeneficiariesRejected',
+                'totalBeneficiariesCancelled',
+                'totalBeneficiariesReleased',
+                'totalBeneficiariesAccepted',
+                'totalBenefitsReceived'
+            ));
         } elseif (Auth::user()->usertype == 'employee') {
             // Redirect to employee home page
 
@@ -180,15 +199,15 @@ class HomeController extends Controller
 
             $availableSoloParent = $user->whereHas('beneficiaries', function ($query) use ($userid) {
                 $query->where('program_enrolled', 3)
-                ->where('user_id', $userid)
-                ->where('created_at', '<', Carbon::now()->subYears(5))
-                ->latest();
+                    ->where('user_id', $userid)
+                    ->where('created_at', '<', Carbon::now()->subYears(5))
+                    ->latest();
             })->exists();
             $availablePwd = $user->whereHas('beneficiaries', function ($query) use ($userid) {
                 $query->where('program_enrolled', 2)
-                ->where('user_id', $userid)
-                ->where('created_at', '<', Carbon::now()->subYears(1))
-                ->latest();
+                    ->where('user_id', $userid)
+                    ->where('created_at', '<', Carbon::now()->subYears(1))
+                    ->latest();
             })->exists();
 
             $isPwdExists = Beneficiary::where('user_id', $userid)->where('program_enrolled', 2)->exists();

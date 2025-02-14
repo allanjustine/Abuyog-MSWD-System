@@ -211,6 +211,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('/add-new-assistance', [AdminController::class, 'addNewAssistance']);
     Route::post('/add-benefits/{id}', [AdminController::class, 'submitAssistance']);
+
+    Route::get('/generate-pdf/{id}', [ApplicationController::class, 'generatePDF']); // Remove this line if not needed
 });
 
 Route::group(['middleware' => ['role-admin', 'auth']], function () {
@@ -221,9 +223,6 @@ Route::group(['middleware' => ['role-admin', 'auth']], function () {
     Route::get('/test/display/pdf/{id}', [ApplicationController::class, 'testPdf']);
     Route::post('/send-sms/{id}', [AdminController::class, 'sendSms']);
     Route::post('/released/{id}', [AdminController::class, 'releasedUser']);
-
-    //try
-    Route::get('/generate-pdf/{id}', [ApplicationController::class, 'generatePDF']); // Remove this line if not needed
 
     //Route::get('/application-pdf/{id}', [ApplicationController::class, 'generatePDF'])->name('application.pdf');
 
@@ -257,4 +256,6 @@ Route::group(['middleware' => ['role-admin', 'auth']], function () {
     Route::put('/updatebeneficiary/{id}', [AdminController::class, 'updateBeneficiary']);
 
     Route::get('/displayapplication', [AdminController::class, 'displayapplication']);
+
+    Route::get('/logs', [AdminController::class, 'displayAllLogs']);
 });

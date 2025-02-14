@@ -77,7 +77,7 @@ Case no, new or old, date applied, source of referral, problem presented, findin
 FAMILY INFO, name, age, sex, civil status, relation to client, educational attainment, occupation
 
 
-Good eve yah. You've mentioned kasi earlier nga wad on nalang ang applications nya ipuli ang beneficiaries para ug mag fill up ang user beneficiaries, diretso na, like  addan nalang ug status. 
+Good eve yah. You've mentioned kasi earlier nga wad on nalang ang applications nya ipuli ang beneficiaries para ug mag fill up ang user beneficiaries, diretso na, like  addan nalang ug status.
 
 Why not yah kana nalang? Mag additional nalang mig hatag nimo po. Mao kasi ang need yah, kasi diba inig apply sa user beneficiaries, i-accept sa employee? Nya i-approve sa admin kahuman. Nya ma display na siya sa all list of beneficiaries, ma display na pud sa database unta.
 
@@ -92,8 +92,8 @@ So diba yah, naay button sa admin na for approved? Before ana, naa unta mo pop u
 Diba yah okay na ang requirements nya interview? Dili pa unta mo automatic ug kabutang sa beneficiaries list pag click sa approved button, naa pay next process. Ma change ang button into "FOR RELEASE" which is ma notify that time ang user beneficiaries na ang iya gi request nga application is mahatagan na siyag benefits. Nya ma change na sad ang button into released, that time, inig click sa button na RELEASED is mo sulod na siya sa database na BENEFICIARIES. sa all list of beneficiaries na.
 
 
-Yaaahhhh HAHAHHAHA. Sa 60+ ang age, OSCA, AICS nya pwede pud Solo Parent as long as may Minor Child na gin aalagaan. 
-Sa 0-59 is PWD, AICS nya pwede pud Solo Parent as long as may Minor Child lagi daw. Pwede man sa register nalang naay pilian didto if naa ba siyay minor child na gina alagaan. 
+Yaaahhhh HAHAHHAHA. Sa 60+ ang age, OSCA, AICS nya pwede pud Solo Parent as long as may Minor Child na gin aalagaan.
+Sa 0-59 is PWD, AICS nya pwede pud Solo Parent as long as may Minor Child lagi daw. Pwede man sa register nalang naay pilian didto if naa ba siyay minor child na gina alagaan.
 
 Ang problem pud, is renewable man gud sa PWD mga 5 years nya Solo Parent mga 1 year
 
@@ -106,9 +106,9 @@ Naa kasi sa amo nang requirements ba yah na need dad on sa user beneficiaries in
 
 Yah ang ingon diay, sakto na lagi tong dropdown ang application. Like ang pagka sunod2 sa sidebar sa admin is
 
-*Dashboard 
+*Dashboard
 *Mapping
-*Applications 
+*Applications
 -Pending
 -For Interview (ang accepted na ni employee)
 -Approved
@@ -119,10 +119,10 @@ Yah ang ingon diay, sakto na lagi tong dropdown ang application. Like ang pagka 
 -PWD
 -Solo Parent
 -AICS
-*New Benefits 
+*New Benefits
 *Reports
-*Administration 
--All Services 
+*Administration
+-All Services
 -User Management
 
 Tanggalon nalang tong uban nga wala na mention, wa toy gamit na HAHAHAHA
@@ -143,7 +143,7 @@ Ayy oo lagi yah, fixed na HAHAHHHA pero dili
 "Your application has been approved. Please log in to your account for further instructions." Sa employee na dira na part, nya ichange pud nga ACCEPTED, nya butngan sa ubos ug FROM MSWD ABUYOG.
 
 Ing ani nalang kaya nang sa admin like:
-"Your request has been approved. Please proceed to the MSWD office to claim it." Or 
+"Your request has been approved. Please proceed to the MSWD office to claim it." Or
 "Your request has been approved. Please proceed to the MSWD office for further instructions." HAHAHHAHAHAH ikaw bahala yah
 
 Good eve yah naa pa diay pa tabang nimo ba if okay nimo ug when ka free. Kini bang sa new benefits sa admin nga part? Pina usab diay ni.
@@ -153,3 +153,15 @@ Ang flow kasi dira mo display diba tanang list of beneficiaries? Nya i-filter sa
 
 Dapat daw, ang ma list down dira sa ubos is ang all assistance gikan sa benefits_received na database. Ang first na buhaton is mag add ug new assistance ang admin, after ana ma display dayon kanang new assistance sa mga napadisplay. Naa untay button na generate (sa actions na ibutang) nya inig click, ngara na mo sulod tong filter beneficiaries na gibuhat namo, once okay na, ang mga filtered beneficiaries is mabutngan ug data(katong gi add sa admin na new benefits) pero ang status is not received pa, ang employee na ang mo click sa received button ato, pero if generated na, view button nalang, katong filtered beneficiaries name ang makita
 
+
+Dia ang need yah
+
+1. Dili working ang edit sa beneficiaries, wala sya na update. ✅
+2. Butngan ug edit button ang employee ug operator view sa all list of beneficiaries (naa man gud na sa manuscript kay inig field visits nila) PERO ilimit lang, like dili editable ang critical nga mga fields. Nya para mabal an, naa untay logs sa pag edit. Like ma record ang kung kinsa ug unsa nga data ang gi edit, which is makita ni admin na.
+3. Apil nalang pud siguro ug butang sa edit button ang admin.
+4. Butngan gihapon ug dropdown ang beneficiaries ug applications sa employee view.
+5. Ngano man tong Delete button sa operator view? Download pdf nalang pud to.
+6. Ang sa Add Application sa user beneficiaries view, wala naayos. Nya ug mag reapply na, dapat available ang AICS anytime, PWD after 5 years pa, Solo Parent, after 1 year, sa OSCA, dili na.
+7. Unsay nindot ipadisplay sa dashboard sa user beneficiaries view?
+
+Katong mga contact info, fam info, chuchu haha. Basta ayaw lang tong mga sensitive fields like name, birthdate, programs enrolled info, status, mga id's gihapon siguro nya mga benefits nga na received

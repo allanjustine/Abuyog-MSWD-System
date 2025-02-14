@@ -156,31 +156,31 @@
             </li>
             <ul x-cloak x-show="open" class="sub-menu">
                 <li class="nav-item">
-                    <a class="{{ request()->path() === 'displayapplication' && request()->query('status') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    <a class="text-dark {{ request()->path() === 'displayapplication' && request()->query('status') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                         href="{{ url('displayapplication') }}">
                         <i class="mdi mdi-view-list"></i> ALL
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="{{ request()->query('status') === 'approved' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    <a class="text-dark {{ request()->query('status') === 'approved' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                         href="/displayapplication?status=approved">
                         <i class="mdi mdi-check-all"></i> Approved
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="{{ request()->query('status') === 'accepted' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    <a class="text-dark {{ request()->query('status') === 'accepted' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                         href="/displayapplication?status=accepted">
                         <i class="mdi mdi-headset"></i> For Interview
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="{{ request()->query('status') === 'pending' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    <a class="text-dark {{ request()->query('status') === 'pending' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                         href="/displayapplication?status=pending">
                         <i class="mdi mdi-clock"></i> Pending
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="{{ request()->query('status') === 'rejected' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    <a class="text-dark {{ request()->query('status') === 'rejected' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                         href="/displayapplication?status=rejected">
                         <i class="mdi mdi-close"></i> Rejected
                     </a>
@@ -201,31 +201,31 @@
         <ul class="sub-menu {{ request()->is('showbeneficiaries_admin*') || request()->routeIs('show.beneficiaries_admin') ? '' : 'hidden' }}"
             id="beneficiariesSubMenu">
             <li class="nav-item menu-items">
-                <a class="{{ request()->path() === 'showbeneficiaries_admin' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                <a class="text-dark {{ request()->path() === 'showbeneficiaries_admin' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                     href="{{ route('show.beneficiaries_admin') }}">
                     <i class="mdi mdi-view-list"></i> <span class="menu-title">All</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="{{ request()->query('service') === 'OSCA(Office of Senior Citizens)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                <a class="text-dark {{ request()->query('service') === 'OSCA(Office of Senior Citizens)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                     href="/showbeneficiaries_admin?service=OSCA(Office of Senior Citizens)">
                     <i class="mdi mdi-face"></i> OSCA
                 </a>
             </li>
             <li class="nav-item">
-                <a class="{{ request()->query('service') === 'PWD(Persons with Disabilities)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                <a class="text-dark {{ request()->query('service') === 'PWD(Persons with Disabilities)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                     href="/showbeneficiaries_admin?service=PWD(Persons with Disabilities)">
                     <i class="mdi mdi-wheelchair-accessibility"></i> PWD
                 </a>
             </li>
             <li class="nav-item">
-                <a class="{{ request()->query('service') === 'Solo Parent' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                <a class="text-dark {{ request()->query('service') === 'Solo Parent' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                     href="/showbeneficiaries_admin?service=Solo Parent">
                     <i class="mdi mdi-human-male-female"></i> Solo Parent
                 </a>
             </li>
             <li class="nav-item">
-                <a class="{{ request()->query('service') === 'AICS(Assistance to Individuals in Crisis)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                <a class="text-dark {{ request()->query('service') === 'AICS(Assistance to Individuals in Crisis)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                     href="/showbeneficiaries_admin?service=AICS(Assistance to Individuals in Crisis)">
                     <i class="mdi mdi-account-multiple"></i> AICS
                 </a>
@@ -264,21 +264,27 @@
         <ul class="sub-menu {{ request()->is('showservices*') || request()->routeIs('admin.showservices') ? '' : 'hidden' }}"
             id="adminSubMenu">
             <li class="nav-item menu-items">
-                <a class="{{ request()->path() === 'showservices' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                <a class="text-dark {{ request()->path() === 'showservices' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                     href="{{ route('admin.showservices') }}">
                     <i class="mdi mdi-file-document-box"></i> <span class="menu-title">All Services</span>
                 </a>
             </li>
             <li class="nav-item menu-items">
-                <a class="{{ request()->path() === 'deceased' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                <a class="text-dark {{ request()->path() === 'deceased' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                     href="{{ route('admin.deceased') }}">
                     <i class="mdi mdi-coffin"></i> <span class="menu-title">All Deceased</span>
                 </a>
             </li>
             <li class="nav-item menu-items">
-                <a class="{{ request()->path() === 'showusermanagement' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                <a class="text-dark {{ request()->path() === 'showusermanagement' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                     href="{{ route('showusermanagement.index') }}">
                     <i class="mdi mdi-account-key"></i> <span class="menu-title">User Management</span>
+                </a>
+            </li>
+            <li class="nav-item menu-items">
+                <a class="text-dark {{ request()->path() === 'logs' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/logs">
+                    <i class="mdi mdi-file-document"></i> <span class="menu-title">Logs</span>
                 </a>
             </li>
         </ul>

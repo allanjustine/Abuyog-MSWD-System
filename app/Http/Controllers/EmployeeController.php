@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AicsDetail;
 use Illuminate\Http\Request;
 use App\Models\Application;
 use App\Models\Assistance;
@@ -12,14 +13,28 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\WithPagination;
 use App\Models\BenefitReceived;
+use App\Models\ContactEmergency;
+use App\Models\FamilyBackground;
+use App\Models\FamilyComposition;
+use App\Models\PwdDetail;
+use App\Models\SoloParentDetail;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class EmployeeController extends Controller
 {
     use WithPagination;
-    public function showapplication()
+    public function showapplication(Request $request)
     {
-        $data = Beneficiary::orderBy('appearance_date', 'desc')->paginate(10);
+        $status = $request->query('status');
+
+        $data = Beneficiary::with(['approvedBy', 'acceptedBy', 'aicsDetails', 'pwdDetails', 'soloParentDetails', 'service', 'barangay'])
+            ->where(function ($query) use ($status) {
+                if ($status) {
+                    $query->where('status', $status);
+                }
+            })
+            ->orderBy('appearance_date', 'desc')
+            ->paginate(10);
 
         return view('employee.showapplication', compact('data'));
     }
@@ -57,10 +72,11 @@ class EmployeeController extends Controller
         return redirect()->back()->with('success', 'Application canceled successfully!');
     }
 
-    public function display_beneficiaries()
+    public function display_beneficiaries(Request $request)
     {
         $page = request()->get('page', 1);
         $perPage = 10;
+        $service = $request->query('service');
 
         $applications = Application::where('approved_at', '!=', null)
             ->where('approved_by', '!=', null)
@@ -70,6 +86,13 @@ class EmployeeController extends Controller
                 return $application;
             });
         $beneficiaries = Beneficiary::with(['barangay', 'familyCompositions'])
+            ->where(function ($query) use ($service) {
+                if ($service) {
+                    $query->whereHas('service', function ($subQuery) use ($service) {
+                        $subQuery->where('name', $service);
+                    });
+                }
+            })
             ->get()
             ->map(function ($beneficiary) {
                 $beneficiary->source = 'Beneficiary';
@@ -259,12 +282,12 @@ class EmployeeController extends Controller
         // Eager load the barangay and benefitsReceived relationships
         $assistance_name = $request->name_of_assistance;
         $beneficiaries = Beneficiary::with('barangay', 'benefitsReceived')
-        ->whereHas('benefitsReceived', function($query) use ($assistance_name) {
-            $query->whereHas('assistance', function ($query) use ($assistance_name) {
-                $query->where('name_of_assistance', 'like', '%' . $assistance_name . '%');
-            });
-        })
-        ->get();
+            ->whereHas('benefitsReceived', function ($query) use ($assistance_name) {
+                $query->whereHas('assistance', function ($query) use ($assistance_name) {
+                    $query->where('name_of_assistance', 'like', '%' . $assistance_name . '%');
+                });
+            })
+            ->get();
         $services = Service::all();
         $barangays = Barangay::all(); // Fetch all barangays if needed
 

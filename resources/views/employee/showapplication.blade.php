@@ -118,7 +118,7 @@
                         <form action="{{ route('apply.search') }}" method="GET" class="d-flex">
                             <input type="text" name="search" class="form-control me-2" placeholder="Search..."
                                 value="{{ request()->search }}" style="max-width: 300px;">
-                            <button type="submit" class="btn btn-primary d-flex gap-1">
+                            <button type="submit" class="gap-1 btn btn-primary d-flex">
                                 <i class="bi bi-search"></i> <span>Search</span>
                             </button>
                         </form>
@@ -229,7 +229,7 @@
                                 </tbody>
                             </table>
                             <div>
-                                {{ $data->links() }}
+                                {{ $data->links('pagination::bootstrap-5') }}
                             </div>
                         </div>
                     </div>

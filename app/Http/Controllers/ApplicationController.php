@@ -86,7 +86,7 @@ class ApplicationController extends Controller
             return redirect('/myapplication')->with('error', 'You cannot apply for this service. You can submit another after ' . $soloParent?->created_at?->addYears(5)->diffForHumans());
         }
 
-        if ($notAcceptedAge && $service->id == 1 || $service->id == 4 || Auth::user()->has_minor_child === 1) {
+        if ($notAcceptedAge && $service->id == 1 || Auth::user()->has_minor_child === 1) {
             return redirect('/myapplication')->with('error', 'You cannot apply for this service. Because this service is for people who are 60 years old or older.' . ' Your age is ' . (Auth::user()?->age ?: Auth::user()->date_of_birth?->age));
         }
         // Fetch the user's latest application for the given service

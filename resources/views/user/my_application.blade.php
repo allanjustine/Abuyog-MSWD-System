@@ -238,12 +238,12 @@
                                                 OSCA(Office of Senior Citizens)
                                             </a>
                                         </li>
-                                        @endif
                                         <li class="list-group-item">
                                             <a href="/form/4">
                                                 AICS(Assistance to Individuals in Crisis)
                                             </a>
                                         </li>
+                                        @endif
                                         @if (Auth::user()->has_minor_child === 1)
                                         <li class="list-group-item">
                                             <a href="/form/3">
@@ -267,8 +267,13 @@
                                         </li>
                                         @endif
                                         @if(!$availableSoloParent && !$availablePwd && $isSoloParentExists && $isPwdExists)
-                                            <p class="text-center fs-4 fw-bold">No Services Available</p>
+                                            <p class="text-center fs-4 fw-bold">No Services Available for PWD and SoloParent</p>
                                         @endif
+                                        <li class="list-group-item">
+                                            <a href="/form/4">
+                                                AICS(Assistance to Individuals in Crisis)
+                                            </a>
+                                        </li>
                                     @endif
                                 </ul>
                             </div>
@@ -366,7 +371,7 @@
                             <p><strong>Reason for Cancelling:</strong> <span id="cancellationReason"></span></p>
                         </div>
 
-                        <div id="requirementsSection" class="border p-3">
+                        <div id="requirementsSection" class="p-3 border">
                             <p class="fs-3"><strong>Requirements to Bring:</strong></p>
                             <ul id="requirementsList"></ul>
                         </div>
