@@ -9,53 +9,130 @@
     <!-- Include CSS -->
     @include('admin.css')
 
-    <!-- Bootstrap CSS (Optional, you can remove if already included) -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <!-- Custom Styles -->
     <style>
-        #service,
-        #barangay {
-            background-color: #f8f9fa;
-            border-color: #6c757d;
-            color: #343a40;
-            width: 180px;
+        .form-container {
+            margin-top: 20px;
+        }
+
+        .filter-form select {
+            width: 150px;
+            /* Reduced width for a more compact look */
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.875rem;
+            background-color: #ffffff;
+            /* Non-transparent background */
+            color: #495057;
+            /* Darker text for better contrast */
+            transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+        }
+
+        .filter-form select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            background-color: #ffffff;
+            /* Keeping solid white background on focus */
+        }
+
+        .filter-form select:hover {
+            border-color: #0056b3;
+        }
+
+        .row.gy-3 {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .row .col-md-3,
+        .row .col-md-2 {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 10px;
+            /* Reduced gap between rows */
+        }
+
+        .row .col-md-3 select,
+        .row .col-md-2 select {
+            font-size: 0.875rem;
+            max-width: 160px;
+        }
+
+        .row .col-md-3 label,
+        .row .col-md-2 label {
+            font-size: 0.85rem;
+            font-weight: 600;
         }
 
         .button-container {
             display: flex;
             gap: 10px;
+            justify-content: flex-start;
             align-items: center;
         }
 
         .button-container .btn {
-            flex-shrink: 0;
+            padding: 6px 12px;
+            font-size: 0.875rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .button-container .btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .card-header h3 {
+            color: #495057;
+            font-size: 1.25rem;
         }
 
         .table th,
         .table td {
             text-align: center;
             vertical-align: middle;
+            padding: 8px 10px;
         }
 
         .form-label {
             font-weight: 600;
         }
 
-        .card-header h3 {
-            color: #495057;
-        }
-
         .no-data-message {
-            font-size: 1.1em;
+            font-size: 1em;
             color: #6c757d;
         }
 
-        .filter-form select {
-            margin-right: 10px;
+        @media (max-width: 768px) {
+            .row.gy-3 {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .row .col-md-3,
+            .row .col-md-2 {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .button-container {
+                justify-content: center;
+            }
         }
     </style>
+
 
     <!-- Include JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -84,7 +161,7 @@
             <div class="container mt-5">
                 <!-- Filter Form -->
                 <form method="GET" action="{{ route('reports.index') }}">
-                    <div class="row gy-3 align-items-center">
+                    <div class="row gy-3 align-items-center form-container">
                         <!-- Program Dropdown -->
                         <div class="col-md-3 col-12">
                             <label for="service" class="form-label">Select Program:</label>
@@ -113,6 +190,20 @@
                             </select>
                         </div>
 
+                        <!-- Name of Assistance Dropdown -->
+                        <div class="col-md-3 col-12">
+                            <label for="assistance" class="form-label">Select Name of Assistance:</label>
+                            <select id="assistance" name="assistance" class="form-control">
+                                <option value="">All</option>
+                                @foreach ($assistances as $assistance)
+                                <option value="{{ $assistance->id }}" {{ request('assistance')==$assistance->id ?
+                                    'selected' : '' }}>
+                                    {{ $assistance->name_of_assistance }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
                         <!-- Year Dropdown -->
                         <div class="col-md-2 col-12">
                             <label for="year" class="form-label">Year:</label>
@@ -131,9 +222,9 @@
                             <label for="month" class="form-label">Month:</label>
                             <select id="month" name="month" class="form-control">
                                 <option value="">All Months</option>
-                                @foreach ($months as $index => $month)
-                                <option value="{{ $index + 1 }}" {{ request('month')==$index + 1 ? 'selected' : '' }}>
-                                    {{$month}}
+                                @foreach (range(1, 12) as $month)
+                                <option value="{{ $month }}" {{ request('month')==$month ? 'selected' : '' }}>
+                                    {{ date('F', mktime(0, 0, 0, $month, 1)) }}
                                 </option>
                                 @endforeach
                             </select>
@@ -145,6 +236,11 @@
                                 <button type="submit" class="btn btn-primary">Generate</button>
                                 <a href="{{ route('reports.download-pdf', request()->query()) }}"
                                     class="btn btn-danger">Download PDF</a>
+                                <a href="{{ url('/export-beneficiaries/excel') }}" class="btn btn-success">Download
+                                    Excel</a>
+                                <a href="{{ url('/export-beneficiaries/word') }}" class="btn btn-primary">Download
+                                    Word</a>
+
                             </div>
                         </div>
                     </div>
@@ -156,39 +252,43 @@
                 <table class="table table-sm table-bordered table-striped">
                     <thead>
                         <tr>
-                            {{-- <th>ID</th> --}}
-                            <th>First Name</th>
-                            <th>Middle Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
+                            <th>Full Name</th>
                             <th>Phone</th>
                             <th>Barangay</th>
                             <th>Program Enrolled</th>
+                            <th>Assistance Received</th>
+                            <th>Assistance Type</th>
+                            <th>Amount</th>
+                            <th>Date Given</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($beneficiaries as $beneficiary)
+                        @foreach ($beneficiary->benefitReceiveds as $benefit)
+                        @if ($benefit->date_received)
                         <tr>
-                            {{-- <td>{{ $beneficiary->id }}</td> --}}
-                            <td>{{ $beneficiary->first_name }}</td>
-                            <td>{{ $beneficiary->middle_name }}</td>
-                            <td>{{ $beneficiary->last_name }}</td>
-                            <td>{{ $beneficiary->email }}</td>
+                            <td>{{ $beneficiary->full_name }}</td>
                             <td>{{ $beneficiary->phone }}</td>
                             <td>{{ $beneficiary->barangay->name ?? 'N/A' }}</td>
                             <td>{{ $beneficiary->service->name ?? 'N/A' }}</td>
+                            <td>{{ $benefit->assistance->name_of_assistance ?? 'N/A' }}</td>
+                            <td>{{ $benefit->assistance->type_of_assistance ?? 'N/A' }}</td>
+                            <td>{{ $benefit->assistance ? number_format($benefit->assistance->amount, 2) : 'N/A' }}</td>
+                            <td>{{ $benefit->date_received }}</td>
                         </tr>
+                        @endif
+                        @endforeach
                         @empty
                         <tr>
-                            <td colspan="8" class="text-center no-data-message">No reports found for the
-                                selected filters.</td>
+                            <td colspan="10" class="text-center no-data-message">No reports found for the selected
+                                filters.</td>
                         </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
+
         </div>
-    </div>
     </div>
 
     <!-- Include Scripts -->

@@ -87,6 +87,7 @@ class EmployeeController extends Controller
             });
         $beneficiaries = Beneficiary::with(['barangay', 'familyCompositions'])
             ->where(function ($query) use ($service) {
+                $query->where('status', 'released');
                 if ($service) {
                     $query->whereHas('service', function ($subQuery) use ($service) {
                         $subQuery->where('name', $service);
@@ -190,12 +191,12 @@ class EmployeeController extends Controller
                     ->orWhere('phone', 'LIKE', '%' . $search . '%')
                     // Search by program_enrolled (service name)
                     ->orWhereHas('service', function ($query) use ($search) {
-                        $query->where('name', 'LIKE', '%' . $search . '%');
-                    })
+                    $query->where('name', 'LIKE', '%' . $search . '%');
+                })
                     // Search by barangay (barangay name)
                     ->orWhereHas('barangay', function ($query) use ($search) {
-                        $query->where('name', 'LIKE', '%' . $search . '%');
-                    });
+                    $query->where('name', 'LIKE', '%' . $search . '%');
+                });
             })
             ->get();
 
@@ -213,8 +214,8 @@ class EmployeeController extends Controller
                     ->orWhere('email', 'LIKE', '%' . $search . '%')
                     ->orWhere('phone', 'LIKE', '%' . $search . '%')
                     ->orWhereHas('service', function ($query) use ($search) {
-                        $query->where('name', 'LIKE', '%' . $search . '%');
-                    })
+                    $query->where('name', 'LIKE', '%' . $search . '%');
+                })
 
                     ->orWhere('status', 'LIKE', '%' . $search . '%')
                     // Search for employee_name, include 'pending' or null (no employee assigned)
@@ -231,7 +232,7 @@ class EmployeeController extends Controller
     {
 
         // Fetch all SMS logs (or use pagination if necessary)
-        $smsLogs = \DB::table('sms_logs')->latest()->get();
+        $smsLogs = \DB::table('sms_logs')->latest()->paginate(10);
 
         // Pass the SMS logs to the view
         return view('employee.sms_logs', compact('smsLogs'));
@@ -283,11 +284,12 @@ class EmployeeController extends Controller
         $assistance_name = $request->name_of_assistance;
         $beneficiaries = Beneficiary::with('barangay', 'benefitsReceived')
             ->whereHas('benefitsReceived', function ($query) use ($assistance_name) {
-                $query->whereHas('assistance', function ($query) use ($assistance_name) {
-                    $query->where('name_of_assistance', 'like', '%' . $assistance_name . '%');
-                });
+                $query->with('assistance')
+                    ->whereHas('assistance', function ($query) use ($assistance_name) {
+                        $query->where('name_of_assistance', 'like', '%' . $assistance_name . '%');
+                    });
             })
-            ->get();
+            ->paginate(10);
         $services = Service::all();
         $barangays = Barangay::all(); // Fetch all barangays if needed
 
@@ -299,7 +301,9 @@ class EmployeeController extends Controller
         })
             ->get();
 
+
         $nameOfAssistance = $assistance_name ?: null;
+
 
         return view('employee.assistance_release', compact('barangays', 'services', 'beneficiaries', 'assistanceList', 'nameOfAssistance', 'assistances'));
     }
@@ -313,9 +317,13 @@ class EmployeeController extends Controller
         $beneficiaries = Beneficiary::whereHas('benefitsReceived', function ($query) use ($nameOfAssistance) {
             $query->where('name_of_assistance', $nameOfAssistance);
         })
-            ->with(['benefitsReceived' => function ($query) use ($nameOfAssistance) {
-                $query->where('name_of_assistance', $nameOfAssistance);
-            }, 'service', 'barangay'])
+            ->with([
+                'benefitsReceived' => function ($query) use ($nameOfAssistance) {
+                    $query->where('name_of_assistance', $nameOfAssistance);
+                },
+                'service',
+                'barangay'
+            ])
             ->get();
 
         $assistanceList = BenefitReceived::distinct()->pluck('name_of_assistance');

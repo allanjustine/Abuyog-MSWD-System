@@ -21,6 +21,10 @@
             border: 1px solid #ccc;
         }
 
+        .swal2-title {
+            color: black !important;
+        }
+
         .modal-header {
             background-color: #00becc;
             color: #721c24;
@@ -103,7 +107,7 @@
                                         <td>{{ $user->last_name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->phone }}</td>
-                                        <td>{{ $user->barangay }}</td>
+                                        <td>{{ $user->barangay?->name }}</td>
                                         <td>{{ $user->usertype }}</td>
                                         <td>
                                             <!-- Edit button triggers the modal -->
@@ -131,7 +135,7 @@
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            Are you sure you want to delete this beneficiary?
+                                                            Are you sure you want to delete <strong>{{ $user->full_name }} - {{ $user->usertype }}</strong>?
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
@@ -191,21 +195,40 @@
 
                                                         <div class="form-group mt-3">
                                                             <label for="barangay">Barangay</label>
-                                                            <input type="text" class="form-control" name="barangay"
-                                                                value="{{ $user->barangay }}" required>
+                                                            <select name="barangay" id="" class="form-select">
+                                                                <option value="" selected hidden>Select Barangay</option>
+                                                                <option value="" disabled>Select Barangay</option>
+                                                                @foreach (\App\Models\Barangay::all() as $barangay)
+                                                                <option value="{{ $barangay->id }}" {{ $barangay->id === $user->barangay_id ? "selected" : "" }}>{{ $barangay->name }}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
 
                                                         <!-- Role Dropdown -->
                                                         <div class="form-group mt-3">
                                                             <label for="usertype">Role</label>
-                                                            <select class="form-control" name="usertype" required>
+                                                            <select class="form-select" name="usertype" required>
                                                                 <option value="employee"
                                                                     {{ $user->usertype == 'employee' ? 'selected' : '' }}>
                                                                     Employee</option>
                                                                 <option value="operator"
                                                                     {{ $user->usertype == 'operator' ? 'selected' : '' }}>
                                                                     Operator</option>
+                                                                <option value="beneficiary"
+                                                                    {{ $user->usertype == 'beneficiary' ? 'selected' : '' }}>
+                                                                    Beneficiary</option>
                                                             </select>
+                                                        </div>
+                                                        
+                                                        <div class="form-group mt-3">
+                                                            <label for="password">Password</label>
+                                                            <input type="password" class="form-control" name="password"
+                                                                value="" placeholder="**********" required>
+                                                        </div>
+                                                        <div class="form-group mt-3">
+                                                            <label for="password_confirmation">Password Confirmation</label>
+                                                            <input type="password" class="form-control" name="password_confirmation"
+                                                                value="" placeholder="**********" required>
                                                         </div>
 
                                                     </div>
@@ -222,6 +245,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $users->links('pagination::bootstrap-5') }}
                     </div>
                 </div>
 
@@ -260,17 +284,25 @@
 
                                     <div class="form-group mt-3">
                                         <label for="barangay">Barangay</label>
-                                        <input type="text" class="form-control" name="barangay">
+                                        <select class="form-select" name="barangay">
+                                        <option value="" selected hidden>Select Barangay</option>
+                                                                <option value="" disabled>Select Barangay</option>
+                                                                @foreach (\App\Models\Barangay::all() as $barangay)
+                                                                <option value="{{ $barangay->id }}" {{ old('barangay') === $barangay->id ? "selected" : "" }}>{{ $barangay->name }}</option>
+                                                                @endforeach
+                                        </select>
                                     </div>
 
                                     <!-- Role Dropdown -->
                                     <div class="form-group mt-3">
                                         <label for="usertype">Role</label>
-                                        <select class="form-control" name="usertype" required>
+                                        <select class="form-select" name="usertype" required>
                                             <option value="employee"
                                                 {{ $user->usertype == 'employee' ? 'selected' : '' }}>Employee</option>
                                             <option value="operator"
                                                 {{ $user->usertype == 'operator' ? 'selected' : '' }}>Operator</option>
+                                            <option value="beneficiary"
+                                                {{ $user->usertype == 'beneficiary' ? 'selected' : '' }}>Beneficiary</option>
                                         </select>
                                     </div>
 
@@ -296,6 +328,22 @@
                     </div>
                 </div>
             </div>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                $(document).ready(function() {
+                    @if (session('success'))
+                        Swal.fire({
+                            title: 'Success',
+                            text: "{{ session('success') }}",
+                            icon: 'success',
+                            showCancelButton: true,
+                            showConfirmButton: false,
+                            cancelButtonColor: 'gray',
+                            cancelButtonText: 'Close',
+                        });
+                    @endif
+                });
+            </script>
 
             @include('admin.script')
 </body>

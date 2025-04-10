@@ -658,9 +658,11 @@
                             </fieldset>
 
 
-                            <button type="submit" class="btn btn-success btn-sm" style="width: 200px; position: fixed; bottom: 20px; right: 5%; z-index: 1000;">
-                                Update
-                            </button>
+                            <div style="text-align: right">
+                                <button type="submit" class="btn btn-success btn-sm" style="width: 200px;">
+                                    Submit
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>

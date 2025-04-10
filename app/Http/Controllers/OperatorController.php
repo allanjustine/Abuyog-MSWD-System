@@ -223,7 +223,7 @@ class OperatorController extends Controller
     public function newBenefitsshowOperator()
     {
         // Eager load the barangay and benefitsReceived relationships
-        $beneficiaries = Beneficiary::with('barangay', 'benefitsReceived')->get();
+        $beneficiaries = Beneficiary::with('barangay', 'benefitsReceived')->paginate(10);
         $services = Service::all();
         $barangays = Barangay::all(); // Fetch all barangays if needed
 

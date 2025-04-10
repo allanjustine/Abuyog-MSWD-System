@@ -155,11 +155,11 @@
                     </div>
                     <div class="col-sm-4 text-right">
                         <div class="site-info">
-                            <a href="tel:+09123456789">
-                                <span class="mai-call" style="color: #0007df;"></span> +09123456789
+                            <a href="tel:+09367639686">
+                                <span class="mai-call" style="color: #0007df;"></span> +09367639686
                             </a>
                             <span class="divider" style="color: #bbb;">|</span>
-                            <a href="mailto:mswd@gmail.com">
+                            <a href="mailto:mswd8@gmail.com">
                                 <span class="mai-mail" style="color: #ff0000;"></span> mswd@gmail.com
                             </a>
                         </div>
@@ -174,7 +174,7 @@
             <div class="container">
                 <a class="navbar-brand">
                     <img src="../assets/img/mswd-logo.png" alt="MSWD" style="height:40px; width: 43px;">
-                    <span class="text-danger">MSWD</span> - Abuyog, Leyte
+                    {{--  <span class="text-danger">MSWD</span> - Abuyog, Leyte  --}} MSWD - Abuyog, Leyte
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport"
                     aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
@@ -186,9 +186,9 @@
                         <li class="nav-item active">
                             <a class="nav-link" href="">Home</a>
                         </li>
-                        <li class="nav-item">
+                        {{--  <li class="nav-item">
                             <a class="nav-link" href="about.html">About Us</a>
-                        </li>
+                        </li>  --}}
                         <li class="nav-item">
                             <a class="nav-link" href="#services-section">Services</a>
                         </li>
@@ -326,7 +326,8 @@
     </div>
 
     <!-- Mission Modal -->
-    <div class="modal fade" id="missionModal" tabindex="-1" aria-labelledby="missionModalLabel" aria-hidden="true">
+    <div class="modal fade" id="missionModal" tabindex="-1" aria-labelledby="missionModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -341,7 +342,8 @@
     </div>
 
     <!-- Mandate Modal -->
-    <div class="modal fade" id="mandateModal" tabindex="-1" aria-labelledby="mandateModalLabel" aria-hidden="true">
+    <div class="modal fade" id="mandateModal" tabindex="-1" aria-labelledby="mandateModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -431,7 +433,7 @@
         });
 
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const texts = [
                 "MUNICIPAL SOCIAL WELFARE", "AND", "DEVELOPMENT OFFICE", "Municipality Of Abuyog"
             ]; // Add your texts here

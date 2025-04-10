@@ -6,107 +6,42 @@ use App\Helpers\MonthHelper;
 use App\Models\Beneficiary;
 use App\Models\Service;
 use App\Models\Barangay;
+use App\Models\Assistance;
+use Barryvdh\DomPDF\Facade\PDF;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\PDF;  // Import PDF facade
 
 class ReportsController extends Controller
 {
-    // This method will be called when accessing the report page
-    public function index(Request $request)
-    {
-        // Create a query to fetch beneficiaries
-        $query = Beneficiary::query();
+    // View reports for Admin
+   // Inside your index method
+public function index(Request $request)
+{
+    $beneficiaries = $this->fetchBeneficiaries($request);
+    $services = Service::all();
+    $barangays = Barangay::all();
+    $months = MonthHelper::generateMonth();
+    $assistances = Assistance::all(); // Get all Assistance options
 
-        // Apply filters if provided (service, barangay, year, month)
-        if ($request->has('service') && $request->service != '') {
-            $query->where('program_enrolled', $request->service);
-        }
+    return view('admin.reports', compact('beneficiaries', 'services', 'barangays', 'months', 'assistances'));
+}
 
-        if ($request->has('barangay') && $request->barangay != '') {
-            $query->where('barangay_id', $request->barangay);
-        }
-
-        if ($request->has('year') && $request->year != '') {
-            $query->whereYear('created_at', $request->year);
-        }
-
-        if ($request->has('month') && $request->month != '') {
-            $query->whereMonth('created_at', $request->month);
-        }
-
-        // Get the filtered beneficiaries data
-        $beneficiaries = $query->with(['service', 'barangay'])->get();
-
-        // Fetch all available services and barangays for the filters
-        $services = Service::all();
-        $barangays = Barangay::all();
-
-        $months = MonthHelper::generateMonth();
-
-        // Return the view with the necessary data
-        return view('admin.reports', compact('beneficiaries', 'services', 'barangays', 'months'));
-    }
-    //ope report
+    // View reports for Operator
     public function report(Request $request)
     {
-        // Create a query to fetch beneficiaries
-        $query = Beneficiary::query();
-
-        // Apply filters if provided (service, barangay, year, month)
-        if ($request->has('service') && $request->service != '') {
-            $query->where('program_enrolled', $request->service);
-        }
-
-        if ($request->has('barangay') && $request->barangay != '') {
-            $query->where('barangay_id', $request->barangay);
-        }
-
-        if ($request->has('year') && $request->year != '') {
-            $query->whereYear('created_at', $request->year);
-        }
-
-        if ($request->has('month') && $request->month != '') {
-            $query->whereMonth('created_at', $request->month);
-        }
-
-        // Get the filtered beneficiaries data
-        $beneficiaries = $query->with(['service', 'barangay'])->get();
-
-        // Fetch all available services and barangays for the filters
+        $beneficiaries = $this->fetchBeneficiaries($request);
         $services = Service::all();
         $barangays = Barangay::all();
+        $months = MonthHelper::generateMonth();
+        $assistances = Assistance::all(); // Get all Assistance options
 
-        // Return the view with the necessary data
-        return view('operator.report', compact('beneficiaries', 'services', 'barangays'));
+        return view('operator.report', compact('beneficiaries', 'services', 'barangays', 'months', 'assistances'));
     }
 
-
-    // Generate PDF
+    // Generate and download PDF report
     public function downloadPDF(Request $request)
     {
-        $query = Beneficiary::query();
+        $beneficiaries = $this->fetchBeneficiaries($request);
 
-        // Apply filters
-        if ($request->has('service') && $request->service != '') {
-            $query->where('program_enrolled', $request->service);
-        }
-
-        if ($request->has('barangay') && $request->barangay != '') {
-            $query->where('barangay_id', $request->barangay);
-        }
-
-        if ($request->has('year') && $request->year != '') {
-            $query->whereYear('created_at', $request->year);
-        }
-
-        if ($request->has('month') && $request->month != '') {
-            $query->whereMonth('created_at', $request->month);
-        }
-
-        // Get filtered data
-        $beneficiaries = $query->with(['service', 'barangay'])->get();
-
-        // Get selected program and barangay names
         $selectedService = $request->service
             ? Service::find($request->service)->name
             : 'All Programs';
@@ -115,9 +50,43 @@ class ReportsController extends Controller
             ? Barangay::find($request->barangay)->name
             : 'All Barangays';
 
-        // Generate PDF
         $pdf = PDF::loadView('admin.reports-pdf', compact('beneficiaries', 'selectedService', 'selectedBarangay'));
 
         return $pdf->download('beneficiaries-report.pdf');
     }
+
+   // Fetch Beneficiaries with filters
+private function fetchBeneficiaries($request)
+{
+    $query = Beneficiary::with(['service', 'barangay', 'benefitsReceived.assistance']); // Make sure to load assistance
+
+    // Existing filters
+    if ($request->has('service') && $request->service != '') {
+        $query->where('program_enrolled', $request->service);
+    }
+
+    if ($request->has('barangay') && $request->barangay != '') {
+        $query->where('barangay_id', $request->barangay);
+    }
+
+    if ($request->has('year') && $request->year != '') {
+        $query->whereYear('created_at', $request->year);
+    }
+
+    if ($request->has('month') && $request->month != '') {
+        $query->whereMonth('created_at', $request->month);
+    }
+
+
+    // Filter for "Name of Assistance" and ensure only "received" assistance is included
+    if ($request->has('assistance') && $request->assistance != '') {
+        $query->whereHas('benefitsReceived', function ($q) use ($request) {
+            $q->where('assistance_id', $request->assistance)
+              ->where('status', 'received'); // Only received assistance
+        });
+    }
+
+
+    return $query->get();
+}
 }

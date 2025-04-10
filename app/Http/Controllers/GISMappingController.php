@@ -10,15 +10,37 @@ use App\Models\Service;
 class GISMappingController extends Controller
 {
     /**
-     * Display GIS mapping page.
+     * Display GIS mapping page with services and barangays.
      */
-    public function index()
+    public function viewMap()
     {
-        $services = Service::all(); // Get all services (programs)
-        $barangays = Beneficiary::select('barangay_id')->distinct()->with('barangay')->get(); // Unique barangays
+        // Get all services (programs)
+        $services = Service::all();
+
+        // Get unique barangays with related beneficiaries having 'released' status
+        $barangays = Barangay::with(['beneficiaries' => function($query) {
+            $query->where('status', 'released'); // Filter beneficiaries with 'released' status
+        }])
+        ->distinct()
+        ->get();
 
         return view('admin.gis', compact('services', 'barangays'));
     }
+
+//     public function viewMap()
+// {
+//     $services = Service::all();
+
+//     // Get unique barangays with related beneficiaries having 'released' status
+//     $barangays = Barangay::with(['beneficiaries' => function($query) {
+//         $query->where('status', 'released'); // Filter beneficiaries with 'released' status
+//     }])
+//     ->distinct()
+//     ->get();
+//     return view('admin.map', compact('services', 'barangays'));
+// }
+
+
 
     /**
      * Fetch barangays with enrolled beneficiaries for a program.
@@ -28,18 +50,29 @@ class GISMappingController extends Controller
         $program = $request->input('program', 'all');
 
         $query = Beneficiary::query();
+
+        // Filter by 'released' status
+        $query->where('status', 'released');
+
+        // If a specific program is selected, filter beneficiaries by the program
         if ($program !== 'all') {
             $query->where('program_enrolled', $program);
         }
 
-        $barangays = $query->with('barangay')->get()->pluck('barangay')->unique('id')->values();
+        // Fetch unique barangays with their beneficiaries
+        $barangays = $query->with('barangay')  // Make sure the 'barangay' relationship exists
+                           ->get()
+                           ->pluck('barangay')
+                           ->unique('id')
+                           ->values();
+
         return response()->json($barangays);
     }
 
     /**
- * Fetch beneficiaries enrolled in a program and barangay.
- */
-public function getBeneficiaries(Request $request)
+     * Fetch beneficiaries enrolled in a specific program and barangay with 'released' status.
+     */
+    public function getBeneficiaries(Request $request)
 {
     $program = $request->input('program', 'all');
     $barangayId = $request->input('barangay_id', 'all');
@@ -58,13 +91,10 @@ public function getBeneficiaries(Request $request)
         $query->where('barangay_id', $barangayId);
     }
 
-    // Fetch beneficiaries with related barangay and service
-    $beneficiaries = $query->with(['barangay', 'service'])->get();
-
-    // If no beneficiaries are found, return a message
-    if ($beneficiaries->isEmpty()) {
-        return response()->json(['message' => 'No beneficiaries found for the selected filters.']);
-    }
+    // Fetch only beneficiaries with status 'released'
+    $beneficiaries = $query->where('status', 'released')
+                           ->with(['barangay', 'service'])
+                           ->get();
 
     // Map barangay data for GIS markers
     $barangays = $beneficiaries->map(function ($b) {
@@ -83,6 +113,7 @@ public function getBeneficiaries(Request $request)
             'last_name' => $beneficiary->last_name,
             'program_enrolled' => $beneficiary->service->name, // Ensure 'service' relationship exists
             'barangay_id' => $beneficiary->barangay_id,
+            'full_name' => $beneficiary->full_name // Assuming there's a `full_name` attribute
         ];
     });
 
@@ -93,11 +124,16 @@ public function getBeneficiaries(Request $request)
     ]);
 }
 
-public function barangay() {
-    $barangays = Barangay::all();
 
-    return response()->json([
-        'barangays' => $barangays
-    ], 200);
-}
+    /**
+     * Fetch all barangays.
+     */
+    public function barangay()
+    {
+        $barangays = Barangay::all();
+
+        return response()->json([
+            'barangays' => $barangays
+        ], 200);
+    }
 }

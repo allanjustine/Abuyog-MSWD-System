@@ -432,6 +432,7 @@
                 </tbody>
                 </table>
             </div>
+            {{ $beneficiaries->links('pagination::bootstrap-5') }}
         </div>
     </div>
 

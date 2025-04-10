@@ -154,6 +154,20 @@
             background-color: blue;
             border-color: blue;
         }
+
+        .custom-heading {
+            font-family: 'Poppins', sans-serif;
+            /* Palitan ng mas magandang font */
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            /* Shadow effect */
+            text-align: center;
+            color: #333;
+
+            margin-bottom: 20px;
+            /* Darker text for better readability */
+        }
     </style>
 
 </head>
@@ -163,18 +177,18 @@
     <!-- Back to top button -->
     <div class="back-to-top"></div>
 
-    <header>
+    {{-- <header>
         <div class="topbar">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-8 text-sm">
+                    <div class="text-sm col-sm-8">
                         <div class="social-mini-button">
                             <a href=""><span class="mai-logo-facebook-f"></span></a>
                             <a href="#"><span class="mai-logo-twitter"></span></a>
                             <a href="#"><span class="mai-logo-instagram"></span></a>
                         </div>
                     </div>
-                    <div class="col-sm-4 text-right text-sm">
+                    <div class="text-sm text-right col-sm-4">
                         <div class="site-info">
                             <a href="#"><span class="mai-call text-danger"></span> +09123456789</a>
                             <span class="divider">|</span>
@@ -186,11 +200,11 @@
             </div> <!-- .container -->
         </div> <!-- .topbar -->
 
-        <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+        <nav class="shadow-sm navbar navbar-expand-lg navbar-light">
             <div class="container">
                 <a class="navbar-brand">
                     <img src="../assets/img/mswd-logo.png" alt="mswd" style="height:40px; width: 43px;  ">
-                    <span class="text-danger">MSWD</span>- Abuyog, Leyte</a>
+                    <span class="text-danger">MSWD</span>- Abuyog, Leyteee</a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport"
                     aria-controls="navbarSupport" aria-expanded="false" aria-label="Toggle navigation">
@@ -198,7 +212,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupport">
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="ml-auto navbar-nav">
                         <li class="nav-item active">
                             <a class="nav-link" href="">Home</a>
                         </li>
@@ -254,10 +268,11 @@
                 </div> <!-- .navbar-collapse -->
             </div> <!-- .container -->
         </nav>
-    </header>
+    </header> --}}
 
     <div class="container">
-        <h1>Application Form for {{ $service->name }}</h1>
+        @include('components.basic-info-modal')
+        <h1 class="custom-heading">Application Form for {{ $service->name }}</h1>
         <!-- Form for service with ID = 1 OSCA -->
         @if ($service->id == 1)
         @include('applications.osca')
@@ -302,11 +317,16 @@
 
     <script>
         function toggleFields() {
-            const congenitalRadio = document.querySelector('input[name="cause_of_disability"][value="congenital"]');
+            const congenitalRadio = document.querySelector('input[name="cause_of_disability"][value="Congenital/Inborn"]');
+            const acquiredRadio = document.querySelector('input[name="cause_of_disability"][value="Acquired"]');
             const congenitalFields = document.getElementById('congenitalFields');
             const acquiredFields = document.getElementById('acquiredFields');
             const congenitalInputs = congenitalFields.querySelectorAll('input, select');
             const acquiredInputs = acquiredFields.querySelectorAll('input, select');
+            const otherCongenital = document.getElementById('specifyCongenital');
+            const otherAcquired = document.getElementById('specifyAcquired');
+            const congenital = document.getElementById('congenital_inborn');
+            const acquired = document.getElementById('acquired');
 
             if (congenitalRadio.checked) {
                 // Show congenital fields, hide and disable acquired fields
@@ -314,13 +334,17 @@
                 acquiredFields.style.display = 'none';
                 congenitalInputs.forEach(input => input.disabled = false);
                 acquiredInputs.forEach(input => input.disabled = true);
+                otherAcquired.style.display = 'none';
+                acquired.value = ''
                 toggleSpecifyCongenital();
-            } else {
+            } else if(acquiredRadio.checked) {
                 // Show acquired fields, hide and disable congenital fields
                 congenitalFields.style.display = 'none';
                 acquiredFields.style.display = 'block';
                 congenitalInputs.forEach(input => input.disabled = true);
                 acquiredInputs.forEach(input => input.disabled = false);
+                otherCongenital.style.display = "none";
+                congenital.value = '';
                 toggleSpecifyAcquired();
             }
         }
@@ -446,6 +470,19 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    @if (session('message'))
+    <script>
+        Swal.fire({
+        title: "Success",
+        icon: 'success',
+        text: @json(session('message')),
+        showConfirmButton: false,
+        showCloseButton: true,
+        showCancelButton: true,
+        cancelButtonText: 'Close',
+    });
+    </script>
+    @endif
     <script>
         document.getElementById('submit-button').addEventListener('click', function (event) {
             event.preventDefault();
@@ -476,31 +513,15 @@
             // Show SweetAlert confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'Please double-check your application before submitting.',
-                icon: 'warning',
+                text: 'Please double-check your application before submitting.'
                 showCancelButton: true,
-                confirmButtonText: 'Yes, Submit',
-                cancelButtonText: 'Cancel',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
                 reverseButtons: true,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Show loading animation
-                    Swal.fire({
-                        title: 'Submitting...',
-                        text: 'Please wait while we process your application.',
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-
-                    // Simulate form submission (replace with actual submission logic)
-                    setTimeout(() => {
-                        Swal.close(); // Close the loading animation
-                        // Redirect to the "my_applications" page
-                        document.getElementById('myForm').submit();
-
-                    }, 2000); // Simulate a 2-second delay
+                    // Submit the form immediately without loading animation
+                    document.getElementById('myForm').submit();
                 }
             });
         });
@@ -525,6 +546,38 @@
 
     <script src="../assets/js/theme.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.getElementById('submit-button').addEventListener('click', function (event) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Please double-check your application before submitting.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then((result) => {
+                if(result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Submitting...',
+                        html: `Please wait, submitting may take some time and checking empty fields.<br>Thank you for your patience.`,
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+
+                    setTimeout(() => {
+                        Swal.close();
+                        document.getElementById('myForm').submit();
+                    }, 4000);
+                }
+            });
+        });
+    </script>
 
 
 </body>

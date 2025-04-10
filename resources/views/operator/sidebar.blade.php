@@ -114,11 +114,11 @@
                         <span class="count bg-success"></span>
                     </div>
                     <div class="profile-name">
-                        <h5 class="mb-0 font-weight-normal">{{ Auth::user()->last_name }}
+                        <h5 class="mb-0 font-weight-normal"> OPERATOR
                         </h5>
                     </div>
                 </div>
-                <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
+                {{--  <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
                 <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
                     aria-labelledby="profile-dropdown">
                     <a href="#" class="dropdown-item preview-item">
@@ -153,7 +153,7 @@
                             <p class="mb-1 preview-subject ellipsis text-small">To-do list</p>
                         </div>
                     </a>
-                </div>
+                </div>  --}}
             </div>
 
         <li class="nav-item nav-category">
@@ -237,7 +237,7 @@
                 <span class="menu-icon">
                     <i class="mdi mdi-assistant"></i>
                 </span>
-                <span class="menu-title">New Benefits</span>
+                <span class="menu-title">Other Benefits</span>
             </a>
         </li>
 
@@ -250,14 +250,14 @@
             </a>
         </li> --}}
 
-        <li class="nav-item menu-items">
+        {{--  <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('inventory_operator') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-calculator-variant"></i>
                 </span>
                 <span class="menu-title">Inventory</span>
             </a>
-        </li>
+        </li>  --}}
 
         <li class="nav-item menu-items">
             <a class="nav-link" href="{{ url('deceased_operator') }}">

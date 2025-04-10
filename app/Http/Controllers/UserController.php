@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -11,7 +12,7 @@ class UserController extends Controller
     // Show a list of users
     public function index()
     {
-        $users = User::all();
+        $users = User::whereNotIn('id', [Auth::id()])->paginate(10);
         return view('admin.showusermanagement', compact('users'));
     }
 
@@ -39,7 +40,7 @@ class UserController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'barangay' => $request->barangay,
+            'barangay_id' => $request->barangay,
             'usertype' => $request->usertype,
             'password' => Hash::make($request->password),
         ]);
@@ -64,6 +65,7 @@ class UserController extends Controller
             'phone' => 'required|string|max:15',
             'barangay' => 'required|string|max:255',
             'usertype' => 'required|string',
+            'password' => ['required', 'string', 'confirmed', 'min:6']
         ]);
 
         // Find the user by ID
@@ -74,8 +76,9 @@ class UserController extends Controller
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->phone = $request->phone;
-        $user->barangay = $request->barangay;
+        $user->barangay_id = $request->barangay;
         $user->usertype = $request->usertype;
+        $user->password = $request->password;
         $user->save();
 
         // Redirect to admin home page after saving

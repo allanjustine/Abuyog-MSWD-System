@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Assistance to Beneficiaries</title>
 
-    @if(Auth::user()->usertype === 'admin')
-    @include('admin.css')
+    @if (Auth::user()->usertype === 'admin')
+        @include('admin.css')
     @elseif(Auth::user()->usertype === 'operator')
-    @include('operator.css')
+        @include('operator.css')
     @else
-    @include('employee.css')
+        @include('employee.css')
     @endif
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -25,19 +25,17 @@
 <body>
     <div class="container-scroller">
 
-        @if(Auth::user()->usertype === 'admin')
-        @include('admin.sidebar')
-        @include('admin.navbar')
+        @if (Auth::user()->usertype === 'admin')
+            @include('admin.sidebar')
+            @include('admin.navbar')
         @elseif(Auth::user()->usertype === 'operator')
+            @include('operator.sidebar')
 
-        @include('operator.sidebar')
-
-        @include('operator.navbar')
+            @include('operator.navbar')
         @else
-        @include('employee.sidebar')
+            @include('employee.sidebar')
 
-        @include('employee.navbar')
-
+            @include('employee.navbar')
         @endif
 
         <div class="container">
@@ -50,10 +48,11 @@
 
                 <div class="container mt-4">
                     @if (session('success'))
-                    <div class="alert alert-info alert-dismissible fade show" role="alert">
-                        <strong>Success!</strong> {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            <strong>Success!</strong> {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
                     @endif
                     <!-- Add Assistance Button -->
                     <div class="d-flex justify-content-end">
@@ -72,308 +71,387 @@
                                 <th>Type</th>
                                 <th>Amount</th>
                                 <th>Date Given</th>
+                                <th>Remarks</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($assistanceList as $assistance)
-                            <tr>
-                                <td>{{ $assistance->name_of_assistance }}</td>
-                                <td>{{ $assistance->type_of_assistance }}</td>
-                                <td>{{ $assistance->amount }}</td>
-                                <td>{{ $assistance->date_received?->format('F d, Y') ?? 'Not Yet Given' }}</td>
-                                <td>
-                                    @if ($assistance->date_received == null)
-                                    <button class="btn btn-primary generate-beneficiaries-btn" type="button"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#addAssistanceModal{{ $assistance->id }}">
-                                        Generate
-                                    </button>
-                                    @else
-                                    <button class="btn btn-info generate-beneficiaries-btn" type="button"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#viewAssistanceModal{{ $assistance->id }}">
-                                        View
-                                    </button>
-                                    @endif
-                                    <button class="btn btn-success send-sms-btn d-none">
-                                        Send SMS
-                                    </button>
-                                </td>
+                                <tr>
+                                    <td>{{ $assistance->name_of_assistance }}</td>
+                                    <td>{{ $assistance->type_of_assistance }}</td>
+                                    <td>{{ $assistance->amount }}</td>
+                                    <td>{{ $assistance->date_received?->format('F d, Y') ?? 'Not Yet Given' }}</td>
+                                    <td>
+                                        @if($assistance->benefitReceiveds->count() > 0)
+                                            <strong>{{ $assistance->benefitReceiveds->where('status', 'Received')->count() }}</strong> out of <strong>{{ $assistance->benefitReceiveds->count() }}</strong>
+                                        @else
+                                            <strong>Not generate yet</strong>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($assistance->date_received == null)
+                                            <button class="btn btn-primary generate-beneficiaries-btn" type="button"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#addAssistanceModal{{ $assistance->id }}">
+                                                Generate
+                                            </button>
+                                        @else
+                                            <button class="btn btn-info generate-beneficiaries-btn" type="button"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#viewAssistanceModal{{ $assistance->id }}">
+                                                View
+                                            </button>
+                                        @endif
+                                        <button class="btn btn-success send-sms-btn d-none">
+                                            Send SMS
+                                        </button>
+                                    </td>
 
-                                <script>
-                                    $(document).ready(function () {
-                                        $("#getBeneficiaries{{ $assistance->id }}").on('submit', function (event) {
-                                            event.preventDefault();
+                                    <script>
+                                        $(document).ready(function() {
+                                            $("#getBeneficiaries{{ $assistance->id }}").on('submit', function(event) {
+                                                event.preventDefault();
 
-                                            var $modal = $(this).closest('.modal');
+                                                var $modal = $(this).closest('.modal');
 
-                                            $('#generateButton', $modal).prop('disabled', true).html('Loading... <i class="fa fa-spinner fa-spin"></i>');
+                                                $('#generateButton', $modal).prop('disabled', true).html(
+                                                    '<span class="spinner-border spinner-border-sm"></span> Generating...');
 
-                                            var formData = $(this).serialize();
+                                                var formData = $(this).serialize();
 
-                                            $.ajax({
-                                                url: '/get-beneficiaries',
-                                                method: 'GET',
-                                                data: formData,
-                                                success: function (response) {
-                                                    if (response && response.beneficiaries && Array.isArray(response.beneficiaries)) {
-                                                        var tableHtml = `
-                                                            <table class="table table-bordered">
-                                                                <thead>
+                                                $.ajax({
+                                                    url: '/get-beneficiaries',
+                                                    method: 'GET',
+                                                    data: formData,
+                                                    success: function(response) {
+                                                        if (response && (Array.isArray(response.beneficiaries) || Array.isArray(response.showExcludedBeneficiaries))) {
+
+                                                            let beneficiaryTableHtml = `
+                                                                <table class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Name</th>
+                                                                            <th>Age</th>
+                                                                            <th>Barangay</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>`;
+
+                                                            response?.beneficiaries?.forEach(function(beneficiary) {
+                                                                beneficiaryTableHtml += `
                                                                     <tr>
-                                                                        <th>Name</th>
-                                                                        <th>Age</th>
-                                                                        <th>Barangay</th>
-                                                                        <!-- Add more columns if needed -->
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>`;
+                                                                        <td>${beneficiary.name}</td>
+                                                                        <td>${beneficiary.age || 'N/A'}</td>
+                                                                        <td>${beneficiary.barangay}</td>
+                                                                    </tr>`;
+                                                            });
 
-                                                        response.beneficiaries.forEach(function (beneficiary) {
-                                                            tableHtml += `
-                                                                <tr>
-                                                                    <td>${beneficiary.name}</td>
-                                                                    <td>${beneficiary.age || 'N/A'}</td> <!-- Display 'N/A' if age is null -->
-                                                                    <td>${beneficiary.barangay}</td>
-                                                                </tr>`;
-                                                        });
+                                                            beneficiaryTableHtml += `</tbody></table>`;
 
-                                                        tableHtml += `</tbody></table>`;
+                                                            $("#beneficiaryList", $modal).html(beneficiaryTableHtml);
+                                                            $("#excludedBeneficiaryList", $modal).html('');
+                                                            $("#accordionFlushExample", $modal).hide();
+                                                            if (response?.showExcludedBeneficiaries?.length > 0) {
+                                                                let excludedTableHtml = `
+                                                                    <table class="table table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Name</th>
+                                                                                <th>Age</th>
+                                                                                <th>Barangay</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>`;
 
-                                                        $("#beneficiaryList", $modal).html(tableHtml);
+                                                                response.showExcludedBeneficiaries.forEach(function(beneficiary) {
+                                                                    excludedTableHtml += `
+                                                                        <tr>
+                                                                            <td>${beneficiary.name}</td>
+                                                                            <td>${beneficiary.age || 'N/A'}</td>
+                                                                            <td>${beneficiary.barangay}</td>
+                                                                        </tr>`;
+                                                                });
 
-                                                        var total = `<p class="fw-bold fs-3">Total Generated Beneficiaries: ${response.totalBeneficiaries}</p>`;
-                                                        $("#totalGenerated", $modal).html(total);
+                                                                excludedTableHtml += `</tbody></table>`;
 
-                                                        var beneficiaryIds = response.beneficiary_ids.join(',');
-                                                        $("input[name='beneficiary_ids_data[]']", $modal).val(beneficiaryIds);
+                                                                $("#excludedBeneficiaryList", $modal).html(excludedTableHtml);
 
-                                                        $('#generateButton', $modal).html('Generate Beneficiaries').prop('disabled', false);
-                                                        console.log(response.beneficiary_ids)
-                                                    } else {
-                                                        alert("No beneficiaries found or invalid response.");
-                                                        $('#generateButton', $modal).html('Generate Beneficiaries').prop('disabled', false);
+                                                                $("#accordionFlushExample", $modal).show();
+
+                                                                const excludedBeneficiaryIds = response.excluded_beneficiary_ids.join(',');
+                                                                console.log(response.excluded_beneficiary_ids);
+                                                                $("input[name='excluded_beneficiary_ids_data[]']", $modal).val(excludedBeneficiaryIds);
+
+                                                            }
+                                                            const total = `<p class="fw-bold fs-3">Total Generated Beneficiaries: ${response.totalBeneficiaries}</p>`;
+                                                            $("#totalGenerated", $modal).html(total);
+
+                                                            const beneficiaryIds = response.beneficiary_ids.join(',');
+                                                            $("input[name='beneficiary_ids_data[]']", $modal).val(beneficiaryIds);
+
+                                                            $('#generateButton', $modal).html('Generate Beneficiaries').prop('disabled', false);
+                                                        } else {
+                                                            alert("No beneficiaries found or invalid response.");
+                                                            $('#generateButton', $modal).html('Generate Beneficiaries').prop('disabled', false);
+                                                        }
+                                                    },
+                                                    error: function(xhr, status, error) {
+                                                        alert("There was an error processing the request. Please try again.");
+                                                        $('#generateButton', $modal).html('Generate Beneficiaries').prop(
+                                                            'disabled', false);
                                                     }
-                                                },
-                                                error: function (xhr, status, error) {
-                                                    alert("There was an error processing the request. Please try again.");
-                                                    $('#generateButton', $modal).html('Generate Beneficiaries').prop('disabled', false);
-                                                }
+                                                });
                                             });
                                         });
-                                    });
+                                    </script>
 
-                                </script>
+                                    <div class="modal fade" id="addAssistanceModal{{ $assistance->id }}" tabindex="-1"
+                                        aria-labelledby="addAssistanceLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <!-- Align the search form to the right -->
+                                            <div class="modal-content">
+                                                <div class="moday-body"
+                                                    style="max-height: 75vh; overflow-y: auto; overflow-x: hidden;">
+                                                    <form action="/get-beneficiaries" method="GET" class="mt-3"
+                                                        id="getBeneficiaries{{ $assistance->id }}">
+                                                        @csrf
+                                                        <h5 style="margin-top:5%;">Filter Beneficiaries by New
+                                                            Assistance
+                                                            (<strong>{{ $assistance->name_of_assistance }}</strong>)
+                                                        </h5>
+                                                        <div class="row form-row align-items-center justify-content-center"
+                                                            style="padding: 0 15px;">
+                                                            <div class="mt-4 mb-3 col-md-4">
+                                                                <label for="min_age" class="form-label"
+                                                                    style="margin-top: 5%;">Age
+                                                                    From</label>
+                                                                <input type="number" class="form-control"
+                                                                    id="min_age" name="min_age" min="0">
+                                                            </div>
+                                                            <div class="mt-4 mb-3 col-md-4">
+                                                                <label for="max_age" class="form-label"
+                                                                    style="margin-top: 5%;">Age
+                                                                    To</label>
+                                                                <input type="number" class="form-control"
+                                                                    id="max_age" name="max_age" min="0">
+                                                            </div>
 
-                                <div class="modal fade" id="addAssistanceModal{{ $assistance->id }}" tabindex="-1"
-                                    aria-labelledby="addAssistanceLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <!-- Align the search form to the right -->
-                                        <div class="modal-content">
-                                            <div class="moday-body" style="max-height: 75vh; overflow-y: auto; overflow-x: hidden;">
-                                                <form action="/get-beneficiaries" method="GET" class="mt-3"
-                                                    id="getBeneficiaries{{ $assistance->id }}">
+                                                            <div class="mb-3 col-md-4">
+                                                                <label for="limit" class="form-label"
+                                                                    style="margin-top: 5%;">Limit
+                                                                    of
+                                                                    Beneficiaries that will receive the
+                                                                    assistance</label>
+                                                                <input type="number" class="form-control"
+                                                                    id="limit" name="limit">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding: 0 15px;">
+                                                            <!-- Service Section -->
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="serviceSelect" class="form-label"
+                                                                    style="margin-top: 5%;">Select Programs to be included</label>
+                                                                <div class="p-1 border rounded"
+                                                                    style="margin-top:2.5%;">
+                                                                    <ul class="gap-2 p-1 m-3 d-flex justify-content-start align-items-start flex-column"
+                                                                        style="height: 200px; overflow-y: auto;"
+                                                                        class="w-100">
+                                                                        @foreach ($services as $service)
+                                                                            <li>
+                                                                                <input
+                                                                                    style="width: 20px; height: 20px;"
+                                                                                    type="checkbox"
+                                                                                    id="service_{{ $service->id }}"
+                                                                                    value="{{ $service->id }}"
+                                                                                    name="service_ids[]"
+                                                                                    {{ request('service') == $service->id ? 'checked' : '' }}>
+                                                                                <label
+                                                                                    for="service_{{ $service->id }}">{{ $service->name }}</label>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <label for="assistance_ids" class="form-label"
+                                                                    style="margin-top: 5%;">Select Assistance to be excluded</label>
+                                                                <div class="p-1 border rounded"
+                                                                    style="margin-top:2%;">
+                                                                    <ul class="gap-2 p-1 m-3 d-flex justify-content-start align-items-start flex-column"
+                                                                        style="height: 200px; overflow-y: auto;"
+                                                                        class="w-100">
+                                                                        @foreach ($assistanceList->whereNotIn('id', [$assistance->id]) as $assistance2)
+                                                                            <li>
+                                                                                <input
+                                                                                    style="width: 20px; height: 20px;"
+                                                                                    type="checkbox"
+                                                                                    id="assistance2_{{ $assistance2->id }}"
+                                                                                    value="{{ $assistance2->id }}"
+                                                                                    name="assistance2_ids[]"
+                                                                                    {{ request('assistance2') == $assistance2->id ? 'checked' : '' }}>
+                                                                                <label
+                                                                                    for="assistance2_{{ $assistance2->id }}">{{ $assistance2->name_of_assistance }}</label>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding: 0 15px;">
+
+                                                            <div class="mb-3 col-md-12">
+                                                                <label for="barangaySelect" class="form-label"
+                                                                    style="margin-top: 5%;">Select
+                                                                    Barangay (if applicable)</label>
+                                                                <div class="p-1 border rounded"
+                                                                    style="margin-top:2%;">
+                                                                    <ul class="gap-2 p-1 m-3 d-flex justify-content-start align-items-start flex-column"
+                                                                        style="height: 200px; overflow-y: auto;"
+                                                                        class="w-100">
+                                                                        @foreach ($barangays as $barangay)
+                                                                            <li>
+                                                                                <input
+                                                                                    style="width: 20px; height: 20px;"
+                                                                                    type="checkbox"
+                                                                                    id="barangay_{{ $barangay->id }}"
+                                                                                    value="{{ $barangay->id }}"
+                                                                                    name="barangay_ids[]"
+                                                                                    {{ request('barangay') == $barangay->id ? 'checked' : '' }}>
+                                                                                <label
+                                                                                    for="barangay_{{ $barangay->id }}">{{ $barangay->name }}</label>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-center" id="totalGenerated">
+                                                        </div>
+                                                        <div id="beneficiaryList" class="mt-3">
+                                                            <!-- Filtered beneficiaries will be dynamically added here -->
+                                                        </div>
+                                                        <div class="mb-3 d-flex justify-content-center">
+                                                            <button class="btn btn-primary" type="submit"
+                                                                id="generateButton">Generate Beneficiaries</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <form action="/add-benefits/{{ $assistance->id }}" method="POST"
+                                                    id="addBenefits{{ $assistance->id }}">
                                                     @csrf
-                                                    <h5 style="margin-top:5%;">Filter Beneficiaries by New Assistance
-                                                        (<strong>{{ $assistance->name_of_assistance }}</strong>)</h5>
-                                                    <div class="row form-row align-items-center justify-content-center"
-                                                        style="padding: 0 15px;">
-                                                        <div class="mt-4 mb-3 col-md-4">
-                                                            <label for="min_age" class="form-label"
-                                                                style="margin-top: 5%;">Age
-                                                                From</label>
-                                                            <input type="number" class="form-control" id="min_age"
-                                                                name="min_age" min="0">
-                                                        </div>
-                                                        <div class="mt-4 mb-3 col-md-4">
-                                                            <label for="max_age" class="form-label"
-                                                                style="margin-top: 5%;">Age
-                                                                To</label>
-                                                            <input type="number" class="form-control" id="max_age"
-                                                                name="max_age" min="0">
-                                                        </div>
 
-                                                        <div class="mb-3 col-md-4">
-                                                            <label for="limit" class="form-label"
-                                                                style="margin-top: 5%;">Limit
-                                                                of
-                                                                Beneficiaries that will receive the assistance</label>
-                                                            <input type="number" class="form-control" id="limit"
-                                                                name="limit">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row" style="padding: 0 15px;">
-                                                        <!-- Service Section -->
-                                                        <div class="mb-3 col-md-6">
-                                                            <label for="serviceSelect" class="form-label"
-                                                                style="margin-top: 5%;">Select Programs (if applicable)</label>
-                                                            <div class="p-1 border rounded" style="margin-top:11.5%;">
-                                                                <ul class="gap-2 p-1 m-3 d-flex justify-content-start align-items-start flex-column"
-                                                                    style="height: 200px; overflow-y: auto;"
-                                                                    class="w-100">
-                                                                    @foreach ($services as $service)
-                                                                    <li>
-                                                                        <input style="width: 20px; height: 20px;"
-                                                                            type="checkbox"
-                                                                            id="service_{{ $service->id }}"
-                                                                            value="{{ $service->id }}"
-                                                                            name="service_ids[]" {{
-                                                                            request('service')==$service->id ?
-                                                                        'checked' : ''}}>
-                                                                        <label for="service_{{ $service->id }}">{{
-                                                                            $service->name }}</label>
-                                                                    </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            </div>
-                                                        </div>
+                                                    <div x-data="{ isOpen: false }" class="accordion accordion-flush my-3 excludedBeneficiaryDiv" id="accordionFlushExample" style="display: none;">
+                                                        <div class="accordion-item">
+                                                          <h2 class="accordion-header">
+                                                            <button x-on:click="isOpen = !isOpen" class="accordion-button bg-primary text-white" :class="{ 'collapsed': !isOpen }" type="button">
+                                                                Show excluded beneficiaries who have already received benefits.
+                                                            </button>
+                                                          </h2>
 
-                                                        <div class="col-md-6">
-                                                            <label for="assistance_ids" class="form-label"
-                                                                style="margin-top: 5%;">Exclude Beneficiaries Who
-                                                                Received
-                                                                Assistance Before</label>
-                                                                <div class="p-1 border rounded" style="margin-top:5%;">
-                                                                <ul class="gap-2 p-1 m-3 d-flex justify-content-start align-items-start flex-column"
-                                                                    style="height: 200px; overflow-y: auto;"
-                                                                    class="w-100">
-                                                                    @foreach ($assistanceList->whereNotIn('id',
-                                                                    [$assistance->id]) as $assistance2)
-                                                                    <li>
-                                                                        <input style="width: 20px; height: 20px;"
-                                                                            type="checkbox"
-                                                                            id="assistance2_{{ $assistance2->id }}"
-                                                                            value="{{ $assistance2->id }}"
-                                                                            name="assistance2_ids[]" {{
-                                                                            request('assistance2')==$assistance2->id ?
-                                                                        'checked' : ''}}>
-                                                                        <label for="assistance2_{{ $assistance2->id }}">{{
-                                                                            $assistance2->name_of_assistance }}</label>
-                                                                    </li>
-                                                                    @endforeach
-                                                                </ul>
+                                                          <div id="excludedBeneficiaryList" x-show="isOpen" x-transition></div>
+                                                          <div x-show="isOpen" x-transition>
+                                                            <p class="fw-bold fs-5">Do you want to include these beneficiaries even they already received benefits?</p>
+                                                            <div class="d-flex justify-content-center align-items-center gap-3">
+                                                                <div class="d-flex gap-1 align-items-center">
+                                                                    <label for="include_excluded_yes">Yes</label>
+                                                                    <input type="radio" value="Yes" name="include_excluded" class="form-check-input" id="include_excluded_yes">
+                                                                </div>
+                                                                <div class="d-flex gap-1 align-items-center">
+                                                                    <label for="include_excluded_no">No</label>
+                                                                    <input type="radio" value="No" name="include_excluded" class="form-check-input" id="include_excluded_no">
+                                                                </div>
                                                             </div>
+                                                          </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row" style="padding: 0 15px;">
-
-                                                        <div class="mb-3 col-md-12">
-                                                            <label for="barangaySelect" class="form-label"
-                                                                style="margin-top: 5%;">Select
-                                                                Barangay (if applicable)</label>
-                                                            <div class="p-1 border rounded" style="margin-top:5%;">
-                                                                <ul class="gap-2 p-1 m-3 d-flex justify-content-start align-items-start flex-column"
-                                                                    style="height: 200px; overflow-y: auto;"
-                                                                    class="w-100">
-                                                                    @foreach ($barangays as $barangay)
-                                                                    <li>
-                                                                        <input style="width: 20px; height: 20px;"
-                                                                            type="checkbox"
-                                                                            id="barangay_{{ $barangay->id }}"
-                                                                            value="{{ $barangay->id }}"
-                                                                            name="barangay_ids[]" {{
-                                                                            request('barangay')==$barangay->id ?
-                                                                        'checked' : ''}}>
-                                                                        <label for="barangay_{{ $barangay->id }}">{{
-                                                                            $barangay->name }}</label>
-                                                                    </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-center" id="totalGenerated">
-                                                    </div>
-                                                    <div id="beneficiaryList" class="mt-3">
-                                                        <!-- Filtered beneficiaries will be dynamically added here -->
-                                                    </div>
-                                                    <div class="mb-3 d-flex justify-content-center">
-                                                        <button class="btn btn-primary" type="submit"
-                                                            id="generateButton">Generate Beneficiaries</button>
+                                                    <input type="hidden" value=""
+                                                        name="beneficiary_ids_data[]">
+                                                    <input type="hidden" value=""
+                                                        name="excluded_beneficiary_ids_data[]">
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-success"
+                                                            id="submitButton">Add
+                                                            Assistance</button>
                                                     </div>
                                                 </form>
                                             </div>
-                                            <form action="/add-benefits/{{ $assistance->id }}" method="POST"
-                                                id="addBenefits{{ $assistance->id }}">
-                                                @csrf
-                                                <input type="hidden" value="" name="beneficiary_ids_data[]">
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-success" id="submitButton">Add
-                                                        Assistance</button>
-                                                </div>
-                                            </form>
                                         </div>
                                     </div>
-                                </div>
-                            </tr>
-                            <div class="modal fade" id="viewAssistanceModal{{ $assistance->id }}" tabindex="-1"
-                                aria-labelledby="viewAssistanceModal{{ $assistance->id }}Label" aria-hidden="true">
-                                <div class="modal-dialog modal-lg modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5"
-                                                id="viewAssistanceModal{{ $assistance->id }}Label">Viewing <strong>{{
-                                                    $assistance->name_of_assistance }}</strong> beneficiary received.
-                                                @if ($assistance->date_received !== null)
-                                                In a total of {{ $assistance->benefitReceiveds->count() }}
-                                                @endif. That given on <strong>{{
-                                                    $assistance?->date_received?->format('F d, Y') ?? "No record yet"
-                                                    }}</strong></h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body" style="max-height: 75vh; overflow-y: auto;">
-                                            <div class="container">
-                                                <div class="row bg-light">
-                                                    <div class="py-2 border col-4"><strong>Beneficiary Name</strong>
+                                </tr>
+                                <div class="modal fade" id="viewAssistanceModal{{ $assistance->id }}" tabindex="-1"
+                                    aria-labelledby="viewAssistanceModal{{ $assistance->id }}Label"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5"
+                                                    id="viewAssistanceModal{{ $assistance->id }}Label">Total beneficiaries in
+                                                    <strong>{{ $assistance->name_of_assistance }}</strong>:
+                                                    @if ($assistance->date_received !== null)
+                                                        {{ $assistance->benefitReceiveds->count() }}
+                                                    @endif. That given on
+                                                    <strong>{{ $assistance?->date_received?->format('F d, Y') ?? 'No record yet' }}</strong>
+                                                </h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body" style="max-height: 75vh; overflow-y: auto;">
+                                                <div class="container">
+                                                    <div class="row bg-light">
+                                                        <div class="py-2 border col-4"><strong>Beneficiary
+                                                                Name</strong>
+                                                        </div>
+                                                        <div class="py-2 border col-4"><strong>Amount</strong></div>
+                                                        <div class="py-2 border col-4"><strong>Status</strong></div>
                                                     </div>
-                                                    <div class="py-2 border col-4"><strong>Amount</strong></div>
-                                                    <div class="py-2 border col-4"><strong>Status</strong></div>
-                                                </div>
 
-                                                @forelse ($assistance->benefitReceiveds as $benefitsReceived)
-                                                <div class="row">
-                                                    <div class="py-2 border col-4">{{
-                                                        $benefitsReceived->beneficiary->full_name }}</div>
-                                                    <div class="py-2 border col-4">{{
-                                                        $benefitsReceived->assistance->amount }}</div>
-                                                    <div class="py-2 border col-4">
-                                                        @if ($benefitsReceived->status === 'Pending')
-                                                        <span class="badge rounded-pill bg-warning">{{
-                                                            $benefitsReceived->status }}</span>
-                                                        @elseif($benefitsReceived->status === 'Not Received')
-                                                        <span class="badge rounded-pill bg-danger">{{
-                                                            $benefitsReceived->status }}</span>
-                                                        @else
-                                                        <span class="badge rounded-pill bg-primary">{{
-                                                            $benefitsReceived->status }}</span>
-                                                        @endif
-                                                    </div>
+                                                    @forelse ($assistance->benefitReceiveds as $benefitsReceived)
+                                                        <div class="row">
+                                                            <div class="py-2 border col-4">
+                                                                {{ $benefitsReceived->beneficiary->full_name }}</div>
+                                                            <div class="py-2 border col-4">
+                                                                {{ $benefitsReceived->assistance->amount }}</div>
+                                                            <div class="py-2 border col-4">
+                                                                @if ($benefitsReceived->status === 'Pending')
+                                                                    <span
+                                                                        class="badge rounded-pill bg-warning">{{ $benefitsReceived->status }}</span>
+                                                                @elseif($benefitsReceived->status === 'Not Received')
+                                                                    <span
+                                                                        class="badge rounded-pill bg-danger">{{ $benefitsReceived->status }}</span>
+                                                                @else
+                                                                    <span
+                                                                        class="badge rounded-pill bg-primary">{{ $benefitsReceived->status }}</span>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    @empty
+                                                        <div class="row">
+                                                            <div class="py-2 text-center border col-12">No Data Yet
+                                                            </div>
+                                                        </div>
+                                                    @endforelse
                                                 </div>
-                                                @empty
-                                                <div class="row">
-                                                    <div class="py-2 text-center border col-12">No Data Yet</div>
-                                                </div>
-                                                @endforelse
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
-                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             @empty
-                            <tr>
-                                <td colspan="5" class="text-center">No Assistance added yet</td>
-                            </tr>
+                                <tr>
+                                    <td colspan="5" class="text-center">No Assistance added yet</td>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>
+                    {{ $assistanceList->links('pagination::bootstrap-5')}}
+
                     <div class="modal fade" id="addNewAssistanceModal" tabindex="-1"
                         aria-labelledby="addNewAssistanceModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -381,7 +459,8 @@
                                 <form action="/add-new-assistance" method="POST">
                                     @csrf
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="addNewAssistanceModalLabel">Add New Assistance
+                                        <h1 class="modal-title fs-5" id="addNewAssistanceModalLabel">Add New
+                                            Assistance
                                         </h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
@@ -391,8 +470,8 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="name_of_assistance">Name of Assistance</label>
-                                                    <input type="text" class="form-control" id="name_of_assistance"
-                                                        name="name_of_assistance" required>
+                                                    <input type="text" class="form-control"
+                                                        id="name_of_assistance" name="name_of_assistance" required>
                                                 </div>
                                             </div>
                                             <div class="col-12">
@@ -400,7 +479,8 @@
                                                     <label for="type_of_assistance">Type of Assistance</label>
                                                     <select id="type_of_assistance" name="type_of_assistance"
                                                         class="form-select" required>
-                                                        <option value="" selected hidden>Type of Assistance</option>
+                                                        <option value="" selected hidden>Type of Assistance
+                                                        </option>
                                                         <option value="" disabled>Type of Assistance</option>
                                                         <option value="Financial Assistance">Financial Assistance
                                                         </option>
@@ -416,16 +496,19 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="amount">Amount</label>
-                                                    <input class="form-control" id="amount" name="amount"
+                                                    <input class="form-control" min="0" id="amount" name="amount"
                                                         type="number" />
+                                                        @error('amount')
+                                                        {{ $message }}
+                                                        @enderror
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                            data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Save Assistance</button>
                                     </div>
                                 </form>
                             </div>
@@ -435,38 +518,39 @@
             </div>
         </div>
     </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         @if (session('success'))
-                Swal.fire({
-                    icon: 'success',
-                    title: '<span style="color: #000;">Success</span>', // Make title text black
-                    text: '{{ session('success') }}',
-                    background: '#f8f9fa', // Light gray background for better contrast
-                    iconColor: '#28a745', // Green icon color
-                    confirmButtonColor: '#28a745', // Button matches success color
-                    customClass: {
-                        popup: 'swal-custom-popup' // Add a class to customize further with CSS
-                    }
-                });
-            @endif
+            Swal.fire({
+                icon: 'success',
+                title: '<span style="color: #000;">Success</span>', // Make title text black
+                text: '{{ session('success') }}',
+                background: '#f8f9fa', // Light gray background for better contrast
+                iconColor: '#28a745', // Green icon color
+                confirmButtonColor: '#28a745', // Button matches success color
+                customClass: {
+                    popup: 'swal-custom-popup' // Add a class to customize further with CSS
+                }
+            });
+        @endif
     </script>
     <script>
         @if (session('error'))
-                Swal.fire({
-                    icon: 'error',
-                    title: '<span style="color: #000;">Something went wrong</span>', // Make title text black
-                    text: '{{ session('error') }}',
-                    background: '#f8f9fa',
-                    iconColor: 'red',
-                    confirmButtonColor: 'red',
-                    customClass: {
-                        popup: 'swal-custom-popup'
-                    }
-                });
-            @endif
+            Swal.fire({
+                icon: 'error',
+                title: '<span style="color: #000;">Something went wrong</span>', // Make title text black
+                text: '{{ session('error') }}',
+                background: '#f8f9fa',
+                iconColor: 'red',
+                confirmButtonColor: 'red',
+                customClass: {
+                    popup: 'swal-custom-popup'
+                }
+            });
+        @endif
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -499,23 +583,23 @@
 
 
     <script>
-        $(document).ready(function () {
-                // When the modal is opened, collect the filtered beneficiaries
-                $('#addselectedAssistanceModal').on('show.bs.modal', function () {
-                    // Collect the filtered beneficiaries from the DOM (you can adjust this based on your filter result display)
-                    let filteredBeneficiaries = [];
-                    // Loop through your table rows and check if they are part of the filtered list
-                    $('table tbody tr').each(function () {
-                        // Assuming rows with filtered beneficiaries have a specific class or identifier
-                        if ($(this).hasClass('filtered')) { // Adjust this condition as needed
-                            filteredBeneficiaries.push($(this).data('id'));
-                        }
-                    });
-
-                    // Set the hidden input with the beneficiary IDs
-                    $('#beneficiary_ids').val(filteredBeneficiaries.join(','));
+        $(document).ready(function() {
+            // When the modal is opened, collect the filtered beneficiaries
+            $('#addselectedAssistanceModal').on('show.bs.modal', function() {
+                // Collect the filtered beneficiaries from the DOM (you can adjust this based on your filter result display)
+                let filteredBeneficiaries = [];
+                // Loop through your table rows and check if they are part of the filtered list
+                $('table tbody tr').each(function() {
+                    // Assuming rows with filtered beneficiaries have a specific class or identifier
+                    if ($(this).hasClass('filtered')) { // Adjust this condition as needed
+                        filteredBeneficiaries.push($(this).data('id'));
+                    }
                 });
+
+                // Set the hidden input with the beneficiary IDs
+                $('#beneficiary_ids').val(filteredBeneficiaries.join(','));
             });
+        });
     </script>
 
 

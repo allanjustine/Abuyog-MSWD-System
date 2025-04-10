@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AccomplishedBy;
 use App\Models\AicsDetail;
+use App\Models\Barangay;
 use App\Models\ContactEmergency;
 use App\Models\FamilyBackground;
 use App\Models\FamilyComposition;
@@ -54,12 +55,13 @@ class ApplicationController extends Controller
             ->with('beneficiaries')
             ->exists();
 
-        $availableSoloParent = $user->whereHas('beneficiaries', function ($query) use ($userid) {
-            $query->where('program_enrolled', 3)
-                ->where('user_id', $userid)
-                ->where('created_at', '<', Carbon::now()->subYears(5))
-                ->latest();
-        })->exists();
+        $soloParentData = Beneficiary::where('program_enrolled', 3)
+            ->where('user_id', $userid)
+            ->latest()
+            ->first();
+
+            $availableSoloParent = $soloParentData && $soloParentData->created_at < Carbon::now()->subYears(5);
+
 
         $availablePwd = $user->whereHas('beneficiaries', function ($query) use ($userid) {
             $query->where('program_enrolled', 2)
@@ -70,7 +72,6 @@ class ApplicationController extends Controller
 
         $pwd = Beneficiary::where('user_id', $userid)->where('program_enrolled', 2)->first();
         $pwdExists = Beneficiary::where('user_id', $userid)->where('program_enrolled', 2)->exists();
-        $soloParent = Beneficiary::where('user_id', $userid)->where('program_enrolled', 3)->first();
         $soloParentExists = Beneficiary::where('user_id', $userid)->where('program_enrolled', 3)->exists();
 
         if ($service->id == 1 && !$alreadyHaveOsca) {
@@ -83,11 +84,14 @@ class ApplicationController extends Controller
 
         if ($service->id == 3 && !$availableSoloParent && $soloParentExists) {
 
-            return redirect('/myapplication')->with('error', 'You cannot apply for this service. You can submit another after ' . $soloParent?->created_at?->addYears(5)->diffForHumans());
+            return redirect('/myapplication')->with('error', 'You cannot apply for this service. You can submit another after ' . $soloParentData?->created_at?->addYears(5)->diffForHumans());
         }
 
-        if ($notAcceptedAge && $service->id == 1 || Auth::user()->has_minor_child === 1) {
+        if ($notAcceptedAge && $service->id == 1) {
             return redirect('/myapplication')->with('error', 'You cannot apply for this service. Because this service is for people who are 60 years old or older.' . ' Your age is ' . (Auth::user()?->age ?: Auth::user()->date_of_birth?->age));
+        }
+        if (!$notAcceptedAge && $service->id == 3 && Auth::user()->has_minor_child == 0) {
+            return redirect('/myapplication')->with('error', 'You cannot apply for this service. Because this service is for people who are 60 years old or older or have minor child.' . ' Your age is ' . (Auth::user()?->age ?: Auth::user()->date_of_birth?->age));
         }
         // Fetch the user's latest application for the given service
         $savedData = Application::where('user_id', Auth::id())
@@ -184,6 +188,18 @@ class ApplicationController extends Controller
             $familyMembers = json_decode($customFields['family_members'], true);
         }
 
+        $userApp = Beneficiary::with('benefitReceiveds')->where('user_id', Auth::id())->whereNotIn('status', ['approved', 'released'])->get();
+
+
+        $type_of_assistance_data = [];
+        foreach ($userApp as $app) {
+            // foreach ($app->aicsDetails as $aic) {
+            //     $type_of_assistance_data = $aic->type_of_assistance;
+            // }
+
+            $type_of_assistance_data[] = $app->aicsDetails->map(fn($aic) => $aic->type_of_assistance)->implode(',');
+        }
+
         // Pass all data to the view
         return view('applications.form', compact(
             'service',
@@ -259,7 +275,7 @@ class ApplicationController extends Controller
             'emergency_contact_relationship',
             'emergency_contact_number',
             'referral_source',
-
+            'type_of_assistance_data'
         ));
     }
 
@@ -813,60 +829,67 @@ class ApplicationController extends Controller
     public function storeOsca(Request $request, $id)
     {
         $request->validate([
-            'last_name'                 =>          ['required', 'min:1', 'max:255', 'string'],
-            'first_name'                =>          ['required', 'min:1', 'max:255', 'string'],
-            'place_of_birth'            =>          ['required', 'min:1', 'max:255', 'string'],
-            'civil_status'              =>          ['required', 'min:1', 'max:255', 'string'],
-            'date_of_birth'             =>          ['required', 'min:1', 'max:255', 'string'],
-            'gender'                    =>          ['required', 'min:1', 'max:255', 'string'],
-            'barangay'                  =>          ['required', 'min:1', 'max:255', 'string'],
-            'complete_address'          =>          ['required', 'min:1', 'max:255', 'string'],
-            'educational_attainment'    =>          ['required', 'min:1', 'max:255', 'string'],
-            'phone'                     =>          ['required', 'min:1', 'max:255', 'string'],
-            'occupation'                =>          ['required', 'min:1', 'max:255', 'string'],
-            'annual_income'             =>          ['required', 'min:1', 'max:255', 'string'],
-            'other_skills'              =>          ['required', 'min:1', 'max:255', 'string'],
-            'appearance_date'           =>          ['required', 'after_or_equal:today', 'date'],
-            'name.*'                    =>          ['required', 'min:1', 'max:255', 'string'],
-            'relationship.*'            =>          ['required', 'min:1', 'max:255', 'string'],
-            'civil_status_fc.*'         =>          ['required', 'min:1', 'max:255', 'string'],
-            'age_fc.*'                  =>          ['required', 'min:1', 'max:255', 'string'],
-            'occupation_fc.*'           =>          ['required', 'min:1', 'max:255', 'string'],
-            'income.*'                  =>          ['required', 'min:1', 'max:255', 'string'],
+            'last_name' => ['required', 'min:1', 'max:255', 'string'],
+            'first_name' => ['required', 'min:1', 'max:255', 'string'],
+            'place_of_birth' => ['required', 'min:1', 'max:255', 'string'],
+            'civil_status' => ['required', 'min:1', 'max:255', 'string'],
+            'date_of_birth' => ['required', 'min:1', 'max:255', 'string'],
+            'gender' => ['required', 'min:1', 'max:255', 'string'],
+            'barangay' => ['required', 'min:1', 'max:255', 'string'],
+            'educational_attainment' => ['required', 'min:1', 'max:255', 'string'],
+            'phone' => ['required', 'min:1', 'max:255', 'string'],
+            'occupation' => ['required', 'min:1', 'max:255', 'string'],
+            'annual_income' => ['required', 'min:1', 'max:255', 'string'],
+            'other_skills' => ['required', 'min:1', 'max:255', 'string'],
+            'appearance_date' => ['required', 'after_or_equal:today', 'date'],
+            'name.*' => ['required', 'min:1', 'max:255', 'string'],
+            'relationship.*' => ['required', 'min:1', 'max:255', 'string'],
+            'civil_status_fc.*' => ['required', 'min:1', 'max:255', 'string'],
+            'age_fc.*' => ['required', 'min:1', 'max:255', 'string'],
+            'occupation_fc.*' => ['required', 'min:1', 'max:255', 'string'],
+            'income.*' => ['required', 'min:1', 'max:255', 'string'],
         ]);
 
+        $barangayName = Barangay::where('id', $request->barangay)->first();
+
         $beneficiary = Beneficiary::create([
-            'program_enrolled'          =>         $id,
-            'last_name'                 =>         $request->last_name,
-            'first_name'                =>         $request->first_name,
-            'middle_name'               =>         $request->middle_name,
-            'place_of_birth'            =>         $request->place_of_birth,
-            'civil_status'              =>         $request->civil_status,
-            'date_of_birth'             =>         $request->date_of_birth,
-            'gender'                    =>         $request->gender,
-            'barangay_id'               =>         $request->barangay,
-            'complete_address'          =>         $request->complete_address,
-            'educational_attainment'    =>         $request->educational_attainment,
-            'occupation'                =>         $request->occupation,
-            'annual_income'             =>         $request->annual_income,
-            'other_skills'              =>         $request->other_skills,
-            'age'                       =>         $request->age,
-            'email'                     =>         $request->email ?: Auth::user()->email,
-            'phone'                     =>         $request->phone,
-            'appearance_date'           =>         $request->appearance_date,
-            'user_id'                   =>         Auth::id()
+            'program_enrolled' => $id,
+            'last_name' => $request->last_name,
+            'first_name' => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'place_of_birth' => $request->place_of_birth,
+            'civil_status' => $request->civil_status,
+            'date_of_birth' => $request->date_of_birth,
+            'gender' => $request->gender,
+            'barangay_id' => $request->barangay,
+            'complete_address' => "{$request->house_no_and_street} {$barangayName->name} {$request->municipality} {$request->province} {$request->region}",
+            'educational_attainment' => $request->educational_attainment,
+            'occupation' => $request->occupation,
+            'annual_income' => $request->annual_income,
+            'other_skills' => $request->other_skills,
+            'age' => $request->age,
+            'email' => $request->email ?: Auth::user()->email,
+            'phone' => $request->phone,
+            'appearance_date' => $request->appearance_date,
+            'user_id' => Auth::id()
         ]);
 
         foreach ($request->name as $index => $name) {
             FamilyComposition::create([
-                'beneficiary_id'            =>         $beneficiary->id,
-                'name'                      =>         $name,
-                'relationship'              =>         $request->relationship[$index],
-                'civil_status'              =>         $request->civil_status_fc[$index],
-                'age'                       =>         $request->age_fc[$index],
-                'occupation'                =>         $request->occupation_fc[$index],
-                'income'                    =>         $request->income[$index],
+                'beneficiary_id' => $beneficiary->id,
+                'name' => $name,
+                'relationship' => $request->relationship[$index],
+                'civil_status' => $request->civil_status_fc[$index],
+                'age' => $request->age_fc[$index],
+                'occupation' => $request->occupation_fc[$index],
+                'income' => $request->income[$index],
             ]);
+        }
+
+        if ($request->has('save_for_next_application')) {
+            session(['saved_application_data' => $request->except('_token', 'save_for_next_application')]);
+        } else {
+            session()->forget('saved_application_data'); // I-clear ang session kung hindi na-check
         }
 
 
@@ -877,65 +900,64 @@ class ApplicationController extends Controller
     {
 
         $request->validate([
-            'last_name'                         =>          ['required', 'min:1', 'max:255', 'string'],
-            'first_name'                        =>          ['required', 'min:1', 'max:255', 'string'],
-            'application_type'                  =>          ['required', 'min:1', 'max:255', 'string'],
-            'pwd_number'                        =>          ['required', 'min:1', 'max:255', 'string'],
-            'phone'                             =>          ['required', 'min:1', 'max:255', 'string'],
-            'appearance_date'                   =>          ['required', 'after_or_equal:today', 'min:1', 'max:255', 'string'],
-            'landline_no'                       =>          ['required', 'min:1', 'max:255', 'string'],
-            'blood_type'                        =>          ['required', 'min:1', 'max:255', 'string'],
-            'gender'                            =>          ['required', 'min:1', 'max:255', 'string'],
-            'date_of_birth'                     =>          ['required', 'min:1', 'max:255', 'string'],
-            'civil_status'                      =>          ['required', 'min:1', 'max:255', 'string'],
-            'type_of_disability'                =>          ['required', 'min:1', 'max:255', 'string'],
-            'cause_of_disability'               =>          ['required', 'min:1', 'max:255', 'string'],
-            'other_cause_of_disability'         =>          ['nullable', 'required_if:cause_of_disability,Other', 'min:1', 'max:255', 'string'],
-            'congenital_inborn'                 =>          ['nullable', 'required_if:cause_of_disability,Congenital/Inborn', 'min:1', 'max:255', 'string'],
-            'other_congenital_inborn'           =>          ['nullable', 'required_if:congenital_inborn,Other', 'min:1', 'max:255', 'string'],
-            'acquired'                          =>          ['nullable', 'required_if:cause_of_disability,Acquired', 'min:1', 'max:255', 'string'],
-            'other_acquired'                    =>          ['nullable', 'required_if:acquired,Other', 'min:1', 'max:255', 'string'],
-            'house_no_and_street'               =>          ['required', 'min:1', 'max:255', 'string'],
-            'barangay'                          =>          ['required', 'min:1', 'max:255', 'string'],
-            'municipality'                      =>          ['required', 'min:1', 'max:255', 'string'],
-            'province'                          =>          ['required', 'min:1', 'max:255', 'string'],
-            'region'                            =>          ['required', 'min:1', 'max:255', 'string'],
-            'educational_attainment'            =>          ['required', 'min:1', 'max:255', 'string'],
-            'occupation'                        =>          ['required', 'min:1', 'max:255', 'string'],
-            'other_occupation'                  =>          ['nullable', 'required_if:occupation,others', 'min:1', 'max:255', 'string'],
-            'status_of_employment'              =>          ['required', 'min:1', 'max:255', 'string'],
-            'category_of_employment'            =>          ['required', 'min:1', 'max:255', 'string'],
-            'types_of_employment'               =>          ['required', 'min:1', 'max:255', 'string'],
-            'organization_affiliated'           =>          ['required', 'min:1', 'max:255', 'string'],
-            'contact_person'                    =>          ['required', 'min:1', 'max:255', 'string'],
-            'office_address'                    =>          ['required', 'min:1', 'max:255', 'string'],
-            'email_address'                     =>          ['required', 'min:1', 'max:255', 'string'],
-            'tel_no'                            =>          ['required', 'min:1', 'max:255', 'string'],
-            'sss_no'                            =>          ['required', 'min:1', 'max:255', 'string'],
-            'gsis_no'                           =>          ['required', 'min:1', 'max:255', 'string'],
-            'pag_ibig_no'                       =>          ['required', 'min:1', 'max:255', 'string'],
-            'psn_no'                            =>          ['required', 'min:1', 'max:255', 'string'],
-            'philhealth_no'                     =>          ['required', 'min:1', 'max:255', 'string'],
-            'accomplished_by'                   =>          ['required', 'min:1', 'max:255', 'string'],
+            'last_name' => ['required', 'min:1', 'max:255', 'string'],
+            'first_name' => ['required', 'min:1', 'max:255', 'string'],
+            'application_type' => ['required', 'min:1', 'max:255', 'string'],
+            'pwd_number' => ['nullable', 'required_unless:application_type,New Applicant', 'min:1', 'max:255', 'string'],
+            'phone' => ['required', 'min:1', 'max:255', 'string'],
+            'appearance_date' => ['required', 'after_or_equal:today', 'min:1', 'max:255', 'string'],
+            'landline_no' => ['required', 'min:1', 'max:255', 'string'],
+            'blood_type' => ['required', 'min:1', 'max:255', 'string'],
+            'gender' => ['required', 'min:1', 'max:255', 'string'],
+            'date_of_birth' => ['required', 'min:1', 'max:255', 'string'],
+            'civil_status' => ['required', 'min:1', 'max:255', 'string'],
+            'type_of_disability' => ['required', 'min:1', 'max:255', 'string'],
+            'cause_of_disability' => ['required', 'min:1', 'max:255', 'string'],
+            'other_cause_of_disability' => ['nullable', 'required_if:cause_of_disability,Other', 'min:1', 'max:255', 'string'],
+            'congenital_inborn' => ['nullable', 'required_if:cause_of_disability,Congenital/Inborn', 'min:1', 'max:255', 'string'],
+            'other_congenital_inborn' => ['nullable', 'required_if:congenital_inborn,Others', 'min:1', 'max:255', 'string'],
+            'acquired' => ['nullable', 'required_if:cause_of_disability,Acquired', 'min:1', 'max:255', 'string'],
+            'other_acquired' => ['nullable', 'required_if:acquired,Others', 'min:1', 'max:255', 'string'],
+            'house_no_and_street' => ['required', 'min:1', 'max:255', 'string'],
+            'barangay' => ['required', 'min:1', 'max:255', 'string'],
+            'municipality' => ['required', 'min:1', 'max:255', 'string'],
+            'province' => ['required', 'min:1', 'max:255', 'string'],
+            'region' => ['required', 'min:1', 'max:255', 'string'],
+            'educational_attainment' => ['required', 'min:1', 'max:255', 'string'],
+            'occupation' => ['required', 'min:1', 'max:255', 'string'],
+            'other_occupation' => ['nullable', 'required_if:occupation,Others', 'min:1', 'max:255', 'string'],
+            'status_of_employment' => ['required', 'min:1', 'max:255', 'string'],
+            'category_of_employment' => ['required', 'min:1', 'max:255', 'string'],
+            'types_of_employment' => ['required', 'min:1', 'max:255', 'string'],
+            'organization_affiliated' => ['required', 'min:1', 'max:255', 'string'],
+            'contact_person' => ['required', 'min:1', 'max:255', 'string'],
+            'office_address' => ['required', 'min:1', 'max:255', 'string'],
+            'email_address' => ['required', 'min:1', 'max:255', 'string'],
+            'tel_no' => ['required', 'min:1', 'max:255', 'string'],
+            'sss_no' => ['required', 'min:1', 'max:255', 'string'],
+            'gsis_no' => ['required', 'min:1', 'max:255', 'string'],
+            'pag_ibig_no' => ['required', 'min:1', 'max:255', 'string'],
+            'psn_no' => ['required', 'min:1', 'max:255', 'string'],
+            'philhealth_no' => ['required', 'min:1', 'max:255', 'string'],
         ]);
 
         $beneficiary = Beneficiary::create([
-            'program_enrolled'                  =>          $id,
-            'last_name'                         =>          $request->last_name,
-            'first_name'                        =>          $request->first_name,
-            'place_of_birth'                    =>          $request->place_of_birth,
-            'date_of_birth'                     =>          $request->date_of_birth,
-            'appearance_date'                   =>          $request->appearance_date,
-            'gender'                            =>          $request->gender,
-            'barangay_id'                       =>          $request->barangay,
-            'civil_status'                      =>          $request->civil_status,
-            'annual_income'                     =>          $request->annual_income,
-            'educational_attainment'            =>          $request->educational_attainment,
-            'occupation'                        =>          $request->occupation === "Others" ? "Others, {$request->other_occupation}" : $request->occupation,
-            'phone'                             =>          $request->phone,
-            'age'                               =>          $request->age,
-            'email'                             =>          $request->email ?: Auth::user()->email,
-            'user_id'                           =>          Auth::id(),
+            'program_enrolled' => $id,
+            'last_name' => $request->last_name,
+            'first_name' => $request->first_name,
+            'place_of_birth' => $request->place_of_birth,
+            'date_of_birth' => $request->date_of_birth,
+            'appearance_date' => $request->appearance_date,
+            'gender' => $request->gender,
+            'barangay_id' => $request->barangay,
+            'civil_status' => $request->civil_status,
+            'annual_income' => $request->annual_income,
+            'educational_attainment' => $request->educational_attainment,
+            'occupation' => $request->occupation === "Others" ? "Others, {$request->other_occupation}" : $request->occupation,
+            'phone' => $request->phone,
+            'age' => $request->age,
+            'email' => $request->email ?: Auth::user()->email,
+            'user_id' => Auth::id(),
         ]);
 
         $acquired = $request->acquired === 'Other' ? 'Other, ' . $request->other_acquired : $request->acquired;
@@ -943,225 +965,264 @@ class ApplicationController extends Controller
         $congenital_inborn = $request->congenital_inborn === 'Other' ? 'Other, ' . $request->other_congenital_inborn : $request->congenital_inborn;
 
         $pwd = PwdDetail::create([
-            'beneficiary_id'                    =>          $beneficiary->id,
-            'application_type'                  =>          $request->application_type,
-            'pwd_number'                        =>          $request->pwd_number,
-            'blood_type'                        =>          $request->blood_type,
-            'type_of_disability'                =>          $request->type_of_disability,
-            'acquired'                          =>          $acquired,
-            'cause_of_disability'               =>          $cause_of_disability,
-            'congenital_inborn'                 =>          $congenital_inborn,
-            'house_no_and_street'               =>          $request->house_no_and_street,
-            'municipality'                      =>          $request->municipality,
-            'province'                          =>          $request->province,
-            'region'                            =>          $request->region,
-            'landline_no'                       =>          $request->landline_no,
-            'email_address'                     =>          Auth::user()->email ?: $request->email,
-            'status_of_employment'              =>          $request->status_of_employment,
-            'category_of_employment'            =>          $request->category_of_employment,
-            'types_of_employment'               =>          $request->types_of_employment,
-            'organization_affiliated'           =>          $request->organization_affiliated,
-            'contact_person'                    =>          $request->contact_person,
-            'office_address'                    =>          $request->office_address,
-            'tel_no'                            =>          $request->tel_no,
-            'sss_no'                            =>          $request->sss_no,
-            'gsis_no'                           =>          $request->gsis_no,
-            'pag_ibig_no'                       =>          $request->pag_ibig_no,
-            'psn_no'                            =>          $request->psn_no,
-            'philhealth_no'                     =>          $request->philhealth_no,
-            'accomplished_by'                   =>          $request->accomplished_by,
+            'beneficiary_id' => $beneficiary->id,
+            'application_type' => $request->application_type,
+            'pwd_number' => $request->pwd_number,
+            'blood_type' => $request->blood_type,
+            'type_of_disability' => $request->type_of_disability,
+            'acquired' => $acquired,
+            'cause_of_disability' => $cause_of_disability,
+            'congenital_inborn' => $congenital_inborn,
+            'house_no_and_street' => $request->house_no_and_street,
+            'municipality' => $request->municipality,
+            'province' => $request->province,
+            'region' => $request->region,
+            'landline_no' => $request->landline_no,
+            'email_address' => Auth::user()->email ?: $request->email,
+            'status_of_employment' => $request->status_of_employment,
+            'category_of_employment' => $request->category_of_employment,
+            'types_of_employment' => $request->types_of_employment,
+            'organization_affiliated' => $request->organization_affiliated,
+            'contact_person' => $request->contact_person,
+            'office_address' => $request->office_address,
+            'tel_no' => $request->tel_no,
+            'sss_no' => $request->sss_no,
+            'gsis_no' => $request->gsis_no,
+            'pag_ibig_no' => $request->pag_ibig_no,
+            'psn_no' => $request->psn_no,
+            'philhealth_no' => $request->philhealth_no,
+            'accomplished_by' => $request->accomplished_by,
         ]);
 
         FamilyBackground::create([
-            'beneficiary_id'              =>          $beneficiary->id,
-            'father_name'                 =>          $request->father_name,
-            'father_occupation'           =>          $request->father_occupation,
-            'father_phone'                =>          $request->father_phone,
-            'mother_name'                 =>          $request->mother_name,
-            'mother_occupation'           =>          $request->mother_occupation,
-            'mother_phone'                =>          $request->mother_phone,
-            'guardian_name'               =>          $request->guardian_name,
-            'guardian_occupation'         =>          $request->guardian_occupation,
-            'guardian_phone'              =>          $request->guardian_phone,
+            'beneficiary_id' => $beneficiary->id,
+            'father_name' => $request->father_name,
+            'father_occupation' => $request->father_occupation,
+            'father_phone' => $request->father_phone,
+            'mother_name' => $request->mother_name,
+            'mother_occupation' => $request->mother_occupation,
+            'mother_phone' => $request->mother_phone,
+            'guardian_name' => $request->guardian_name,
+            'guardian_occupation' => $request->guardian_occupation,
+            'guardian_phone' => $request->guardian_phone,
         ]);
 
         AccomplishedBy::create([
-            'pwd_detail_id'               =>          $pwd->id,
-            'first_name'                  =>          $request->accb_first_name,
-            'last_name'                   =>          $request->accb_last_name,
-            'middle_name'                 =>          $request->accb_middle_name
+            'pwd_detail_id' => $pwd->id,
+            'first_name' => $request->accb_first_name,
+            'last_name' => $request->accb_last_name,
+            'middle_name' => $request->accb_middle_name
         ]);
+
+        if ($request->has('save_for_next_application')) {
+            session(['saved_application_data' => $request->except('_token', 'save_for_next_application')]);
+        } else {
+            session()->forget('saved_application_data'); // I-clear ang session kung hindi na-check
+        }
 
         return redirect('/myapplication')->with('success', 'Beneficiary added successfully!');
     }
 
     public function storeAics(Request $request, $id)
     {
-        $first_name = explode(',', $request->full_name)[0];
-        $middle_name = explode(',', $request->full_name)[1];
-        $last_name = explode(',', $request->full_name)[2];
-        $suffix = explode(',', $request->full_name)[3];
+        $first_name = explode(' ', $request->full_name)[0] ?? '';
+        $middle_name = explode(' ', $request->full_name)[1] ?? '';
+        $last_name = explode(' ', $request->full_name)[2] ?? '';
+        $suffix = explode(' ', $request->full_name)[3] ?? '';
 
         $request->validate([
-            'place_of_birth'              =>          ['required', 'min:1', 'max:255', 'string'],
-            'date_of_birth'               =>          ['required', 'min:1', 'max:255', 'string'],
-            'religion'                    =>          ['required', 'min:1', 'max:255', 'string'],
-            'civil_status'                =>          ['required', 'min:1', 'max:255', 'string'],
-            'barangay'                    =>          ['required', 'min:1', 'max:255', 'string'],
-            'occupation'                  =>          ['required', 'min:1', 'max:255', 'string'],
-            'educational_attainment'      =>          ['required', 'min:1', 'max:255', 'string'],
-            'appearance_date'             =>          ['required', 'after_or_equal:today', 'date'],
-            'name.*'                      =>          ['required', 'min:1', 'max:255', 'string'],
-            'relationship.*'              =>          ['required', 'min:1', 'max:255', 'string'],
-            'age_fc.*'                    =>          ['required', 'min:1', 'max:255', 'string'],
-            'gender_fc.*'                 =>          ['required', 'min:1', 'max:255', 'string'],
-            'civil_status_fc.*'           =>          ['required', 'min:1', 'max:255', 'string'],
-            'occupation_fc.*'             =>          ['required', 'min:1', 'max:255', 'string'],
-            'educational_attainment_fc.*' =>          ['required', 'min:1', 'max:255', 'string'],
-            'source_of_referral'          =>          ['required', 'min:1', 'max:255', 'string'],
-            'type_of_assistance'          =>          ['required', 'min:1', 'max:255', 'string'],
-            'complete_address'            =>          ['required', 'min:1', 'max:255', 'string'],
+            'place_of_birth' => ['required', 'min:1', 'max:255', 'string'],
+            'date_of_birth' => ['required', 'min:1', 'max:255', 'string'],
+            'religion' => ['required', 'min:1', 'max:255', 'string'],
+            'civil_status' => ['required', 'min:1', 'max:255', 'string'],
+            'barangay' => ['required', 'min:1', 'max:255', 'string'],
+            'occupation' => ['required', 'min:1', 'max:255', 'string'],
+            'educational_attainment' => ['required', 'min:1', 'max:255', 'string'],
+            'appearance_date' => ['required', 'after_or_equal:today', 'date'],
+            'name.*' => ['required', 'min:1', 'max:255', 'string'],
+            'relationship.*' => ['required', 'min:1', 'max:255', 'string'],
+            'age_fc.*' => ['required', 'min:1', 'max:255', 'string'],
+            'gender_fc.*' => ['required', 'min:1', 'max:255', 'string'],
+            'civil_status_fc.*' => ['required', 'min:1', 'max:255', 'string'],
+            'occupation_fc.*' => ['required', 'min:1', 'max:255', 'string'],
+            'educational_attainment_fc.*' => ['required', 'min:1', 'max:255', 'string'],
+            'source_of_referral' => ['required', 'min:1', 'max:255', 'string'],
+            'type_of_assistance' => ['required', 'min:1', 'max:255', 'string'],
 
         ]);
 
+        $barangayName = Barangay::where('id', $request->barangay)->first();
+
         $beneficiary = Beneficiary::create([
-            'program_enrolled'          =>         $id,
-            'last_name'                 =>         $last_name,
-            'first_name'                =>         $first_name,
-            'middle_name'               =>         $middle_name,
-            'suffix'                    =>         $suffix,
-            'place_of_birth'            =>         $request->place_of_birth,
-            'date_of_birth'             =>         $request->date_of_birth,
-            'religion'                  =>         $request->religion,
-            'civil_status'              =>         $request->civil_status,
-            'barangay_id'               =>         $request->barangay,
-            'occupation'                =>         $request->occupation,
-            'educational_attainment'    =>         $request->educational_attainment,
-            'age'                       =>         $request->age,
-            'appearance_date'           =>         $request->appearance_date,
-            'phone'                     =>         $request->phone,
-            'complete_address'          =>         $request->complete_address,
-            'email'                     =>         $request->email ?: Auth::user()->email,
-            'user_id'                   =>         Auth::id()
+            'program_enrolled' => $id,
+            'last_name' => $last_name,
+            'first_name' => $first_name,
+            'middle_name' => $middle_name,
+            'suffix' => $suffix,
+            'place_of_birth' => $request->place_of_birth,
+            'date_of_birth' => $request->date_of_birth,
+            'religion' => $request->religion,
+            'civil_status' => $request->civil_status,
+            'barangay_id' => $request->barangay,
+            'occupation' => $request->occupation,
+            'educational_attainment' => $request->educational_attainment,
+            'age' => $request->age,
+            'appearance_date' => $request->appearance_date,
+            'phone' => $request->phone,
+            'complete_address' => "{$request->house_no_and_street} {$barangayName->name} {$request->municipality} {$request->province} {$request->region}",
+            'email' => $request->email ?: Auth::user()->email,
+            'user_id' => Auth::id()
         ]);
 
         foreach ($request->name as $index => $name) {
             FamilyComposition::create([
-                'beneficiary_id'            =>         $beneficiary->id,
-                'name'                      =>         $name,
-                'relationship'              =>         $request->relationship[$index],
-                'age'                       =>         $request->age_fc[$index],
-                'gender'                    =>         $request->gender_fc[$index],
-                'civil_status'              =>         $request->civil_status_fc[$index],
-                'occupation'                =>         $request->occupation_fc[$index],
-                'educational'               =>         $request->educational_attainment_fc[$index],
+                'beneficiary_id' => $beneficiary->id,
+                'name' => $name,
+                'relationship' => $request->relationship[$index],
+                'age' => $request->age_fc[$index],
+                'gender' => $request->gender_fc[$index],
+                'civil_status' => $request->civil_status_fc[$index],
+                'occupation' => $request->occupation_fc[$index],
+                'educational' => $request->educational_attainment_fc[$index],
             ]);
         }
 
         AicsDetail::create([
-            'beneficiary_id'            =>         $beneficiary->id,
-            'date_applied'              =>         $request->appearance_date,
-            'source_of_referral'        =>         $request->source_of_referral,
-            'type_of_assistance'        =>         $request->type_of_assistance,
+            'beneficiary_id' => $beneficiary->id,
+            'date_applied' => $request->appearance_date,
+            'source_of_referral' => $request->source_of_referral,
+            'type_of_assistance' => $request->type_of_assistance,
         ]);
+
+        if ($request->has('save_for_next_application')) {
+            session(['saved_application_data' => $request->except('_token', 'save_for_next_application')]);
+            if ($request->has('name')) { // Check if at least one family member is provided
+                $familyMembers = [];
+                foreach ($request->name as $index => $name) {
+                    $familyMembers[] = [
+                        'name' => $name,
+                        'relationship' => $request->relationship[$index],
+                        'age' => $request->age_fc[$index],
+                        'gender' => $request->gender_fc[$index],
+                        'civil_status' => $request->civil_status_fc[$index],
+                        'occupation' => $request->occupation_fc[$index],
+                        'educational' => $request->educational_attainment_fc[$index],
+                    ];
+                }
+            }
+            if (!empty($familyMembers)) {
+                \DB::table('user_meta')->updateOrInsert(
+                    ['user_id' => Auth::id(), 'meta_key' => 'family_members'],
+                    ['meta_value' => json_encode($familyMembers)]
+                );
+            }
+        } else {
+            session()->forget('saved_application_data'); // I-clear ang session kung hindi na-check
+        }
 
         return redirect('/myapplication')->with('success', 'Beneficiary added successfully!');
     }
 
     public function storeSoloParent(Request $request, $id)
     {
-        $first_name = explode(',', $request->full_name)[0];
-        $middle_name = explode(',', $request->full_name)[1];
-        $last_name = explode(',', $request->full_name)[2];
-        $suffix = explode(',', $request->full_name)[3];
+        $first_name = explode(' ', $request->full_name)[0] ?? "";
+        $middle_name = explode(' ', $request->full_name)[1] ?? "";
+        $last_name = explode(' ', $request->full_name)[2] ?? "";
+        $suffix = explode(' ', $request->full_name)[3] ?? "";
 
         $request->validate([
-            'appearance_date'                   =>          ['required', 'after_or_equal:today', 'min:1', 'max:255', 'string'],
-            'date_of_birth'                     =>          ['required', 'min:1', 'max:255', 'string'],
-            'gender'                            =>          ['required', 'min:1', 'max:255', 'string'],
-            'place_of_birth'                    =>          ['required', 'min:1', 'max:255', 'string'],
-            'complete_address'                  =>          ['required', 'min:1', 'max:255', 'string'],
-            'barangay'                          =>          ['required', 'min:1', 'max:255', 'string'],
-            'educational_attainment'            =>          ['required', 'min:1', 'max:255', 'string'],
-            'occupation'                        =>          ['required', 'min:1', 'max:255', 'string'],
-            'civil_status'                      =>          ['required', 'min:1', 'max:255', 'string'],
-            'religion'                          =>          ['required', 'min:1', 'max:255', 'string'],
-            'monthly_income'                    =>          ['required', 'min:1', 'max:255', 'string'],
-            'name.*'                            =>          ['required', 'min:1', 'max:255', 'string'],
-            'relationship.*'                    =>          ['required', 'min:1', 'max:255', 'string'],
-            'birthday.*'                        =>          ['required', 'min:1', 'max:255', 'string'],
-            'age_fc.*'                          =>          ['required', 'min:1', 'max:255', 'string'],
-            'civil_status_fc.*'                 =>          ['required', 'min:1', 'max:255', 'string'],
-            'educational_attainment_fc.*'       =>          ['required', 'min:1', 'max:255', 'string'],
-            'occupation_fc.*'                   =>          ['required', 'min:1', 'max:255', 'string'],
-            'income.*'                          =>          ['required', 'min:1', 'max:255', 'string'],
-            'company_agency'                    =>          ['required', 'min:1', 'max:255', 'string'],
-            'four_ps_beneficiary'               =>          ['required', 'min:1', 'max:255', 'string'],
-            'indigenous_person'                 =>          ['required', 'min:1', 'max:255', 'string'],
-            'classification_circumtances'       =>          ['required', 'min:1', 'max:255', 'string'],
-            'needs_problems'                    =>          ['required', 'min:1', 'max:255', 'string'],
-            'emergency_name'                    =>          ['required', 'min:1', 'max:255', 'string'],
-            'emergency_address'                 =>          ['required', 'min:1', 'max:255', 'string'],
-            'emergency_contact_number'          =>          ['required', 'min:1', 'max:255', 'string'],
-            'emergency_relationship'            =>          ['required', 'min:1', 'max:255', 'string'],
+            'appearance_date' => ['required', 'after_or_equal:today', 'min:1', 'max:255', 'string'],
+            'date_of_birth' => ['required', 'min:1', 'max:255', 'string'],
+            'gender' => ['required', 'min:1', 'max:255', 'string'],
+            'place_of_birth' => ['required', 'min:1', 'max:255', 'string'],
+            'barangay' => ['required', 'min:1', 'max:255', 'string'],
+            'educational_attainment' => ['required', 'min:1', 'max:255', 'string'],
+            'occupation' => ['required', 'min:1', 'max:255', 'string'],
+            'civil_status' => ['required', 'min:1', 'max:255', 'string'],
+            'religion' => ['required', 'min:1', 'max:255', 'string'],
+            'monthly_income' => ['required', 'min:1', 'max:255', 'string'],
+            'name.*' => ['required', 'min:1', 'max:255', 'string'],
+            'relationship.*' => ['required', 'min:1', 'max:255', 'string'],
+            'birthday.*' => ['required', 'min:1', 'max:255', 'string'],
+            'age_fc.*' => ['required', 'min:1', 'max:255', 'string'],
+            'civil_status_fc.*' => ['required', 'min:1', 'max:255', 'string'],
+            'educational_attainment_fc.*' => ['required', 'min:1', 'max:255', 'string'],
+            'occupation_fc.*' => ['required', 'min:1', 'max:255', 'string'],
+            'income.*' => ['required', 'min:1', 'max:255', 'string'],
+            'company_agency' => ['required', 'min:1', 'max:255', 'string'],
+            'four_ps_beneficiary' => ['required', 'min:1', 'max:255', 'string'],
+            'indigenous_person' => ['required', 'min:1', 'max:255', 'string'],
+            'classification_circumtances' => ['required', 'min:1', 'max:255', 'string'],
+            'needs_problems' => ['required', 'min:1', 'max:255', 'string'],
+            'emergency_name' => ['required', 'min:1', 'max:255', 'string'],
+            'emergency_address' => ['required', 'min:1', 'max:255', 'string'],
+            'emergency_contact_number' => ['required', 'min:1', 'max:255', 'string'],
+            'emergency_relationship' => ['required', 'min:1', 'max:255', 'string'],
 
         ]);
 
+        $barangayName = Barangay::where('id', $request->barangay)->first();
+
         $beneficiary = Beneficiary::create([
-            'program_enrolled'                  =>          $id,
-            'last_name'                         =>          $last_name,
-            'first_name'                        =>          $first_name,
-            'middle_name'                       =>          $middle_name,
-            'suffix'                            =>          $suffix,
-            'phone'                             =>          $request->phone,
-            'email'                             =>          $request->email ?: Auth::user()->email,
-            'appearance_date'                   =>          $request->appearance_date,
-            'date_of_birth'                     =>          $request->date_of_birth,
-            'age'                               =>          $request->age,
-            'gender'                            =>          $request->gender,
-            'place_of_birth'                    =>          $request->place_of_birth,
-            'complete_address'                  =>          $request->complete_address,
-            'barangay_id'                       =>          $request->barangay,
-            'educational_attainment'            =>          $request->educational_attainment,
-            'occupation'                        =>          $request->occupation,
-            'civil_status'                      =>          $request->civil_status,
-            'religion'                          =>          $request->religion,
-            'monthly_income'                    =>          $request->monthly_income,
-            'user_id'                           =>          Auth::id()
+            'program_enrolled' => $id,
+            'last_name' => $last_name,
+            'first_name' => $first_name,
+            'middle_name' => $middle_name,
+            'suffix' => $suffix,
+            'phone' => $request->phone,
+            'email' => $request->email ?: Auth::user()->email,
+            'appearance_date' => $request->appearance_date,
+            'date_of_birth' => $request->date_of_birth,
+            'age' => $request->age,
+            'gender' => $request->gender,
+            'place_of_birth' => $request->place_of_birth,
+            'complete_address' => "{$request->house_no_and_street} {$barangayName->name} {$request->municipality} {$request->province} {$request->region}",
+            'barangay_id' => $request->barangay,
+            'educational_attainment' => $request->educational_attainment,
+            'occupation' => $request->occupation,
+            'civil_status' => $request->civil_status,
+            'religion' => $request->religion,
+            'monthly_income' => $request->monthly_income,
+            'user_id' => Auth::id()
         ]);
 
         foreach ($request->name as $index => $name) {
             FamilyComposition::create([
-                'beneficiary_id'                    =>          $beneficiary->id,
-                'name'                              =>          $name,
-                'relationship'                      =>          $request->relationship[$index],
-                'age'                               =>          $request->age_fc[$index],
-                'birthday'                          =>          $request->birthday[$index],
-                'civil_status'                      =>          $request->civil_status_fc[$index],
-                'educational'                       =>          $request->educational_attainment_fc[$index],
-                'occupation'                        =>          $request->occupation_fc[$index],
-                'income'                            =>          $request->income[$index],
+                'beneficiary_id' => $beneficiary->id,
+                'name' => $name,
+                'relationship' => $request->relationship[$index],
+                'age' => $request->age_fc[$index],
+                'birthday' => $request->birthday[$index],
+                'civil_status' => $request->civil_status_fc[$index],
+                'educational' => $request->educational_attainment_fc[$index],
+                'occupation' => $request->occupation_fc[$index],
+                'income' => $request->income[$index],
             ]);
         }
 
         SoloParentDetail::create([
-            'beneficiary_id'                    =>          $beneficiary->id,
-            'company_agency'                    =>          $request->company_agency,
-            'four_ps_beneficiary'               =>          $request->four_ps_beneficiary,
-            'indigenous_person'                 =>          $request->indigenous_person,
-            'classification_circumtances'       =>          $request->classification_circumtances,
-            'needs_problems'                    =>          $request->needs_problems,
+            'beneficiary_id' => $beneficiary->id,
+            'company_agency' => $request->company_agency,
+            'four_ps_beneficiary' => $request->four_ps_beneficiary,
+            'indigenous_person' => $request->indigenous_person,
+            'classification_circumtances' => $request->classification_circumtances,
+            'needs_problems' => $request->needs_problems,
         ]);
 
         ContactEmergency::create([
-            'beneficiary_id'                    =>          $beneficiary->id,
-            'name'                              =>          $request->emergency_name,
-            'address'                           =>          $request->emergency_address,
-            'contact_number'                    =>          $request->emergency_contact_number,
-            'relationship'                      =>          $request->emergency_relationship,
+            'beneficiary_id' => $beneficiary->id,
+            'name' => $request->emergency_name,
+            'address' => $request->emergency_address,
+            'contact_number' => $request->emergency_contact_number,
+            'relationship' => $request->emergency_relationship,
 
         ]);
 
+        if ($request->has('save_for_next_application')) {
+            session(['saved_application_data' => $request->except('_token', 'save_for_next_application')]);
+        } else {
+            session()->forget('saved_application_data'); // I-clear ang session kung hindi na-check
+        }
         return redirect('/myapplication')->with('success', 'Beneficiary added successfully!');
     }
 
@@ -1200,5 +1261,34 @@ class ApplicationController extends Controller
         }
 
         return view($viewName, compact('application'));
+    }
+
+    public function cancelMyApplication($id)
+    {
+        $application = Beneficiary::find($id);
+        if ($application->status !== 'pending') {
+            return back()->with('error', 'Sorry you cannot cancel this application because its already accepted or approved.');
+        }
+
+        $application->delete();
+
+        return back()->with('success', 'You successfully deleted/canceled your application');
+    }
+
+    public function reApplyMyApplication(Request $request, $id)
+    {
+        $application = Beneficiary::find($id);
+
+        $request->validate([
+            'appearance_date_data' => ['required', 'after_or_equal:today']
+        ]);
+
+        $application->update([
+            'created_at' => now(),
+            'status' => 'pending',
+            'cancellation_reason' => null,
+            'appearance_date' => $request->appearance_date_data
+        ]);
+        return back()->with('success', 'You successfully re-applied your application');
     }
 }

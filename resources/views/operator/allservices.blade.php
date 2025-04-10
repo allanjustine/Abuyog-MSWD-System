@@ -54,7 +54,7 @@
                                 <th>Description</th>
                                 <th>Image</th>
                                 <th>Edit</th>
-                                <th>Delete</th>
+                                <!-- <th>Delete</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -77,10 +77,10 @@
                                             Edit
                                         </button>
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         <button class="btn btn-danger delete-service"
                                             data-id="{{ $service->id }}">Delete</button>
-                                    </td>
+                                    </td> -->
                                 </tr>
                             @endforeach
                         </tbody>

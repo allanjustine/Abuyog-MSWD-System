@@ -1147,7 +1147,7 @@ CREATE TABLE `sessions` (
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
 ('2PoMplIUmtnTi9U8SCb1kZSAEcVQVYumyVtjz1TJ', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiTERoR056NmpMY2lLNWFNZWg1RWJiNzhRbER5MlR5YTJNeHBKVHVhTCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTY6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9kaXNwbGF5YXBwbGljYXRpb24/c3RhdHVzPWFwcHJvdmVkIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1739078560),
-('fAW5JaS0D14eZNTyG7GJZBSALw7C6YyyyFKLEAws', NULL, '192.168.254.127', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiM29jNkxZOW5oaTJhTTFZY0RNdFlQM2FjVVY3VXZsMTlLcHRFVEpnZyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xOTIuMTY4LjI1NC4xMjc6ODAwMC9sb2dpbiI7fX0=', 1739452197);
+('fAW5JaS0D14eZNTyG7GJZBSALw7C6YyyyFKLEAws', NULL, '  192.168.2.139:5173:5173  ', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiM29jNkxZOW5oaTJhTTFZY0RNdFlQM2FjVVY3VXZsMTlLcHRFVEpnZyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xOTIuMTY4LjI1NC4xMjc6ODAwMC9sb2dpbiI7fX0=', 1739452197);
 
 -- --------------------------------------------------------
 

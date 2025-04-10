@@ -13,11 +13,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        body {
-            background-color: rgb(174, 164, 164);
-            /* Light gray background */
-        }
-
         .btn {
 
             color: black;
@@ -113,7 +108,7 @@
                         <h5 class="mt-2">All Applications</h5>
                     </div>
 
-                    <!-- Search Bar -->
+                    {{--  <!-- Search Bar -->
                     <div class="px-3 py-2 d-flex justify-content-end">
                         <form action="{{ route('apply.search') }}" method="GET" class="d-flex">
                             <input type="text" name="search" class="form-control me-2" placeholder="Search..."
@@ -122,36 +117,33 @@
                                 <i class="bi bi-search"></i> <span>Search</span>
                             </button>
                         </form>
-                    </div>
+                    </div>  --}}
 
                     <!-- Table -->
                     <div class="card-body">
-
-
-
                         @if (session('success'))
-                        <div class="d-flex justify-content-center">
-                            <div class="text-center alert alert-success w-50">
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                                {{ session('success') }}
+                            <div class="d-flex justify-content-center">
+                                <div class="text-center alert alert-success w-50">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                    {{ session('success') }}
+                                </div>
                             </div>
-                        </div>
                         @endif
 
                         @if (session('error'))
-                        <div class="d-flex justify-content-center">
-                            <div class="text-center alert alert-danger w-50">
-                                {{ session('error') }}
+                            <div class="d-flex justify-content-center">
+                                <div class="text-center alert alert-danger w-50">
+                                    {{ session('error') }}
+                                </div>
                             </div>
-                        </div>
                         @endif
                         <div class="table-responsive">
                             <table class="table table-sm table-bordered table-striped">
                                 <thead class="text-center">
                                     <tr>
                                         <th>Beneficiary Name</th>
-                                        <th>Email</th>
+                                        <!-- <th>Email</th> -->
                                         <th>Phone</th>
                                         <th>Services Applied</th>
                                         <th>Scheduled Date</th>
@@ -161,70 +153,72 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $item)
-                                    @php
-                                    $customFields = json_decode($item->custom_fields, true);
-                                    @endphp
-                                    <tr id="application-{{ $item->id }}">
-                                        <td>{{ $item->full_name }} {{ $customFields['last_name'] ?? '' }}</td>
-                                        <td class="text-ellipsis">{{ $item->email }}</td>
-                                        <td>{{ $item->phone }}</td>
-                                        <td class="text-ellipsis"
-                                            title="{{ $item->service->name ?? 'No Service Assigned' }}">
-                                            {{ $item->service->name ?? 'No Service Assigned' }}
-                                        </td>
-                                        <td>{{ $item?->appearance_date?->format('F d, Y') ?? 'No selected date' }}</td>
-                                        <td>{{ $item->status }}</td>
-                                        <td class="text-center">
-                                            <!-- Action Buttons -->
-                                            <a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#viewModal{{ $item?->id }}">
-                                                <i class="bi bi-eye">View</i>
-                                            </a>
-                                            @if ($item->status === 'pending')
-                                            <button class="btn btn-success btn-sm"
-                                                onclick="confirmApproval('{{ url('approved', $item->id) }}')">
-                                                <i class="bi bi-check-circle"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm"
-                                                onclick="showCancelModal({{ $item->id }})">
-                                                <i class="bi bi-x-circle"></i>
-                                            </button>
-                                            @endif
-                                            @if ($item->status === 'rejected')
-                                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                                data-bs-target="#editReasonModal{{ $item->id }}">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </button>
-                                            @endif
-                                        </td>
-                                    </tr>
+                                        @php
+                                            $customFields = json_decode($item->custom_fields, true);
+                                        @endphp
+                                        <tr id="application-{{ $item->id }}">
+                                            <td>{{ $item->full_name }} {{ $customFields['last_name'] ?? '' }}</td>
+                                            <!-- <td class="text-ellipsis">{{ $item->email }}</td> -->
+                                            <td>{{ $item->phone }}</td>
+                                            <td class="text-ellipsis"
+                                                title="{{ $item->service->name ?? 'No Service Assigned' }}">
+                                                {{ $item->service->name ?? 'No Service Assigned' }}
+                                            </td>
+                                            <td>{{ $item?->appearance_date?->format('F d, Y') ?? 'No selected date' }}
+                                            </td>
+                                            <td>{{ $item->status }}</td>
+                                            <td class="text-start">
+                                                <div class="d-flex gap-1">
+                                                    <!-- Action Buttons -->
+                                                    <a href="#" class="btn btn-info btn-md" data-bs-toggle="modal"
+                                                        data-bs-target="#viewModal{{ $item?->id }}">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    @if ($item->status === 'pending')
+                                                        <button class="btn btn-success btn-md"
+                                                            onclick="confirmApproval('{{ url('approved', $item->id) }}')">
+                                                            <i class="bi bi-check-circle"></i>
+                                                        </button>
+                                                        <button class="btn btn-danger btn-md"
+                                                            onclick="showCancelModal({{ $item->id }})">
+                                                            <i class="bi bi-x-circle"></i>
+                                                        </button>
+                                                    @endif
+                                                   
+                                                </div>
+                                            </td>
+                                        </tr>
 
-                                    @include('admin.components.view-modal')
-                                    <div class="modal fade" id="editReasonModal{{ $item->id }}" tabindex="-1"
-                                        aria-labelledby="editReasonModalLabel{{ $item->id }}" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <form action="{{ url('edit-reason', $item->id) }}" method="POST">
-                                                    @csrf
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="editReasonModalLabel{{ $item->id }}">Edit Rejection
-                                                            Reason
-                                                        </h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <textarea class="form-control" name="reason" rows="3"
-                                                            required>{{ $item->cancellation_reason }}</textarea>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                                                    </div>
-                                                </form>
+                                        @include('admin.components.view-modal')
+                                        <div class="modal fade" id="editReasonModal{{ $item->id }}" tabindex="-1"
+                                            aria-labelledby="editReasonModalLabel{{ $item->id }}"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <form action="{{ url('edit-reason', $item->id) }}" method="POST">
+                                                        @csrf
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title"
+                                                                id="editReasonModalLabel{{ $item->id }}">Edit
+                                                                Rejection
+                                                                Reason
+                                                            </h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <textarea class="form-control" name="reason" rows="3" required>{{ $item->cancellation_reason }}</textarea>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Save
+                                                                Changes</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -253,12 +247,12 @@
                                 <p>Are you sure you want to cancel this application?</p>
                                 <div class="form-group">
                                     <label for="reason">Reason for Cancellation:</label>
-                                    <textarea class="form-control" name="reason" id="reason" rows="3"
-                                        required></textarea>
+                                    <textarea class="form-control" name="reason" id="reason" rows="3" required></textarea>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-danger">Confirm Cancellation</button>
                             </div>
                         </form>
@@ -276,14 +270,13 @@
         <script>
             function confirmApproval(approvalUrl) {
                 Swal.fire({
-                    title: '<span style="color: black;">Are you sure you want to approve this?</span>',
-                    html: '<span style="color: black;">Please double-check the data of the applicant.</span>',
-                    icon: 'warning',
+                    title: '<span style="color: black;">Are you sure you want to accept this application?</span>',
+                    // html: '<span style="color: black;">Please double-check the data of the applicant.</span>',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, approve it!',
-                    cancelButtonText: 'Cancel',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
                     background: '#f8f9fa', // Light background
                     customClass: {
                         title: 'swal-title-custom',
@@ -292,18 +285,8 @@
                     },
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Swal.fire({
-                            title: '<span style="color: black;">Processing...</span>',
-                            html: '<span style="color: black;">Please wait while the application is being approved.</span>',
-                            allowOutsideClick: false,
-                            showConfirmButton: false,
-                            didOpen: () => {
-                                Swal.showLoading();
-                                // Redirect to the approval URL
-                                window.location.href = approvalUrl;
-                            },
-                            background: '#f8f9fa', // Light background
-                        });
+                        // Redirect to the approval URL immediately without loading animation
+                        window.location.href = approvalUrl;
                     }
                 });
             }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beneficiaries</title>
+    <title>SMS Logs</title>
 
     @include('employee.css')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -44,7 +44,9 @@
                                 <tr>
                                     <td>{{ $log->phone_number }}</td>
                                     <td>{{ $log->status }}</td>
-                                    <td><p class="text-break">{{ $log->message ?? 'No message' }}</p></td>
+                                    <td>
+                                        <p class="text-break">{{ $log->message ?? 'No message' }}</p>
+                                    </td>
                                     <td>{{ $log->created_at }}</td>
                                     <td>
                                         @if ($log->status === 'Failed')
@@ -70,6 +72,8 @@
 
 
                 </div>
+                {{ $smsLogs->links('pagination::bootstrap-5') }}
+
             </div>
         </div>
         @include('admin.script')

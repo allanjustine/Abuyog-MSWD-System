@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\BasicInfoController;
 use App\Http\Controllers\BeneficiaryController;
+use App\Http\Controllers\DownloadFilesController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\GISMappingController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -143,11 +146,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/reports/download-excel', [ReportsController::class, 'downloadExcel'])->name('reports.download-excel');
 
     // Route to display the GIS map page
-    Route::get('/gis', [GISMappingController::class, 'index']);
+    Route::get('/gis', [GISMappingController::class, 'viewMap'])->name('viewMap');
+    // Route::get('/gis', [GISMappingController::class, 'index']);
+
     Route::get('/barangays', [GISMappingController::class, 'barangay']);
 
     // Route to fetch filtered beneficiaries based on program and barangay
     Route::get('/gis-beneficiaries', [GISMappingController::class, 'getBeneficiaries']);
+
+    //view map
+    // Route::get('/view-map', [GISMappingController::class, 'viewMap'])->name('viewMap');
+
 
 
     Route::get('/send-sms', [SmsController::class, 'sendSms']);
@@ -213,6 +222,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/add-benefits/{id}', [AdminController::class, 'submitAssistance']);
 
     Route::get('/generate-pdf/{id}', [ApplicationController::class, 'generatePDF']); // Remove this line if not needed
+
+    Route::delete('/cancel-application/{id}', [ApplicationController::class, 'cancelMyApplication']);
+    Route::patch('/re-apply-application/{id}', [ApplicationController::class, 'reApplyMyApplication']);
+    Route::post('/mark-active-inactive/{id}', [ServiceController::class, 'markActiveInactive']);
 });
 
 Route::group(['middleware' => ['role-admin', 'auth']], function () {
@@ -259,3 +272,9 @@ Route::group(['middleware' => ['role-admin', 'auth']], function () {
 
     Route::get('/logs', [AdminController::class, 'displayAllLogs']);
 });
+
+Route::controller(BasicInfoController::class)->middleware(['auth'])->group(function () {
+    Route::post('/update-or-create-basic-info', 'store');
+});
+Route::get('/export-beneficiaries/excel', [DownloadFilesController::class, 'exportExcel']);
+Route::get('/export-beneficiaries/word', [DownloadFilesController::class, 'exportWord']);

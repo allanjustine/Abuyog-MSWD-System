@@ -197,12 +197,14 @@ class HomeController extends Controller
                 ->with('beneficiaries')
                 ->exists();
 
-            $availableSoloParent = $user->whereHas('beneficiaries', function ($query) use ($userid) {
-                $query->where('program_enrolled', 3)
-                    ->where('user_id', $userid)
-                    ->where('created_at', '<', Carbon::now()->subYears(5))
-                    ->latest();
-            })->exists();
+            $soloParentData = Beneficiary::where('program_enrolled', 3)
+                ->where('user_id', $userid)
+                ->latest()
+                ->first();
+
+                $availableSoloParent = $soloParentData && $soloParentData->created_at < Carbon::now()->subYears(5);
+
+
             $availablePwd = $user->whereHas('beneficiaries', function ($query) use ($userid) {
                 $query->where('program_enrolled', 2)
                     ->where('user_id', $userid)

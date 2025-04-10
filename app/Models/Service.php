@@ -9,7 +9,7 @@ class Service extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $guarded = [];
 
     // Relationship to Beneficiaries (Service can have many Beneficiaries)
     public function beneficiaries()

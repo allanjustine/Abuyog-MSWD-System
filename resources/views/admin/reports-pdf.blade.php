@@ -150,29 +150,35 @@
     <table>
         <thead>
             <tr>
-                <th></th>
-                <th>First Name</th>
-                <th>Middle Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
+                <th>No.</th>
+                <th>Full Name</th>
                 <th>Phone</th>
                 <th>Program</th>
                 <th>Barangay</th>
+                <th>Name of Assistance</th>
+                <th>Assistance Type</th>
+                <th>Amount</th>
+                <th>Date Given</th>
             </tr>
         </thead>
         <tbody>
             @php $counter = 1; @endphp
             @forelse ($beneficiaries as $beneficiary)
-                <tr>
-                    <td>{{ $counter++ }}</td> <!-- Sequential numbering -->
-                    <td>{{ $beneficiary->first_name }}</td>
-                    <td>{{ $beneficiary->middle_name }}</td>
-                    <td>{{ $beneficiary->last_name }}</td>
-                    <td>{{ $beneficiary->email }}</td>
-                    <td>{{ $beneficiary->phone }}</td>
-                    <td>{{ $beneficiary->service->name ?? 'N/A' }}</td>
-                    <td>{{ $beneficiary->barangay->name ?? 'N/A' }}</td>
-                </tr>
+                @foreach ($beneficiary->benefitReceiveds as $benefit)
+                    @if ($benefit->date_received)
+                        <tr>
+                            <td>{{ $counter++ }}</td> <!-- Sequential numbering -->
+                            <td>{{ $beneficiary->full_name }}</td>
+                            <td>{{ $beneficiary->phone }}</td>
+                            <td>{{ $beneficiary->service->name ?? 'N/A' }}</td>
+                            <td>{{ $beneficiary->barangay->name ?? 'N/A' }}</td>
+                            <td>{{ $benefit->assistance->name_of_assistance ?? 'N/A' }}</td>
+                            <td>{{ $benefit->assistance->type_of_assistance ?? 'N/A' }}</td>
+                            <td>{{ number_format($benefit?->assistance?->amount, 2) || "0.00" }}</td>
+                            <td>{{ $benefit->date_received }}</td>
+                        </tr>
+                    @endif
+                @endforeach
             @empty
                 <tr>
                     <td colspan="8" style="text-align: center;">No beneficiaries found.</td>

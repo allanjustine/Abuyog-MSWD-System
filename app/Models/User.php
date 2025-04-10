@@ -80,4 +80,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Beneficiary::class, 'program_enrolled')->chaperone();
     }
+
+    public function basicInfo()
+    {
+        return $this->hasOne(BasicInfo::class);
+    }
+
 }

@@ -16,6 +16,10 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
+            <h1
+                style="text-align: center; font-size: 2rem; font-weight: bold; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">
+                LOGIN FORM
+            </h1>
             <div>
                 <x-label for="email" value="{{ __('Email') }}" />
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"

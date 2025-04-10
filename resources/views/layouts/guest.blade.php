@@ -11,8 +11,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href=" http://136.239.196.178:5004/resources/css/app.css">
-    <script type="module" src="http://136.239.196.178:5004/resources/js/app.js" data-navigate-track="reload"></script>
+    <link rel="stylesheet" href="http://localhost:5173/resources/css/app.css">
+    <script type="module" src="http://localhost:5173/resources/js/app.js" data-navigate-track="reload"></script>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

@@ -113,8 +113,11 @@
                                     <td>{{ $item?->appearance_date?->format('F d, Y') ?? $item?->created_at?->format('F d, Y') }}
                                     </td>
                                     <td>
-
-                                        @if ($item->approved_at !== null && $item->approved_by !== null)
+                                        @if($item?->created_at->lt(now()->subYears(5)) && $item->program_enrolled === 3)
+                                            <span class="badge bg-danger">Expired</span>
+                                        @elseif($item?->created_at->lt(now()->subYears(1)) && $item->program_enrolled === 2)
+                                            <span class="badge bg-danger">Expired</span>
+                                        @elseif ($item->approved_at !== null && $item->approved_by !== null)
                                             <span class="badge bg-success">Approved (Ready for realease)</span>
                                         @else
                                             <span
@@ -170,7 +173,7 @@
                                                             Approve
                                                         </a>
                                                     @endif
-                                                    @if ($item?->service->name === 'OSCA(Office of Senior Citizens)')
+                                                    {{-- @if ($item?->service->name === 'OSCA(Office of Senior Citizens)')
                                                         <a class="btn btn-success btn-sm"
                                                             href="/edit-osca/{{ $item?->id }}">Edit</a>
                                                     @elseif($item?->service->name === 'PWD(Persons with Disabilities)')
@@ -182,7 +185,7 @@
                                                     @elseif($item?->service->name === 'AICS(Assistance to Individuals in Crisis)')
                                                         <a class="btn btn-success btn-sm"
                                                             href="/edit-aics/{{ $item?->id }}">Edit</a>
-                                                    @endif
+                                                    @endif --}}
                                                     <a href="#" class="btn btn-danger btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#RejectModal{{ $item->id }}">
@@ -416,12 +419,12 @@
                                                     @if ($item->service->id == 4)
                                                         <div class="container" style="display: none;"
                                                             id="aics-data{{ $item->id }}">
-                                                            <h2 class="mt-3 fw-bold text-uppercase fs-4">For AICS Types
+                                                            <h2 class="mt-3 fw-bold text-uppercase fs-4 ">For AICS Types
                                                             </h2>
                                                             <div class="form-row row">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <label for="case_no">Case No.</label>
+                                                                        <label for="case_no" class="text-start d-block">Case No.</label>
                                                                         <input type="text" name="case_no" required
                                                                             placeholder="Please enter case no."
                                                                             class="form-control">
@@ -431,9 +434,9 @@
                                                                         @enderror
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <label for="new_or_old">New or Old</label>
+                                                                        <label for="new_or_old" class="text-start d-block">New or Old</label>
                                                                         <select name="new_or_old" id=""
                                                                             required class="form-select">
                                                                             <option value="" hidden selected>
@@ -449,47 +452,44 @@
                                                                         @enderror
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="form-group">
-                                                                        <label for="problem_presented">Problem
-                                                                            Presented.</label>
-                                                                        <input type="text" name="problem_presented"
-                                                                            required
-                                                                            placeholder="Please enter problem presented."
-                                                                            class="form-control">
-                                                                        @error('problem_presented')
-                                                                            <small
-                                                                                class="text-danger">{{ $message }}</small>
-                                                                        @enderror
-                                                                    </div>
-                                                                </div>
+
                                                             </div>
                                                             <div class="form-row row">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="findings">Findings</label>
-                                                                        <input type="text" name="findings" required
-                                                                            placeholder="Please enter findings."
-                                                                            class="form-control">
-                                                                        @error('findings')
-                                                                            <small
-                                                                                class="text-danger">{{ $message }}</small>
-                                                                        @enderror
-                                                                    </div>
+                                                            <div class="col-md-12">
+                                                            <div class="form-group">
+    <label for="problem_presented" class="text-start d-block">Problem Presented</label>
+    <textarea name="problem_presented" required placeholder="Please enter problem presented." class="form-control" rows="4"></textarea>
+    @error('problem_presented')
+        <small class="text-danger">{{ $message }}</small>
+    @enderror
+</div>
+
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="action_taken">Action Taken</label>
-                                                                        <input type="text" name="action_taken"
-                                                                            required
-                                                                            placeholder="Please enter action taken."
-                                                                            class="form-control">
-                                                                        @error('action-taken')
-                                                                            <small
-                                                                                class="text-danger">{{ $message }}</small>
-                                                                        @enderror
-                                                                    </div>
-                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row row">
+                                                            <div class="col-md-12">
+    <div class="form-group">
+        <label for="findings" class="text-start d-block">Findings</label>
+        <textarea name="findings" required placeholder="Please enter findings." class="form-control" rows="4"></textarea>
+        @error('findings')
+            <small class="text-danger">{{ $message }}</small>
+        @enderror
+    </div>
+</div>
+
+                                                            </div>
+                                                            <div class="form-row row">
+                                                            <div class="col-md-12">
+    <div class="form-group">
+        <label for="action_taken" class="text-start d-block">Action Taken</label>
+        <textarea name="action_taken" required placeholder="Please enter action taken." class="form-control" rows="4"></textarea>
+        @error('action_taken')
+            <small class="text-danger">{{ $message }}</small>
+        @enderror
+    </div>
+</div>
+
                                                             </div>
                                                         </div>
                                                     @endif
@@ -501,9 +501,9 @@
                                                             <h2 class="mt-3 fw-bold text-uppercase fs-4 text-danger">
                                                                 FOR SPD/SPO USE ONLY</h2>
                                                             <div class="form-row row">
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group">
-                                                                        <label for="card_number">Solo Parent
+                                                                        <label for="card_number" class="text-start d-block">Solo Parent
                                                                             Identification Card Number.</label>
                                                                         <input type="text" name="card_number"
                                                                             required
@@ -517,7 +517,7 @@
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <label for="id_type">ID Type</label>
+                                                                        <label for="id_type" class="text-start d-block">ID Type</label>
                                                                         <select name="id_type" id="" required
                                                                             class="form-select">
                                                                             <option value="" hidden selected>
@@ -535,7 +535,7 @@
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <label for="status">Status</label>
+                                                                        <label for="status" class="text-start d-block">Status</label>
                                                                         <select name="status" id="" required
                                                                             class="form-select">
                                                                             <option value="" hidden selected>
@@ -552,9 +552,9 @@
                                                                         @enderror
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group">
-                                                                        <label for="category">Solo Parent
+                                                                        <label for="category" class="text-start d-block">Solo Parent
                                                                             Category.</label>
                                                                         <input type="text" name="category" required
                                                                             placeholder="Please enter solo parent category."
