@@ -12,7 +12,19 @@ class UserController extends Controller
     // Show a list of users
     public function index()
     {
-        $users = User::whereNotIn('id', [Auth::id()])->paginate(10);
+        $search = request('search');
+        $users = User::whereNotIn('id', [Auth::id()])->when(request('search'), function ($query) use ($search) {
+            if ($search) {
+                $query->where('last_name', "LIKE", "%{$search}%")
+                    ->orWhere('first_name', "LIKE", "%{$search}%")
+                    ->orWhere('phone', "LIKE", "%{$search}%")
+                    ->orWhere('email', "LIKE", "%{$search}%")
+                    ->orWhere('usertype', "LIKE", "%{$search}%")
+                    ->orWhereHas('barangay', function ($subQuery) use ($search) {
+                        $subQuery->where('name', "LIKE", "%{$search}%");
+                    });
+            }
+        })->paginate(10);
         return view('admin.showusermanagement', compact('users'));
     }
 
@@ -82,7 +94,8 @@ class UserController extends Controller
         $user->save();
 
         // Redirect to admin home page after saving
-        return back()->with('success', 'User updated successfully!');    }
+        return back()->with('success', 'User updated successfully!');
+    }
 
 
     // Delete the user

@@ -26,11 +26,24 @@ class EmployeeController extends Controller
     public function showapplication(Request $request)
     {
         $status = $request->query('status');
+        $search = $request->query('search');
 
         $data = Beneficiary::with(['approvedBy', 'acceptedBy', 'aicsDetails', 'pwdDetails', 'soloParentDetails', 'service', 'barangay'])
-            ->where(function ($query) use ($status) {
+            ->where(function ($query) use ($status, $search) {
                 if ($status) {
                     $query->where('status', $status);
+                }
+                if($search) {
+                    $query->where('last_name', "LIKE", "%{$search}%")
+                    ->orWhere('first_name', "LIKE", "%{$search}%")
+                    ->orWhere('middle_name', "LIKE", "%{$search}%")
+                    ->orWhere('suffix', "LIKE", "%{$search}%")
+                    ->orWhere('phone', "LIKE", "%{$search}%")
+                    ->orWhere('appearance_date', "LIKE", "%{$search}%")
+                    ->orWhere('status', "LIKE", "%{$search}%")
+                    ->orWhereHas('service', function ($subQuery) use ($search) {
+                        $subQuery->where('name', "LIKE", "%{$search}%");
+                    });
                 }
             })
             ->orderBy('appearance_date', 'desc')
@@ -77,6 +90,7 @@ class EmployeeController extends Controller
         $page = request()->get('page', 1);
         $perPage = 10;
         $service = $request->query('service');
+        $search = $request->query('search');
 
         $applications = Application::where('approved_at', '!=', null)
             ->where('approved_by', '!=', null)
@@ -86,11 +100,29 @@ class EmployeeController extends Controller
                 return $application;
             });
         $beneficiaries = Beneficiary::with(['barangay', 'familyCompositions'])
-            ->where(function ($query) use ($service) {
+            ->where(function ($query) use ($service, $search) {
                 $query->where('status', 'released');
-                if ($service) {
+                if ($service && $service !== 'Deceased') {
                     $query->whereHas('service', function ($subQuery) use ($service) {
                         $subQuery->where('name', $service);
+                    });
+                }
+                if ($service && $service === 'Deceased') {
+                    $query->where('is_deceased', true);
+                }
+                if($search) {
+                    $query->where('last_name', "LIKE", "%{$search}%")
+                    ->orWhere('first_name', "LIKE", "%{$search}%")
+                    ->orWhere('middle_name', "LIKE", "%{$search}%")
+                    ->orWhere('suffix', "LIKE", "%{$search}%")
+                    ->orWhere('phone', "LIKE", "%{$search}%")
+                    ->orWhere('appearance_date', "LIKE", "%{$search}%")
+                    ->orWhere('status', "LIKE", "%{$search}%")
+                    ->orWhereHas('service', function ($subQuery) use ($search) {
+                        $subQuery->where('name', "LIKE", "%{$search}%");
+                    })
+                    ->orWhereHas('barangay', function ($subQuery) use ($search) {
+                        $subQuery->where('name', "LIKE", "%{$search}%");
                     });
                 }
             })

@@ -18,6 +18,7 @@ class Beneficiary extends Model
         'date_of_birth'         =>          'date',
         'appearance_date'       =>          'date',
         'approved_at'           =>          'date',
+        'is_deceased'           =>          'boolean',
     ];
 
     // Relationship: Beneficiary belongs to a Barangay

@@ -158,7 +158,7 @@
                 <li class="nav-item">
                     <a class="text-dark {{ request()->path() === 'displayapplication' && request()->query('status') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                         href="{{ url('displayapplication') }}">
-                        <i class="mdi mdi-view-list"></i> ALL
+                        <i class="mdi mdi-view-list"></i> <span>ALL</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -230,6 +230,12 @@
                     <i class="mdi mdi-account-multiple"></i> AICS
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="text-dark {{ request()->query('service') === 'Deceased' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/showbeneficiaries_admin?service=Deceased">
+                    <i class="mdi mdi-coffin"></i> <span class="menu-title">All Deceased</span>
+                </a>
+            </li>
         </ul>
 
         <li class="nav-item menu-items">
@@ -267,12 +273,6 @@
                 <a class="text-dark {{ request()->path() === 'showservices' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                     href="{{ route('admin.showservices') }}">
                     <i class="mdi mdi-file-document-box"></i> <span class="menu-title">All Services</span>
-                </a>
-            </li>
-            <li class="nav-item menu-items">
-                <a class="text-dark {{ request()->path() === 'deceased' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="{{ route('admin.deceased') }}">
-                    <i class="mdi mdi-coffin"></i> <span class="menu-title">All Deceased</span>
                 </a>
             </li>
             <li class="nav-item menu-items">

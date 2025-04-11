@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Service;
 use App\Models\Application;
 use App\Models\Beneficiary;
+use App\Models\SavedFamilyComposition;
+use App\Models\SavedFamilyCompositionDetail;
 use Barryvdh\DomPDF\Facade\PDF;
 use Illuminate\Support\Facades\App;
 use Carbon\Carbon;
@@ -60,7 +62,7 @@ class ApplicationController extends Controller
             ->latest()
             ->first();
 
-            $availableSoloParent = $soloParentData && $soloParentData->created_at < Carbon::now()->subYears(5);
+        $availableSoloParent = $soloParentData && $soloParentData->created_at < Carbon::now()->subYears(5);
 
 
         $availablePwd = $user->whereHas('beneficiaries', function ($query) use ($userid) {
@@ -73,6 +75,10 @@ class ApplicationController extends Controller
         $pwd = Beneficiary::where('user_id', $userid)->where('program_enrolled', 2)->first();
         $pwdExists = Beneficiary::where('user_id', $userid)->where('program_enrolled', 2)->exists();
         $soloParentExists = Beneficiary::where('user_id', $userid)->where('program_enrolled', 3)->exists();
+
+        if ($service->isInactive()) {
+            return redirect('/myapplication')->with('error', 'You cannot apply for this service. This service is inactive.');
+        }
 
         if ($service->id == 1 && !$alreadyHaveOsca) {
             return redirect('/myapplication')->with('error', 'You cannot apply for this service. You can submit only once');
@@ -874,6 +880,26 @@ class ApplicationController extends Controller
             'user_id' => Auth::id()
         ]);
 
+        if ($request->has('save_for_next_application')) {
+            $savedData = SavedFamilyComposition::updateOrCreate(
+                [
+                    'user_id' => Auth::id(),
+                ],
+                [
+                    'is_saved' => true,
+                ]
+            );
+        } else {
+            SavedFamilyComposition::updateOrCreate(
+                [
+                    'user_id' => Auth::id(),
+                ],
+                [
+                    'is_saved' => false,
+                ]
+            );
+        }
+
         foreach ($request->name as $index => $name) {
             FamilyComposition::create([
                 'beneficiary_id' => $beneficiary->id,
@@ -884,6 +910,21 @@ class ApplicationController extends Controller
                 'occupation' => $request->occupation_fc[$index],
                 'income' => $request->income[$index],
             ]);
+            if ($request->has('save_for_next_application')) {
+                SavedFamilyCompositionDetail::updateOrCreate(
+                    [
+                        'saved_family_composition_id' => $savedData->id,
+                        'name' => $name,
+                    ],
+                    [
+                        'relationship' => $request->relationship[$index],
+                        'civil_status' => $request->civil_status_fc[$index],
+                        'age' => $request->age_fc[$index],
+                        'occupation' => $request->occupation_fc[$index],
+                        'income' => $request->income[$index],
+                    ]
+                );
+            }
         }
 
         if ($request->has('save_for_next_application')) {

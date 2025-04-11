@@ -264,14 +264,14 @@
                                         @if ($alreadyHaveOsca)
                                             <li class="list-group-item">
                                                 <a href="/form/1">
-                                                    OSCA(Office of Senior Citizens)
+                                                    OSCA(Office of Senior Citizens) @if (\App\Models\Service::find( 1)->isInactive()) <span class="text-danger fst-italic fw-bold">- Inactive</span>@endif
                                                 </a>
                                             </li>
                                         @endif
                                         @if (Auth::user()->has_minor_child === 1 && $availableSoloParent)
                                             <li class="list-group-item">
                                                 <a href="/form/3">
-                                                    Solo Parent
+                                                    Solo Parent @if (\App\Models\Service::find( 3)->isInactive()) <span class="text-danger fst-italic fw-bold">- Inactive</span>@endif
                                                 </a>
                                             </li>
                                         @endif
@@ -281,21 +281,21 @@
                                         @endif
                                         <li class="list-group-item">
                                             <a href="/form/4">
-                                                AICS(Assistance to Individuals in Crisis)
+                                                AICS(Assistance to Individuals in Crisis) @if (\App\Models\Service::find( 4)->isInactive()) <span class="text-danger fst-italic fw-bold">- Inactive</span>@endif
                                             </a>
                                         </li>
                                     @else
                                         @if ($availableSoloParent || !$isSoloParentExists)
                                             <li class="list-group-item">
                                                 <a href="/form/3">
-                                                    Solo Parent
+                                                    Solo Parent @if (\App\Models\Service::find( 3)->isInactive()) <span class="text-danger fst-italic fw-bold">- Inactive</span>@endif
                                                 </a>
                                             </li>
                                         @endif
                                         @if ($availablePwd || !$isPwdExists)
                                             <li class="list-group-item">
                                                 <a href="/form/2">
-                                                    PWD(Persons with Disabilities)
+                                                    PWD(Persons with Disabilities) @if (\App\Models\Service::find( 2)->isInactive()) <span class="text-danger fst-italic fw-bold">- Inactive</span>@endif
                                                 </a>
                                             </li>
                                         @endif
@@ -305,7 +305,7 @@
                                         @endif
                                         <li class="list-group-item">
                                             <a href="/form/4">
-                                                AICS(Assistance to Individuals in Crisis)
+                                                AICS(Assistance to Individuals in Crisis) @if (\App\Models\Service::find( 4)->isInactive()) <span class="text-danger fst-italic fw-bold">- Inactive</span>@endif
                                             </a>
                                         </li>
                                     @endif

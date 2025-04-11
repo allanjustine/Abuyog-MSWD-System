@@ -39,6 +39,12 @@
 
                     </div>
                 </div>
+                <div class="d-flex justify-content-end float-end">
+                    <form class="d-flex" method="GET">
+                        <input type="search" name="search" class="form-control me-2" value="{{ request('search') }}" placeholder="Search..." />
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-magnifying-glass"></i></button>
+                    </form>
+                </div>
 
                 <div class="card-body">
                     @if (session('success'))
@@ -88,6 +94,9 @@
                                                                     </td>
                                                                     <td>
                                                                         <!-- View Button -->
+                                                                        @if ($item?->is_deceased)
+                                                                        <span class="text-white fw-bold badge badge-pill bg-danger">DECEASED</span>
+                                                                        @else
 
                                                                         <div x-data="{ open: false, loading: true }"
                                                                             class="d-flex justify-content-center flex-column" x-init="loading = false">
@@ -143,6 +152,7 @@
                                                                             </div>
 
                                                                         </div>
+                                                                        @endif
                                                                     </td>
                                                                 </tr>
                                                                 <div class="modal fade" id="deleteModal{{ $item?->id }}" tabindex="-1"

@@ -219,6 +219,12 @@
                     <i class="mdi mdi-account-multiple"></i> AICS
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="text-dark {{ request()->query('service') === 'Deceased' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/showbeneficiaries_operator?service=Deceased">
+                    <i class="mdi mdi-coffin"></i> <span class="menu-title">All Deceased</span>
+                </a>
+            </li>
         </ul>
 
 

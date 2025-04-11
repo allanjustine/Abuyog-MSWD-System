@@ -86,4 +86,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(BasicInfo::class);
     }
 
+    public function barangay()
+    {
+        return $this->belongsTo(Barangay::class);
+    }
+
+    public function savedFamilyComposition()
+    {
+        return $this->hasOne(SavedFamilyComposition::class);
+    }
+
 }

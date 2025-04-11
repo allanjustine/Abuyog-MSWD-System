@@ -101,10 +101,12 @@ class AdminController extends Controller
 
         $to = $request->query('to');
 
+        $search = $request->query('search');
+
         $data = Beneficiary::with(['approvedBy', 'acceptedBy', 'aicsDetails', 'pwdDetails', 'soloParentDetails', 'service', 'barangay'])->where(function ($query) use ($filter) {
             $query->where('status', $filter ?? 'approved')->orWhere('status', 'accepted');
         })
-            ->where(function ($query) use ($status, $from, $to) {
+            ->where(function ($query) use ($status, $from, $to, $search) {
                 if ($status) {
                     $query->where('status', $status);
                 }
@@ -115,6 +117,24 @@ class AdminController extends Controller
                                 $q->whereNull('appearance_date')
                                     ->whereBetween('created_at', [$from, $to]);
                             });
+                    });
+                }
+                if($search) {
+                    $query->where('last_name', "LIKE", "%{$search}%")
+                    ->orWhere('first_name', "LIKE", "%{$search}%")
+                    ->orWhere('middle_name', "LIKE", "%{$search}%")
+                    ->orWhere('suffix', "LIKE", "%{$search}%")
+                    ->orWhere('phone', "LIKE", "%{$search}%")
+                    ->orWhere('appearance_date', "LIKE", "%{$search}%")
+                    ->orWhere('status', "LIKE", "%{$search}%")
+                    ->orWhereHas('service', function ($subQuery) use ($search) {
+                        $subQuery->where('name', "LIKE", "%{$search}%");
+                    })
+                    ->orWhereHas('service', function ($subQuery) use ($search) {
+                        $subQuery->where('name', "LIKE", "%{$search}%");
+                    })
+                    ->orWhereHas('barangay', function ($subQuery) use ($search) {
+                        $subQuery->where('name', "LIKE", "%{$search}%");
                     });
                 }
             })
@@ -418,8 +438,8 @@ class AdminController extends Controller
         $barangayIds = $request->input('barangay_ids');
         $assistanceIds = $request->input('assistance2_ids');
 
-        $query = Beneficiary::query()->whereIn('status', ['Released', 'Approved']);
-        $query2 = Beneficiary::query();
+        $query = Beneficiary::query()->whereIn('status', ['Released', 'Approved'])->where('is_deceased', false);
+        $query2 = Beneficiary::query()->where('is_deceased', false);
 
         if ($minAge) {
             $query->where('age', '>=', $minAge);
@@ -606,35 +626,14 @@ class AdminController extends Controller
         // Debugging: Check if the ID exists
         $beneficiary = Beneficiary::find($id);
         if (!$beneficiary) {
-            dd("Beneficiary with ID {$id} not found");
+            return back()->with('error', 'Beneficiary not found.');
         }
-
         // Debugging: Confirm insertion into the deceased table
-        $inserted = DB::table('deceased')->insert([
-            'first_name' => $beneficiary->first_name,
-            'middle_name' => $beneficiary->middle_name,
-            'last_name' => $beneficiary->last_name,
-            'email' => $beneficiary->email,
-            'phone' => $beneficiary->phone,
-            'barangay_id' => $beneficiary->barangay_id,
-            'service_id' => $beneficiary->service_id,
-            'date_of_birth' => $beneficiary->date_of_birth,
-            'age' => $beneficiary->age,
-            'gender' => $beneficiary->gender,
-            'civil_status' => $beneficiary->civil_status,
-            'gov_id_number' => $beneficiary->gov_id_number,
-            'program_specific_id' => $beneficiary->program_specific_id,
-            'date_of_application' => $beneficiary->date_of_application,
-            'assistance_availed' => $beneficiary->assistance_availed,
-            'created_at' => now(),
-            'updated_at' => now(),
+        $beneficiary->update([
+            'is_deceased' => true
         ]);
-
-        // Delete the beneficiary from the beneficiaries table
-        $beneficiary->delete();
-
         // Debugging: Success
-        return redirect()->back()->with('success', 'Beneficiary marked as deceased successfully.');
+        return redirect()->back()->with('success', "Beneficiary marked as deceased successfully.");
     }
 
     public function Alldeceased()

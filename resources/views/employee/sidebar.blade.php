@@ -167,7 +167,7 @@
                         <i class="mdi mdi-headset"></i> For Interview
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="{{ request()->query('status') === 'rejected' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                         href="/showapplication?status=rejected">
@@ -216,6 +216,12 @@
                 <a class="{{ request()->query('service') === 'AICS(Assistance to Individuals in Crisis)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
                     href="/display_beneficiaries?service=AICS(Assistance to Individuals in Crisis)">
                     <i class="mdi mdi-account-multiple"></i> AICS
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="{{ request()->query('service') === 'Deceased' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
+                    href="/display_beneficiaries?service=Deceased">
+                    <i class="mdi mdi-coffin"></i> <span class="menu-title">All Deceased</span>
                 </a>
             </li>
         </ul>

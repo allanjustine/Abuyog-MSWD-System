@@ -36,6 +36,12 @@
                 <div class="card-header">
                     <h4 class="fw-bold fs-3">All Applications</h4>
                 </div>
+                <div class="d-flex justify-content-end float-end">
+                    <form class="d-flex" method="GET">
+                        <input type="search" name="search" class="form-control me-2" value="{{ request('search') }}" placeholder="Search..." />
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-magnifying-glass"></i></button>
+                    </form>
+                </div>
 
                 <!-- Align the search form to the right -->
                 <div class="mt-2 mb-3 d-flex justify-content-between align-items-center">

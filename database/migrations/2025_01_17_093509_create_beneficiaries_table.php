@@ -42,6 +42,7 @@ return new class extends Migration
             $table->foreignId('accepted_by')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('user_id')->constrained('users')->onDelete('set null');
             $table->string('status')->nullable()->default('pending');
+            $table->boolean('is_deceased')->default(false);
             $table->string('cancellation_reason')->nullable();
             $table->string('complete_address')->nullable();
             $table->integer('message_count')->nullable();

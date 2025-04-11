@@ -107,6 +107,12 @@
                     <div class="text-center card-header">
                         <h5 class="mt-2">All Applications</h5>
                     </div>
+                    <div class="d-flex justify-content-end float-end">
+                        <form class="d-flex" method="GET">
+                            <input type="search" name="search" class="form-control me-2" value="{{ request('search') }}" placeholder="Search..." />
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-magnifying-glass"></i></button>
+                        </form>
+                    </div>
 
                     {{--  <!-- Search Bar -->
                     <div class="px-3 py-2 d-flex justify-content-end">
@@ -184,7 +190,7 @@
                                                             <i class="bi bi-x-circle"></i>
                                                         </button>
                                                     @endif
-                                                   
+
                                                 </div>
                                             </td>
                                         </tr>

@@ -28,6 +28,12 @@
                 <div class="card-header">
                     Beneficiaries
                 </div>
+                <div class="d-flex justify-content-end float-end">
+                    <form class="d-flex" method="GET">
+                        <input type="search" name="search" class="form-control me-2" value="{{ request('search') }}" placeholder="Search..." />
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-magnifying-glass"></i></button>
+                    </form>
+                </div>
 
 
 
@@ -60,58 +66,62 @@
                                         <td>{{ $item?->approved_at?->diffForHumans() ?? $item?->created_at->diffForHumans() }}
                                         </td>
                                         <td>
-                                            <div class="d-flex justify-content-around">
-                                                <!-- View Button -->
-                                                <div x-data="{ open: false, loading: true }"
-                                                    class="d-flex justify-content-center flex-column"
-                                                    x-init="loading = false">
-                                                    <button type="button" @click="open = !open"
-                                                        class="mb-3 rounded-full btn btn-primary d-flex align-items-center justify-content-center">
-                                                        <span class="spinner-border spinner-border-sm"
-                                                            x-show="loading"></span><i class="mdi mdi-minus"
-                                                            x-show="open" x-cloak></i><i class="mdi mdi-plus"
-                                                            x-show="!open" x-cloak></i></button>
-                                                    <div x-cloak x-show="open">
-                                                        <div class="gap-2 d-flex justify-content-around flex-column">
+                                            @if ($item?->is_deceased)
+                                                <span class="text-white fw-bold badge badge-pill bg-danger">DECEASED</span>
+                                                @else
+                                                <div class="d-flex justify-content-around">
+                                                    <!-- View Button -->
+                                                    <div x-data="{ open: false, loading: true }"
+                                                        class="d-flex justify-content-center flex-column"
+                                                        x-init="loading = false">
+                                                        <button type="button" @click="open = !open"
+                                                            class="mb-3 rounded-full btn btn-primary d-flex align-items-center justify-content-center">
+                                                            <span class="spinner-border spinner-border-sm"
+                                                                x-show="loading"></span><i class="mdi mdi-minus"
+                                                                x-show="open" x-cloak></i><i class="mdi mdi-plus"
+                                                                x-show="!open" x-cloak></i></button>
+                                                        <div x-cloak x-show="open">
+                                                            <div class="gap-2 d-flex justify-content-around flex-column">
 
-                                                            <button class="btn btn-info btn-sm ms-2" type="button"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#viewModal{{ $item->id }}">
-                                                                View
-                                                            </button>
+                                                                <button class="btn btn-info btn-sm ms-2" type="button"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#viewModal{{ $item->id }}">
+                                                                    View
+                                                                </button>
 
-                                                            <!-- Edit Button -->
-                                                            @if ($item->service->name === 'OSCA(Office of Senior Citizens)')
-                                                                <a class="btn btn-success btn-sm ms-2"
-                                                                    href="/edit-osca/{{ $item->id }}">Edit</a>
-                                                            @elseif($item->service->name === 'PWD(Persons with Disabilities)')
-                                                                <a class="btn btn-success btn-sm ms-2"
-                                                                    href="/edit-pwd/{{ $item->id }}">Edit</a>
-                                                            @elseif($item->service->name === 'Solo Parent')
-                                                                <a class="btn btn-success btn-sm ms-2"
-                                                                    href="/edit-solo-parent/{{ $item->id }}">Edit</a>
-                                                            @elseif($item->service->name === 'AICS(Assistance to Individuals in Crisis)')
-                                                                <a class="btn btn-success btn-sm ms-2"
-                                                                    href="/edit-aics/{{ $item->id }}">Edit</a>
-                                                            @endif
+                                                                <!-- Edit Button -->
+                                                                @if ($item->service->name === 'OSCA(Office of Senior Citizens)')
+                                                                    <a class="btn btn-success btn-sm ms-2"
+                                                                        href="/edit-osca/{{ $item->id }}">Edit</a>
+                                                                @elseif($item->service->name === 'PWD(Persons with Disabilities)')
+                                                                    <a class="btn btn-success btn-sm ms-2"
+                                                                        href="/edit-pwd/{{ $item->id }}">Edit</a>
+                                                                @elseif($item->service->name === 'Solo Parent')
+                                                                    <a class="btn btn-success btn-sm ms-2"
+                                                                        href="/edit-solo-parent/{{ $item->id }}">Edit</a>
+                                                                @elseif($item->service->name === 'AICS(Assistance to Individuals in Crisis)')
+                                                                    <a class="btn btn-success btn-sm ms-2"
+                                                                        href="/edit-aics/{{ $item->id }}">Edit</a>
+                                                                @endif
 
-                                                            <!-- Delete Button with Modal Trigger -->
+                                                                <!-- Delete Button with Modal Trigger -->
 
-                                                            <button class="btn btn-danger btn-sm ms-2 deceased-btn"
-                                                                data-id="{{ $item->id }}"
-                                                                data-name="{{ $item->first_name }} {{ $item->last_name }}">
-                                                                Deceased
-                                                            </button>
+                                                                <button class="btn btn-danger btn-sm ms-2 deceased-btn"
+                                                                    data-id="{{ $item->id }}"
+                                                                    data-name="{{ $item->first_name }} {{ $item->last_name }}">
+                                                                    Deceased
+                                                                </button>
+                                                            </div>
                                                         </div>
+
                                                     </div>
 
+                                                    <!-- Edit Button -->
+
+
+                                                    <!-- Deceased Button with Modal Trigger -->
                                                 </div>
-
-                                                <!-- Edit Button -->
-
-
-                                                <!-- Deceased Button with Modal Trigger -->
-                                            </div>
+                                            @endif
                                         </td>
                                     </tr>
 
@@ -301,7 +311,7 @@
                         Swal.fire({
                             title: `<span style="color: black;">Mark as Deceased</span>`,
                             html: `<p>Are you sure you want to mark <strong>${itemName}</strong> as deceased?</p>
-                           <p>This action will remove them from the beneficiaries list and store their information in the deceased records.</p>`,
+                           <p>This action will change the status into deceased.</p>`,
                             icon: 'warning',
                             customClass: {
                                 icon: 'custom-swal-icon'
