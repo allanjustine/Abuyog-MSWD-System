@@ -858,7 +858,7 @@ class ApplicationController extends Controller
 
         $barangayName = Barangay::where('id', $request->barangay)->first();
 
-        $beneficiary = Beneficiary::create([
+        Beneficiary::create([
             'program_enrolled' => $id,
             'last_name' => $request->last_name,
             'first_name' => $request->first_name,
@@ -879,53 +879,6 @@ class ApplicationController extends Controller
             'appearance_date' => $request->appearance_date,
             'user_id' => Auth::id()
         ]);
-
-        if ($request->has('save_for_next_application')) {
-            $savedData = SavedFamilyComposition::updateOrCreate(
-                [
-                    'user_id' => Auth::id(),
-                ],
-                [
-                    'is_saved' => true,
-                ]
-            );
-        } else {
-            SavedFamilyComposition::updateOrCreate(
-                [
-                    'user_id' => Auth::id(),
-                ],
-                [
-                    'is_saved' => false,
-                ]
-            );
-        }
-
-        foreach ($request->name as $index => $name) {
-            FamilyComposition::create([
-                'beneficiary_id' => $beneficiary->id,
-                'name' => $name,
-                'relationship' => $request->relationship[$index],
-                'civil_status' => $request->civil_status_fc[$index],
-                'age' => $request->age_fc[$index],
-                'occupation' => $request->occupation_fc[$index],
-                'income' => $request->income[$index],
-            ]);
-            if ($request->has('save_for_next_application')) {
-                SavedFamilyCompositionDetail::updateOrCreate(
-                    [
-                        'saved_family_composition_id' => $savedData->id,
-                        'name' => $name,
-                    ],
-                    [
-                        'relationship' => $request->relationship[$index],
-                        'civil_status' => $request->civil_status_fc[$index],
-                        'age' => $request->age_fc[$index],
-                        'occupation' => $request->occupation_fc[$index],
-                        'income' => $request->income[$index],
-                    ]
-                );
-            }
-        }
 
         if ($request->has('save_for_next_application')) {
             session(['saved_application_data' => $request->except('_token', 'save_for_next_application')]);
