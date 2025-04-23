@@ -770,7 +770,7 @@ class AdminController extends Controller
             'last_name'     => $request->last_name,
             'first_name'    => $request->first_name,
         ], [
-            'email'         => "{$request->last_name}{$request->first_name}@gmail.com",
+            'email'         => trim(strtolower("{$request->last_name}{$request->first_name}@gmail.com")),
             'phone'         => $request->phone,
             'age'           => $request->age,
             'gender'        => $request->gender,
@@ -799,7 +799,8 @@ class AdminController extends Controller
             'approved_by' => Auth::id(),
             'approved_at' => now(),
             'phone' => $request->phone,
-            'user_id' => $user->id
+            'user_id' => $user->id,
+            'email'         => trim(strtolower("{$request->last_name}{$request->first_name}@gmail.com")),
         ]);
 
         foreach ($request->name as $index => $name) {
@@ -1033,7 +1034,7 @@ class AdminController extends Controller
             'last_name'     => $request->last_name,
             'first_name'    => $request->first_name,
         ], [
-            'email'         => "{$request->last_name}{$request->first_name}@gmail.com",
+            'email'         => trim(strtolower("{$request->last_name}{$request->first_name}@gmail.com")),
             'phone'         => $request->phone,
             'age'           => $request->age,
             'date_of_birth' => $request->date_of_birth,
@@ -1059,7 +1060,8 @@ class AdminController extends Controller
             'approved_by' => Auth::id(),
             'approved_at' => now(),
             'phone' => $request->phone,
-            'user_id' => $user->id
+            'user_id' => $user->id,
+            'email'         => trim(strtolower("{$request->last_name}{$request->first_name}@gmail.com")),
         ]);
 
         foreach ($request->name as $index => $name) {
@@ -1318,7 +1320,7 @@ class AdminController extends Controller
             'last_name'     => $request->last_name,
             'first_name'    => $request->first_name,
         ], [
-            'email'         => "{$request->last_name}{$request->first_name}@gmail.com",
+            'email'         => trim(strtolower("{$request->last_name}{$request->first_name}@gmail.com")),
             'phone'         => $request->phone,
             'age'           => $request->age,
             'gender'        => $request->gender,
@@ -1347,7 +1349,8 @@ class AdminController extends Controller
             'accepted_by' => Auth::id(),
             'approved_by' => Auth::id(),
             'approved_at' => now(),
-            'user_id' => $user->id
+            'user_id' => $user->id,
+            'email'         => trim(strtolower("{$request->last_name}{$request->first_name}@gmail.com")),
         ]);
 
         foreach ($request->name as $index => $name) {
@@ -1646,7 +1649,7 @@ class AdminController extends Controller
             'last_name'     => $request->last_name,
             'first_name'    => $request->first_name,
         ], [
-            'email'         => "{$request->last_name}{$request->first_name}@gmail.com",
+            'email'         => trim(strtolower("{$request->last_name}{$request->first_name}@gmail.com")),
             'phone'         => $request->phone,
             'age'           => $request->age,
             'gender'        => $request->gender,
@@ -1674,7 +1677,8 @@ class AdminController extends Controller
             'accepted_by' => Auth::id(),
             'approved_by' => Auth::id(),
             'approved_at' => now(),
-            'user_id' => $user->id
+            'user_id' => $user->id,
+            'email'         => trim(strtolower("{$request->last_name}{$request->first_name}@gmail.com")),
         ]);
 
         $acquired = $request->acquired === 'Other' ? 'Other, ' . $request->other_acquired : $request->acquired;
