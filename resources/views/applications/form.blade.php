@@ -270,7 +270,7 @@
         </nav>
     </header> --}}
 
-    <div class="container">
+    <div class="container mt-5">
         @if (Auth::user()->isBeneficiary())
             @include('components.basic-info-modal')
         @endif

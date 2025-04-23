@@ -1,165 +1,183 @@
 <style>
-    /* Sidebar styling */
+    /* ===== Base Sidebar Styles ===== */
     .sidebar {
         background: linear-gradient(to bottom, #ffeac9, hsl(60, 100%, 97%));
-        box-shadow: 4px 0 10px rgba(26, 26, 26, 0.231);
-        transition: width 0.3s ease, transform 0.3s ease;
-    }
-
-    /* Active menu styling */
-    .nav-item.active-menu {
-        background-color: #1374ce;
-        color: #2bff0f !important;
-        border-radius: 8px;
-        transform: translateX(10px);
-    }
-
-    /* Menu items transition */
-    .nav-item.menu-items {
+        width: 300px;
+        min-height: 100vh;
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
         position: relative;
-        padding-left: 10px;
+        z-index: 100;
+    }
+
+    /* ===== Profile Section ===== */
+    .profile-desc {
+        padding: 20px;
+        margin: 15px;
+        background-color: #ff7b00;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(255, 123, 0, 0.3);
         transition: all 0.3s ease;
     }
 
-    /* Remove hover effect with gradient */
-    .nav-item.menu-items:hover {
-        transform: translateX(10px);
-        /* Remove gradient or leave it as it is */
+    .profile-desc:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 123, 0, 0.4);
     }
 
-    /* Sub-menu styling */
-    .sub-menu li {
-        padding: 5px 0;
-    }
-
-    /* Profile styling */
-    .profile-desc {
-        padding: 15px;
-        background-color: #ff7b00;
-        border-radius: 15px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.553);
-    }
-
-    .profile-pic .img-xs {
+    .profile-pic img {
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
-        border: 3px solid #fff;
+        border: 3px solid rgba(255, 255, 255, 0.8);
+        transition: all 0.3s ease;
     }
 
     .profile-name h5 {
-        color: #fff;
+        color: white;
+        font-weight: 600;
+        margin-top: 10px;
+        font-size: 1.1rem;
     }
 
-    /* Hover effect for the beneficiaries dropdown items */
-    .nav-item.menu-items:hover .sub-menu {
-        display: block;
-        /* Show the sub-menu on hover */
-        background-color: #f0f0f0;
-        /* Optional: change background color when hovering */
+    /* ===== Navigation Category ===== */
+    .nav-category {
+        padding: 10px 25px;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #ff7b00;
+        margin-top: 10px;
+        font-weight: 600;
+    }
+
+    /* ===== Menu Items ===== */
+    .nav-item {
+        position: relative;
+        margin: 3px 15px;
+    }
+
+    .nav-item.menu-items .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        color: #5a5a5a;
+        border-radius: 8px;
         transition: all 0.3s ease;
-        /* Smooth transition */
+        text-decoration: none;
+        font-weight: 500;
     }
 
-    /* Additional styling for dropdown items */
-    .sub-menu li {
-        transition: background-color 0.3s ease;
+    .nav-item.menu-items .nav-link:hover {
+        background: rgba(255, 123, 0, 0.1);
+        color: #ff7b00;
     }
 
-    /* Hover effect on dropdown items */
-    .sub-menu li:hover {
-        background-color: #ff07074f;
-        color: #fff;
-        /* Text color on hover */
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        /* Shadow effect */
+    .nav-item.menu-items.active .nav-link,
+    .nav-item.menu-items.active-menu .nav-link {
+        background: linear-gradient(90deg, rgba(19, 116, 206, 0.1) 0%, rgba(19, 116, 206, 0.2) 100%);
+        color: #1374ce;
     }
 
-
-
-    /* Sub-menu visibility */
-    .sub-menu.hidden {
-        display: none;
-    }
-
-    /* Menu icon rotation */
     .menu-icon {
+        margin-right: 12px;
+        font-size: 1.2rem;
+        width: 24px;
+        text-align: center;
         transition: all 0.3s ease;
+        color: inherit;
     }
 
     .nav-item.menu-items:hover .menu-icon {
-        transform: rotate(10deg);
+        transform: scale(1.1);
     }
 
-    /* Text color adjustments (without hover color change) */
-    .nav-item .nav-link {
-        color: #ffffff;
-        transition: color 0.3s ease;
+    .menu-title {
+        font-size: 0.95rem;
     }
 
-    /* Smooth transitions for all menu items */
-    .nav-item {
-        transition: transform 0.3s ease, background-color 0.3s ease;
+    /* ===== Sub Menu Styles ===== */
+    .sub-menu {
+        padding-left: 15px;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+
+    .sub-menu.active {
+        max-height: 500px;
+        padding: 5px 0 10px 15px;
+    }
+
+    .sub-menu li {
+        margin: 3px 0;
+    }
+
+    .sub-menu .nav-link {
+        padding: 8px 15px;
+        color: #6b6b6b;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        transition: all 0.2s ease;
+    }
+
+    .sub-menu .nav-link:hover {
+        background: rgba(255, 123, 0, 0.08);
+        color: #ff7b00;
+    }
+
+    .sub-menu .nav-link.active-menu {
+        background: rgba(19, 116, 206, 0.15);
+        color: #1374ce;
+        font-weight: 500;
+    }
+
+    .sub-menu .nav-link i {
+        margin-right: 10px;
+        font-size: 1rem;
+    }
+
+    /* ===== Active Menu Indicator ===== */
+    .nav-item.menu-items.active::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 60%;
+        width: 4px;
+        background: #1374ce;
+        border-radius: 0 4px 4px 0;
     }
 </style>
 
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-
     </div>
+
     <ul class="nav">
+        <!-- Profile Section -->
         <li class="nav-item profile">
             <div class="profile-desc">
-                <div class="profile-pic">
-                    <div class="count-indicator">
-                        <img class="img-xs rounded-circle " src="../assets/img/mswd-logo.png" alt="">
-                        <span class="count bg-success"></span>
+                <div class="profile-pic d-flex align-items-center">
+                    <div class="mr-3 count-indicator">
+                        <img class="img-xs rounded-circle" src="../assets/img/mswd-logo.png" alt="MSWD Logo">
                     </div>
                     <div class="profile-name">
-                        <h5 class="mb-0 font-weight-normal"> OPERATOR
-                        </h5>
+                        <h5 class="mb-0 font-weight-normal">OPERATOR</h5>
                     </div>
                 </div>
-                {{--  <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
-                <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
-                    aria-labelledby="profile-dropdown">
-                    <a href="#" class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <div class="preview-icon bg-dark rounded-circle">
-                                <i class="mdi mdi-settings text-primary"></i>
-                            </div>
-                        </div>
-                        <div class="preview-item-content">
-                            <p class="mb-1 preview-subject ellipsis text-small">Account settings</p>
-                        </div>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <div class="preview-icon bg-dark rounded-circle">
-                                <i class="mdi mdi-onepassword text-info"></i>
-                            </div>
-                        </div>
-                        <div class="preview-item-content">
-                            <p class="mb-1 preview-subject ellipsis text-small">Change Password</p>
-                        </div>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <div class="preview-icon bg-dark rounded-circle">
-                                <i class="mdi mdi-calendar-today text-success"></i>
-                            </div>
-                        </div>
-                        <div class="preview-item-content">
-                            <p class="mb-1 preview-subject ellipsis text-small">To-do list</p>
-                        </div>
-                    </a>
-                </div>  --}}
             </div>
+        </li>
 
+        <!-- Navigation Category -->
         <li class="nav-item nav-category">
             <span class="nav-link">Navigation</span>
         </li>
-        <li class="nav-item menu-items">
+
+        <!-- Dashboard -->
+        <li class="nav-item menu-items {{ request()->is('home') ? 'active' : '' }}">
             <a class="nav-link" href="{{ url('home') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-view-dashboard"></i>
@@ -168,7 +186,8 @@
             </a>
         </li>
 
-        <li class="nav-item menu-items">
+        <!-- All Services -->
+        <li class="nav-item menu-items {{ request()->is('showservicesope') ? 'active' : '' }}">
             <a class="nav-link" href="{{ url('showservicesope') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-file-document-box"></i>
@@ -177,59 +196,59 @@
             </a>
         </li>
 
-        <!-- Beneficiaries Menu -->
-        <li class="nav-item menu-items" id="beneficiariesMenu">
-            <a class="nav-link" href="#" onclick="toggleSubMenu(event, 'beneficiariesSubMenu')">
-                <span class="menu-icon">
-                    <i class="mdi mdi-account-group"></i>
-                </span>
-                <span class="menu-title">Beneficiaries</span>
-            </a>
-        </li>
+        <!-- Beneficiaries Dropdown -->
+        <div x-data="{ open: {{ request()->is('showbeneficiaries_operator*') ? 'true' : 'false' }} }">
+            <li class="nav-item menu-items {{ request()->is('showbeneficiaries_operator*') ? 'active' : '' }}">
+                <a class="nav-link" @click="open = !open" style="cursor: pointer;">
+                    <span class="menu-icon">
+                        <i class="mdi mdi-account-group"></i>
+                    </span>
+                    <span class="menu-title">Beneficiaries</span>
+                    <span class="menu-arrow" x-text="open ? '▼' : '▶'" style="margin-left: auto;"></span>
+                </a>
+            </li>
+            <ul class="sub-menu" :class="{ 'active': open }">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->path() === 'showbeneficiaries_operator' && request()->query('service') === null ? 'active-menu' : '' }}"
+                       href="{{ route('show.beneficiaries_operator_index') }}">
+                        <i class="mdi mdi-view-list"></i> ALL
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->query('service') === 'OSCA(Office of Senior Citizens)' ? 'active-menu' : '' }}"
+                       href="/showbeneficiaries_operator?service=OSCA(Office of Senior Citizens)">
+                        <i class="mdi mdi-face"></i> OSCA
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->query('service') === 'PWD(Persons with Disabilities)' ? 'active-menu' : '' }}"
+                       href="/showbeneficiaries_operator?service=PWD(Persons with Disabilities)">
+                        <i class="mdi mdi-wheelchair-accessibility"></i> PWD
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->query('service') === 'Solo Parent' ? 'active-menu' : '' }}"
+                       href="/showbeneficiaries_operator?service=Solo Parent">
+                        <i class="mdi mdi-human-male-female"></i> Solo Parent
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->query('service') === 'AICS(Assistance to Individuals in Crisis)' ? 'active-menu' : '' }}"
+                       href="/showbeneficiaries_operator?service=AICS(Assistance to Individuals in Crisis)">
+                        <i class="mdi mdi-account-multiple"></i> AICS
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->query('service') === 'Deceased' ? 'active-menu' : '' }}"
+                       href="/showbeneficiaries_operator?service=Deceased">
+                        <i class="mdi mdi-coffin"></i> All Deceased
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-        <ul class="sub-menu {{ request()->is('showbeneficiaries_operator*') || request()->routeIs('show.beneficiaries_operator_index') ? '' : 'hidden' }}"
-            id="beneficiariesSubMenu">
-            <li class="nav-item">
-                <a class="text-dark {{ request()->path() === 'showbeneficiaries_operator' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="{{ route('show.beneficiaries_operator_index') }}">
-                    <i class="mdi mdi-view-list"></i> ALL
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="text-dark {{ request()->query('service') === 'OSCA(Office of Senior Citizens)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="/showbeneficiaries_operator?service=OSCA(Office of Senior Citizens)">
-                    <i class="mdi mdi-face"></i> OSCA
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="text-dark {{ request()->query('service') === 'PWD(Persons with Disabilities)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="/showbeneficiaries_operator?service=PWD(Persons with Disabilities)">
-                    <i class="mdi mdi-wheelchair-accessibility"></i> PWD
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="text-dark {{ request()->query('service') === 'Solo Parent' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="/showbeneficiaries_operator?service=Solo Parent">
-                    <i class="mdi mdi-human-male-female"></i> Solo Parent
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="text-dark {{ request()->query('service') === 'AICS(Assistance to Individuals in Crisis)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="/showbeneficiaries_operator?service=AICS(Assistance to Individuals in Crisis)">
-                    <i class="mdi mdi-account-multiple"></i> AICS
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="text-dark {{ request()->query('service') === 'Deceased' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="/showbeneficiaries_operator?service=Deceased">
-                    <i class="mdi mdi-coffin"></i> <span class="menu-title">All Deceased</span>
-                </a>
-            </li>
-        </ul>
-
-
-
-        <li class="nav-item menu-items">
+        <!-- Reports -->
+        <li class="nav-item menu-items {{ request()->is('report') ? 'active' : '' }}">
             <a class="nav-link" href="{{ url('report') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-chart-bar"></i>
@@ -238,7 +257,8 @@
             </a>
         </li>
 
-        <li class="nav-item menu-items">
+        <!-- Other Benefits -->
+        <li class="nav-item menu-items {{ request()->is('shownewbenefits') ? 'active' : '' }}">
             <a class="nav-link" href="{{ url('shownewbenefits') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-assistant"></i>
@@ -247,25 +267,8 @@
             </a>
         </li>
 
-        {{-- <li class="nav-item menu-items">
-            <a class="nav-link" href="{{ url('all_benefitsreceived_operator') }}">
-                <span class="menu-icon">
-                    <i class="mdi mdi-cash"></i>
-                </span>
-                <span class="menu-title">All Benefits Received</span>
-            </a>
-        </li> --}}
-
-        {{--  <li class="nav-item menu-items">
-            <a class="nav-link" href="{{ url('inventory_operator') }}">
-                <span class="menu-icon">
-                    <i class="mdi mdi-calculator-variant"></i>
-                </span>
-                <span class="menu-title">Inventory</span>
-            </a>
-        </li>  --}}
-
-        <li class="nav-item menu-items">
+        <!-- All Deceased -->
+        <li class="nav-item menu-items {{ request()->is('deceased_operator') ? 'active' : '' }}">
             <a class="nav-link" href="{{ url('deceased_operator') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-coffin"></i>
@@ -273,20 +276,5 @@
                 <span class="menu-title">All Deceased</span>
             </a>
         </li>
-
     </ul>
 </nav>
-
-<script>
-    function toggleSubMenu(event, subMenuId) {
-        event.preventDefault();
-        const subMenu = document.getElementById(subMenuId);
-
-        // Toggle visibility
-        if (subMenu.classList.contains("hidden")) {
-            subMenu.classList.remove("hidden");
-        } else {
-            subMenu.classList.add("hidden");
-        }
-    }
-</script>

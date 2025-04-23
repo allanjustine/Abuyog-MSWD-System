@@ -4,21 +4,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Dashboard | MSWDO Abuyog</title>
 
     <!-- Required meta tags -->
     @include('user.css')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #ff7b00;
+            --accent-color: #1374ce;
+            --light-bg: #f8f9fa;
+            --dark-text: #2c3e50;
+            --light-text: #f8f9fa;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .welcome-header {
+            background: linear-gradient(135deg, var(--primary-color), #1a1a2e);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+
+        .dashboard-card {
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+        }
+
+        .dashboard-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--accent-color);
+        }
+
+        .card-primary::after { background: var(--accent-color); }
+        .card-danger::after { background: #dc3545; }
+        .card-warning::after { background: #ffc107; }
+        .card-success::after { background: #28a745; }
+        .card-info::after { background: #17a2b8; }
+        .card-cyan::after { background: #0dcaf0; }
+        .card-purple::after { background: #d24afb; }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover .card-icon {
+            transform: scale(1.1);
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: var(--dark-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-text);
+        }
+
+        .alert-success {
+            border-left: 5px solid #28a745;
+        }
+
+        .section-title {
+            position: relative;
+            padding-bottom: 10px;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--secondary-color);
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-card {
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -29,111 +146,129 @@
             @include('components.basic-info-modal')
         @endif
 
-        <div class="container">
-            <div class="card" align="center" style="padding-top:80px;">
-                <h1 class="pb-2 text-center border-bottom fw-bold fs-1 text-uppercase">Welcome to MSWDO | MUNICIPALITY
-                    OF
-                    ABUYOG</h1>
-                @if (session('message'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>Success!</strong> {{ session('message') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                @endif
-
-                <!-- Dashboard Cards -->
-                <div class="card">
-                    <div class="card-header">
-                        <h1 class="pb-2 fw-bold fs-2 border-bottom border-info">DASHBOARD</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <!-- Total Applications -->
-                            <div class="mb-4 col-md-3">
-                                <div class="shadow-sm card border-primary">
-                                    <div class="text-center card-body">
-                                        <i class="fa fa-folder-open fa-3x text-primary"></i>
-                                        <h4 class="mt-3 card-title" style="color: black;">Total Applications</h4>
-                                        <p class="card-text">{{ $totalBeneficiaries }}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Rejected Applications -->
-                            <div class="mb-4 col-md-3">
-                                <div class="shadow-sm card border-danger">
-                                    <div class="text-center card-body">
-                                        <i class="fa fa-thumbs-down fa-3x text-danger"></i>
-                                        <h4 class="mt-3 card-title" style="color: black;">Rejected Applications</h4>
-                                        <p class="card-text">{{ $totalBeneficiariesRejected }}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Cancelled Applications -->
-                            <div class="mb-4 col-md-3">
-                                <div class="shadow-sm card border-warning">
-                                    <div class="text-center card-body">
-                                        <i class="fa fa-times-circle fa-3x text-warning"></i>
-                                        <h4 class="mt-3 card-title" style="color: black;">Cancelled Applications</h4>
-                                        <p class="card-text">{{ $totalBeneficiariesCancelled }}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Approved Applications -->
-                            <div class="mb-4 col-md-3">
-                                <div class="shadow-sm card border-success">
-                                    <div class="text-center card-body">
-                                        <i class="fa fa-check-circle fa-3x text-success"></i>
-                                        <h4 class="mt-3 card-title" style="color: black;">Approved Applications</h4>
-                                        <p class="card-text">{{ $totalBeneficiariesApproved }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <!-- Released Applications -->
-                            <div class="mb-4 col-md-3">
-                                <div class="shadow-sm card border-info">
-                                    <div class="text-center card-body">
-                                        <i class="fa fa-share-square fa-3x text-info"></i>
-                                        <h4 class="mt-3 card-title" style="color: black;">Released Applications</h4>
-                                        <p class="card-text">{{ $totalBeneficiariesReleased }}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Accepted Applications -->
-                            <div class="mb-4 col-md-3">
-                                <div class="shadow-sm card" style="border: 1px solid cyan;">
-                                    <div class="text-center card-body">
-                                        <i class="fa fa-handshake fa-3x" style="color: cyan;"></i>
-                                        <h4 class="mt-3 card-title" style="color: black;">Accepted Applications</h4>
-                                        <p class="card-text">{{ $totalBeneficiariesAccepted }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Accepted Applications -->
-                            <div class="mb-4 col-md-3">
-                                <div class="shadow-sm card" style="border: 1px solid rgb(210, 74, 251);">
-                                    <div class="text-center card-body">
-                                        <i class="fa fa-hand-holding-heart fa-3x" style="color: rgb(210, 74, 251);"></i>
-                                        <h4 class="mt-3 card-title" style="color: black;">Benefits Received</h4>
-                                        <p class="card-text">{{ $totalBenefitsReceived }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+        <div class="container py-4 mt-5">
+            <!-- Welcome Header -->
+            <div class="text-center welcome-header">
+                <h1 class="mb-3 display-4 fw-bold">Welcome to MSWDO</h1>
+                <p class="mb-0 lead">MUNICIPALITY OF ABUYOG</p>
             </div>
-            <!-- container-scroller -->
-            <!-- plugins:js -->
-            @include('user.script')
-            <!-- End custom js for this page -->
+
+            @if (session('message'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <strong>Success!</strong> {{ session('message') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+
+            <!-- Dashboard Section -->
+            <div class="mb-4 border-0 shadow-sm card">
+                <div class="py-3 bg-white border-0 card-header">
+                    <h2 class="section-title fw-bold">DASHBOARD OVERVIEW</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <!-- Total Applications -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="dashboard-card card card-primary">
+                                <div class="py-4 text-center card-body">
+                                    <i class="fas fa-folder-open card-icon text-primary"></i>
+                                    <h3 class="text-black card-title">Total Applications</h3>
+                                    <p class="card-value">{{ $totalBeneficiaries }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rejected Applications -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="dashboard-card card card-danger">
+                                <div class="py-4 text-center card-body">
+                                    <i class="fas fa-thumbs-down card-icon text-danger"></i>
+                                    <h3 class="text-black card-title">Rejected</h3>
+                                    <p class="card-value">{{ $totalBeneficiariesRejected }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cancelled Applications -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="dashboard-card card card-warning">
+                                <div class="py-4 text-center card-body">
+                                    <i class="fas fa-times-circle card-icon text-warning"></i>
+                                    <h3 class="text-black card-title">Cancelled</h3>
+                                    <p class="card-value">{{ $totalBeneficiariesCancelled }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Approved Applications -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="dashboard-card card card-success">
+                                <div class="py-4 text-center card-body">
+                                    <i class="fas fa-check-circle card-icon text-success"></i>
+                                    <h3 class="text-black card-title">Approved</h3>
+                                    <p class="card-value">{{ $totalBeneficiariesApproved }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Released Applications -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="dashboard-card card card-info">
+                                <div class="py-4 text-center card-body">
+                                    <i class="fas fa-share-square card-icon text-info"></i>
+                                    <h3 class="text-black card-title">Released</h3>
+                                    <p class="card-value">{{ $totalBeneficiariesReleased }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accepted Applications -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="dashboard-card card card-cyan">
+                                <div class="py-4 text-center card-body">
+                                    <i class="fas fa-handshake card-icon" style="color: #0dcaf0;"></i>
+                                    <h3 class="text-black card-title">Accepted</h3>
+                                    <p class="card-value">{{ $totalBeneficiariesAccepted }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Benefits Received -->
+                        <div class="col-md-4 col-lg-3">
+                            <div class="dashboard-card card card-purple">
+                                <div class="py-4 text-center card-body">
+                                    <i class="fas fa-hand-holding-heart card-icon" style="color: #d24afb;"></i>
+                                    <h3 class="text-black card-title">Benefits Received</h3>
+                                    <p class="card-value">{{ $totalBenefitsReceived }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- container-scroller -->
+
+        <!-- plugins:js -->
+        @include('user.script')
+        <!-- End custom js for this page -->
+
+        <script>
+            // Add animation to cards when they come into view
+            $(document).ready(function() {
+                $('.dashboard-card').each(function(i) {
+                    $(this).css('opacity', '0').css('transform', 'translateY(20px)');
+
+                    setTimeout(() => {
+                        $(this).animate({
+                            opacity: 1,
+                            translateY: 0
+                        }, 400);
+                    }, i * 100);
+                });
+            });
+        </script>
 </body>
 
 </html>

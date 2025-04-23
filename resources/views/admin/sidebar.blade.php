@@ -1,134 +1,222 @@
 <style>
-    /* Sidebar styling */
+    /* ===== Base Sidebar Styles ===== */
     .sidebar {
         background: linear-gradient(to bottom, #ffeac9, hsl(60, 100%, 97%));
-        box-shadow: 4px 0 10px rgba(26, 26, 26, 0.231);
-        transition: width 0.3s ease, transform 0.3s ease;
-    }
-
-    /* Active menu styling */
-    .nav-item.active-menu {
-        background-color: #1374ce;
-        color: #2bff0f !important;
-        border-radius: 8px;
-        transform: translateX(10px);
-    }
-
-    /* Menu items transition */
-    .nav-item.menu-items {
+        width: 280px;
+        min-height: 100vh;
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
         position: relative;
-        padding-left: 10px;
+        z-index: 100;
+    }
+
+    .sidebar .nav {
+        padding-top: 0px !important;
+    }
+
+    .sidebar-brand-wrapper {
+        padding: 20px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    /* ===== Profile Section ===== */
+    .profile-desc {
+        padding: 20px;
+        margin: 15px;
+        background-color: #ff7b00;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(255, 123, 0, 0.3);
         transition: all 0.3s ease;
     }
 
-    /* Remove hover effect with gradient */
-    .nav-item.menu-items:hover {
-        transform: translateX(10px);
-        /* Remove gradient or leave it as it is */
+    .profile-desc:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 123, 0, 0.4);
     }
 
-    /* Sub-menu styling */
-    .sub-menu li {
-        padding: 5px 0;
-    }
-
-    /* Profile styling */
-    .profile-desc {
-        padding: 15px;
-        background-color: #ff7b00;
-        border-radius: 15px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.553);
-    }
-
-    .profile-pic .img-xs {
+    .profile-pic img {
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
-        border: 3px solid #fff;
+        border: 3px solid rgba(255, 255, 255, 0.8);
+        transition: all 0.3s ease;
     }
 
     .profile-name h5 {
-        color: #fff;
+        color: white;
+        font-weight: 600;
+        margin-top: 10px;
+        font-size: 1.1rem;
     }
 
-    /* Hover effect for the beneficiaries dropdown items */
-    .nav-item.menu-items:hover .sub-menu {
-        display: block;
-        /* Show the sub-menu on hover */
-        background-color: #f0f0f0;
-        /* Optional: change background color when hovering */
+    /* ===== Navigation Category ===== */
+    .nav-category {
+        padding: 10px 25px;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #ff7b00;
+        margin-top: 10px;
+        font-weight: 600;
+    }
+
+    /* ===== Menu Items ===== */
+    .nav-item {
+        position: relative;
+        margin: 3px 15px;
+    }
+
+    .nav-item.menu-items .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        color: #5a5a5a;
+        border-radius: 8px;
         transition: all 0.3s ease;
-        /* Smooth transition */
+        text-decoration: none;
+        font-weight: 500;
     }
 
-    /* Additional styling for dropdown items */
-    .sub-menu li {
-        transition: background-color 0.3s ease;
+    .nav-item.menu-items .nav-link:hover {
+        background: rgba(255, 123, 0, 0.1);
+        color: #ff7b00;
     }
 
-    /* Hover effect on dropdown items */
-    .sub-menu li:hover {
-        background-color: #ff07074f;
-        color: #fff;
-        /* Text color on hover */
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        /* Shadow effect */
+    .nav-item.menu-items.active .nav-link,
+    .nav-item.menu-items.active-menu .nav-link {
+        background: linear-gradient(90deg, rgba(19, 116, 206, 0.1) 0%, rgba(19, 116, 206, 0.2) 100%);
+        color: #1374ce;
     }
 
-
-
-    /* Sub-menu visibility */
-    .sub-menu.hidden {
-        display: none;
-    }
-
-    /* Menu icon rotation */
     .menu-icon {
+        margin-right: 12px;
+        font-size: 1.2rem;
+        width: 24px;
+        text-align: center;
         transition: all 0.3s ease;
+        color: inherit;
     }
 
     .nav-item.menu-items:hover .menu-icon {
-        transform: rotate(10deg);
+        transform: scale(1.1);
     }
 
-    /* Text color adjustments (without hover color change) */
-    .nav-item .nav-link {
-        color: #ffffff;
-        transition: color 0.3s ease;
+    .menu-title {
+        font-size: 0.95rem;
     }
 
-    /* Smooth transitions for all menu items */
-    .nav-item {
-        transition: transform 0.3s ease, background-color 0.3s ease;
+    /* ===== Sub Menu Styles ===== */
+    .sub-menu {
+        padding-left: 15px;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+
+    .sub-menu.active {
+        max-height: 500px;
+        padding: 5px 0 10px 15px;
+    }
+
+    .sub-menu li {
+        margin: 3px 0;
+    }
+
+    .sub-menu .nav-link {
+        padding: 8px 15px;
+        color: #6b6b6b;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        transition: all 0.2s ease;
+    }
+
+    .sub-menu .nav-link:hover {
+        background: rgba(255, 123, 0, 0.08);
+        color: #ff7b00;
+    }
+
+    .sub-menu .nav-link.active-menu {
+        background: rgba(19, 116, 206, 0.15);
+        color: #1374ce;
+        font-weight: 500;
+    }
+
+    .sub-menu .nav-link i {
+        margin-right: 10px;
+        font-size: 1rem;
+    }
+
+    /* ===== Active Menu Indicator ===== */
+    .nav-item.menu-items.active::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 60%;
+        width: 4px;
+        background: #1374ce;
+        border-radius: 0 4px 4px 0;
+    }
+
+    /* ===== Hover Effects ===== */
+    .nav-item.menu-items:hover .menu-title {
+        font-weight: 500;
+    }
+
+    /* ===== Button Styles ===== */
+    .nav-link button {
+        background: transparent;
+        border: none;
+        width: 100%;
+        text-align: left;
+        padding: 0;
+    }
+
+    /* ===== Responsive Adjustments ===== */
+    @media (max-width: 992px) {
+        .sidebar {
+            width: 250px;
+            transform: translateX(-100%);
+            position: fixed;
+            z-index: 1000;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
     }
 </style>
 
-
-
-
-
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
-    <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+    <div class="sidebar-brand-wrapper d-flex align-items-center justify-content-center">
         @laravelPWA
-
     </div>
+
     <ul class="nav">
+        <!-- Profile Section -->
         <li class="nav-item profile">
             <div class="profile-desc">
-                <div class="profile-pic">
-                    <div class="count-indicator">
-                        <img class="img-xs rounded-circle " src="../assets/img/mswd-logo.png" alt="">
-                        <span class="count bg-success"></span>
+                <div class="profile-pic d-flex align-items-center">
+                    <div class="mr-3 count-indicator">
+                        <img class="img-xs" src="../assets/img/mswd-logo.png" alt="MSWD Logo">
                     </div>
                     <div class="profile-name">
                         <h5 class="mb-0 font-weight-normal">MSWDO</h5>
+                        <p class="mb-0 text-muted">Administrator</p>
                     </div>
                 </div>
             </div>
         </li>
+
+        <!-- Navigation Category -->
         <li class="nav-item nav-category">
             <span class="nav-link">Navigation</span>
         </li>
 
-        <li class="nav-item menu-items">
+        <!-- Dashboard -->
+        <li class="nav-item menu-items {{ request()->is('home') ? 'active' : '' }}">
             <a class="nav-link" href="{{ url('home') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-view-dashboard"></i>
@@ -136,7 +224,9 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-        <li class="nav-item menu-items">
+
+        <!-- Mapping -->
+        <li class="nav-item menu-items {{ request()->is('gis') ? 'active' : '' }}">
             <a class="nav-link" href="{{ url('gis') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-map-marker-multiple"></i>
@@ -145,100 +235,104 @@
             </a>
         </li>
 
+        <!-- Applications Dropdown -->
         <div x-data="{ open: {{ request()->is('displayapplication*') ? 'true' : 'false' }} }">
             <li class="nav-item menu-items {{ request()->is('displayapplication*') ? 'active' : '' }}">
-                <button class="nav-link" type="button" @click="open = !open" style="width: 225px;">
+                <a class="nav-link" @click="open = !open" style="cursor: pointer;">
                     <span class="menu-icon">
                         <i class="mdi mdi-file-account"></i>
                     </span>
                     <span class="menu-title">Applications</span>
-                </button>
+                    <span class="menu-arrow" x-text="open ? '▼' : '▶'" style="margin-left: auto;"></span>
+                </a>
             </li>
-            <ul x-cloak x-show="open" class="sub-menu">
+            <ul class="sub-menu" :class="{ 'active': open }">
                 <li class="nav-item">
-                    <a class="text-dark {{ request()->path() === 'displayapplication' && request()->query('status') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                        href="{{ url('displayapplication') }}">
+                    <a class="nav-link {{ request()->path() === 'displayapplication' && request()->query('status') === null ? 'active-menu' : '' }}"
+                       href="{{ url('displayapplication') }}">
                         <i class="mdi mdi-view-list"></i> <span>ALL</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="text-dark {{ request()->query('status') === 'approved' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                        href="/displayapplication?status=approved">
+                    <a class="nav-link {{ request()->query('status') === 'approved' ? 'active-menu' : '' }}"
+                       href="/displayapplication?status=approved">
                         <i class="mdi mdi-check-all"></i> Approved
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="text-dark {{ request()->query('status') === 'accepted' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                        href="/displayapplication?status=accepted">
+                    <a class="nav-link {{ request()->query('status') === 'accepted' ? 'active-menu' : '' }}"
+                       href="/displayapplication?status=accepted">
                         <i class="mdi mdi-headset"></i> For Interview
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="text-dark {{ request()->query('status') === 'pending' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                        href="/displayapplication?status=pending">
+                    <a class="nav-link {{ request()->query('status') === 'pending' ? 'active-menu' : '' }}"
+                       href="/displayapplication?status=pending">
                         <i class="mdi mdi-clock"></i> Pending
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="text-dark {{ request()->query('status') === 'rejected' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                        href="/displayapplication?status=rejected">
+                    <a class="nav-link {{ request()->query('status') === 'rejected' ? 'active-menu' : '' }}"
+                       href="/displayapplication?status=rejected">
                         <i class="mdi mdi-close"></i> Rejected
                     </a>
                 </li>
             </ul>
         </div>
 
-        <!-- Beneficiaries Menu -->
-        <li class="nav-item menu-items" id="beneficiariesMenu">
-            <a class="nav-link" href="" onclick="toggleSubMenu(event, 'beneficiariesSubMenu')">
-                <span class="menu-icon">
-                    <i class="mdi mdi-account-group"></i>
-                </span>
-                <span class="menu-title">Beneficiaries</span>
-            </a>
-        </li>
+        <!-- Beneficiaries Dropdown -->
+        <div x-data="{ open: {{ request()->is('showbeneficiaries_admin*') ? 'true' : 'false' }} }">
+            <li class="nav-item menu-items {{ request()->is('showbeneficiaries_admin*') ? 'active' : '' }}">
+                <a class="nav-link" @click="open = !open" style="cursor: pointer;">
+                    <span class="menu-icon">
+                        <i class="mdi mdi-account-group"></i>
+                    </span>
+                    <span class="menu-title">Beneficiaries</span>
+                    <span class="menu-arrow" x-text="open ? '▼' : '▶'" style="margin-left: auto;"></span>
+                </a>
+            </li>
+            <ul class="sub-menu" :class="{ 'active': open }">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->path() === 'showbeneficiaries_admin' && request()->query('service') === null ? 'active-menu' : '' }}"
+                       href="{{ route('show.beneficiaries_admin') }}">
+                        <i class="mdi mdi-view-list"></i> <span>All</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->query('service') === 'OSCA(Office of Senior Citizens)' ? 'active-menu' : '' }}"
+                       href="/showbeneficiaries_admin?service=OSCA(Office of Senior Citizens)">
+                        <i class="mdi mdi-face"></i> OSCA
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->query('service') === 'PWD(Persons with Disabilities)' ? 'active-menu' : '' }}"
+                       href="/showbeneficiaries_admin?service=PWD(Persons with Disabilities)">
+                        <i class="mdi mdi-wheelchair-accessibility"></i> PWD
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->query('service') === 'Solo Parent' ? 'active-menu' : '' }}"
+                       href="/showbeneficiaries_admin?service=Solo Parent">
+                        <i class="mdi mdi-human-male-female"></i> Solo Parent
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->query('service') === 'AICS(Assistance to Individuals in Crisis)' ? 'active-menu' : '' }}"
+                       href="/showbeneficiaries_admin?service=AICS(Assistance to Individuals in Crisis)">
+                        <i class="mdi mdi-account-multiple"></i> AICS
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->query('service') === 'Deceased' ? 'active-menu' : '' }}"
+                       href="/showbeneficiaries_admin?service=Deceased">
+                        <i class="mdi mdi-coffin"></i> All Deceased
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-        <ul class="sub-menu {{ request()->is('showbeneficiaries_admin*') || request()->routeIs('show.beneficiaries_admin') ? '' : 'hidden' }}"
-            id="beneficiariesSubMenu">
-            <li class="nav-item menu-items">
-                <a class="text-dark {{ request()->path() === 'showbeneficiaries_admin' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="{{ route('show.beneficiaries_admin') }}">
-                    <i class="mdi mdi-view-list"></i> <span class="menu-title">All</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="text-dark {{ request()->query('service') === 'OSCA(Office of Senior Citizens)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="/showbeneficiaries_admin?service=OSCA(Office of Senior Citizens)">
-                    <i class="mdi mdi-face"></i> OSCA
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="text-dark {{ request()->query('service') === 'PWD(Persons with Disabilities)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="/showbeneficiaries_admin?service=PWD(Persons with Disabilities)">
-                    <i class="mdi mdi-wheelchair-accessibility"></i> PWD
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="text-dark {{ request()->query('service') === 'Solo Parent' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="/showbeneficiaries_admin?service=Solo Parent">
-                    <i class="mdi mdi-human-male-female"></i> Solo Parent
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="text-dark {{ request()->query('service') === 'AICS(Assistance to Individuals in Crisis)' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="/showbeneficiaries_admin?service=AICS(Assistance to Individuals in Crisis)">
-                    <i class="mdi mdi-account-multiple"></i> AICS
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="text-dark {{ request()->query('service') === 'Deceased' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="/showbeneficiaries_admin?service=Deceased">
-                    <i class="mdi mdi-coffin"></i> <span class="menu-title">All Deceased</span>
-                </a>
-            </li>
-        </ul>
-
-        <li class="nav-item menu-items">
+        <!-- Other Benefits -->
+        <li class="nav-item menu-items {{ request()->is('shownewbenefits') ? 'active' : '' }}">
             <a class="nav-link" href="{{ url('shownewbenefits') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-assistant"></i>
@@ -247,7 +341,8 @@
             </a>
         </li>
 
-        <li class="nav-item menu-items">
+        <!-- Reports -->
+        <li class="nav-item menu-items {{ request()->is('reports') ? 'active' : '' }}">
             <a class="nav-link" href="{{ url('reports') }}">
                 <span class="menu-icon">
                     <i class="mdi mdi-chart-bar"></i>
@@ -256,93 +351,37 @@
             </a>
         </li>
 
-
-        <!-- Beneficiaries Menu -->
-        <li class="nav-item menu-items" id="adminMenu">
-            <a class="nav-link" href="" onclick="toggleSubMenu(event, 'adminSubMenu')">
-                <span class="menu-icon">
-                    <i class="mdi mdi-account-group"></i>
-                </span>
-                <span class="menu-title">Administration</span>
-            </a>
-        </li>
-
-        <ul class="sub-menu {{ request()->is('showservices*') || request()->routeIs('admin.showservices') ? '' : 'hidden' }}"
-            id="adminSubMenu">
-            <li class="nav-item menu-items">
-                <a class="text-dark {{ request()->path() === 'showservices' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="{{ route('admin.showservices') }}">
-                    <i class="mdi mdi-file-document-box"></i> <span class="menu-title">All Services</span>
+        <!-- Administration Dropdown -->
+        <div x-data="{ open: {{ request()->is('showservices*') || request()->is('showusermanagement*') || request()->is('logs') ? 'true' : 'false' }} }">
+            <li class="nav-item menu-items {{ request()->is('showservices*') || request()->is('showusermanagement*') || request()->is('logs') ? 'active' : '' }}">
+                <a class="nav-link" @click="open = !open" style="cursor: pointer;">
+                    <span class="menu-icon">
+                        <i class="mdi mdi-settings"></i>
+                    </span>
+                    <span class="menu-title">Administration</span>
+                    <span class="menu-arrow" x-text="open ? '▼' : '▶'" style="margin-left: auto;"></span>
                 </a>
             </li>
-            <li class="nav-item menu-items">
-                <a class="text-dark {{ request()->path() === 'showusermanagement' && request()->query('service') === null ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="{{ route('showusermanagement.index') }}">
-                    <i class="mdi mdi-account-key"></i> <span class="menu-title">User Management</span>
-                </a>
-            </li>
-            <li class="nav-item menu-items">
-                <a class="text-dark {{ request()->path() === 'logs' ? 'nav-link active-menu' : 'px-5 mt-3' }}"
-                    href="/logs">
-                    <i class="mdi mdi-file-document"></i> <span class="menu-title">Logs</span>
-                </a>
-            </li>
-        </ul>
-
-
-
-        {{--  <li class="nav-item menu-items">
-            <a class="nav-link" href="{{ url('showservices') }}">
-                <span class="menu-icon">
-                    <i class="mdi mdi-file-document-box"></i>
-                </span>
-                <span class="menu-title">All Services</span>
-            </a>
-        </li>  --}}
-
-
-
-
-
-
-
-        {{-- <li class="nav-item menu-items">
-            <a class="nav-link" href="{{ url('all_benefitsreceived') }}">
-                <span class="menu-icon">
-                    <i class="mdi mdi-cash"></i>
-                </span>
-                <span class="menu-title">All Benefits Received</span>
-            </a>
-        </li> --}}
-
-        {{--  <li class="nav-item menu-items">
-            <a class="nav-link" href="{{ url('deceased') }}">
-                <span class="menu-icon">
-                    <i class="mdi mdi-coffin"></i>
-                </span>
-                <span class="menu-title">All Deceased</span>
-            </a>
-        </li>
-        <li class="nav-item menu-items">
-            <a class="nav-link" href="{{ url('showusermanagement') }}">
-                <span class="menu-icon">
-                    <i class="mdi mdi-account-key"></i>
-                </span>
-                <span class="menu-title">User Management</span>
-            </a>
-        </li>  --}}
+            <ul class="sub-menu" :class="{ 'active': open }">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->path() === 'showservices' && request()->query('service') === null ? 'active-menu' : '' }}"
+                       href="{{ route('admin.showservices') }}">
+                        <i class="mdi mdi-file-document-box"></i> All Services
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->path() === 'showusermanagement' && request()->query('service') === null ? 'active-menu' : '' }}"
+                       href="{{ route('showusermanagement.index') }}">
+                        <i class="mdi mdi-account-key"></i> User Management
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->path() === 'logs' ? 'active-menu' : '' }}"
+                       href="/logs">
+                        <i class="mdi mdi-file-document"></i> Logs
+                    </a>
+                </li>
+            </ul>
+        </div>
     </ul>
 </nav>
-<script>
-    function toggleSubMenu(event, subMenuId) {
-        event.preventDefault();
-        const subMenu = document.getElementById(subMenuId);
-
-        // Toggle visibility
-        if (subMenu.classList.contains("hidden")) {
-            subMenu.classList.remove("hidden");
-        } else {
-            subMenu.classList.add("hidden");
-        }
-    }
-</script>

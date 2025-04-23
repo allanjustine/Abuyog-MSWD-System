@@ -175,7 +175,7 @@
         </div>
 
         <!-- Location Track Section -->
-        <div id="map"></div>
+        <div style="margin-left: 40px;"><div class="d-flex justify-content-center" id="map" style="width: 80%;"></div></div>
         <div id="loading-message" class="alert alert-info">Loading data, please wait...</div>
 
         <script>
