@@ -11,9 +11,8 @@ class FamilyComposition extends Model
     protected $casts = [
         'birthday' => 'date',
     ];
-
-    public function beneficiary()
+    public function user()
     {
-        return $this->belongsTo(Beneficiary::class);
+        return $this->belongsTo(User::class);
     }
 }

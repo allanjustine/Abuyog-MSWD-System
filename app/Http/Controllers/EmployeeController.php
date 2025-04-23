@@ -28,7 +28,7 @@ class EmployeeController extends Controller
         $status = $request->query('status');
         $search = $request->query('search');
 
-        $data = Beneficiary::with(['approvedBy', 'acceptedBy', 'aicsDetails', 'pwdDetails', 'soloParentDetails', 'service', 'barangay'])
+        $data = Beneficiary::with(['approvedBy', 'acceptedBy', 'aicsDetails', 'pwdDetails', 'soloParentDetails', 'service', 'barangay', 'user.familyCompositions'])
             ->where(function ($query) use ($status, $search) {
                 if ($status) {
                     $query->where('status', $status);
@@ -99,7 +99,7 @@ class EmployeeController extends Controller
                 $application->source = 'Application';
                 return $application;
             });
-        $beneficiaries = Beneficiary::with(['barangay', 'familyCompositions'])
+        $beneficiaries = Beneficiary::with(['barangay', 'user.familyCompositions'])
             ->where(function ($query) use ($service, $search) {
                 $query->where('status', 'released');
                 if ($service && $service !== 'Deceased') {

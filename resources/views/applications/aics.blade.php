@@ -15,13 +15,13 @@
     </div>
 
     @if ($errors->any())
-        <small class="text-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </small>
+    <small class="text-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </small>
     @endif
 
 
@@ -67,8 +67,7 @@
         <div class="form-group col-md-3">
             <label>House No. and Street <span style="color: red;">*</span></label>
             <input type="text" name="house_no_and_street" class="form-control" placeholder="House No. and Street"
-                value="{{ old('house_no_and_street', Auth::user()?->basicInfo?->house_no_street) }}"
-                required>
+                value="{{ old('house_no_and_street', Auth::user()?->basicInfo?->house_no_street) }}" required>
         </div>
         <div class="form-group col-md-3">
             <label>Barangay <span style="color: red;">*</span></label>
@@ -76,24 +75,26 @@
                 <option value="" hidden selected>Select Barangay</option>
                 <option value="" disabled>Select Barangay</option>
                 @foreach (\App\Models\Barangay::all() as $barangay)
-                    <option value="{{ $barangay->id }}" {{ Auth::user()->barangay_id == $barangay->id ? 'selected' : '' }}>
-                        {{ $barangay->name }}
-                    </option>
+                <option value="{{ $barangay->id }}" {{ Auth::user()->barangay_id == $barangay->id ? 'selected' : '' }}>
+                    {{ $barangay->name }}
+                </option>
                 @endforeach
             </select>
         </div>
         <div class="form-group col-md-2">
             <label>Municipality <span style="color: red;">*</span></label>
-            <input type="text" name="municipality" class="form-control" placeholder="Municipality" value="{{ Auth::user()?->basicInfo?->municipality }}"
-                required>
+            <input type="text" name="municipality" class="form-control" placeholder="Municipality"
+                value="{{ Auth::user()?->basicInfo?->municipality }}" required>
         </div>
         <div class="form-group col-md-2">
             <label>Province <span style="color: red;">*</span></label>
-            <input type="text" name="province" class="form-control" placeholder="Province" value="{{ Auth::user()?->basicInfo?->province }}" required>
+            <input type="text" name="province" class="form-control" placeholder="Province"
+                value="{{ Auth::user()?->basicInfo?->province }}" required>
         </div>
         <div class="form-group col-md-2">
             <label>Region <span style="color: red;">*</span></label>
-            <input type="text" name="region" class="form-control" placeholder="Region" value="{{ Auth::user()?->basicInfo?->region }}" required>
+            <input type="text" name="region" class="form-control" placeholder="Region"
+                value="{{ Auth::user()?->basicInfo?->region }}" required>
         </div>
     </div>
 
@@ -132,28 +133,36 @@
             <label for="educational_attainment">Educational Attainment <span style="color: red;">*</span></label>
             <select name="educational_attainment" id="educational_attainment" class="form-control" required>
                 <option value="" disabled selected>Select Status</option>
-                <option value="No Formal Education" {{ old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment) === 'No Formal Education' ? 'selected' : '' }}>
+                <option value="No Formal Education" {{ old('educational_attainment', Auth::user()?->
+                    basicInfo?->educational_attainment) === 'No Formal Education' ? 'selected' : '' }}>
                     None
                 </option>
-                <option value="Kindergarten" {{ old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment) === 'Kindergarten' ? 'selected' : '' }}>
+                <option value="Kindergarten" {{ old('educational_attainment', Auth::user()?->
+                    basicInfo?->educational_attainment) === 'Kindergarten' ? 'selected' : '' }}>
                     Kindergarten
                 </option>
-                <option value="Elementary" {{ old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment) === 'Elementary' ? 'selected' : '' }}>
+                <option value="Elementary" {{ old('educational_attainment', Auth::user()?->
+                    basicInfo?->educational_attainment) === 'Elementary' ? 'selected' : '' }}>
                     Elementary
                 </option>
-                <option value="High School" {{ old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment) === 'High School' ? 'selected' : '' }}>
+                <option value="High School" {{ old('educational_attainment', Auth::user()?->
+                    basicInfo?->educational_attainment) === 'High School' ? 'selected' : '' }}>
                     Junior High School
                 </option>
-                <option value="Senior High" {{ old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment) === 'Senior High' ? 'selected' : '' }}>
+                <option value="Senior High" {{ old('educational_attainment', Auth::user()?->
+                    basicInfo?->educational_attainment) === 'Senior High' ? 'selected' : '' }}>
                     Senior High School
                 </option>
-                <option value="College" {{ old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment) === 'College' ? 'selected' : '' }}>
+                <option value="College" {{ old('educational_attainment', Auth::user()?->
+                    basicInfo?->educational_attainment) === 'College' ? 'selected' : '' }}>
                     College
                 </option>
-                <option value="Vocational" {{ old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment) === 'Vocational' ? 'selected' : '' }}>
+                <option value="Vocational" {{ old('educational_attainment', Auth::user()?->
+                    basicInfo?->educational_attainment) === 'Vocational' ? 'selected' : '' }}>
                     Vocational
                 </option>
-                <option value="Post Graduate" {{ old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment) === 'Post Graduate' ? 'selected' : '' }}>
+                <option value="Post Graduate" {{ old('educational_attainment', Auth::user()?->
+                    basicInfo?->educational_attainment) === 'Post Graduate' ? 'selected' : '' }}>
                     Post Graduate
                 </option>
             </select>
@@ -172,13 +181,17 @@
             <label for="civil_status">Civil Status <span style="color: red;">*</span></label>
             <select name="civil_status" class="form-control">
                 <option value="" disabled selected>Select Civil Status</option>
-                <option value="Single" {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == 'Single' ? 'selected' : '' }}>
+                <option value="Single" {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == 'Single' ?
+                    'selected' : '' }}>
                     Single</option>
-                <option value="Married" {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == 'Married' ? 'selected' : '' }}>
+                <option value="Married" {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == 'Married' ?
+                    'selected' : '' }}>
                     Married</option>
-                <option value="Widowed" {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == 'Widowed' ? 'selected' : '' }}>
+                <option value="Widowed" {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == 'Widowed' ?
+                    'selected' : '' }}>
                     Widowed</option>
-                <option value="Separated" {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == 'Separated' ? 'selected' : '' }}>
+                <option value="Separated" {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == 'Separated'
+                    ? 'selected' : '' }}>
                     Separated</option>
             </select>
         </div>
@@ -187,33 +200,46 @@
             <label for="religion">Religion:</label>
             <select name="religion" class="form-control">
                 <option value="" disabled selected>Select Religion</option>
-                <option value="Christianity" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Christianity' ? 'selected' : '' }}>
+                <option value="Christianity" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Christianity' ?
+                    'selected' : '' }}>
                     Christianity</option>
                 <option value="Roman Catholic" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Roman Catholic' ? 'selected' : '' }}>
                     Roman Catholic</option>
-                <option value="Protestant" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Protestant' ? 'selected' : '' }}>
+                <option value="Protestant" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Protestant' ?
+                    'selected' : '' }}>
                     Protestant</option>
-                <option value="Islam" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Islam' ? 'selected' : '' }}>
+                <option value="Islam" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Islam' ? 'selected' :
+                    '' }}>
                     Islam</option>
-                <option value="Hinduism" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Hinduism' ? 'selected' : '' }}>
+                <option value="Hinduism" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Hinduism' ?
+                    'selected' : '' }}>
                     Hinduism</option>
-                <option value="Buddhism" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Buddhism' ? 'selected' : '' }}>
+                <option value="Buddhism" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Buddhism' ?
+                    'selected' : '' }}>
                     Buddhism</option>
-                <option value="Judaism" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Judaism' ? 'selected' : '' }}>
+                <option value="Judaism" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Judaism' ?
+                    'selected' : '' }}>
                     Judaism</option>
-                <option value="Sikhism" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Sikhism' ? 'selected' : '' }}>
+                <option value="Sikhism" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Sikhism' ?
+                    'selected' : '' }}>
                     Sikhism</option>
-                <option value="Baha'i" {{ old('religion', Auth::user()?->basicInfo?->religion) == "Baha'i" ? 'selected' : '' }}>
+                <option value="Baha'i" {{ old('religion', Auth::user()?->basicInfo?->religion) == "Baha'i" ? 'selected'
+                    : '' }}>
                     Bahai</option>
-                <option value="Taoism" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Taoism' ? 'selected' : '' }}>
+                <option value="Taoism" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Taoism' ? 'selected'
+                    : '' }}>
                     Taoism</option>
-                <option value="Shinto" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Shinto' ? 'selected' : '' }}>
+                <option value="Shinto" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Shinto' ? 'selected'
+                    : '' }}>
                     Shinto</option>
-                <option value="Agnostic" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Agnostic' ? 'selected' : '' }}>
+                <option value="Agnostic" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Agnostic' ?
+                    'selected' : '' }}>
                     Agnostic</option>
-                <option value="Atheist" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Atheist' ? 'selected' : '' }}>
+                <option value="Atheist" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Atheist' ?
+                    'selected' : '' }}>
                     Atheist</option>
-                <option value="Other" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Other' ? 'selected' : '' }}>
+                <option value="Other" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Other' ? 'selected' :
+                    '' }}>
                     Other</option>
             </select>
         </div>
@@ -228,19 +254,38 @@
             <label>Type of Assistance <span style="color: red;">*</span></label>
             <select name="type_of_assistance" class="form-control" required>
                 <option value="" disabled selected>Select</option>
-                <option value="Medical Assistance" {{ str_contains(implode(',', $type_of_assistance_data), 'Medical Assistance') ? 'disabled' : '' }} {{ old('type_of_assistance') == 'Medical Assistance' ? 'selected' : '' }}>
-                    Medical Assistance {{ str_contains(implode(',', $type_of_assistance_data), 'Medical Assistance') ? '-Not Available-' : '' }}</option>
-                <option value="Burial Assistance" {{ str_contains(implode(',', $type_of_assistance_data), 'Burial Assistance') ? 'disabled' : '' }} {{ old('type_of_assistance') == 'Burial Assistance' ? 'selected' : '' }}>Burial Assistance {{ str_contains(implode(',', $type_of_assistance_data), 'Burial Assistance') ? '-Not Available-' : '' }}
+                <option value="Medical Assistance" {{ str_contains(implode(',',
+                    $type_of_assistance_data), 'Medical Assistance' ) ? 'disabled' : '' }} {{
+                    old('type_of_assistance')=='Medical Assistance' ? 'selected' : '' }}>
+                    Medical Assistance {{ str_contains(implode(',', $type_of_assistance_data), 'Medical Assistance') ?
+                    '-Not Available-' : '' }}</option>
+                <option value="Burial Assistance" {{ str_contains(implode(',',
+                    $type_of_assistance_data), 'Burial Assistance' ) ? 'disabled' : '' }} {{
+                    old('type_of_assistance')=='Burial Assistance' ? 'selected' : '' }}>Burial Assistance {{
+                    str_contains(implode(',', $type_of_assistance_data), 'Burial Assistance') ? '-Not Available-' : ''
+                    }}
                 </option>
-                <option value="Transportation Assistance" {{ str_contains(implode(',', $type_of_assistance_data), 'Transportation Assistance') ? 'disabled' : '' }} {{ old('type_of_assistance') == 'Transportation Assistance' ? 'selected' : '' }}>
-                    Transportation Assistance {{ str_contains(implode(',', $type_of_assistance_data), 'Transportation Assistance') ? '-Not Available-' : '' }}</option>
-                <option value="Food Assistance" {{ str_contains(implode(',', $type_of_assistance_data), 'Food Assistance') ? 'disabled' : '' }} {{ old('type_of_assistance') == 'Food Assistance' ? 'selected' : '' }}>
-                    Food Assistance {{ str_contains(implode(',', $type_of_assistance_data), 'Food Assistance') ? '-Not Available-' : '' }}</option>
-                <option value="Emergency Shelter Assistance" {{ str_contains(implode(',', $type_of_assistance_data), 'Emergency Shelter Assistance') ? 'disabled' : '' }} {{ old('type_of_assistance') == 'Emergency Shelter Assistance' ? 'selected' : '' }}>Emergency
+                <option value="Transportation Assistance" {{ str_contains(implode(',',
+                    $type_of_assistance_data), 'Transportation Assistance' ) ? 'disabled' : '' }} {{
+                    old('type_of_assistance')=='Transportation Assistance' ? 'selected' : '' }}>
+                    Transportation Assistance {{ str_contains(implode(',', $type_of_assistance_data), 'Transportation
+                    Assistance') ? '-Not Available-' : '' }}</option>
+                <option value="Food Assistance" {{ str_contains(implode(',',
+                    $type_of_assistance_data), 'Food Assistance' ) ? 'disabled' : '' }} {{
+                    old('type_of_assistance')=='Food Assistance' ? 'selected' : '' }}>
+                    Food Assistance {{ str_contains(implode(',', $type_of_assistance_data), 'Food Assistance') ? '-Not
+                    Available-' : '' }}</option>
+                <option value="Emergency Shelter Assistance" {{ str_contains(implode(',',
+                    $type_of_assistance_data), 'Emergency Shelter Assistance' ) ? 'disabled' : '' }} {{
+                    old('type_of_assistance')=='Emergency Shelter Assistance' ? 'selected' : '' }}>Emergency
                     Shelter
-                    Assistance {{ str_contains(implode(',', $type_of_assistance_data), 'Emergency Shelter Assistance') ? '-Not Available-' : '' }}</option>
-                <option value="Educational Assistance" {{ str_contains(implode(',', $type_of_assistance_data), 'Educational Assistance') ? 'disabled' : '' }} {{ old('type_of_assistance') == 'Educational Assistance' ? 'selected' : '' }}>
-                    Educational Assistance {{ str_contains(implode(',', $type_of_assistance_data), 'Educational Assistance') ? '-Not Available-' : '' }}</option>
+                    Assistance {{ str_contains(implode(',', $type_of_assistance_data), 'Emergency Shelter Assistance') ?
+                    '-Not Available-' : '' }}</option>
+                <option value="Educational Assistance" {{ str_contains(implode(',',
+                    $type_of_assistance_data), 'Educational Assistance' ) ? 'disabled' : '' }} {{
+                    old('type_of_assistance')=='Educational Assistance' ? 'selected' : '' }}>
+                    Educational Assistance {{ str_contains(implode(',', $type_of_assistance_data), 'Educational
+                    Assistance') ? '-Not Available-' : '' }}</option>
             </select>
         </div>
 
@@ -251,10 +296,9 @@
         <div class="form-group col-md-4">
             <label for="source_of_referral">Referral Source:</label>
             <input type="text" name="source_of_referral" class="form-control" placeholder="Referral Source"
-                value="{{ old('source_of_referral') }}"
-                required>
+                value="{{ old('source_of_referral') }}" required>
             @error('source_of_referral')
-                <small class="text-danger">{{ $message }}</small>
+            <small class="text-danger">{{ $message }}</small>
             @enderror
         </div>
     </div>
@@ -267,7 +311,7 @@
     </div>
 
 
-    <div class="form-group">
+    {{-- <div class="form-group">
         <div id="family-compo-container">
             <!-- Dynamic family member inputs will be added here -->
         </div>
@@ -279,9 +323,9 @@
                 <i class="fas fa-trash"></i> <span>Remove</span>
             </button>
         </div>
-    </div>
+    </div> --}}
 
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function () {
             const familyInfoContainer = document.getElementById('family-compo-container');
             const addFamilyMemberBtn = document.getElementById('add-family-compo');
@@ -383,19 +427,19 @@
     </script>
 
 
-
+    --}}
 
 
 
 
     <div class="mt-3 d-flex flex-column align-items-end">
-        <div class="mb-2 form-check">
+        {{-- <div class="mb-2 form-check">
             <input type="checkbox" name="save_for_next_application" class="form-check-input"
                 id="save_for_next_application" {{ session()->has('saved_application_data') ? 'checked' : '' }}>
             <label class="form-check-label" for="save_for_next_application">
                 Save my information for the next application
             </label>
-        </div>
+        </div> --}}
         <button type="submit" id="submit-button" class="btn btn-blue btn-icon">
             <i class="fas fa-save"></i> <span>Submit</span>
         </button>

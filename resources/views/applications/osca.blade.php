@@ -227,7 +227,7 @@
         <h5><i class="fa-solid fa-users"></i> <strong>FAMILY COMPOSITION</strong></h5>
     </div>
 
-    <div class="form-group">
+    {{-- <div class="form-group">
         <div id="family-compo-container">
             <!-- Dynamic family member inputs will be added here -->
         </div>
@@ -239,9 +239,9 @@
                 <i class="fas fa-trash"></i> <span>Remove</span>
             </button>
         </div>
-    </div>
+    </div> --}}
 
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function () {
             const familyInfoContainer = document.getElementById('family-compo-container');
             const addFamilyMemberBtn = document.getElementById('add-family-compo');
@@ -326,16 +326,16 @@
             console.log(memberCount);
             removeFamilyMemberBtn.addEventListener('click', removeLastFamilyCompo);
         });
-    </script>
+    </script> --}}
 
     <div class="mt-3 d-flex flex-column align-items-end">
-        <div class="mb-2 form-check">
+        {{-- <div class="mb-2 form-check">
             <input type="checkbox" name="save_for_next_application" class="form-check-input"
                 id="save_for_next_application" {{ session()->has('saved_application_data') ? 'checked' : '' }}>
             <label class="form-check-label" for="save_for_next_application">
                 Save my information for the next application
             </label>
-        </div>
+        </div> --}}
         <button type="submit" id="submit-button" class="btn btn-blue btn-icon">
             <i class="fas fa-save"></i> <span>Submit</span>
         </button>

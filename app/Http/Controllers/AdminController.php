@@ -18,6 +18,7 @@ use App\Models\FamilyBackground;
 use App\Models\FamilyComposition;
 use App\Models\ForSpdOrSpoUseOnly;
 use App\Models\Log;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -119,23 +120,23 @@ class AdminController extends Controller
                             });
                     });
                 }
-                if($search) {
+                if ($search) {
                     $query->where('last_name', "LIKE", "%{$search}%")
-                    ->orWhere('first_name', "LIKE", "%{$search}%")
-                    ->orWhere('middle_name', "LIKE", "%{$search}%")
-                    ->orWhere('suffix', "LIKE", "%{$search}%")
-                    ->orWhere('phone', "LIKE", "%{$search}%")
-                    ->orWhere('appearance_date', "LIKE", "%{$search}%")
-                    ->orWhere('status', "LIKE", "%{$search}%")
-                    ->orWhereHas('service', function ($subQuery) use ($search) {
-                        $subQuery->where('name', "LIKE", "%{$search}%");
-                    })
-                    ->orWhereHas('service', function ($subQuery) use ($search) {
-                        $subQuery->where('name', "LIKE", "%{$search}%");
-                    })
-                    ->orWhereHas('barangay', function ($subQuery) use ($search) {
-                        $subQuery->where('name', "LIKE", "%{$search}%");
-                    });
+                        ->orWhere('first_name', "LIKE", "%{$search}%")
+                        ->orWhere('middle_name', "LIKE", "%{$search}%")
+                        ->orWhere('suffix', "LIKE", "%{$search}%")
+                        ->orWhere('phone', "LIKE", "%{$search}%")
+                        ->orWhere('appearance_date', "LIKE", "%{$search}%")
+                        ->orWhere('status', "LIKE", "%{$search}%")
+                        ->orWhereHas('service', function ($subQuery) use ($search) {
+                            $subQuery->where('name', "LIKE", "%{$search}%");
+                        })
+                        ->orWhereHas('service', function ($subQuery) use ($search) {
+                            $subQuery->where('name', "LIKE", "%{$search}%");
+                        })
+                        ->orWhereHas('barangay', function ($subQuery) use ($search) {
+                            $subQuery->where('name', "LIKE", "%{$search}%");
+                        });
                 }
             })
             ->orderBy('created_at', 'desc')->paginate(10);
@@ -733,7 +734,7 @@ class AdminController extends Controller
 
     public function editOsca($id)
     {
-        $beneficiary = Beneficiary::with('familyCompositions')->findOrFail($id);
+        $beneficiary = Beneficiary::with('user.familyCompositions')->findOrFail($id);
         $barangays = $this->Barangay();
         return view('admin.edit-beneficiaries.edit-osca', compact('barangays', 'beneficiary'));
     }
@@ -765,6 +766,19 @@ class AdminController extends Controller
 
         ]);
 
+        $user = User::firstOrCreate([
+            'last_name'     => $request->last_name,
+            'first_name'    => $request->first_name,
+        ], [
+            'email'         => "{$request->last_name}{$request->first_name}@gmail.com",
+            'phone'         => $request->phone,
+            'age'           => $request->age,
+            'gender'        => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
+            'barangay_id'   => $request->barangay,
+            'password'      => 'mswd_default_password'
+        ]);
+
         $beneficiary = Beneficiary::create([
             'program_enrolled' => $oscaId,
             'last_name' => $request->last_name,
@@ -785,11 +799,13 @@ class AdminController extends Controller
             'approved_by' => Auth::id(),
             'approved_at' => now(),
             'phone' => $request->phone,
+            'user_id' => $user->id
         ]);
 
         foreach ($request->name as $index => $name) {
-            FamilyComposition::create([
-                'beneficiary_id' => $beneficiary->id,
+            FamilyComposition::updateOrCreate([
+                'user_id' => $user->id
+            ], [
                 'name' => $name,
                 'relationship' => $request->relationship[$index],
                 'civil_status' => $request->civil_status_fc[$index],
@@ -927,7 +943,7 @@ class AdminController extends Controller
         if ($request->has('family_composition_data')) {
             foreach ($request->family_composition_data as $index => $data) {
                 FamilyComposition::create([
-                    'beneficiary_id' => $beneficiary->id,
+                    'user_id' => $request->user_id,
                     'name' => $request->name[$index],
                     'relationship' => $request->relationship[$index],
                     'civil_status' => $request->civil_status_fc[$index],
@@ -938,9 +954,9 @@ class AdminController extends Controller
             }
         } else {
 
-            foreach ($beneficiary->familyCompositions as $fc) {
+            foreach ($beneficiary->user->familyCompositions as $fc) {
                 FamilyComposition::updateOrCreate([
-                    'beneficiary_id' => $beneficiary->id,
+                    'user_id' => $request->user_id,
                     'id' => $fc->id
                 ], [
                     'name' => $request->name[$fc->id],
@@ -973,7 +989,7 @@ class AdminController extends Controller
 
     public function editAics($id)
     {
-        $beneficiary = Beneficiary::with(['familyCompositions', 'aicsDetails'])->findOrFail($id);
+        $beneficiary = Beneficiary::with(['user.familyCompositions', 'aicsDetails'])->findOrFail($id);
         $barangays = $this->Barangay();
         return view('admin.edit-beneficiaries.edit-aics', compact('barangays', 'beneficiary'));
     }
@@ -1011,6 +1027,20 @@ class AdminController extends Controller
 
         ]);
 
+
+
+        $user = User::firstOrCreate([
+            'last_name'     => $request->last_name,
+            'first_name'    => $request->first_name,
+        ], [
+            'email'         => "{$request->last_name}{$request->first_name}@gmail.com",
+            'phone'         => $request->phone,
+            'age'           => $request->age,
+            'date_of_birth' => $request->date_of_birth,
+            'barangay_id'   => $request->barangay,
+            'password'      => 'mswd_default_password'
+        ]);
+
         $beneficiary = Beneficiary::create([
             'program_enrolled' => $aicsId,
             'last_name' => $request->last_name,
@@ -1029,18 +1059,19 @@ class AdminController extends Controller
             'approved_by' => Auth::id(),
             'approved_at' => now(),
             'phone' => $request->phone,
+            'user_id' => $user->id
         ]);
 
         foreach ($request->name as $index => $name) {
-            FamilyComposition::create([
-                'beneficiary_id' => $beneficiary->id,
+            FamilyComposition::updateOrCreate([
+                'user_id' => $user->id
+            ], [
                 'name' => $name,
                 'relationship' => $request->relationship[$index],
-                'age' => $request->age_fc[$index],
-                'gender' => $request->gender_fc[$index],
                 'civil_status' => $request->civil_status_fc[$index],
+                'age' => $request->age_fc[$index],
                 'occupation' => $request->occupation_fc[$index],
-                'educational' => $request->educational_attainment_fc[$index],
+                'income' => $request->income[$index],
             ]);
         }
 
@@ -1180,7 +1211,7 @@ class AdminController extends Controller
         if ($request->has('family_composition_data')) {
             foreach ($request->family_composition_data as $index => $data) {
                 FamilyComposition::create([
-                    'beneficiary_id' => $beneficiary->id,
+                    'user_id' => $request->user_id,
                     'name' => $request->name[$index],
                     'relationship' => $request->relationship[$index],
                     'age' => $request->age_fc[$index],
@@ -1191,9 +1222,9 @@ class AdminController extends Controller
                 ]);
             }
         } else {
-            foreach ($beneficiary->familyCompositions as $index => $fc) {
+            foreach ($beneficiary->user->familyCompositions as $index => $fc) {
                 FamilyComposition::updateOrCreate([
-                    'beneficiary_id' => $beneficiary->id,
+                    'user_id' => $request->user_id,
                     'id' => $fc->id
                 ], [
                     'name' => $request->name[$fc->id],
@@ -1240,7 +1271,7 @@ class AdminController extends Controller
 
     public function editSoloParent($id)
     {
-        $beneficiary = Beneficiary::with(['familyCompositions', 'soloParentDetails', 'contactEmergencies'])->findOrFail($id);
+        $beneficiary = Beneficiary::with(['user.familyCompositions', 'soloParentDetails', 'contactEmergencies'])->findOrFail($id);
         $barangays = $this->Barangay();
         return view('admin.edit-beneficiaries.edit-solo-parent', compact('barangays', 'beneficiary'));
     }
@@ -1283,6 +1314,19 @@ class AdminController extends Controller
 
         ]);
 
+        $user = User::firstOrCreate([
+            'last_name'     => $request->last_name,
+            'first_name'    => $request->first_name,
+        ], [
+            'email'         => "{$request->last_name}{$request->first_name}@gmail.com",
+            'phone'         => $request->phone,
+            'age'           => $request->age,
+            'gender'        => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
+            'barangay_id'   => $request->barangay,
+            'password'      => 'mswd_default_password'
+        ]);
+
         $beneficiary = Beneficiary::create([
             'program_enrolled' => $soloParentId,
             'last_name' => $request->last_name,
@@ -1303,18 +1347,18 @@ class AdminController extends Controller
             'accepted_by' => Auth::id(),
             'approved_by' => Auth::id(),
             'approved_at' => now(),
+            'user_id' => $user->id
         ]);
 
         foreach ($request->name as $index => $name) {
-            FamilyComposition::create([
-                'beneficiary_id' => $beneficiary->id,
+            FamilyComposition::updateOrCreate([
+                'user_id' => $user->id
+            ], [
                 'name' => $name,
                 'relationship' => $request->relationship[$index],
-                'birthday' => $request->birthday[$index],
-                'age' => $request->age_fc[$index],
                 'civil_status' => $request->civil_status_fc[$index],
+                'age' => $request->age_fc[$index],
                 'occupation' => $request->occupation_fc[$index],
-                'educational' => $request->educational_attainment_fc[$index],
                 'income' => $request->income[$index],
             ]);
         }
@@ -1473,7 +1517,7 @@ class AdminController extends Controller
         if ($request->has('family_composition_data')) {
             foreach ($request->family_composition_data as $index => $data) {
                 FamilyComposition::create([
-                    'beneficiary_id' => $beneficiary->id,
+                    'user_id' => $request->user_id,
                     'name' => $request->name[$index],
                     'relationship' => $request->relationship[$index],
                     'birthday' => $request->birthday[$index],
@@ -1485,9 +1529,9 @@ class AdminController extends Controller
                 ]);
             }
         } else {
-            foreach ($beneficiary->familyCompositions as $index => $fc) {
+            foreach ($beneficiary->user->familyCompositions as $index => $fc) {
                 FamilyComposition::updateOrCreate([
-                    'beneficiary_id' => $beneficiary->id,
+                    'user_id' => $request->user_id,
                     'id' => $fc->id
                 ], [
                     'name' => $request->name[$fc->id],
@@ -1598,6 +1642,19 @@ class AdminController extends Controller
 
 
 
+        $user = User::firstOrCreate([
+            'last_name'     => $request->last_name,
+            'first_name'    => $request->first_name,
+        ], [
+            'email'         => "{$request->last_name}{$request->first_name}@gmail.com",
+            'phone'         => $request->phone,
+            'age'           => $request->age,
+            'gender'        => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
+            'barangay_id'   => $request->barangay,
+            'password'      => 'mswd_default_password'
+        ]);
+
         $beneficiary = Beneficiary::create([
             'program_enrolled' => $pwdId,
             'last_name' => $request->last_name,
@@ -1617,6 +1674,7 @@ class AdminController extends Controller
             'accepted_by' => Auth::id(),
             'approved_by' => Auth::id(),
             'approved_at' => now(),
+            'user_id' => $user->id
         ]);
 
         $acquired = $request->acquired === 'Other' ? 'Other, ' . $request->other_acquired : $request->acquired;

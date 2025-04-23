@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BasicInfo;
+use App\Models\FamilyComposition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -80,7 +81,29 @@ class BasicInfoController extends Controller
             'guardian_contact',
         ]);
 
-        $anyEmpty = collect($fields)->contains(function ($value) {
+        $fieldFamilyComposition = $request->only([
+            'name',
+            'relationship',
+            'birthday',
+            'age_fc',
+            'gender_fc',
+            'civil_status_fc',
+            'educational_attainment_fc',
+            'income',
+        ]);
+
+        $request->validate([
+            'name.*'                      => ['required'],
+            'relationship.*'              => ['required'],
+            'birthday.*'                  => ['required'],
+            'age_fc.*'                    => ['required'],
+            'gender_fc.*'                 => ['required'],
+            'civil_status_fc.*'           => ['required'],
+            'educational_attainment_fc.*' => ['required'],
+            'income.*'                    => ['required'],
+        ]);
+
+        $anyEmpty = collect(array_merge($fields, $fieldFamilyComposition))->contains(function ($value) {
             return $value === null || $value === '';
         });
 
@@ -89,6 +112,7 @@ class BasicInfoController extends Controller
         }
 
         $fields['user_id'] = Auth::id();
+        $fieldFamilyComposition['user_id'] = Auth::id();
 
         BasicInfo::updateOrCreate(
             [
@@ -96,6 +120,22 @@ class BasicInfoController extends Controller
             ],
             $fields
         );
+
+        foreach ($request->name as $index => $name) {
+            FamilyComposition::updateOrCreate([
+                'user_id' => Auth::id(),
+                'name' => $name,
+            ], [
+                'relationship' => $request->relationship[$index],
+                'birthday' => $request->birthday[$index],
+                'age' => $request->age_fc[$index],
+                'civil_status' => $request->civil_status_fc[$index],
+                'occupation' => $request->occupation_fc[$index],
+                'educational' => $request->educational_attainment_fc[$index],
+                'gender' => $request->gender_fc[$index],
+                'income' => $request->income[$index],
+            ]);
+        }
 
         return back()->with('message', "Basic Information Updated Successfully!");
     }

@@ -458,9 +458,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const familyComposition = document.getElementById('familyComposition');
+            const originalRow = document.querySelector('.family-member-row');
             let fieldCount = 1;
+
             document.getElementById('addFamilyComposition').addEventListener('click', function() {
-                const newRow = document.querySelector('.family-member-row').cloneNode(true);
+                const newRow = originalRow.cloneNode(true);
 
                 const inputs = newRow.querySelectorAll('input, select');
                 inputs.forEach(input => {
@@ -469,17 +472,21 @@
                     input.value = '';
                 });
 
+                newRow.querySelectorAll('.text-danger').forEach(el => el.remove());
+
                 const removeButton = newRow.querySelector('.remove-family-member');
                 removeButton.style.display = 'inline-block';
-
-                document.getElementById('familyMemberFields').appendChild(newRow);
-
-                fieldCount++;
 
                 removeButton.addEventListener('click', function() {
                     newRow.remove();
                 });
+
+                familyComposition.insertBefore(newRow, this);
+
+                fieldCount++;
             });
+
+            document.querySelector('.family-member-row .remove-family-member').style.display = 'none';
         });
 
     </script>

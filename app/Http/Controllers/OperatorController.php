@@ -29,7 +29,7 @@ class OperatorController extends Controller
                 $application->source = 'Application';
                 return $application;
             });
-        $beneficiaries = Beneficiary::with(['barangay', 'familyCompositions'])
+        $beneficiaries = Beneficiary::with(['barangay', 'user.familyCompositions'])
             ->where(function($query) use ($service, $search) {
                 $query->where('status', 'released');
                 if ($service && $service !== 'Deceased') {
@@ -94,7 +94,7 @@ class OperatorController extends Controller
                 $application->source = 'Application';
                 return $application;
             });
-        $beneficiaries = Beneficiary::with(['barangay', 'familyCompositions'])
+        $beneficiaries = Beneficiary::with(['barangay', 'user.familyCompositions'])
             ->where(function($query) use ($service, $search) {
                 $query->where('status', 'released');
                 if ($service && $service !== 'Deceased') {

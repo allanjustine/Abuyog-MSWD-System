@@ -226,7 +226,9 @@
 
 <body>
 
-    @include('components.basic-info-modal')
+    @if (Auth::user()->isBeneficiary())
+        @include('components.basic-info-modal')
+    @endif
     <div class="container-scroller">
 
         @include('user.sidebar')

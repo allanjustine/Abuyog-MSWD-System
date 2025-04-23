@@ -162,16 +162,18 @@
                     </div>
                 </div>
             </div>
-
-            @if ($item?->familyCompositions?->count() !== 0)
+            @if ($item?->user?->familyCompositions?->count() > 0)
                 <div class="row">
                     <div class="col-md-12">
                         <h5 class="text-left fs-5 mb-3 mx-3">
                             <i class="mdi mdi-account-group"></i> <strong>Family Composition</strong>
                         </h5>
-                        @foreach ($item?->familyCompositions as $index => $fc)
-                            <div class="mb-3 border-top p-2" @if ($index % 2) style="background-color: rgba(9, 9, 9, 0.157);"
-                            @endif>
+                        @foreach ($item?->user?->familyCompositions as $index => $fc)
+                            <div class="mb-3 border-top p-2"
+                            @style([
+                                'background-color: rgba(9, 9, 9, 0.157)' => $loop->even
+                            ])
+                            >
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">

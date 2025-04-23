@@ -25,7 +25,9 @@
     <div class="container-scroller">
         @include('user.sidebar')
         @include('user.navbar')
-        @include('components.basic-info-modal')
+        @if (Auth::user()->isBeneficiary())
+            @include('components.basic-info-modal')
+        @endif
 
         <div class="container">
             <div class="card" align="center" style="padding-top:80px;">

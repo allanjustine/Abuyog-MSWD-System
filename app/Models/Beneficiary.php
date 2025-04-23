@@ -43,10 +43,7 @@ class Beneficiary extends Model
     {
         return $this->hasMany(BenefitReceived::class, 'beneficiary_id')->chaperone();
     }
-    public function familyCompositions()
-    {
-        return $this->hasMany(FamilyComposition::class)->chaperone();
-    }
+
     public function benefitReceiveds()
     {
         return $this->hasMany(BenefitReceived::class, 'beneficiary_id');

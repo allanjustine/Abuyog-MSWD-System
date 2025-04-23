@@ -17,7 +17,9 @@
     </x-slot>
 
     <div>
-        @include('components.basic-info-modal')
+        @if (Auth::user()->isBeneficiary())
+            @include('components.basic-info-modal')
+        @endif
         <div class="py-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
             @if (Laravel\Fortify\Features::canUpdateProfileInformation())
             @livewire('profile.update-profile-information-form')

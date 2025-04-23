@@ -271,7 +271,9 @@
     </header> --}}
 
     <div class="container">
-        @include('components.basic-info-modal')
+        @if (Auth::user()->isBeneficiary())
+            @include('components.basic-info-modal')
+        @endif
         <h1 class="custom-heading">Application Form for {{ $service->name }}</h1>
         <!-- Form for service with ID = 1 OSCA -->
         @if ($service->id == 1)

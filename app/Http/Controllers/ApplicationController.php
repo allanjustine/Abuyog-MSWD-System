@@ -7,7 +7,6 @@ use App\Models\AicsDetail;
 use App\Models\Barangay;
 use App\Models\ContactEmergency;
 use App\Models\FamilyBackground;
-use App\Models\FamilyComposition;
 use App\Models\PwdDetail;
 use App\Models\SoloParentDetail;
 use Illuminate\Http\Request;
@@ -15,8 +14,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Service;
 use App\Models\Application;
 use App\Models\Beneficiary;
-use App\Models\SavedFamilyComposition;
-use App\Models\SavedFamilyCompositionDetail;
 use Barryvdh\DomPDF\Facade\PDF;
 use Illuminate\Support\Facades\App;
 use Carbon\Carbon;
@@ -880,11 +877,11 @@ class ApplicationController extends Controller
             'user_id' => Auth::id()
         ]);
 
-        if ($request->has('save_for_next_application')) {
-            session(['saved_application_data' => $request->except('_token', 'save_for_next_application')]);
-        } else {
-            session()->forget('saved_application_data'); // I-clear ang session kung hindi na-check
-        }
+        // if ($request->has('save_for_next_application')) {
+        //     session(['saved_application_data' => $request->except('_token', 'save_for_next_application')]);
+        // } else {
+        //     session()->forget('saved_application_data'); // I-clear ang session kung hindi na-check
+        // }
 
 
         return redirect('/myapplication')->with('success', 'Beneficiary added successfully!');
@@ -1068,19 +1065,6 @@ class ApplicationController extends Controller
             'user_id' => Auth::id()
         ]);
 
-        foreach ($request->name as $index => $name) {
-            FamilyComposition::create([
-                'beneficiary_id' => $beneficiary->id,
-                'name' => $name,
-                'relationship' => $request->relationship[$index],
-                'age' => $request->age_fc[$index],
-                'gender' => $request->gender_fc[$index],
-                'civil_status' => $request->civil_status_fc[$index],
-                'occupation' => $request->occupation_fc[$index],
-                'educational' => $request->educational_attainment_fc[$index],
-            ]);
-        }
-
         AicsDetail::create([
             'beneficiary_id' => $beneficiary->id,
             'date_applied' => $request->appearance_date,
@@ -1180,20 +1164,6 @@ class ApplicationController extends Controller
             'user_id' => Auth::id()
         ]);
 
-        foreach ($request->name as $index => $name) {
-            FamilyComposition::create([
-                'beneficiary_id' => $beneficiary->id,
-                'name' => $name,
-                'relationship' => $request->relationship[$index],
-                'age' => $request->age_fc[$index],
-                'birthday' => $request->birthday[$index],
-                'civil_status' => $request->civil_status_fc[$index],
-                'educational' => $request->educational_attainment_fc[$index],
-                'occupation' => $request->occupation_fc[$index],
-                'income' => $request->income[$index],
-            ]);
-        }
-
         SoloParentDetail::create([
             'beneficiary_id' => $beneficiary->id,
             'company_agency' => $request->company_agency,
@@ -1227,7 +1197,7 @@ class ApplicationController extends Controller
         $application = Beneficiary::with([
             'service',
             'aicsDetails',
-            'familyCompositions',
+            'user.familyCompositions',
             'benefitsReceived',
             'soloParentDetails',
             'contactEmergencies',
