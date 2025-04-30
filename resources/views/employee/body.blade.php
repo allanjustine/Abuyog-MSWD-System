@@ -470,7 +470,7 @@
             }, function(data) {
                 var barangayDropdown = $('#barangay').empty().append('<option value="all">All Barangays</option>');
                 data.barangays.forEach(b => barangayDropdown.append(
-                    `<option value="${b.barangay_id}">${b.name}</option>`));
+                    `<option value="${b.id}">${b.name}</option>`));
             });
         }
     </script>
