@@ -172,8 +172,37 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="religion" class="form-label">Religion</label>
-                                    <input type="text" class="form-control" id="religion" name="religion"
-                                        value="{{ $beneficiary->religion ?? '' }}">
+                                    <select name="religion" class="form-select">
+                                        <option value="" disabled selected>Select Religion</option>
+                                        <option value="Christianity" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Christianity' ? 'selected' : '' }}>
+                                            Christianity</option>
+                                        <option value="Roman Catholic" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Roman Catholic' ? 'selected' : '' }}>
+                                            Roman Catholic</option>
+                                        <option value="Protestant" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Protestant' ? 'selected' : '' }}>
+                                            Protestant</option>
+                                        <option value="Islam" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Islam' ? 'selected' : '' }}>
+                                            Islam</option>
+                                        <option value="Hinduism" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Hinduism' ? 'selected' : '' }}>
+                                            Hinduism</option>
+                                        <option value="Buddhism" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Buddhism' ? 'selected' : '' }}>
+                                            Buddhism</option>
+                                        <option value="Judaism" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Judaism' ? 'selected' : '' }}>
+                                            Judaism</option>
+                                        <option value="Sikhism" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Sikhism' ? 'selected' : '' }}>
+                                            Sikhism</option>
+                                        <option value="Baha'i" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == "Baha'i" ? 'selected' : '' }}>
+                                            Bahai</option>
+                                        <option value="Taoism" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Taoism' ? 'selected' : '' }}>
+                                            Taoism</option>
+                                        <option value="Shinto" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Shinto' ? 'selected' : '' }}>
+                                            Shinto</option>
+                                        <option value="Agnostic" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Agnostic' ? 'selected' : '' }}>
+                                            Agnostic</option>
+                                        <option value="Atheist" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Atheist' ? 'selected' : '' }}>
+                                            Atheist</option>
+                                        <option value="Other" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Other' ? 'selected' : '' }}>
+                                            Other</option>
+                                    </select>
                                     @error('religion')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -289,8 +318,42 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label for="occupation" class="form-label">Occupation</label>
-                                        <input type="text" class="form-control" id="occupation" name="occupation"
-                                            value="{{ $beneficiary->occupation ?? '' }}">
+                                        <select name="occupation" id="occupation" class="form-select">
+
+                                            <option value="" disabled selected>Select Types</option>
+                                            <option value="Managers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Managers' ? 'selected' : '' }}>
+                                                Managers
+                                            </option>
+                                            <option value="Professionals" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Professionals' ? 'selected' : '' }}>
+                                                Professionals
+                                            </option>
+                                            <option value="Technicians and Associate Professionals" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Technicians and Associate Professionals' ? 'selected' : '' }}>
+                                                Technicians and Associate Professionals
+                                            </option>
+                                            <option value="Clerical Support Workers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Clerical Support Workers' ? 'selected' : '' }}>
+                                                Clerical Support Workers
+                                            </option>
+                                            <option value="Service and Sales Workers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Service and Sales Workers' ? 'selected' : '' }}>
+                                                Service and Sales Workers
+                                            </option>
+                                            <option value="Skilled Agricultural, Forestry and Fishery Workers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Skilled Agricultural, Forestry and Fishery Workers'
+                                ? 'selected'
+                                : '' }}>
+                                                Skilled Agricultural, Forestry and Fishery Workers
+                                            </option>
+                                            <option value="Craft and Related Trade Workers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Craft and Related Trade Workers' ? 'selected' : '' }}>
+                                                Craft and Related Trade Workers
+                                            </option>
+                                            <option value="Plant and Machine Operators and Assemblers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Plant and Machine Operators and Assemblers' ? 'selected' : '' }}>
+                                                Plant and Machine Operators and Assemblers
+                                            </option>
+                                            <option value="Elementary Occupations" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Elementary Occupations' ? 'selected' : '' }}>
+                                                Elementary Occupations
+                                            </option>
+                                            <option value="Armed Forces Occupations" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Armed Forces Occupations' ? 'selected' : '' }}>
+                                                Armed Forces Occupations
+                                            </option>
+                                        </select>
                                         @error('occupation')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -309,7 +372,7 @@
                                 <legend class="w-auto px-2">Family Composition</legend>
 
                                 <!-- Family Member 1 -->
-                                @forelse($beneficiary->familyCompositions as $index => $fc)
+                                @forelse($beneficiary?->user?->familyCompositions as $index => $fc)
                                     <div @if ($index % 2) style="background-color:rgba(0, 0, 0, 0.136);" @endif
                                         class="p-2 rounded">
                                         <div class="row form-row">

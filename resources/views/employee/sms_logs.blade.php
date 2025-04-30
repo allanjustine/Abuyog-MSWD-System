@@ -68,9 +68,6 @@
                         </tbody>
                     </table>
 
-
-
-
                 </div>
                 {{ $smsLogs->links('pagination::bootstrap-5') }}
 

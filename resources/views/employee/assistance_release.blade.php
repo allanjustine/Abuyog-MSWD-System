@@ -38,7 +38,7 @@
                         <div class="mb-3 col-md-6">
                             <label for="name_of_assistance" class="form-label" style="margin-top: 5%;">Filter
                                 Beneficiaries by the name of Assistance</label>
-                            <select name="name_of_assistance" id="name_of_assistance" class="form-control"
+                            <select name="name_of_assistance" id="name_of_assistance" class="form-select"
                                 style="text-align: center;">
                                 <option value="">-- Select Assistance --</option>
                                 @foreach ($assistances as $assistance)
@@ -236,7 +236,7 @@
                                                     <input type="text" class="form-control"
                                                         id="name_of_assistance" name="name_of_assistance" required>
                                                 </div>
-                                            </div>  
+                                            </div>
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="type_of_assistance">Type of Assistance</label>

@@ -424,10 +424,7 @@ class OperatorController extends Controller
     {
         $services = Service::all();
         $barangays = Barangay::all(); // Fetch all barangays if needed
-        $deceased = DB::table('deceased')
-            ->join('barangays', 'deceased.barangay_id', '=', 'barangays.id')
-            ->select('deceased.*', 'barangays.name as barangay_name')
-            ->get();
+        $deceased = Beneficiary::where('is_deceased', true)->get();
         // Pass the data to the view
         return view('operator.deceased_operator', compact('deceased'));
     }

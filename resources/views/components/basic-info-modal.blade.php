@@ -98,14 +98,14 @@
                             <label class="form-label">Blood Type</label>
                             <select class="form-control" name="blood_type">
                                 <option selected disabled>Select blood type</option>
-                                <option {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == "A+" ? "selected" : "" }}>A+</option>
-                                <option {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == "A-" ? "selected" : "" }}>A-</option>
-                                <option {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == "B+" ? "selected" : "" }}>B+</option>
-                                <option {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == "B-" ? "selected" : "" }}>B-</option>
-                                <option {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == "AB+" ? "selected" : "" }}>AB+</option>
-                                <option {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == "AB-" ? "selected" : "" }}>AB-</option>
-                                <option {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == "O+" ? "selected" : "" }}>O+</option>
-                                <option {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == "O-" ? "selected" : "" }}>O-</option>
+                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "A+" ? "selected" : "" }}>A+</option>
+                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "A-" ? "selected" : "" }}>A-</option>
+                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "B+" ? "selected" : "" }}>B+</option>
+                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "B-" ? "selected" : "" }}>B-</option>
+                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "AB+" ? "selected" : "" }}>AB+</option>
+                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "AB-" ? "selected" : "" }}>AB-</option>
+                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "O+" ? "selected" : "" }}>O+</option>
+                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "O-" ? "selected" : "" }}>O-</option>
                             </select>
                         </div>
                         <div class="col-md-6">

@@ -182,9 +182,15 @@
                                                     </a>
                                                     @if ($item->status === 'pending')
                                                         <button class="btn btn-success btn-md"
-                                                            onclick="confirmApproval('{{ url('approved', $item->id) }}')">
+                                                        data-bs-toggle="modal"
+                                                            data-bs-target="#ApproveModal{{ $item->id }}"
+                                                        >
                                                             <i class="bi bi-check-circle"></i>
                                                         </button>
+                                                        {{-- <button class="btn btn-success btn-md"
+                                                            onclick="confirmApproval('{{ url('approved', $item->id) }}')">
+                                                            <i class="bi bi-check-circle"></i>
+                                                        </button> --}}
                                                         <button class="btn btn-danger btn-md"
                                                             onclick="showCancelModal({{ $item->id }})">
                                                             <i class="bi bi-x-circle"></i>
@@ -225,6 +231,223 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="modal fade" id="ApproveModal{{ $item->id }}" tabindex="-1"
+                                            aria-labelledby="ApproveModal{{ $item->id }}Label" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <form action="/approved/{{ $item->id }}" method="GET">
+                                                        @csrf
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5"
+                                                                id="ApproveModal{{ $item->id }}Label">
+                                                                Confirming...
+                                                            </h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+                                                            <p>Do you want to accept this application?
+                                                            </p>
+                                                            <p>
+                                                                Ensure that the applicant has submitted all the required
+                                                                documents before you approve.
+                                                            </p>
+
+                                                            @if ($item->service->id == 4)
+                                                                {{-- AICS service --}}
+                                                                @php
+                                                                    // Safely check if aicsDetails is not empty before accessing the first element
+                                                                    $aicsType = isset($item->aicsDetails[0])
+                                                                        ? $item->aicsDetails[0]->type_of_assistance
+                                                                        : 'Default';
+                                                                    $requirements = [];
+                                                                @endphp
+
+                                                                @switch($aicsType)
+                                                                    @case('Medical Assistance')
+                                                                        @php
+                                                                            $requirements = [
+                                                                                'Barangay Certification/Certificate of Indigency - 1 original and 2 photocopy',
+                                                                                'Medical Certification/Clinical Abstract issued within 3 months (with signature and license number of the attending physician) - 1 original and 2 photocopy',
+                                                                                'Statement of Account/Billing Statement(for Billing) - 1 original and 2 photocopy',
+                                                                                'Pharmacy Receipt - 1 original and 2 photocopy',
+                                                                                "Doctor's Prescription - 1 original and 2 photocopy",
+                                                                                'Fully accomplished Application Form',
+                                                                            ];
+                                                                        @endphp
+                                                                    @break
+
+                                                                    @case('Burial Assistance')
+                                                                        @php
+                                                                            $requirements = [
+                                                                                'Barangay Certification/Certificate of Indigency - 1 original and 2 photocopy',
+                                                                                'Registered Death Certificate - 1 original and 2 photocopy',
+                                                                                'Funeral Contract - 1 original and 2 photocopy',
+                                                                                'Senior Citizen Certification (deceased senior citizen) - 1 original and 2 photocopy',
+                                                                                "Senior Citizen's Id (deceased senior citizen) - Certified True Copy and 2 photocopy",
+                                                                                'Fully accomplished Application Form',
+                                                                            ];
+                                                                        @endphp
+                                                                    @break
+
+                                                                    @case('Transportation Assistance')
+                                                                        @php
+                                                                            $requirements = [
+                                                                                'Barangay Certification/Certificate of Indigency - 1 original and 2 photocopy',
+                                                                                'Social Case Study Report - 2 Original Copy',
+                                                                                'Letter Request - 1 original and 2 photocopy',
+                                                                                'Fully accomplished Application Form',
+                                                                            ];
+                                                                        @endphp
+                                                                    @break
+
+                                                                    @case('Food Assistance')
+                                                                        @php
+                                                                            $requirements = [
+                                                                                'Intake/Interview of clients suffering from starvation to determine eligibility for assistance',
+                                                                                'Fully accomplished Application Form',
+                                                                            ];
+                                                                        @endphp
+                                                                    @break
+
+                                                                    @case('Emergency Shelter Assistance')
+                                                                        @php
+                                                                            $requirements = [
+                                                                                'Fully accomplished Application Form',
+                                                                                'Bureau of Fire Protection Certification',
+                                                                                "Intake/Interview of client to determine one's eligibility for assistance",
+                                                                                'Picture of the damaged house - 3 copies',
+                                                                            ];
+                                                                        @endphp
+                                                                    @break
+
+                                                                    @case('Educational Assistance')
+                                                                        @php
+                                                                            $requirements = [
+                                                                                'Any valid ID/Barangay Certificate/ Certificate of Indigency - 3 photocopies',
+                                                                                'School ID of student/beneficiary - 3 photocopies',
+                                                                                'Certificate of Enrollment or Registration - 1 original and 2 photocopy',
+                                                                                'Assessment Form/Statement of Account - 1 original and 2 photocopy',
+                                                                                'Social Case Study Report (SCSR) from the MSWDO',
+                                                                                'Fully accomplished Application Form',
+                                                                            ];
+                                                                        @endphp
+                                                                    @break
+
+                                                                    @default
+                                                                        @php
+                                                                            $requirements = ['No specific requirements'];
+                                                                        @endphp
+                                                                @endswitch
+                                                            @else
+                                                                {{-- Other services' requirements --}}
+                                                                @switch($item->service->id)
+                                                                    @case(1)
+                                                                        @php
+                                                                            $requirements = [
+                                                                                'Valid ID',
+                                                                                'Accomplished Certification and Authorization',
+                                                                                'Certificate of Existence',
+                                                                                'Fully accomplished Application Form',
+                                                                            ];
+                                                                        @endphp
+                                                                    @break
+
+                                                                    @case(2)
+                                                                        @php
+                                                                            $requirements = [
+                                                                                'Updated Barangay Certificate',
+                                                                                '1x1 ID Picture',
+                                                                                'Birth Certificate / Voter\'s Certification',
+                                                                                'Medical Certificate',
+                                                                                'Whole Body picture of PWD applicant',
+                                                                                'Fully accomplished Application Form',
+                                                                            ];
+                                                                        @endphp
+                                                                    @break
+
+                                                                    @case(3)
+                                                                        @php
+                                                                            $requirements = [
+                                                                                'Certificate of No Marriage (CENOMAR)',
+                                                                                '2×2 Photo',
+                                                                                'Fully accomplished Application Form',
+                                                                                'PSA Birth Certificate/s',
+                                                                                'Spouse’s Death Certificate',
+                                                                                'Certificate of Annulment/Nullity of Marriage',
+                                                                                'Income Tax Return (ITR) or Document Showing Income Level',
+                                                                                'Barangay Certificate',
+                                                                                'Proof of Financial Status',
+                                                                                'Supporting Documents/Certificates',
+                                                                            ];
+                                                                        @endphp
+                                                                    @break
+
+                                                                    @default
+                                                                        @php
+                                                                            $requirements = ['No specific requirements'];
+                                                                        @endphp
+                                                                @endswitch
+                                                            @endif
+
+                                                            <div x-data="{ open: false }" class="d-flex justify-content-center flex-column">
+                                                                <button type="button" class="btn btn-primary"
+                                                                    @click="open = !open">View Checklist</button>
+                                                                <ul class="ml-3 fw-bold text-uppercase text-start"
+                                                                    style="list-style: square" x-cloak x-show="open"
+                                                                    id="requirements-list">
+                                                                    @foreach ($requirements as $index => $requirement)
+                                                                        <li><input type="checkbox"
+                                                                                class="requirement-checkbox{{ $item->id }}">
+                                                                            {{ $requirement }}</li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+                                                            <p id="message{{ $item->id }}"
+                                                                class="text-success fw-bold fs-4" style="display: none;"><i
+                                                                    class="mdi mdi-check-all"></i> All requirements are
+                                                                checked!</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">No</button>
+                                                            <button type="submit" class="btn btn-primary"
+                                                                id="button-approve{{ $item->id }}"
+                                                                style="display: none;">Yes, Confirm</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function() {
+
+                                                const checkboxes = document.querySelectorAll(".requirement-checkbox{{ $item->id }}");
+                                                const message = document.getElementById('message{{ $item->id }}');
+                                                const button = document.getElementById('button-approve{{ $item->id }}');
+                                                const aicsDiv = document.getElementById('aics-data{{ $item->id }}');
+
+                                                function checkAllChecked() {
+                                                    const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+                                                    if (allChecked) {
+                                                        message.style.display = 'block';
+                                                        button.style.display = 'block';
+                                                        aicsDiv.style.display = 'block';
+                                                    } else {
+                                                        message.style.display = 'none';
+                                                        button.style.display = 'none';
+                                                        aicsDiv.style.display = 'none';
+                                                    }
+                                                }
+
+                                                checkboxes.forEach(checkbox => {
+                                                    checkbox.addEventListener('change', checkAllChecked);
+                                                });
+
+                                                checkAllChecked();
+                                            });
+                                        </script>
                                     @endforeach
                                 </tbody>
                             </table>
