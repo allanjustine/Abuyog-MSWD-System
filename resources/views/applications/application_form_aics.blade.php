@@ -164,31 +164,31 @@
       <tr>
         <td
           style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($application?->familyCompositions[$i]?->name ?? '' )}}
+          {{ strtoupper($application->user->familyCompositions[$i]?->name ?? '' )}}
         </td>
         <td
           style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ $application?->familyCompositions[$i]?->age ?? '' }}
+          {{ $application->user->familyCompositions[$i]?->age ?? '' }}
         </td>
         <td
           style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper( $application?->familyCompositions[$i]?->gender ?? '' )}}
+          {{strtoupper( $application->user->familyCompositions[$i]?->gender ?? '' )}}
         </td>
         <td
           style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper( $application?->familyCompositions[$i]?->civil_status ?? '' )}}
+          {{strtoupper( $application->user->familyCompositions[$i]?->civil_status ?? '' )}}
         </td>
         <td
           style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($application?->familyCompositions[$i]?->relationship ?? '' )}}
+          {{ strtoupper($application->user->familyCompositions[$i]?->relationship ?? '' )}}
         </td>
         <td
           style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{ strtoupper($application?->familyCompositions[$i]?->educational ?? '' )}}
+          {{ strtoupper($application->user->familyCompositions[$i]?->educational ?? '' )}}
         </td>
         <td
           style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-          {{strtoupper( $application?->familyCompositions[$i]?->occupation ?? '' )}}
+          {{strtoupper( $application->user->familyCompositions[$i]?->occupation ?? '' )}}
         </td>
       </tr>
       @endfor

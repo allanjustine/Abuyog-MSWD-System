@@ -27,23 +27,23 @@
                     <div class="mb-3 row">
                         <div class="col-md-6">
                             <label class="form-label">Place of Birth</label>
-                            <input type="text" class="form-control" name="place_of_birth" placeholder="Birthplace" value="{{ old('place_of_birth', Auth::user()?->basicInfo?->place_of_birth) }}">
+                            <input type="text" class="form-control" name="place_of_birth" placeholder="Birthplace" value="{{ strtoupper(old('place_of_birth', Auth::user()?->basicInfo?->place_of_birth)) }}">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">House No./Street</label>
-                            <input type="text" class="form-control" name="house_no_street" placeholder="House No./Street" value="{{ old('house_no_street', Auth::user()?->basicInfo?->house_no_street) }}">
+                            <input type="text" class="form-control" name="house_no_street" placeholder="House No./Street" value="{{ strtoupper(old('house_no_street', Auth::user()?->basicInfo?->house_no_street)) }}">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Municipality</label>
-                            <input type="text" class="form-control" name="municipality" placeholder="Municipality" value="{{ old('municipality', Auth::user()?->basicInfo?->municipality) }}">
+                            <input type="text" class="form-control" name="municipality" placeholder="Municipality" value="{{ strtoupper(old('municipality', Auth::user()?->basicInfo?->municipality)) }}">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Province</label>
-                            <input type="text" class="form-control" name="province" placeholder="Province" value="{{ old('province', Auth::user()?->basicInfo?->province) }}">
+                            <input type="text" class="form-control" name="province" placeholder="Province" value="{{ strtoupper(old('province', Auth::user()?->basicInfo?->province)) }}">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Region</label>
-                            <input type="text" class="form-control" name="region" placeholder="Region" value="{{ old('region', Auth::user()?->basicInfo?->region) }}">
+                            <input type="text" class="form-control" name="region" placeholder="Region" value="{{ strtoupper(old('region', Auth::user()?->basicInfo?->region)) }}">
                         </div>
                     </div>
 
@@ -223,7 +223,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Organization Affiliated</label>
-                            <input type="text" class="form-control" name="organization_affiliated" placeholder="Organization Affiliated" value="{{ old('organization_affiliated', Auth::user()?->basicInfo?->organization_affiliated) }}">
+                            <input type="text" class="form-control" name="organization_affiliated" placeholder="Organization Affiliated" value="{{ strtoupper(old('organization_affiliated', Auth::user()?->basicInfo?->organization_affiliated)) }}">
                         </div>
                     </div>
 

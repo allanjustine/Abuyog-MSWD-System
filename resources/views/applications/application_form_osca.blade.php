@@ -161,27 +161,27 @@ $customFields = json_decode($application->custom_fields, true);
            <tr>
             <td
                 style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-                {{strtoupper( $application?->familyCompositions[$i]?->name ?? '' )}}
+                {{strtoupper( $application->user->familyCompositions[$i]?->name ?? '' )}}
             </td>
             <td
                 style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-                {{ strtoupper( $application?->familyCompositions[$i]?->relationship ?? '' )}}
+                {{ strtoupper( $application->user->familyCompositions[$i]?->relationship ?? '' )}}
             </td>
             <td
                 style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-                {{ $application?->familyCompositions[$i]?->age ?? '' }}
+                {{ $application->user->familyCompositions[$i]?->age ?? '' }}
             </td>
             <td
                 style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-                {{ $application?->familyCompositions[$i]?->civil_status ?? '' }}
+                {{ $application->user->familyCompositions[$i]?->civil_status ?? '' }}
             </td>
             <td
                 style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-                {{strtoupper( $application?->familyCompositions[$i]?->occupation ?? '' )}}
+                {{strtoupper( $application->user->familyCompositions[$i]?->occupation ?? '' )}}
             </td>
             <td
                 style="height: 30px; font-size: 10px; overflow-wrap: break-word; white-space: normal; line-height: 1; text-overflow: ellipsis;">
-                {{ $application?->familyCompositions[$i]?->income ?? '' }}
+                {{ $application->user->familyCompositions[$i]?->income ?? '' }}
             </td>
         </tr>
            @endfor
