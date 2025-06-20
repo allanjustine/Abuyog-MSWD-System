@@ -1,28 +1,22 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.2-fpm
 
-# Install system dependencies
-RUN apk --no-cache add \
-    zlib-dev \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    libwebp-dev \
-    freetype-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install gd \
-    && docker-php-ext-install pdo pdo_mysql
+RUN apt-get update && apt-get install -y \
+    git unzip libpng-dev libjpeg-dev libfreetype6-dev libonig-dev libzip-dev zip curl
 
-RUN npm install -g npm
+RUN apt-get update && apt-get install -y \
+    git unzip curl nodejs npm
 
-# Set working directory
-WORKDIR /var/www
+RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
 
-# Install Composer (Laravel's dependency manager)
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+WORKDIR /var/www/html
 
-# Copy your Laravel project into the container
-COPY . /var/www
+COPY . .
 
-RUN npm run build
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+RUN npm install && npm run build
+
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 1005
 
