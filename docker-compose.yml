@@ -20,7 +20,7 @@ services:
       DB_CONNECTION: mysql
       DB_HOST: 172.17.0.1  # Replace with your host's IP if necessary
       DB_PORT: 3306
-      DB_DATABASE: mswd-abuyog
+      DB_DATABASE: mswd-abuyogdb
       DB_USERNAME: smct
       DB_PASSWORD: smct 
     # deploy:
