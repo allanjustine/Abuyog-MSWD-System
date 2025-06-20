@@ -173,6 +173,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //user management
     Route::resource('users', UserController::class);
+    Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
     Route::get('/showusermanagement', [UserController::class, 'index'])->name('showusermanagement.index');
 
     Route::get('/edit_beneficiary_operator/{id}', [OperatorController::class, 'edit_beneficiary_operator_form']);

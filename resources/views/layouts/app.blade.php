@@ -11,8 +11,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="http://localhost:5173/resources/css/app.css">
-    <script type="module" src="http://localhost:5173/resources/js/app.js" data-navigate-track="reload"></script>
+    <link rel="stylesheet" href="http://10.0.11.154:5173/resources/css/app.css">
+    <script type="module" src="http://10.0.11.154:5173/resources/js/app.js" data-navigate-track="reload"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -35,11 +35,11 @@
 
         <!-- Page Heading -->
         @if (isset($header))
-        <header class="bg-white shadow">
-            <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                {{ $header }}
-            </div>
-        </header>
+            <header class="bg-white shadow">
+                <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    {{ $header }}
+                </div>
+            </header>
         @endif
 
         <!-- Page Content -->

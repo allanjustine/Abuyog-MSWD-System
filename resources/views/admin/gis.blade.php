@@ -9,6 +9,191 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.15);
+        }
+
+        .card-stat {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            background: white;
+        }
+
+        .card-stat:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--primary-color);
+        }
+
+        .card-stat .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-stat h6 {
+            color: #6c757d;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-stat h4 {
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0;
+        }
+
+        .card-stat i {
+            font-size: 2rem;
+            opacity: 0.2;
+            position: absolute;
+            right: 1.5rem;
+            bottom: 1.5rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon i {
+            font-size: 1.5rem;
+            position: relative;
+            opacity: 1;
+        }
+
+        .map-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 2rem;
+        }
+
+        .map-container .card {
+            border: none;
+        }
+
+        #map {
+            height: 500px;
+            border-radius: 8px;
+        }
+
+        .view-map-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+        }
+
+        .view-map-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .view-map-btn i {
+            margin-left: 8px;
+            font-size: 0.9rem;
+        }
+
+        .beneficiaries-label {
+            background: var(--primary-color);
+            color: white;
+            padding: 2px 10px;
+            font-size: 12px;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            font-weight: 600;
+            border: 2px solid white;
+        }
+
+        .leaflet-popup-content {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .progress-thin {
+            height: 6px;
+            border-radius: 3px;
+        }
+
+        .stat-card-applications {
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .stat-card-beneficiaries {
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .stat-card-services {
+            border-left: 4px solid var(--info-color);
+        }
+
+        .stat-card-users {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .stat-card-released {
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .stat-card-accepted {
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .stat-card-pending {
+            border-left: 4px solid #9d4edd;
+        }
+
+        .stat-card-rejected {
+            border-left: 4px solid #ef233c;
+        }
+
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --success-color: #4cc9f0;
+            --danger-color: #f72585;
+            --warning-color: #f8961e;
+            --info-color: #43aa8b;
+            --dark-color: #212529;
+            --light-color: #f8f9fa;
+        }
+
         /* Container for the whole page */
         .container-scroller {
             height: 100vh;
@@ -140,10 +325,10 @@
 
         <!-- Color Legend Section (explanation of label colors) -->
         <div class="color-legend">
-            <span style="color: red;">&#11044;</span>OSCA(Office of Senior Citizens)<br>
-            <span style="color: green;">&#11044;</span> PWD<br>
-            <span style="color: orange;">&#11044;</span> Solo Parent<br>
-            <span style="color: blue;">&#11044;</span> AICS (Assistance)<br>
+            <span style="color: rgb(232, 88, 165);">&#11044;</span>OSCA(Office of Senior Citizens)<br>
+            <span style="color: rgb(72, 193, 226);">&#11044;</span> PWD<br>
+            <span style="color: rgb(162, 0, 255);">&#11044;</span> Solo Parent<br>
+            <span style="color: rgb(234, 190, 46);">&#11044;</span> AICS (Assistance)<br>
         </div>
 
         <!-- Controls -->
@@ -175,7 +360,9 @@
         </div>
 
         <!-- Location Track Section -->
-        <div style="margin-left: 40px;"><div class="d-flex justify-content-center" id="map" style="width: 80%;"></div></div>
+        <div style="margin-left: 40px;">
+            <div class="d-flex justify-content-center" id="map" style="width: 80%;"></div>
+        </div>
         <div id="loading-message" class="alert alert-info">Loading data, please wait...</div>
 
         <script>
@@ -221,17 +408,19 @@
             function getProgramColor(program) {
                 switch (program.toLowerCase()) {
                     case 'osca(office of senior citizens)':
-                        return 'red';
+                        return '#f72585'; // Pink
                     case 'pwd(persons with disabilities)':
-                        return 'green';
+                        return '#4cc9f0'; // Teal
                     case 'solo parent':
-                        return 'orange';
+                        return '#7209b7'; // Purple
                     case 'aics(assistance to individuals in crisis)':
-                        return 'blue';
+                        return '#f8961e'; // Orange
                     default:
-                        return 'gray';
+                        return '#4361ee'; // Blue
                 }
             }
+
+
 
             // Function to update the map with beneficiaries
             function updateMap() {
@@ -261,19 +450,26 @@
                         var marker = L.marker([b.lat, b.lon]).addTo(map);
                         var labelIcon = L.divIcon({
                             className: 'label-icon',
-                            html: `<div class="beneficiaries-label" style="background: ${labelColor}; color: white; padding: 2px 8px; font-size: 12px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);">${totalBeneficiaries}</div>`,
+                            html: `<div class="beneficiaries-label" style="background: ${labelColor}">${totalBeneficiaries}</div>`,
                             iconSize: [30, 30],
                             iconAnchor: [15, 0],
                             popupAnchor: [0, -20]
                         });
 
                         marker.setIcon(labelIcon);
-                        marker.bindPopup(`<div style="padding: 10px; background: rgba(0, 0, 0, 0.7); color: white; font-size: 14px;">
-                            <div style="font-size: 16px; font-weight: bold;">${b.name}</div>
-                            <div><strong>Total Beneficiaries: ${totalBeneficiaries}</strong></div>
-                            <ul style="text-align: left; padding-left: 15px; list-style-type: disc;">
-                                ${filteredBeneficiaries.map(ben => `<li>${ben.full_name || ben.name} (${ben.program_enrolled})</li>`).join('') || '<p>No beneficiaries found.</p>'}
-                            </ul>
+                        marker.bindPopup(`<div style="padding: 10px; min-width: 250px;">
+                            <div style="font-size: 16px; font-weight: bold; color: ${labelColor}; margin-bottom: 8px;">${b.name}</div>
+                            <div style="background: ${labelColor}20; padding: 8px; border-radius: 6px; margin-bottom: 10px;">
+                                <strong style="color: ${labelColor}">Total Beneficiaries: ${totalBeneficiaries}</strong>
+                            </div>
+                            <div style="max-height: 200px; overflow-y: auto;">
+                                <ul style="padding-left: 15px; margin-bottom: 0;">
+                                    ${filteredBeneficiaries.map(ben => `<li style="margin-bottom: 5px; border-left: 3px solid ${labelColor}; padding-left: 8px;">
+                                                                                                                                        <strong>${ben.full_name || ben.name}</strong><br>
+                                                                                                                                        <small style="color: #6c757d;">${ben.program_enrolled}</small>
+                                                                                                                                    </li>`).join('') || '<p style="color: #6c757d;">No beneficiaries found.</p>'}
+                                </ul>
+                            </div>
                         </div>`);
 
                         bounds.push([b.lat, b.lon]);

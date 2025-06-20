@@ -116,7 +116,7 @@
         #animated-text {
             font-size: 64px;
             font-weight: bold;
-            color: #8f0000;
+            color: #398f00;
             border-right: 2px solid #000000;
             /* Blinking cursor */
             white-space: nowrap;

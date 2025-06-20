@@ -117,7 +117,7 @@
             background: white;
             padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .map-controls label {
@@ -289,146 +289,133 @@
                 <div class="map-card mt-4">
                     <div class="card-body">
                         <div id="map"></div>
-                        <div class="map-controls">
-                            <label for="program">Filter by Program:</label>
-                            <select id="program" class="form-select" onchange="updateMap(); updateBarangays();">
-                                <option value="all">All Programs</option>
-                                <option value="OSCA(Office of Senior Citizens)">OSCA</option>
-                                <option value="PWD(Persons with Disabilities)">PWD</option>
-                                <option value="Solo Parent">Solo Parent</option>
-                                <option value="AICS(Assistance to Individuals in Crisis)">AICS</option>
-                            </select>
 
-                            <label for="barangay">Filter by Barangay:</label>
-                            <select id="barangay" class="form-select" onchange="updateMap()">
-                                <option value="all">All Barangays</option>
-                            </select>
-                        </div>
+
+
+
+
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+                    <!-- Scripts -->
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+                    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <script>
-        var map;
-        var markers = [];
+                    <script>
+                        var map;
+                        var markers = [];
 
-        // Initialize the map
-        function initMap() {
-            map = L.map('map').setView([10.63966298802748, 125.0262333631705], 13);
+                        // Initialize the map
+                        function initMap() {
+                            map = L.map('map').setView([10.63966298802748, 125.0262333631705], 13);
 
-            // Add the default street map layer
-            var streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors'
-            });
+                            // Add the default street map layer
+                            var streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '&copy; OpenStreetMap contributors'
+                            });
 
-            // Add satellite layer using Esri
-            var satelliteLayer = L.tileLayer(
-                'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                    attribution: '&copy; <a href="https://www.esri.com/">Esri</a>'
-                });
+                            // Add satellite layer using Esri
+                            var satelliteLayer = L.tileLayer(
+                                'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                                    attribution: '&copy; <a href="https://www.esri.com/">Esri</a>'
+                                });
 
-            // Add terrain layer using OpenTopoMap
-            var terrainLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.opentopomap.org/copyright">OpenTopoMap</a> &copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a>'
-            });
+                            // Add terrain layer using OpenTopoMap
+                            var terrainLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+                                attribution: '&copy; <a href="https://www.opentopomap.org/copyright">OpenTopoMap</a> &copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a>'
+                            });
 
-            // Add layers control to switch between layers
-            var baseMaps = {
-                "Street Map": streetLayer,
-                "Satellite": satelliteLayer,
-                "Terrain": terrainLayer
-            };
-            L.control.layers(baseMaps).addTo(map);
+                            // Add layers control to switch between layers
+                            var baseMaps = {
+                                "Street Map": streetLayer,
+                                "Satellite": satelliteLayer,
+                                "Terrain": terrainLayer
+                            };
+                            L.control.layers(baseMaps).addTo(map);
 
-            // Set the default layer
-            streetLayer.addTo(map);
+                            // Set the default layer
+                            streetLayer.addTo(map);
 
-            // Automatically update the map when the page loads
-            updateMap();
-        }
+                            // Automatically update the map when the page loads
+                            updateMap();
+                        }
 
-        // Initialize map when page loads
-        $(document).ready(function() {
-            initMap();
-            updateBarangays();
-        });
+                        // Initialize map when page loads
+                        $(document).ready(function() {
+                            initMap();
+                            updateBarangays();
+                        });
 
-        function getProgramColor(program) {
-            switch (program.toLowerCase()) {
-                case 'osca(office of senior citizens)':
-                    return '#dc3545'; // Red
-                case 'pwd(persons with disabilities)':
-                    return '#28a745'; // Green
-                case 'solo parent':
-                    return '#fd7e14'; // Orange
-                case 'aics(assistance to individuals in crisis)':
-                    return '#17a2b8'; // Blue
-                default:
-                    return '#6c757d'; // Gray
-            }
-        }
+                        function getProgramColor(program) {
+                            switch (program.toLowerCase()) {
+                                case 'osca(office of senior citizens)':
+                                    return '#dc3545'; // Red
+                                case 'pwd(persons with disabilities)':
+                                    return '#28a745'; // Green
+                                case 'solo parent':
+                                    return '#fd7e14'; // Orange
+                                case 'aics(assistance to individuals in crisis)':
+                                    return '#17a2b8'; // Blue
+                                default:
+                                    return '#6c757d'; // Gray
+                            }
+                        }
 
-        // Function to update the map with beneficiaries
-        function updateMap() {
-            var program = $('#program').val() || 'all';
-            var barangay = $('#barangay').val() || 'all';
+                        // Function to update the map with beneficiaries
+                        function updateMap() {
+                            var program = $('#program').val() || 'all';
+                            var barangay = $('#barangay').val() || 'all';
 
-            // Show loading indicator
-            Swal.fire({
-                title: 'Loading Map Data',
-                html: 'Please wait while we update the map...',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
+                            // Show loading indicator
+                            Swal.fire({
+                                title: 'Loading Map Data',
+                                html: 'Please wait while we update the map...',
+                                allowOutsideClick: false,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            });
 
-            // Clear existing markers
-            markers.forEach(marker => map.removeLayer(marker));
-            markers = [];
+                            // Clear existing markers
+                            markers.forEach(marker => map.removeLayer(marker));
+                            markers = [];
 
-            $.get('/gis-beneficiaries', {
-                program,
-                barangay_id: barangay
-            }, function(data) {
-                Swal.close();
+                            $.get('/gis-beneficiaries', {
+                                program,
+                                barangay_id: barangay
+                            }, function(data) {
+                                Swal.close();
 
-                if (data.message) {
-                    return Swal.fire('Info', data.message, 'info');
-                }
+                                if (data.message) {
+                                    return Swal.fire('Info', data.message, 'info');
+                                }
 
-                var bounds = [];
-                Object.values(data.barangays).forEach(b => {
-                    var filteredBeneficiaries = Object.values(data.beneficiaries).filter(ben => ben.barangay_id === b.id);
-                    var programName = filteredBeneficiaries[0]?.program_enrolled || '';
-                    var labelColor = getProgramColor(programName);
-                    var totalBeneficiaries = filteredBeneficiaries.length;
+                                var bounds = [];
+                                Object.values(data.barangays).forEach(b => {
+                                    var filteredBeneficiaries = Object.values(data.beneficiaries).filter(ben => ben
+                                        .barangay_id === b.id);
+                                    var programName = filteredBeneficiaries[0]?.program_enrolled || '';
+                                    var labelColor = getProgramColor(programName);
+                                    var totalBeneficiaries = filteredBeneficiaries.length;
 
-                    // Create custom marker with label
-                    var marker = L.marker([b.lat, b.lon], {
-                        riseOnHover: true
-                    });
+                                    // Create custom marker with label
+                                    var marker = L.marker([b.lat, b.lon], {
+                                        riseOnHover: true
+                                    });
 
-                    var labelIcon = L.divIcon({
-                        className: 'label-icon',
-                        html: `<div class="beneficiaries-label" style="background: ${labelColor}">${totalBeneficiaries}</div>`,
-                        iconSize: [30, 30],
-                        iconAnchor: [15, 0],
-                        popupAnchor: [0, -20]
-                    });
+                                    var labelIcon = L.divIcon({
+                                        className: 'label-icon',
+                                        html: `<div class="beneficiaries-label" style="background: ${labelColor}">${totalBeneficiaries}</div>`,
+                                        iconSize: [30, 30],
+                                        iconAnchor: [15, 0],
+                                        popupAnchor: [0, -20]
+                                    });
 
-                    marker.setIcon(labelIcon);
+                                    marker.setIcon(labelIcon);
 
-                    // Create custom popup content
-                    var popupContent = `
+                                    // Create custom popup content
+                                    var popupContent = `
                         <div class="popup-header">
                             ${b.name}
                         </div>
@@ -438,42 +425,44 @@
                             <div class="beneficiary-list">
                                 <ul>
                                     ${filteredBeneficiaries.map(ben => `
-                                        <li>
-                                            <strong>${ben.full_name || ben.name}</strong>
-                                            ${ben.program_enrolled ? `<br><small>${ben.program_enrolled}</small>` : ''}
-                                        </li>
-                                    `).join('') || '<p>No beneficiaries found.</p>'}
+                                                                                                                                        <li>
+                                                                                                                                            <strong>${ben.full_name || ben.name}</strong>
+                                                                                                                                            ${ben.program_enrolled ? `<br><small>${ben.program_enrolled}</small>` : ''}
+                                                                                                                                        </li>
+                                                                                                                                    `).join('') || '<p>No beneficiaries found.</p>'}
                                 </ul>
                             </div>
                         </div>
                     `;
 
-                    marker.bindPopup(popupContent);
-                    marker.addTo(map);
-                    markers.push(marker);
+                                    marker.bindPopup(popupContent);
+                                    marker.addTo(map);
+                                    markers.push(marker);
 
-                    bounds.push([b.lat, b.lon]);
-                });
+                                    bounds.push([b.lat, b.lon]);
+                                });
 
-                if (bounds.length > 0) {
-                    map.fitBounds(bounds, { padding: [50, 50] });
-                }
-            }).fail(function() {
-                Swal.fire('Error', 'Failed to load map data', 'error');
-            });
-        }
+                                if (bounds.length > 0) {
+                                    map.fitBounds(bounds, {
+                                        padding: [50, 50]
+                                    });
+                                }
+                            }).fail(function() {
+                                Swal.fire('Error', 'Failed to load map data', 'error');
+                            });
+                        }
 
-        // Function to update barangays dropdown based on selected program
-        function updateBarangays() {
-            $.get('/barangays', {
-                program: $('#program').val()
-            }, function(data) {
-                var barangayDropdown = $('#barangay').empty().append('<option value="all">All Barangays</option>');
-                data.barangays.forEach(b => barangayDropdown.append(
-                    `<option value="${b.barangay_id}">${b.name}</option>`));
-            });
-        }
-    </script>
+                        // Function to update barangays dropdown based on selected program
+                        function updateBarangays() {
+                            $.get('/barangays', {
+                                program: $('#program').val()
+                            }, function(data) {
+                                var barangayDropdown = $('#barangay').empty().append('<option value="all">All Barangays</option>');
+                                data.barangays.forEach(b => barangayDropdown.append(
+                                    `<option value="${b.barangay_id}">${b.name}</option>`));
+                            });
+                        }
+                    </script>
 </body>
 
 </html>

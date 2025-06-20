@@ -20,7 +20,7 @@
     <a href="{{ $url }}" class="button">Verify Email Address</a>
     <p>If you did not create an account, no further action is required.</p>
     <p>Regards,</p>
-    <p>Laravel Team</p>
+    <p>MSWD|Abuyog, Leyte</p>
 </body>
 
 </html>

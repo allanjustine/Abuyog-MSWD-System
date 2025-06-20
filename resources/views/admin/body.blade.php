@@ -20,7 +20,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -222,11 +223,17 @@
                         <h2 class="mb-2">Admin Dashboard</h2>
                         <p class="mb-0">Overview of beneficiaries and services</p>
                     </div>
-                    <div class="col-md-4 text-md-end">
+                    {{--  <div class="col-md-4 text-md-end">
                         <button class="view-map-btn" id="viewMapButton">
                             View Full Map <i class="fas fa-arrow-right"></i>
                         </button>
+                    </div>  --}}
+                    <div class="col-md-4 text-md-end">
+                        <a href="{{ url('gis') }}" class="btn btn-primary" id="viewMapButton">
+                            View Full Map <i class="fas fa-arrow-right"></i>
+                        </a>
                     </div>
+
                 </div>
             </div>
 
@@ -336,7 +343,8 @@
                                     <h6 class="text-muted">ACCEPTED APPLICATIONS</h6>
                                     <h4>{{ $acceptedBeneficiary }}</h4>
                                     <div class="progress progress-thin mt-2">
-                                        <div class="progress-bar" style="background-color: var(--accent-color); width: 70%"></div>
+                                        <div class="progress-bar"
+                                            style="background-color: var(--accent-color); width: 70%"></div>
                                     </div>
                                 </div>
                                 <div style="background-color: rgba(72, 149, 239, 0.1); color: var(--accent-color)">
@@ -390,7 +398,8 @@
             <div class="map-container mt-4" data-aos="fade-up">
                 <div class="card">
                     <div class="card-header bg-white border-0 py-3">
-                        <h5 class="mb-0"><i class="fas fa-map-marked-alt me-2 text-primary"></i> Beneficiaries Location Map</h5>
+                        <h5 class="mb-0"><i class="fas fa-map-marked-alt me-2 text-primary"></i> Beneficiaries
+                            Location Map</h5>
                     </div>
                     <div class="card-body pt-0">
                         <div id="map"></div>
@@ -515,9 +524,9 @@
                         <div style="max-height: 200px; overflow-y: auto;">
                             <ul style="padding-left: 15px; margin-bottom: 0;">
                                 ${filteredBeneficiaries.map(ben => `<li style="margin-bottom: 5px; border-left: 3px solid ${labelColor}; padding-left: 8px;">
-                                    <strong>${ben.full_name || ben.name}</strong><br>
-                                    <small style="color: #6c757d;">${ben.program_enrolled}</small>
-                                </li>`).join('') || '<p style="color: #6c757d;">No beneficiaries found.</p>'}
+                                                                    <strong>${ben.full_name || ben.name}</strong><br>
+                                                                    <small style="color: #6c757d;">${ben.program_enrolled}</small>
+                                                                </li>`).join('') || '<p style="color: #6c757d;">No beneficiaries found.</p>'}
                             </ul>
                         </div>
                     </div>`);

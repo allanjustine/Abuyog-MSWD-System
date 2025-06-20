@@ -39,13 +39,13 @@
         .card-header {
             font-size: 1.5rem;
             background-color: #5cb85c;
-            color: white;
+            color: rgb(30, 15, 72);
             font-weight: bold;
         }
 
         .btn-back {
             background-color: #6c757d;
-            color: white;
+            color: rgb(255, 255, 255);
             font-weight: bold;
         }
 
@@ -174,33 +174,47 @@
                                     <label for="religion" class="form-label">Religion</label>
                                     <select name="religion" class="form-select">
                                         <option value="" disabled selected>Select Religion</option>
-                                        <option value="Christianity" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Christianity' ? 'selected' : '' }}>
+                                        <option value="Christianity"
+                                            {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Christianity' ? 'selected' : '' }}>
                                             Christianity</option>
-                                        <option value="Roman Catholic" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Roman Catholic' ? 'selected' : '' }}>
+                                        <option value="Roman Catholic"
+                                            {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Roman Catholic' ? 'selected' : '' }}>
                                             Roman Catholic</option>
-                                        <option value="Protestant" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Protestant' ? 'selected' : '' }}>
+                                        <option value="Protestant"
+                                            {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Protestant' ? 'selected' : '' }}>
                                             Protestant</option>
-                                        <option value="Islam" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Islam' ? 'selected' : '' }}>
+                                        <option value="Islam"
+                                            {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Islam' ? 'selected' : '' }}>
                                             Islam</option>
-                                        <option value="Hinduism" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Hinduism' ? 'selected' : '' }}>
+                                        <option value="Hinduism"
+                                            {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Hinduism' ? 'selected' : '' }}>
                                             Hinduism</option>
-                                        <option value="Buddhism" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Buddhism' ? 'selected' : '' }}>
+                                        <option value="Buddhism"
+                                            {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Buddhism' ? 'selected' : '' }}>
                                             Buddhism</option>
-                                        <option value="Judaism" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Judaism' ? 'selected' : '' }}>
+                                        <option value="Judaism"
+                                            {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Judaism' ? 'selected' : '' }}>
                                             Judaism</option>
-                                        <option value="Sikhism" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Sikhism' ? 'selected' : '' }}>
+                                        <option value="Sikhism"
+                                            {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Sikhism' ? 'selected' : '' }}>
                                             Sikhism</option>
-                                        <option value="Baha'i" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == "Baha'i" ? 'selected' : '' }}>
+                                        <option value="Baha'i"
+                                            {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == "Baha'i" ? 'selected' : '' }}>
                                             Bahai</option>
-                                        <option value="Taoism" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Taoism' ? 'selected' : '' }}>
+                                        <option value="Taoism"
+                                            {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Taoism' ? 'selected' : '' }}>
                                             Taoism</option>
-                                        <option value="Shinto" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Shinto' ? 'selected' : '' }}>
+                                        <option value="Shinto"
+                                            {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Shinto' ? 'selected' : '' }}>
                                             Shinto</option>
-                                        <option value="Agnostic" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Agnostic' ? 'selected' : '' }}>
+                                        <option value="Agnostic"
+                                            {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Agnostic' ? 'selected' : '' }}>
                                             Agnostic</option>
-                                        <option value="Atheist" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Atheist' ? 'selected' : '' }}>
+                                        <option value="Atheist"
+                                            {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Atheist' ? 'selected' : '' }}>
                                             Atheist</option>
-                                        <option value="Other" {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Other' ? 'selected' : '' }}>
+                                        <option value="Other"
+                                            {{ old('religion', $beneficiary?->user?->basicInfo?->religion) == 'Other' ? 'selected' : '' }}>
                                             Other</option>
                                     </select>
                                     @error('religion')
@@ -321,36 +335,47 @@
                                         <select name="occupation" id="occupation" class="form-select">
 
                                             <option value="" disabled selected>Select Types</option>
-                                            <option value="Managers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Managers' ? 'selected' : '' }}>
+                                            <option value="Managers"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Managers' ? 'selected' : '' }}>
                                                 Managers
                                             </option>
-                                            <option value="Professionals" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Professionals' ? 'selected' : '' }}>
+                                            <option value="Professionals"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Professionals' ? 'selected' : '' }}>
                                                 Professionals
                                             </option>
-                                            <option value="Technicians and Associate Professionals" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Technicians and Associate Professionals' ? 'selected' : '' }}>
+                                            <option value="Technicians and Associate Professionals"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Technicians and Associate Professionals' ? 'selected' : '' }}>
                                                 Technicians and Associate Professionals
                                             </option>
-                                            <option value="Clerical Support Workers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Clerical Support Workers' ? 'selected' : '' }}>
+                                            <option value="Clerical Support Workers"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Clerical Support Workers' ? 'selected' : '' }}>
                                                 Clerical Support Workers
                                             </option>
-                                            <option value="Service and Sales Workers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Service and Sales Workers' ? 'selected' : '' }}>
+                                            <option value="Service and Sales Workers"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Service and Sales Workers' ? 'selected' : '' }}>
                                                 Service and Sales Workers
                                             </option>
-                                            <option value="Skilled Agricultural, Forestry and Fishery Workers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Skilled Agricultural, Forestry and Fishery Workers'
-                                ? 'selected'
-                                : '' }}>
+                                            <option value="Skilled Agricultural, Forestry and Fishery Workers"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) ===
+                                                'Skilled Agricultural, Forestry and Fishery Workers'
+                                                    ? 'selected'
+                                                    : '' }}>
                                                 Skilled Agricultural, Forestry and Fishery Workers
                                             </option>
-                                            <option value="Craft and Related Trade Workers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Craft and Related Trade Workers' ? 'selected' : '' }}>
+                                            <option value="Craft and Related Trade Workers"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Craft and Related Trade Workers' ? 'selected' : '' }}>
                                                 Craft and Related Trade Workers
                                             </option>
-                                            <option value="Plant and Machine Operators and Assemblers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Plant and Machine Operators and Assemblers' ? 'selected' : '' }}>
+                                            <option value="Plant and Machine Operators and Assemblers"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Plant and Machine Operators and Assemblers' ? 'selected' : '' }}>
                                                 Plant and Machine Operators and Assemblers
                                             </option>
-                                            <option value="Elementary Occupations" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Elementary Occupations' ? 'selected' : '' }}>
+                                            <option value="Elementary Occupations"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Elementary Occupations' ? 'selected' : '' }}>
                                                 Elementary Occupations
                                             </option>
-                                            <option value="Armed Forces Occupations" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Armed Forces Occupations' ? 'selected' : '' }}>
+                                            <option value="Armed Forces Occupations"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Armed Forces Occupations' ? 'selected' : '' }}>
                                                 Armed Forces Occupations
                                             </option>
                                         </select>
