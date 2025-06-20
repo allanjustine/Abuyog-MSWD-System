@@ -39,7 +39,7 @@
         .card-header {
             font-size: 1.5rem;
             background-color: #5cb85c;
-            color: white;
+            color: rgb(30, 15, 72);
             font-weight: bold;
         }
 
@@ -272,36 +272,47 @@
                                         <select name="occupation" id="occupation" class="form-select">
 
                                             <option value="" disabled selected>Select Types</option>
-                                            <option value="Managers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Managers' ? 'selected' : '' }}>
+                                            <option value="Managers"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Managers' ? 'selected' : '' }}>
                                                 Managers
                                             </option>
-                                            <option value="Professionals" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Professionals' ? 'selected' : '' }}>
+                                            <option value="Professionals"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Professionals' ? 'selected' : '' }}>
                                                 Professionals
                                             </option>
-                                            <option value="Technicians and Associate Professionals" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Technicians and Associate Professionals' ? 'selected' : '' }}>
+                                            <option value="Technicians and Associate Professionals"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Technicians and Associate Professionals' ? 'selected' : '' }}>
                                                 Technicians and Associate Professionals
                                             </option>
-                                            <option value="Clerical Support Workers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Clerical Support Workers' ? 'selected' : '' }}>
+                                            <option value="Clerical Support Workers"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Clerical Support Workers' ? 'selected' : '' }}>
                                                 Clerical Support Workers
                                             </option>
-                                            <option value="Service and Sales Workers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Service and Sales Workers' ? 'selected' : '' }}>
+                                            <option value="Service and Sales Workers"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Service and Sales Workers' ? 'selected' : '' }}>
                                                 Service and Sales Workers
                                             </option>
-                                            <option value="Skilled Agricultural, Forestry and Fishery Workers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Skilled Agricultural, Forestry and Fishery Workers'
-                                ? 'selected'
-                                : '' }}>
+                                            <option value="Skilled Agricultural, Forestry and Fishery Workers"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) ===
+                                                'Skilled Agricultural, Forestry and Fishery Workers'
+                                                    ? 'selected'
+                                                    : '' }}>
                                                 Skilled Agricultural, Forestry and Fishery Workers
                                             </option>
-                                            <option value="Craft and Related Trade Workers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Craft and Related Trade Workers' ? 'selected' : '' }}>
+                                            <option value="Craft and Related Trade Workers"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Craft and Related Trade Workers' ? 'selected' : '' }}>
                                                 Craft and Related Trade Workers
                                             </option>
-                                            <option value="Plant and Machine Operators and Assemblers" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Plant and Machine Operators and Assemblers' ? 'selected' : '' }}>
+                                            <option value="Plant and Machine Operators and Assemblers"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Plant and Machine Operators and Assemblers' ? 'selected' : '' }}>
                                                 Plant and Machine Operators and Assemblers
                                             </option>
-                                            <option value="Elementary Occupations" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Elementary Occupations' ? 'selected' : '' }}>
+                                            <option value="Elementary Occupations"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Elementary Occupations' ? 'selected' : '' }}>
                                                 Elementary Occupations
                                             </option>
-                                            <option value="Armed Forces Occupations" {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Armed Forces Occupations' ? 'selected' : '' }}>
+                                            <option value="Armed Forces Occupations"
+                                                {{ old('occupation', $beneficiary?->user?->basicInfo?->occupation) === 'Armed Forces Occupations' ? 'selected' : '' }}>
                                                 Armed Forces Occupations
                                             </option>
                                         </select>

@@ -1,11 +1,9 @@
-@if (!Auth::user()->basicInfo()->exists() || !Auth::user()->familyCompositions()->exists())
-<div class="modal-backdrop show" id="modalBackDrop"></div>
+@if (!Auth::user()->basicInfo()->exists())
+    <div class="modal-backdrop show" id="modalBackDrop"></div>
 @endif
-<div class="modal fade {{ !Auth::user()->basicInfo()->exists() || !Auth::user()->familyCompositions()->exists() ? " show" : "" }}" id="staticBackdropLive"
+<div class="modal fade {{ !Auth::user()->basicInfo()->exists() ? ' show' : '' }}" id="staticBackdropLive"
     data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLiveLabel"
-    aria-modal="true" role="dialog" @if (!Auth::user()->basicInfo()->exists() || !Auth::user()->familyCompositions()->exists())
-    style="display: block;"
-    @endif>
+    aria-modal="true" role="dialog" @if (!Auth::user()->basicInfo()->exists()) style="display: block;" @endif>
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <form action="/update-or-create-basic-info" method="POST">
             @method('POST')
@@ -18,33 +16,75 @@
                     <!-- Basic Info -->
 
                     @if (session('error'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Ops.!</strong> {{ session('error') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Ops.!</strong> {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
                     @endif
                     <h3 class="mb-3 fw-bold fs-3"><i class="fas fa-sitemap"></i> Basic Information</h3>
                     <div class="mb-3 row">
+                        {{--  <div class="col-md-6">
+                            <label class="form-label">Place of Birth</label>
+                            <input type="text" class="form-control" name="place_of_birth" placeholder="Birthplace"
+                                value="{{ old('place_of_birth', Auth::user()?->basicInfo?->place_of_birth) }}">
+                        </div>  --}}
                         <div class="col-md-6">
                             <label class="form-label">Place of Birth</label>
-                            <input type="text" class="form-control" name="place_of_birth" placeholder="Birthplace" value="{{ strtoupper(old('place_of_birth', Auth::user()?->basicInfo?->place_of_birth)) }}">
+                            <input type="text" class="form-control" name="place_of_birth" placeholder="Birthplace"
+                                value="{{ old('place_of_birth', strtoupper(Auth::user()?->basicInfo?->place_of_birth)) }}"
+                                oninput="this.value = this.value.toUpperCase();">
                         </div>
+
+
+
+                        {{--  <div class="col-md-6">
+                            <label class="form-label">Place of Birth</label>
+                            <input type="text" class="form-control" name="place_of_birth" value="Abuyog" readonly>
+
+                        </div>  --}}
+
                         <div class="col-md-6">
                             <label class="form-label">House No./Street</label>
-                            <input type="text" class="form-control" name="house_no_street" placeholder="House No./Street" value="{{ strtoupper(old('house_no_street', Auth::user()?->basicInfo?->house_no_street)) }}">
+                            <input type="text" class="form-control" name="house_no_street"
+                                placeholder="House No./Street"
+                                value="{{ old('house_no_street', strtoupper(Auth::user()?->basicInfo?->house_no_street)) }}"
+                                oninput="this.value = this.value.toUpperCase();">
                         </div>
+
+                        {{--  <div class="col-md-4">
+                            <label class="form-label">Municipality</label>
+                            <input type="text" class="form-control" name="municipality" placeholder="Municipality"
+                                value="{{ old('municipality', Auth::user()?->basicInfo?->municipality) }}">
+                        </div>  --}}
                         <div class="col-md-4">
                             <label class="form-label">Municipality</label>
-                            <input type="text" class="form-control" name="municipality" placeholder="Municipality" value="{{ strtoupper(old('municipality', Auth::user()?->basicInfo?->municipality)) }}">
+                            <input type="text" class="form-control" name="municipality" placeholder="Municipality"
+                                value="ABUYOG" readonly>
                         </div>
+
+                        {{--  <div class="col-md-4">
+                            <label class="form-label">Province</label>
+                            <input type="text" class="form-control" name="province" placeholder="Province"
+                                value="{{ old('province', Auth::user()?->basicInfo?->province) }}">
+                        </div>  --}}
                         <div class="col-md-4">
                             <label class="form-label">Province</label>
-                            <input type="text" class="form-control" name="province" placeholder="Province" value="{{ strtoupper(old('province', Auth::user()?->basicInfo?->province)) }}">
+                            <input type="text" class="form-control" name="province" placeholder="Province"
+                                value="LEYTE" readonly>
                         </div>
+
+                        {{--  <div class="col-md-4">
+                            <label class="form-label">Region</label>
+                            <input type="text" class="form-control" name="region" placeholder="Region"
+                                value="{{ old('region', Auth::user()?->basicInfo?->region) }}">
+                        </div>  --}}
                         <div class="col-md-4">
                             <label class="form-label">Region</label>
-                            <input type="text" class="form-control" name="region" placeholder="Region" value="{{ strtoupper(old('region', Auth::user()?->basicInfo?->region)) }}">
+                            <input type="text" class="form-control" name="region" placeholder="Region"
+                                value="8" readonly>
                         </div>
+
                     </div>
 
                     <!-- Personal Info -->
@@ -52,65 +92,105 @@
                     <div class="mb-3 row">
                         <div class="col-md-6">
                             <label class="form-label">Religion</label>
-                            <select name="religion" class="form-control">
+                            <select name="religion" class="form-control" style="text-transform: uppercase;">
                                 <option value="" disabled selected>Select Religion</option>
-                                <option value="Christianity" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Christianity' ? 'selected' : '' }}>
+                                <option value="Christianity"
+                                    {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Christianity' ? 'selected' : '' }}>
                                     Christianity</option>
-                                <option value="Roman Catholic" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Roman Catholic' ? 'selected' : '' }}>
+                                <option value="Roman Catholic"
+                                    {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Roman Catholic' ? 'selected' : '' }}>
                                     Roman Catholic</option>
-                                <option value="Protestant" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Protestant' ? 'selected' : '' }}>
+                                <option value="Protestant"
+                                    {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Protestant' ? 'selected' : '' }}>
                                     Protestant</option>
-                                <option value="Islam" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Islam' ? 'selected' : '' }}>
+                                <option value="Islam"
+                                    {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Islam' ? 'selected' : '' }}>
                                     Islam</option>
-                                <option value="Hinduism" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Hinduism' ? 'selected' : '' }}>
+                                <option value="Hinduism"
+                                    {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Hinduism' ? 'selected' : '' }}>
                                     Hinduism</option>
-                                <option value="Buddhism" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Buddhism' ? 'selected' : '' }}>
+                                <option value="Buddhism"
+                                    {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Buddhism' ? 'selected' : '' }}>
                                     Buddhism</option>
-                                <option value="Judaism" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Judaism' ? 'selected' : '' }}>
+                                <option value="Judaism"
+                                    {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Judaism' ? 'selected' : '' }}>
                                     Judaism</option>
-                                <option value="Sikhism" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Sikhism' ? 'selected' : '' }}>
+                                <option value="Sikhism"
+                                    {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Sikhism' ? 'selected' : '' }}>
                                     Sikhism</option>
-                                <option value="Baha'i" {{ old('religion', Auth::user()?->basicInfo?->religion) == "Baha'i" ? 'selected' : '' }}>
+                                <option value="Baha'i"
+                                    {{ old('religion', Auth::user()?->basicInfo?->religion) == "Baha'i" ? 'selected' : '' }}>
                                     Bahai</option>
-                                <option value="Taoism" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Taoism' ? 'selected' : '' }}>
+                                <option value="Taoism"
+                                    {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Taoism' ? 'selected' : '' }}>
                                     Taoism</option>
-                                <option value="Shinto" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Shinto' ? 'selected' : '' }}>
+                                <option value="Shinto"
+                                    {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Shinto' ? 'selected' : '' }}>
                                     Shinto</option>
-                                <option value="Agnostic" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Agnostic' ? 'selected' : '' }}>
+                                <option value="Agnostic"
+                                    {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Agnostic' ? 'selected' : '' }}>
                                     Agnostic</option>
-                                <option value="Atheist" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Atheist' ? 'selected' : '' }}>
+                                <option value="Atheist"
+                                    {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Atheist' ? 'selected' : '' }}>
                                     Atheist</option>
-                                <option value="Other" {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Other' ? 'selected' : '' }}>
+                                <option value="Other"
+                                    {{ old('religion', Auth::user()?->basicInfo?->religion) == 'Other' ? 'selected' : '' }}>
                                     Other</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Civil Status</label>
-                            <select class="form-control" name="civil_status">
+                            <select class="form-control" style="text-transform: uppercase;" name="civil_status">
                                 <option selected disabled>Select status</option>
-                                <option {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == "Single" ? "selected" : "" }}>Single</option>
-                                <option {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == "Married" ? "selected" : "" }}>Married</option>
-                                <option {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == "Widowed" ? "selected" : "" }}>Widowed</option>
-                                <option {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == "Separated" ? "selected" : "" }}>Separated</option>
+                                <option
+                                    {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == 'Single' ? 'selected' : '' }}>
+                                    Single</option>
+                                <option
+                                    {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == 'Married' ? 'selected' : '' }}>
+                                    Married</option>
+                                <option
+                                    {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == 'Widowed' ? 'selected' : '' }}>
+                                    Widowed</option>
+                                <option
+                                    {{ old('civil_status', Auth::user()?->basicInfo?->civil_status) == 'Separated' ? 'selected' : '' }}>
+                                    Separated</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Blood Type</label>
-                            <select class="form-control" name="blood_type">
+                            <select class="form-control" style="text-transform: uppercase;" name="blood_type">
                                 <option selected disabled>Select blood type</option>
-                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "A+" ? "selected" : "" }}>A+</option>
-                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "A-" ? "selected" : "" }}>A-</option>
-                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "B+" ? "selected" : "" }}>B+</option>
-                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "B-" ? "selected" : "" }}>B-</option>
-                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "AB+" ? "selected" : "" }}>AB+</option>
-                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "AB-" ? "selected" : "" }}>AB-</option>
-                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "O+" ? "selected" : "" }}>O+</option>
-                                <option {{ old('blood_type', Auth::user()?->basicInfo?->blood_type) == "O-" ? "selected" : "" }}>O-</option>
+                                <option
+                                    {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == 'A+' ? 'selected' : '' }}>
+                                    A+</option>
+                                <option
+                                    {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == 'A-' ? 'selected' : '' }}>
+                                    A-</option>
+                                <option
+                                    {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == 'B+' ? 'selected' : '' }}>
+                                    B+</option>
+                                <option
+                                    {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == 'B-' ? 'selected' : '' }}>
+                                    B-</option>
+                                <option
+                                    {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == 'AB+' ? 'selected' : '' }}>
+                                    AB+</option>
+                                <option
+                                    {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == 'AB-' ? 'selected' : '' }}>
+                                    AB-</option>
+                                <option
+                                    {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == 'O+' ? 'selected' : '' }}>
+                                    O+</option>
+                                <option
+                                    {{ old('blood_typ', Auth::user()?->basicInfo?->blood_type) == 'O-' ? 'selected' : '' }}>
+                                    O-</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Land Line No.</label>
-                            <input type="text" class="form-control" name="land_line_no" placeholder="Land Line No" value="{{ old('land_line_no', Auth::user()?->basicInfo?->land_line_no) }}">
+                            <input type="text" class="form-control" style="text-transform: uppercase;"
+                                name="land_line_no" placeholder="Land Line No"
+                                value="{{ old('land_line_no', Auth::user()?->basicInfo?->land_line_no) }}">
                         </div>
                     </div>
 
@@ -119,112 +199,154 @@
                     <div class="mb-3 row">
                         <div class="col-md-6">
                             <label class="form-label">Educational Attainment</label>
-                            <select name="educational_attainment" id="educational_attainment" class="form-control" required>
+                            <select name="educational_attainment" id="educational_attainment" class="form-control"
+                                style="text-transform: uppercase;" required>
                                 <option value="" disabled selected>Select Status</option>
-                                <option value="No Formal Education" {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'No Formal Education' ? 'selected' : '' }}>
+                                <option value="No Formal Education"
+                                    {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'No Formal Education' ? 'selected' : '' }}>
                                     None
                                 </option>
-                                <option value="Kindergarten" {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'Kindergarten' ? 'selected' : '' }}>
+                                <option value="Kindergarten"
+                                    {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'Kindergarten' ? 'selected' : '' }}>
                                     Kindergarten
                                 </option>
-                                <option value="Elementary" {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'Elementary' ? 'selected' : '' }}>
+                                <option value="Elementary"
+                                    {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'Elementary' ? 'selected' : '' }}>
                                     Elementary
                                 </option>
-                                <option value="High School" {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'High School' ? 'selected' : '' }}>
+                                <option value="High School"
+                                    {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'High School' ? 'selected' : '' }}>
                                     Junior High School
                                 </option>
-                                <option value="Senior High" {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'Senior High' ? 'selected' : '' }}>
+                                <option value="Senior High"
+                                    {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'Senior High' ? 'selected' : '' }}>
                                     Senior High School
                                 </option>
-                                <option value="College" {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'College' ? 'selected' : '' }}>
+                                <option value="College"
+                                    {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'College' ? 'selected' : '' }}>
                                     College
                                 </option>
-                                <option value="Vocational" {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'Vocational' ? 'selected' : '' }}>
+                                <option value="Vocational"
+                                    {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'Vocational' ? 'selected' : '' }}>
                                     Vocational
                                 </option>
-                                <option value="Post Graduate" {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'Post Graduate' ? 'selected' : '' }}>
+                                <option value="Post Graduate"
+                                    {{ old('educational_attainment', old('educational_attainment', Auth::user()?->basicInfo?->educational_attainment)) === 'Post Graduate' ? 'selected' : '' }}>
                                     Post Graduate
                                 </option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Occupation</label>
-                            <select name="occupation" id="occupation" class="form-control">
+                            <select name="occupation" id="occupation" class="form-control"
+                                style="text-transform: uppercase;">
 
                                 <option value="" disabled selected>Select Types</option>
-                                <option value="Managers" {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Managers' ? 'selected' : '' }}>
+                                <option value="Managers"
+                                    {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Managers' ? 'selected' : '' }}>
                                     Managers
                                 </option>
-                                <option value="Professionals" {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Professionals' ? 'selected' : '' }}>
+                                <option value="Professionals"
+                                    {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Professionals' ? 'selected' : '' }}>
                                     Professionals
                                 </option>
-                                <option value="Technicians and Associate Professionals" {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Technicians and Associate Professionals' ? 'selected' : '' }}>
+                                <option value="Technicians and Associate Professionals"
+                                    {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Technicians and Associate Professionals' ? 'selected' : '' }}>
                                     Technicians and Associate Professionals
                                 </option>
-                                <option value="Clerical Support Workers" {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Clerical Support Workers' ? 'selected' : '' }}>
+                                <option value="Clerical Support Workers"
+                                    {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Clerical Support Workers' ? 'selected' : '' }}>
                                     Clerical Support Workers
                                 </option>
-                                <option value="Service and Sales Workers" {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Service and Sales Workers' ? 'selected' : '' }}>
+                                <option value="Service and Sales Workers"
+                                    {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Service and Sales Workers' ? 'selected' : '' }}>
                                     Service and Sales Workers
                                 </option>
-                                <option value="Skilled Agricultural, Forestry and Fishery Workers" {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Skilled Agricultural, Forestry and Fishery Workers'
-                    ? 'selected'
-                    : '' }}>
+                                <option value="Skilled Agricultural, Forestry and Fishery Workers"
+                                    {{ old('occupation', Auth::user()?->basicInfo?->occupation) ===
+                                    'Skilled Agricultural, Forestry and Fishery Workers'
+                                        ? 'selected'
+                                        : '' }}>
                                     Skilled Agricultural, Forestry and Fishery Workers
                                 </option>
-                                <option value="Craft and Related Trade Workers" {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Craft and Related Trade Workers' ? 'selected' : '' }}>
+                                <option value="Craft and Related Trade Workers"
+                                    {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Craft and Related Trade Workers' ? 'selected' : '' }}>
                                     Craft and Related Trade Workers
                                 </option>
-                                <option value="Plant and Machine Operators and Assemblers" {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Plant and Machine Operators and Assemblers' ? 'selected' : '' }}>
+                                <option value="Plant and Machine Operators and Assemblers"
+                                    {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Plant and Machine Operators and Assemblers' ? 'selected' : '' }}>
                                     Plant and Machine Operators and Assemblers
                                 </option>
-                                <option value="Elementary Occupations" {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Elementary Occupations' ? 'selected' : '' }}>
+                                <option value="Elementary Occupations"
+                                    {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Elementary Occupations' ? 'selected' : '' }}>
                                     Elementary Occupations
                                 </option>
-                                <option value="Armed Forces Occupations" {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Armed Forces Occupations' ? 'selected' : '' }}>
+                                <option value="Armed Forces Occupations"
+                                    {{ old('occupation', Auth::user()?->basicInfo?->occupation) === 'Armed Forces Occupations' ? 'selected' : '' }}>
                                     Armed Forces Occupations
                                 </option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Employment Status</label>
-                            <select class="form-control" name="status_of_employment">
+                            <select class="form-control" style="text-transform: uppercase;"
+                                name="status_of_employment">
                                 <option selected disabled>Select status</option>
-                                <option {{ old('status_of_employment', Auth::user()?->basicInfo?->status_of_employment) == "Employed" ? "selected" : "" }}>Employed</option>
-                                <option {{ old('status_of_employment', Auth::user()?->basicInfo?->status_of_employment) == "Unemployed" ? "selected" : "" }}>Unemployed</option>
-                                <option {{ old('status_of_employment', Auth::user()?->basicInfo?->status_of_employment) == "Self-Employed" ? "selected" : "" }}>Self-Employed</option>
+                                <option
+                                    {{ old('status_of_employment', Auth::user()?->basicInfo?->status_of_employment) == 'Employed' ? 'selected' : '' }}>
+                                    Employed</option>
+                                <option
+                                    {{ old('status_of_employment', Auth::user()?->basicInfo?->status_of_employment) == 'Unemployed' ? 'selected' : '' }}>
+                                    Unemployed</option>
+                                <option
+                                    {{ old('status_of_employment', Auth::user()?->basicInfo?->status_of_employment) == 'Self-Employed' ? 'selected' : '' }}>
+                                    Self-Employed</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Category of Employment</label>
-                            <select class="form-control" name="category_of_employment">
+                            <select class="form-control" style="text-transform: uppercase;"
+                                name="category_of_employment">
                                 <option selected disabled>Select status</option>
-                                <option {{ old('category_of_employment', Auth::user()?->basicInfo?->category_of_employment) == "Government" ? "selected" : "" }}>Government</option>
-                                <option {{ old('category_of_employment', Auth::user()?->basicInfo?->category_of_employment) == "Private" ? "selected" : "" }}>Private</option>
+                                <option
+                                    {{ old('category_of_employment', Auth::user()?->basicInfo?->category_of_employment) == 'Government' ? 'selected' : '' }}>
+                                    Government</option>
+                                <option
+                                    {{ old('category_of_employment', Auth::user()?->basicInfo?->category_of_employment) == 'Private' ? 'selected' : '' }}>
+                                    Private</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Type of Employment</label>
-                            <select name="types_of_employment" id="types_of_employment" class="form-control">
+                            <select name="types_of_employment" id="types_of_employment" class="form-control"
+                                style="text-transform: uppercase;">
                                 <option value="" disabled selected>Select Types</option>
-                                <option value="Permanent Or Regular" {{ old('types_of_employment', Auth::user()?->basicInfo?->types_of_employment) === 'Permanent Or Regular' ? 'selected' : '' }}>
+                                <option value="Permanent Or Regular"
+                                    {{ old('types_of_employment', Auth::user()?->basicInfo?->types_of_employment) === 'Permanent Or Regular' ? 'selected' : '' }}>
                                     Permanent or Regular
                                 </option>
-                                <option value="Seasonal" {{ old('types_of_employment', Auth::user()?->basicInfo?->types_of_employment) === 'Seasonal' ? 'selected' : '' }}>
+                                <option value="Seasonal"
+                                    {{ old('types_of_employment', Auth::user()?->basicInfo?->types_of_employment) === 'Seasonal' ? 'selected' : '' }}>
                                     Seasonal
                                 </option>
-                                <option value="Casual" {{ old('types_of_employment', Auth::user()?->basicInfo?->types_of_employment) === 'Casual' ? 'selected' : '' }}>
+                                <option value="Casual"
+                                    {{ old('types_of_employment', Auth::user()?->basicInfo?->types_of_employment) === 'Casual' ? 'selected' : '' }}>
                                     Casual
                                 </option>
-                                <option value="Emergency" {{ old('types_of_employment', Auth::user()?->basicInfo?->types_of_employment) === 'Emergency' ? 'selected' : '' }}>
+                                <option value="Emergency"
+                                    {{ old('types_of_employment', Auth::user()?->basicInfo?->types_of_employment) === 'Emergency' ? 'selected' : '' }}>
                                     Emergency
                                 </option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Organization Affiliated</label>
-                            <input type="text" class="form-control" name="organization_affiliated" placeholder="Organization Affiliated" value="{{ strtoupper(old('organization_affiliated', Auth::user()?->basicInfo?->organization_affiliated)) }}">
+                            <input type="text" class="form-control" name="organization_affiliated"
+                                placeholder="Organization Affiliated" style="text-transform: uppercase;"
+                                value="{{ old('organization_affiliated', Auth::user()?->basicInfo?->organization_affiliated) }}"
+                                oninput="this.value = this.value.toUpperCase();">
                         </div>
+
                     </div>
 
                     <!-- Pwd Details -->
@@ -464,233 +586,311 @@
                                 value="{{ old('guardian_phone', Auth::user()?->basicInfo?->guardian_contact ?? '') }}">
                         </div>
                     </div> --}}
+
                     <fieldset id="familyComposition">
                         <legend class="w-auto px-2 fw-bold">Family Composition</legend>
 
 
                         @forelse(Auth::user()->familyCompositions as $index => $member)
-                        <div class="mt-2 border-b family-member family-member-row pb-2" id="familyMemberFields">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <!-- Remove Button -->
-                                @if($index > 0)
-                                <button type="button" class="btn btn-sm btn-danger remove-family-member">
-                                    &times;
-                                </button>
-                                @else
-                                <button type="button" class="btn btn-sm btn-danger remove-family-member" style="display: none;">
-                                    &times;
-                                </button>
-                                @endif
-                            </div>
-
-                            <div class="row form-row">
-                                <div class="col-md-3">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name[]" value="{{ old("name.{$index}", $member->name) }}">
-                                    @error("name.{$index}")
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="relationship" class="form-label">Relationship</label>
-                                    <input type="text" class="form-control" id="relationship" name="relationship[]" value="{{ old("relationship.{$index}", $member->relationship) }}">
-                                    @error("relationship.{$index}")
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="dateOfBirth" class="form-label">Birthday</label>
-                                    <input type="date" class="form-control" id="dateOfBirthFc" name="birthday[]" value="{{ \Carbon\Carbon::parse(old("birthday.{$index}", $member->birthday))->format('Y-m-d') }}">
-                                    @error("birthday.{$index}")
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                            <div class="mt-2 border-b family-member family-member-row pb-2" id="familyMemberFields">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <!-- Remove Button -->
+                                    @if ($index > 0)
+                                        <button type="button" class="btn btn-sm btn-danger remove-family-member">
+                                            &times;
+                                        </button>
+                                    @else
+                                        <button type="button" class="btn btn-sm btn-danger remove-family-member"
+                                            style="display: none;">
+                                            &times;
+                                        </button>
+                                    @endif
                                 </div>
 
-                                <div class="col-md-3">
-                                    <label for="age" class="form-label">Age</label>
-                                    <input type="number" class="form-control" id="age" name="age_fc[]" value="{{ old("age_fc.{$index}", $member->age) }}">
-                                    @error("age_fc.{$index}")
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
+                                <div class="row form-row">
+                                    <div class="col-md-3">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="name" name="name[]"
+                                            value="{{ old("name.{$index}", $member->name) }}">
+                                        @error("name.{$index}")
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="relationship" class="form-label">Relationship</label>
+                                        <input type="text" class="form-control" id="relationship"
+                                            name="relationship[]"
+                                            value="{{ old("relationship.{$index}", $member->relationship) }}">
+                                        @error("relationship.{$index}")
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="dateOfBirth" class="form-label">Birthday</label>
+                                        <input type="date" class="form-control" id="dateOfBirthFc"
+                                            name="birthday[]"
+                                            value="{{ \Carbon\Carbon::parse(old("birthday.{$index}", $member->birthday))->format('Y-m-d') }}">
+                                        @error("birthday.{$index}")
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
 
-                            <div class="row form-row">
-                                <div class="col-md-4">
-                                    <label for="gender" class="form-label">Gender</label>
-                                    <select class="form-select" id="gender" name="gender_fc[]">
-                                        <option value="" hidden selected>Select</option>
-                                        <option value="Male" {{ old("gender_fc.{$index}", $member->gender) == 'Male' ? 'selected' : '' }}>Male</option>
-                                        <option value="Female" {{ old("gender_fc.{$index}", $member->gender) == 'Female' ? 'selected' : '' }}>Female</option>
-                                    </select>
-                                    @error("gender_fc.{$index}")
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="civilStatus" class="form-label">Civil Status</label>
-                                    <select class="form-select" id="civilStatus" name="civil_status_fc[]">
-                                        <option value="" hidden selected>Select</option>
-                                        <option value="Single" {{ old("civil_status_fc.{$index}", $member->civil_status) == 'Single' ? 'selected' : '' }}>Single</option>
-                                        <option value="Married" {{ old("civil_status_fc.{$index}", $member->civil_status) == 'Married' ? 'selected' : '' }}>Married</option>
-                                        <option value="Widowed" {{ old("civil_status_fc.{$index}", $member->civil_status) == 'Widowed' ? 'selected' : '' }}>Widowed</option>
-                                        <option value="Divorced" {{ old("civil_status_fc.{$index}", $member->civil_status) == 'Divorced' ? 'selected' : '' }}>Divorced</option>
-                                    </select>
-                                    @error("civil_status_fc.{$index}")
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                    <div class="col-md-3">
+                                        <label for="age" class="form-label">Age</label>
+                                        <input type="number" class="form-control" id="age" name="age_fc[]"
+                                            value="{{ old("age_fc.{$index}", $member->age) }}">
+                                        @error("age_fc.{$index}")
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="col-md-4">
-                                    <label for="occupation" class="form-label">Occupation</label>
-                                    <input type="text" class="form-control" id="occupation" name="occupation_fc[]" value="{{ old("occupation_fc.{$index}", $member->occupation) }}">
-                                    @error("occupation_fc.{$index}")
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                <div class="row form-row">
+                                    <div class="col-md-4">
+                                        <label for="gender" class="form-label">Gender</label>
+                                        <select class="form-select" id="gender" name="gender_fc[]">
+                                            <option value="" hidden selected>Select</option>
+                                            <option value="Male"
+                                                {{ old("gender_fc.{$index}", $member->gender) == 'Male' ? 'selected' : '' }}>
+                                                Male</option>
+                                            <option value="Female"
+                                                {{ old("gender_fc.{$index}", $member->gender) == 'Female' ? 'selected' : '' }}>
+                                                Female</option>
+                                        </select>
+                                        @error("gender_fc.{$index}")
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="civilStatus" class="form-label">Civil Status</label>
+                                        <select class="form-select" id="civilStatus" name="civil_status_fc[]">
+                                            <option value="" hidden selected>Select</option>
+                                            <option value="Single"
+                                                {{ old("civil_status_fc.{$index}", $member->civil_status) == 'Single' ? 'selected' : '' }}>
+                                                Single</option>
+                                            <option value="Married"
+                                                {{ old("civil_status_fc.{$index}", $member->civil_status) == 'Married' ? 'selected' : '' }}>
+                                                Married</option>
+                                            <option value="Widowed"
+                                                {{ old("civil_status_fc.{$index}", $member->civil_status) == 'Widowed' ? 'selected' : '' }}>
+                                                Widowed</option>
+                                            <option value="Divorced"
+                                                {{ old("civil_status_fc.{$index}", $member->civil_status) == 'Divorced' ? 'selected' : '' }}>
+                                                Divorced</option>
+                                        </select>
+                                        @error("civil_status_fc.{$index}")
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="occupation" class="form-label">Occupation</label>
+                                        <input type="text" class="form-control" id="occupation"
+                                            name="occupation_fc[]"
+                                            value="{{ old("occupation_fc.{$index}", $member->occupation) }}">
+                                        @error("occupation_fc.{$index}")
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row form-row">
+                                    <div class="col-md-6">
+                                        <label for="educationalAttainment" class="form-label">Educational
+                                            Attainment</label>
+                                        <select class="form-select" id="educationalAttainment"
+                                            name="educational_attainment_fc[]">
+                                            <option value="">Select</option>
+                                            <option value="No Formal Education"
+                                                {{ old("educational_attainment_fc.{$index}", $member->educational) == 'No Formal Education' ? 'selected' : '' }}>
+                                                No Formal Education</option>
+                                            <option value="Elementary"
+                                                {{ old("educational_attainment_fc.{$index}", $member->educational) == 'Elementary' ? 'selected' : '' }}>
+                                                Elementary</option>
+                                            <option value="High School"
+                                                {{ old("educational_attainment_fc.{$index}", $member->educational) == 'High School' ? 'selected' : '' }}>
+                                                High School</option>
+                                            <option value="College"
+                                                {{ old("educational_attainment_fc.{$index}", $member->educational) == 'College' ? 'selected' : '' }}>
+                                                College</option>
+                                            <option value="Postgraduate"
+                                                {{ old("educational_attainment_fc.{$index}", $member->educational) == 'Postgraduate' ? 'selected' : '' }}>
+                                                Postgraduate</option>
+                                        </select>
+                                        @error("educational_attainment_fc.{$index}")
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="income" class="form-label">Monthly Income</label>
+                                        <select name="income[]" class="form-select" id="income[]">
+                                            <option value="" hidden selected>Select Monthly Income</option>
+                                            <option value="" disabled>Select Monthly Income</option>
+                                            <option value="Below 60,000"
+                                                {{ old("income.{$index}", $member->income) == 'Below 60,000' ? 'selected' : '' }}>
+                                                Below 60,000</option>
+                                            <option value="60,000 - 120,000"
+                                                {{ old("income.{$index}", $member->income) == '60,000 - 120,000' ? 'selected' : '' }}>
+                                                60,000 - 120,000</option>
+                                            <option value="120,000 - 180,000"
+                                                {{ old("income.{$index}", $member->income) == '120,000 - 180,000' ? 'selected' : '' }}>
+                                                120,000 - 180,000</option>
+                                            <option value="Above 180,000"
+                                                {{ old("income.{$index}", $member->income) == 'Above 180,000' ? 'selected' : '' }}>
+                                                Above 180,000</option>
+                                        </select>
+                                        @error("income.{$index}")
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row form-row">
-                                <div class="col-md-6">
-                                    <label for="educationalAttainment" class="form-label">Educational
-                                        Attainment</label>
-                                    <select class="form-select" id="educationalAttainment" name="educational_attainment_fc[]">
-                                        <option value="">Select</option>
-                                        <option value="No Formal Education" {{ old("educational_attainment_fc.{$index}", $member->educational) == 'No Formal Education' ? 'selected' : '' }}>No Formal Education</option>
-                                        <option value="Elementary" {{ old("educational_attainment_fc.{$index}", $member->educational) == 'Elementary' ? 'selected' : '' }}>Elementary</option>
-                                        <option value="High School" {{ old("educational_attainment_fc.{$index}", $member->educational) == 'High School' ? 'selected' : '' }}>High School</option>
-                                        <option value="College" {{ old("educational_attainment_fc.{$index}", $member->educational) == 'College' ? 'selected' : '' }}>College</option>
-                                        <option value="Postgraduate" {{ old("educational_attainment_fc.{$index}", $member->educational) == 'Postgraduate' ? 'selected' : '' }}>Postgraduate</option>
-                                    </select>
-                                    @error("educational_attainment_fc.{$index}")
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="income" class="form-label">Monthly Income</label>
-                                    <select name="income[]" class="form-select" id="income[]">
-                                        <option value="" hidden selected>Select Monthly Income</option>
-                                        <option value="" disabled>Select Monthly Income</option>
-                                        <option value="Below 60,000" {{ old("income.{$index}", $member->income) == 'Below 60,000' ? 'selected' : '' }}>Below 60,000</option>
-                                        <option value="60,000 - 120,000" {{ old("income.{$index}", $member->income) == '60,000 - 120,000' ? 'selected' : '' }}>60,000 - 120,000</option>
-                                        <option value="120,000 - 180,000" {{ old("income.{$index}", $member->income) == '120,000 - 180,000' ? 'selected' : '' }}>120,000 - 180,000</option>
-                                        <option value="Above 180,000" {{ old("income.{$index}", $member->income) == 'Above 180,000' ? 'selected' : '' }}>Above 180,000</option>
-                                    </select>
-                                    @error("income.{$index}")
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
                         @empty
-                        <div class="mt-2 border-b family-member family-member-row" id="familyMemberFields">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <!-- Remove Button -->
-                                <button type="button" class="btn btn-sm btn-danger remove-family-member" style="display: none;">
-                                    &times;
-                                </button>
-                            </div>
-
-                            <div class="row form-row">
-                                <div class="col-md-3">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name[]" value="{{ old('name.0') }}">
-                                    @error('name.*')
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="relationship" class="form-label">Relationship</label>
-                                    <input type="text" class="form-control" id="relationship" name="relationship[]" value="{{ old('relationship.0') }}">
-                                    @error('relationship.*')
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="dateOfBirth" class="form-label">Birthday</label>
-                                    <input type="date" class="form-control" id="dateOfBirthFc" name="birthday[]" value="{{ \Carbon\Carbon::parse(old('birthday.*'))->format('Y-m-d') }}">
-                                    @error('birthday.*')
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                            <div class="mt-2 border-b family-member family-member-row" id="familyMemberFields">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <!-- Remove Button -->
+                                    <button type="button" class="btn btn-sm btn-danger remove-family-member"
+                                        style="display: none;">
+                                        &times;
+                                    </button>
                                 </div>
 
-                                <div class="col-md-3">
-                                    <label for="age" class="form-label">Age</label>
-                                    <input type="number" class="form-control" id="age" name="age_fc[]" value="{{ old('age_fc.0') }}">
-                                    @error('age_fc.*')
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
+                                <div class="row form-row">
+                                    <div class="col-md-3">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="name" name="name[]"
+                                            value="{{ old('name.0') }}">
+                                        @error('name.*')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="relationship" class="form-label">Relationship</label>
+                                        <input type="text" class="form-control" id="relationship"
+                                            name="relationship[]" value="{{ old('relationship.0') }}">
+                                        @error('relationship.*')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="dateOfBirth" class="form-label">Birthday</label>
+                                        <input type="date" class="form-control" id="dateOfBirthFc"
+                                            name="birthday[]"
+                                            value="{{ \Carbon\Carbon::parse(old('birthday.*'))->format('Y-m-d') }}">
+                                        @error('birthday.*')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
 
-                            <div class="row form-row">
-                                <div class="col-md-4">
-                                    <label for="gender" class="form-label">Gender</label>
-                                    <select class="form-select" id="gender" name="gender_fc[]">
-                                        <option value="" hidden selected>Select</option>
-                                        <option value="Male" {{ old('gender_fc.0') == 'Male' ? 'selected' : '' }}>Male</option>
-                                        <option value="Female" {{ old('gender_fc.0') == 'Female' ? 'selected' : '' }}>Female</option>
-                                    </select>
-                                    @error('gender_fc.*')
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="civilStatus" class="form-label">Civil Status</label>
-                                    <select class="form-select" id="civilStatus" name="civil_status_fc[]">
-                                        <option value="" hidden selected>Select</option>
-                                        <option value="Single" {{ old('civil_status_fc.0') == 'Single' ? 'selected' : '' }}>Single</option>
-                                        <option value="Married" {{ old('civil_status_fc.0') == 'Married' ? 'selected' : '' }}>Married</option>
-                                        <option value="Widowed" {{ old('civil_status_fc.0') == 'Widowed' ? 'selected' : '' }}>Widowed</option>
-                                        <option value="Divorced" {{ old('civil_status_fc.0') == 'Divorced' ? 'selected' : '' }}>Divorced</option>
-                                    </select>
-                                    @error('civil_status_fc.*')
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                    <div class="col-md-3">
+                                        <label for="age" class="form-label">Age</label>
+                                        <input type="number" class="form-control" id="age" name="age_fc[]"
+                                            value="{{ old('age_fc.0') }}">
+                                        @error('age_fc.*')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="col-md-4">
-                                    <label for="occupation" class="form-label">Occupation</label>
-                                    <input type="text" class="form-control" id="occupation" name="occupation_fc[]" value="{{ old('occupation_fc.0') }}">
-                                    @error('occupation_fc.*')
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                <div class="row form-row">
+                                    <div class="col-md-4">
+                                        <label for="gender" class="form-label">Gender</label>
+                                        <select class="form-select" id="gender" name="gender_fc[]">
+                                            <option value="" hidden selected>Select</option>
+                                            <option value="Male"
+                                                {{ old('gender_fc.0') == 'Male' ? 'selected' : '' }}>Male</option>
+                                            <option value="Female"
+                                                {{ old('gender_fc.0') == 'Female' ? 'selected' : '' }}>Female</option>
+                                        </select>
+                                        @error('gender_fc.*')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="civilStatus" class="form-label">Civil Status</label>
+                                        <select class="form-select" id="civilStatus" name="civil_status_fc[]">
+                                            <option value="" hidden selected>Select</option>
+                                            <option value="Single"
+                                                {{ old('civil_status_fc.0') == 'Single' ? 'selected' : '' }}>Single
+                                            </option>
+                                            <option value="Married"
+                                                {{ old('civil_status_fc.0') == 'Married' ? 'selected' : '' }}>Married
+                                            </option>
+                                            <option value="Widowed"
+                                                {{ old('civil_status_fc.0') == 'Widowed' ? 'selected' : '' }}>Widowed
+                                            </option>
+                                            <option value="Divorced"
+                                                {{ old('civil_status_fc.0') == 'Divorced' ? 'selected' : '' }}>
+                                                Divorced</option>
+                                        </select>
+                                        @error('civil_status_fc.*')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="occupation" class="form-label">Occupation</label>
+                                        <input type="text" class="form-control" id="occupation"
+                                            name="occupation_fc[]" value="{{ old('occupation_fc.0') }}">
+                                        @error('occupation_fc.*')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row form-row">
+                                    <div class="col-md-6">
+                                        <label for="educationalAttainment" class="form-label">Educational
+                                            Attainment</label>
+                                        <select class="form-select" id="educationalAttainment"
+                                            name="educational_attainment_fc[]">
+                                            <option value="">Select</option>
+                                            <option value="No Formal Education"
+                                                {{ old('educational_attainment_fc.0') == 'No Formal Education' ? 'selected' : '' }}>
+                                                No Formal Education</option>
+                                            <option value="Elementary"
+                                                {{ old('educational_attainment_fc.0') == 'Elementary' ? 'selected' : '' }}>
+                                                Elementary</option>
+                                            <option value="High School"
+                                                {{ old('educational_attainment_fc.0') == 'High School' ? 'selected' : '' }}>
+                                                High School</option>
+                                            <option value="College"
+                                                {{ old('educational_attainment_fc.0') == 'College' ? 'selected' : '' }}>
+                                                College</option>
+                                            <option value="Postgraduate"
+                                                {{ old('educational_attainment_fc.0') == 'Postgraduate' ? 'selected' : '' }}>
+                                                Postgraduate</option>
+                                        </select>
+                                        @error('educational_attainment_fc.*')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="income" class="form-label">Monthly Income</label>
+                                        <select name="income[]" class="form-select" id="income[]">
+                                            <option value="" hidden selected>Select Monthly Income</option>
+                                            <option value="" disabled>Select Monthly Income</option>
+                                            <option value="Below 60,000"
+                                                {{ old('income.0') == 'Below 60,000' ? 'selected' : '' }}>Below 60,000
+                                            </option>
+                                            <option value="60,000 - 120,000"
+                                                {{ old('income.0') == '60,000 - 120,000' ? 'selected' : '' }}>60,000 -
+                                                120,000</option>
+                                            <option value="120,000 - 180,000"
+                                                {{ old('income.0') == '120,000 - 180,000' ? 'selected' : '' }}>120,000
+                                                - 180,000</option>
+                                            <option value="Above 180,000"
+                                                {{ old('income.0') == 'Above 180,000' ? 'selected' : '' }}>Above
+                                                180,000</option>
+                                        </select>
+                                        @error('income.*')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row form-row">
-                                <div class="col-md-6">
-                                    <label for="educationalAttainment" class="form-label">Educational
-                                        Attainment</label>
-                                    <select class="form-select" id="educationalAttainment" name="educational_attainment_fc[]">
-                                        <option value="">Select</option>
-                                        <option value="No Formal Education" {{ old('educational_attainment_fc.0') == 'No Formal Education' ? 'selected' : '' }}>No Formal Education</option>
-                                        <option value="Elementary" {{ old('educational_attainment_fc.0') == 'Elementary' ? 'selected' : '' }}>Elementary</option>
-                                        <option value="High School" {{ old('educational_attainment_fc.0') == 'High School' ? 'selected' : '' }}>High School</option>
-                                        <option value="College" {{ old('educational_attainment_fc.0') == 'College' ? 'selected' : '' }}>College</option>
-                                        <option value="Postgraduate" {{ old('educational_attainment_fc.0') == 'Postgraduate' ? 'selected' : '' }}>Postgraduate</option>
-                                    </select>
-                                    @error('educational_attainment_fc.*')
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="income" class="form-label">Monthly Income</label>
-                                    <select name="income[]" class="form-select" id="income[]">
-                                        <option value="" hidden selected>Select Monthly Income</option>
-                                        <option value="" disabled>Select Monthly Income</option>
-                                        <option value="Below 60,000" {{ old('income.0') == 'Below 60,000' ? 'selected' : '' }}>Below 60,000</option>
-                                        <option value="60,000 - 120,000" {{ old('income.0') == '60,000 - 120,000' ? 'selected' : '' }}>60,000 - 120,000</option>
-                                        <option value="120,000 - 180,000" {{ old('income.0') == '120,000 - 180,000' ? 'selected' : '' }}>120,000 - 180,000</option>
-                                        <option value="Above 180,000" {{ old('income.0') == 'Above 180,000' ? 'selected' : '' }}>Above 180,000</option>
-                                    </select>
-                                    @error('income.*')
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
                         @endforelse
 
-                        <button type="button" id="addFamilyComposition" class="mt-2 btn btn-primary float-end">Add Field</button>
+                        <button type="button" id="addFamilyComposition" class="mt-2 btn btn-primary float-end">Add
+                            Field</button>
                     </fieldset>
                 </div>
                 <div class="modal-footer">
@@ -749,50 +949,49 @@
     //     document.querySelector('.family-member-row .remove-family-member').style.display = 'none';
     // });
     document.addEventListener('DOMContentLoaded', function() {
-    const familyComposition = document.getElementById('familyComposition');
-    const originalRow = document.querySelector('.family-member-row');
+        const familyComposition = document.getElementById('familyComposition');
+        const originalRow = document.querySelector('.family-member-row');
 
-    // Start counting from the number of existing rows
-    let fieldCount = {{ count(Auth::user()->familyCompositions) }};
+        // Start counting from the number of existing rows
+        let fieldCount = {{ count(Auth::user()->familyCompositions) }};
 
-    document.getElementById('addFamilyComposition').addEventListener('click', function() {
-        const newRow = originalRow.cloneNode(true);
+        document.getElementById('addFamilyComposition').addEventListener('click', function() {
+            const newRow = originalRow.cloneNode(true);
 
-        // Update all input/select names with new index
-        newRow.querySelectorAll('input, select, textarea').forEach(input => {
-            const name = input.name.replace(/\[\d+\]/, `[${fieldCount}]`);
-            input.name = name;
-            input.value = '';
-            input.id = name.replace(/\[|\]/g, '_') + fieldCount; // Fix IDs
-            input.classList.remove('is-invalid');
+            // Update all input/select names with new index
+            newRow.querySelectorAll('input, select, textarea').forEach(input => {
+                const name = input.name.replace(/\[\d+\]/, `[${fieldCount}]`);
+                input.name = name;
+                input.value = '';
+                input.id = name.replace(/\[|\]/g, '_') + fieldCount; // Fix IDs
+                input.classList.remove('is-invalid');
+            });
+
+            // Clear validation errors
+            newRow.querySelectorAll('.text-danger').forEach(el => el.remove());
+
+            // Setup remove button
+            const removeButton = newRow.querySelector('.remove-family-member');
+            removeButton.style.display = 'inline-block';
+            removeButton.addEventListener('click', function() {
+                newRow.remove();
+            });
+
+            familyComposition.insertBefore(newRow, this);
+            fieldCount++;
         });
-
-        // Clear validation errors
-        newRow.querySelectorAll('.text-danger').forEach(el => el.remove());
-
-        // Setup remove button
-        const removeButton = newRow.querySelector('.remove-family-member');
-        removeButton.style.display = 'inline-block';
-        removeButton.addEventListener('click', function() {
-            newRow.remove();
-        });
-
-        familyComposition.insertBefore(newRow, this);
-        fieldCount++;
     });
-});
-
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-@if($errors->any())
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Fillup error',
-            text: 'Opsss, Something went wrong on fillup form',
+@if ($errors->any())
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Fillup error',
+                text: 'Opsss, Something went wrong on fillup form',
+            });
         });
-    });
-</script>
+    </script>
 @endif

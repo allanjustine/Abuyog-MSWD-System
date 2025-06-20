@@ -23,7 +23,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <style>
         :root {
@@ -89,7 +90,7 @@
         /* Table styling */
         .table-responsive {
             border-radius: 12px;
-            overflow: hidden;
+            height: 100vh;
         }
 
         table {
@@ -227,6 +228,7 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
+
         .modal-header {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
@@ -285,7 +287,8 @@
                 gap: 1rem;
             }
 
-            table th, table td {
+            table th,
+            table td {
                 padding: 0.75rem 0.5rem;
                 font-size: 0.85rem;
             }
@@ -298,11 +301,20 @@
 
         /* Animation */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .card, .table-responsive, .modal-content {
+        .card,
+        .table-responsive,
+        .modal-content {
             animation: fadeIn 0.5s ease-out forwards;
         }
 
@@ -344,13 +356,13 @@
         @include('user.navbar')
 
         <!-- Main Content -->
-        <div class="container mt-4">
+        <div class="container mt-4" style="height: 100vh;">
             <div class="card">
                 @if (session('message'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>Success!</strong> {{ session('message') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> {{ session('message') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 @endif
                 <div class="card-header">
                     <span>All Applications</span>
@@ -376,16 +388,19 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex flex-column">
-                                                <span class="fw-bold">{{ $applies->service->name ?? 'No Service Assigned' }}</span>
-                                                @if(isset($applies?->pwdDetails[0]?->pwd_number))
-                                                <small class="text-muted">PWD #: {{ $applies?->pwdDetails[0]?->pwd_number }}</small>
+                                                <span
+                                                    class="fw-bold">{{ $applies->service->name ?? 'No Service Assigned' }}</span>
+                                                @if (isset($applies?->pwdDetails[0]?->pwd_number))
+                                                    <small class="text-muted">PWD #:
+                                                        {{ $applies?->pwdDetails[0]?->pwd_number }}</small>
                                                 @endif
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="d-block">{{ $applies?->appearance_date?->format('F j, Y') ?? 'Pending' }}</span>
-                                            @if($applies->status === 'pending' && $applies->appearance_date < now()->subDays(1))
-                                            <small class="mt-1 text-danger d-block">Application overdue</small>
+                                            <span
+                                                class="d-block">{{ $applies?->appearance_date?->format('F j, Y') ?? 'Pending' }}</span>
+                                            @if ($applies->status === 'pending' && $applies->appearance_date < now()->subDays(1))
+                                                <small class="mt-1 text-danger d-block">Application overdue</small>
                                             @endif
                                         </td>
                                         <td>{{ $applies->phone }}</td>
@@ -398,68 +413,78 @@
                                                 </span>
                                             @endif
                                             @if ($availableSoloParent && $applies->service->id === 3)
-                                                <small class="mt-1 d-block text-danger">Expired: {{ $applies->created_at->format('F j, Y') }}</small>
+                                                <small class="mt-1 d-block text-danger">Expired:
+                                                    {{ $applies->created_at->format('F j, Y') }}</small>
                                             @elseif($availablePwd && $applies->service->id === 2)
-                                                <small class="mt-1 d-block text-danger">Expired: {{ $applies->created_at->format('F j, Y') }}</small>
+                                                <small class="mt-1 d-block text-danger">Expired:
+                                                    {{ $applies->created_at->format('F j, Y') }}</small>
                                             @endif
                                         </td>
                                         <td>
-                                           <div class="action-buttons">
-                                              <a href="javascript:void(0);" class="action-link action-link-history"
-                                                   onclick="openModal({{ $applies->id }})">
-                                                   <i class="fas fa-info-circle"></i> View
-                                               </a>
-                                               @if ($applies->status === "pending")
-                                                   <button type="button" class="action-link action-link-cancel"
-                                                       data-bs-toggle="modal"
-                                                       data-bs-target="#cancelApplication{{ $applies->id }}">
-                                                       <i class="fas fa-times-circle"></i> Cancel
-                                                   </button>
-                                               @endif
-                                               @if ($applies->status === "rejected" || $applies->status === 'pending' && $applies->appearance_date < now()->subDays(1))
-                                                   <button type="button" class="action-link action-link-reapply"
-                                                       data-bs-toggle="modal"
-                                                       data-bs-target="#reApply{{ $applies->id }}">
-                                                       <i class="fas fa-sync-alt"></i> Re-Apply
-                                                   </button>
-                                               @endif
-                                               @if ($availableSoloParent && $applies->service->id === 3)
-                                               <a href="/form/3" class="action-link action-link-reapply">
-                                                   <i class="fas fa-sync-alt"></i> Re-Apply
-                                               </a>
-                                               @elseif($availablePwd && $applies->service->id === 2)
-                                               <a href="/form/2" class="action-link action-link-reapply">
-                                                   <i class="fas fa-sync-alt"></i> Re-Apply
-                                               </a>
-                                               @endif
-                                           </div>
+                                            <div class="action-buttons">
+                                                <a href="javascript:void(0);" class="action-link action-link-history"
+                                                    onclick="openModal({{ $applies->id }})">
+                                                    <i class="fas fa-info-circle"></i> View
+                                                </a>
+                                                @if ($applies->status === 'pending')
+                                                    <button type="button" class="action-link action-link-cancel"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#cancelApplication{{ $applies->id }}">
+                                                        <i class="fas fa-times-circle"></i> Cancel
+                                                    </button>
+                                                @endif
+                                                @if (
+                                                    $applies->status === 'rejected' ||
+                                                        ($applies->status === 'pending' && $applies->appearance_date < now()->subDays(1)))
+                                                    <button type="button" class="action-link action-link-reapply"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#reApply{{ $applies->id }}">
+                                                        <i class="fas fa-sync-alt"></i> Re-Apply
+                                                    </button>
+                                                @endif
+                                                @if ($availableSoloParent && $applies->service->id === 3)
+                                                    <a href="/form/3" class="action-link action-link-reapply">
+                                                        <i class="fas fa-sync-alt"></i> Re-Apply
+                                                    </a>
+                                                @elseif($availablePwd && $applies->service->id === 2)
+                                                    <a href="/form/2" class="action-link action-link-reapply">
+                                                        <i class="fas fa-sync-alt"></i> Re-Apply
+                                                    </a>
+                                                @endif
+                                            </div>
                                         </td>
                                     </tr>
 
                                     <!-- Cancel Application Modal -->
                                     <div class="modal fade" id="cancelApplication{{ $applies->id }}" tabindex="-1"
                                         aria-labelledby="cancelApplication{{ $applies->id }}Label" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">{{ $applies->service->name }} Application</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    <h5 class="modal-title">{{ $applies->service->name }} Application
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="mb-4 text-center">
-                                                        <i class="mb-3 fas fa-exclamation-triangle fa-3x text-warning"></i>
+                                                        <i
+                                                            class="mb-3 fas fa-exclamation-triangle fa-3x text-warning"></i>
                                                         <h5>Are you sure you want to cancel this application?</h5>
-                                                        <p class="text-muted">Application Date: {{ $applies?->appearance_date?->format('F d, Y') ?? $applies?->created_at?->format('F d, Y') }}</p>
+                                                        <p class="text-muted">Application Date:
+                                                            {{ $applies?->appearance_date?->format('F d, Y') ?? $applies?->created_at?->format('F d, Y') }}
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <form action="/cancel-application/{{ $applies->id }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-danger">Confirm Cancel</button>
-                                                </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Confirm
+                                                            Cancel</button>
+                                                    </div>
                                                 </form>
                                             </div>
                                         </div>
@@ -467,45 +492,55 @@
                                     <!-- Re-Apply Modal -->
                                     <div class="modal fade" id="reApply{{ $applies->id }}" tabindex="-1"
                                         aria-labelledby="reApply{{ $applies->id }}Label" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Re-Apply: {{ $applies->service->name }}</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    <h5 class="modal-title">Re-Apply: {{ $applies->service->name }}
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
                                                 </div>
-                                                <form action="/re-apply-application/{{ $applies->id }}" method="POST">
+                                                <form action="/re-apply-application/{{ $applies->id }}"
+                                                    method="POST">
                                                     @csrf
                                                     @method('PATCH')
-                                                <div class="modal-body">
-                                                    <div class="mb-4">
-                                                        <p>Are you sure you want to re-apply for this application?</p>
-                                                        <p class="fw-bold">Original Date: {{ $applies?->appearance_date?->format('F d, Y') ?? $applies?->created_at?->format('F d, Y') }}</p>
-                                                        @if($applies->cancellation_reason !== null)
-                                                        <div class="alert alert-warning">
-                                                            <p class="mb-0"><strong>Reason for rejection:</strong> {{ $applies->cancellation_reason }}</p>
+                                                    <div class="modal-body">
+                                                        <div class="mb-4">
+                                                            <p>Are you sure you want to re-apply for this application?
+                                                            </p>
+                                                            <p class="fw-bold">Original Date:
+                                                                {{ $applies?->appearance_date?->format('F d, Y') ?? $applies?->created_at?->format('F d, Y') }}
+                                                            </p>
+                                                            @if ($applies->cancellation_reason !== null)
+                                                                <div class="alert alert-warning">
+                                                                    <p class="mb-0"><strong>Reason for
+                                                                            rejection:</strong>
+                                                                        {{ $applies->cancellation_reason }}</p>
+                                                                </div>
+                                                            @endif
                                                         </div>
-                                                        @endif
+                                                        <div class="form-group">
+                                                            <label for="appearance_date" class="form-label">New
+                                                                Appearance Date</label>
+                                                            <input type="date" name="appearance_date_data"
+                                                                value="{{ $applies?->appearance_date?->format('Y-m-d') ?? $applies?->created_at?->format('Y-m-d') }}"
+                                                                class="form-control" required>
+                                                            @error('appearance_date_data')
+                                                                <small class="text-danger">{{ $message }}</small>
+                                                            @enderror
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="appearance_date" class="form-label">New Appearance Date</label>
-                                                        <input type="date" name="appearance_date_data"
-                                                               value="{{ $applies?->appearance_date?->format('Y-m-d') ?? $applies?->created_at?->format('Y-m-d') }}"
-                                                               class="form-control" required>
-                                                        @error('appearance_date_data')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Submit
+                                                            Re-Application</button>
                                                     </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Submit Re-Application</button>
-                                                </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
-                                    @empty
+                                @empty
                                     <tr>
                                         <td colspan="5" class="py-4 text-center">
                                             <i class="mb-3 fas fa-folder-open fa-3x text-muted"></i>
@@ -523,12 +558,14 @@
             </div>
         </div>
         <!-- Modal for Application Details -->
-        <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+        <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="detailsModalLabel">Application Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive">
@@ -573,7 +610,9 @@
                                     <tr id="requirementsSection">
                                         <td colspan="2" class="p-0">
                                             <div class="p-3">
-                                                <h6 class="mb-3 fw-bold"><i class="fas fa-clipboard-list me-2"></i>REQUIREMENTS TO BRING</h6>
+                                                <h6 class="mb-3 fw-bold"><i
+                                                        class="fas fa-clipboard-list me-2"></i>REQUIREMENTS TO BRING
+                                                </h6>
                                                 <ul id="requirementsList" class="list-group list-group-flush"></ul>
                                             </div>
                                         </td>
@@ -592,99 +631,104 @@
 
 
 
-                <!-- Dynamic Service Selection Modal -->
-                <div id="servicesModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Select a Service</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <ul class="list-group">
-                                    @if (Auth::user()->age >= 60)
-                                        @if ($alreadyHaveOsca)
-                                            <li class="list-group-item">
-                                                <a href="/form/1">
-                                                    <i class="fas fa-user-tie me-2"></i>OSCA (Office of Senior Citizens)
-                                                    @if (\App\Models\Service::find(1)->isInactive())
-                                                    <span class="text-danger fst-italic fw-bold">- Inactive</span>
-                                                    @endif
-                                                </a>
-                                            </li>
-                                        @endif
-                                        @if (Auth::user()->has_minor_child === 1 && $availableSoloParent)
-                                            <li class="list-group-item">
-                                                <a href="/form/3">
-                                                    <i class="fas fa-user-friends me-2"></i>Solo Parent
-                                                    @if (\App\Models\Service::find(3)->isInactive())
-                                                    <span class="text-danger fst-italic fw-bold">- Inactive</span>
-                                                    @endif
-                                                </a>
-                                            </li>
-                                        @endif
-                                        @if (!$alreadyHaveOsca && Auth::user()->has_minor_child === 0)
-                                            <div class="py-3 text-center">
-                                                <i class="mb-3 fas fa-info-circle fa-2x text-muted"></i>
-                                                <p class="fs-5 fw-bold text-muted">No Services Available for OSCA and SoloParent</p>
-                                            </div>
-                                        @endif
-                                        <li class="list-group-item">
-                                            <a href="/form/4">
-                                                <i class="fas fa-hands-helping me-2"></i>AICS (Assistance to Individuals in Crisis)
-                                                @if (\App\Models\Service::find(4)->isInactive())
+        <!-- Dynamic Service Selection Modal -->
+        <div id="servicesModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Select a Service</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="list-group">
+                            @if (Auth::user()->age >= 60)
+                                @if ($alreadyHaveOsca)
+                                    <li class="list-group-item">
+                                        <a href="/form/1">
+                                            <i class="fas fa-user-tie me-2"></i>OSCA (Office of Senior Citizens)
+                                            @if (\App\Models\Service::find(1)->isInactive())
                                                 <span class="text-danger fst-italic fw-bold">- Inactive</span>
-                                                @endif
-                                            </a>
-                                        </li>
-                                    @else
-                                        @if ($availableSoloParent || !$isSoloParentExists)
-                                            <li class="list-group-item">
-                                                <a href="/form/3">
-                                                    <i class="fas fa-user-friends me-2"></i>Solo Parent
-                                                    @if (\App\Models\Service::find(3)->isInactive())
-                                                    <span class="text-danger fst-italic fw-bold">- Inactive</span>
-                                                    @endif
-                                                </a>
-                                            </li>
-                                        @endif
-                                        @if ($availablePwd || !$isPwdExists)
-                                            <li class="list-group-item">
-                                                <a href="/form/2">
-                                                    <i class="fas fa-wheelchair me-2"></i>PWD (Persons with Disabilities)
-                                                    @if (\App\Models\Service::find(2)->isInactive())
-                                                    <span class="text-danger fst-italic fw-bold">- Inactive</span>
-                                                    @endif
-                                                </a>
-                                            </li>
-                                        @endif
-                                        @if (!$availableSoloParent && !$availablePwd && $isSoloParentExists && $isPwdExists)
-                                            <div class="py-3 text-center">
-                                                <i class="mb-3 fas fa-info-circle fa-2x text-muted"></i>
-                                                <p class="fs-5 fw-bold text-muted">No Services Available for PWD and SoloParent</p>
-                                            </div>
-                                        @endif
-                                        <li class="list-group-item">
-                                            <a href="/form/4">
-                                                <i class="fas fa-hands-helping me-2"></i>AICS (Assistance to Individuals in Crisis)
-                                                @if (\App\Models\Service::find(4)->isInactive())
+                                            @endif
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (Auth::user()->has_minor_child === 1 && $availableSoloParent)
+                                    <li class="list-group-item">
+                                        <a href="/form/3">
+                                            <i class="fas fa-user-friends me-2"></i>Solo Parent
+                                            @if (\App\Models\Service::find(3)->isInactive())
                                                 <span class="text-danger fst-italic fw-bold">- Inactive</span>
-                                                @endif
-                                            </a>
-                                        </li>
-                                    @endif
-                                </ul>
-                            </div>
-                        </div>
+                                            @endif
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (!$alreadyHaveOsca && Auth::user()->has_minor_child === 0)
+                                    <div class="py-3 text-center">
+                                        <i class="mb-3 fas fa-info-circle fa-2x text-muted"></i>
+                                        <p class="fs-5 fw-bold text-muted">No Services Available for OSCA and
+                                            SoloParent</p>
+                                    </div>
+                                @endif
+                                <li class="list-group-item">
+                                    <a href="/form/4">
+                                        <i class="fas fa-hands-helping me-2"></i>AICS (Assistance to Individuals in
+                                        Crisis)
+                                        @if (\App\Models\Service::find(4)->isInactive())
+                                            <span class="text-danger fst-italic fw-bold">- Inactive</span>
+                                        @endif
+                                    </a>
+                                </li>
+                            @else
+                                @if ($availableSoloParent || !$isSoloParentExists)
+                                    <li class="list-group-item">
+                                        <a href="/form/3">
+                                            <i class="fas fa-user-friends me-2"></i>Solo Parent
+                                            @if (\App\Models\Service::find(3)->isInactive())
+                                                <span class="text-danger fst-italic fw-bold">- Inactive</span>
+                                            @endif
+                                        </a>
+                                    </li>
+                                @endif
+                                @if ($availablePwd || !$isPwdExists)
+                                    <li class="list-group-item">
+                                        <a href="/form/2">
+                                            <i class="fas fa-wheelchair me-2"></i>PWD (Persons with Disabilities)
+                                            @if (\App\Models\Service::find(2)->isInactive())
+                                                <span class="text-danger fst-italic fw-bold">- Inactive</span>
+                                            @endif
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (!$availableSoloParent && !$availablePwd && $isSoloParentExists && $isPwdExists)
+                                    <div class="py-3 text-center">
+                                        <i class="mb-3 fas fa-info-circle fa-2x text-muted"></i>
+                                        <p class="fs-5 fw-bold text-muted">No Services Available for PWD and SoloParent
+                                        </p>
+                                    </div>
+                                @endif
+                                <li class="list-group-item">
+                                    <a href="/form/4">
+                                        <i class="fas fa-hands-helping me-2"></i>AICS (Assistance to Individuals in
+                                        Crisis)
+                                        @if (\App\Models\Service::find(4)->isInactive())
+                                            <span class="text-danger fst-italic fw-bold">- Inactive</span>
+                                        @endif
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <script>
-                    document.getElementById('addApplicationBtn').addEventListener('click', function () {
-                        var modal = new bootstrap.Modal(document.getElementById('servicesModal'));
-                        modal.show();
-                    });
-                </script>
+        <script>
+            document.getElementById('addApplicationBtn').addEventListener('click', function() {
+                var modal = new bootstrap.Modal(document.getElementById('servicesModal'));
+                modal.show();
+            });
+        </script>
     </div>
 
     <!-- JS Links -->
@@ -695,7 +739,7 @@
     <script src="../assets/js/theme.js"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             @if (session('error'))
                 Swal.fire({
                     title: 'Oops!',
@@ -757,12 +801,13 @@
             $.ajax({
                 url: '/application_details/' + applicationId,
                 method: 'GET',
-                success: function (response) {
+                success: function(response) {
                     $('#programName').text(response.program_name);
                     $('#phone').text(response.phone);
 
                     // Status with badge
-                    let statusHtml = `<span class="status-badge status-${response.status.toLowerCase()}">${response.status.charAt(0).toUpperCase() + response.status.slice(1)}</span>`;
+                    let statusHtml =
+                        `<span class="status-badge status-${response.status.toLowerCase()}">${response.status.charAt(0).toUpperCase() + response.status.slice(1)}</span>`;
                     $('#status').html(statusHtml);
 
                     $('#dateApplied').text(response.date_applied);
@@ -806,13 +851,13 @@
                         $('#requirementsSection').show();
                         $('#requirementsList').html(
                             response.requirements && response.requirements.length ?
-                                response.requirements.map(function (item) {
-                                    return `<li class="list-group-item d-flex align-items-center">
+                            response.requirements.map(function(item) {
+                                return `<li class="list-group-item d-flex align-items-center">
                                                 <i class="fas fa-check-circle text-success me-3"></i>
                                                 ${item}
                                             </li>`;
-                                }).join('') :
-                                '<li class="list-group-item text-muted">No specific requirements</li>'
+                            }).join('') :
+                            '<li class="list-group-item text-muted">No specific requirements</li>'
                         );
                     } else {
                         $('#requirementsSection').hide();
@@ -820,7 +865,7 @@
 
                     $('#detailsModal').modal('show');
                 },
-                error: function () {
+                error: function() {
                     Swal.fire({
                         title: 'Error!',
                         text: 'Failed to fetch application details. Please try again later.',
