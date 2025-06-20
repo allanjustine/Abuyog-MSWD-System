@@ -11,7 +11,7 @@ RUN apk --no-cache add \
     && docker-php-ext-install gd \
     && docker-php-ext-install pdo pdo_mysql
 
-RUN npm install
+RUN npm install -g npm
 
 # Set working directory
 WORKDIR /var/www
