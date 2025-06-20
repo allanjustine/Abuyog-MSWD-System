@@ -1,4 +1,4 @@
-FROM php:8.3-fpm-alpine
+FROM php:8.2-fpm-alpine
 
 # Install system dependencies
 RUN apk --no-cache add \
@@ -11,6 +11,8 @@ RUN apk --no-cache add \
     && docker-php-ext-install gd \
     && docker-php-ext-install pdo pdo_mysql
 
+RUN npm install
+
 # Set working directory
 WORKDIR /var/www
 
@@ -19,6 +21,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copy your Laravel project into the container
 COPY . /var/www
+
+RUN npm run build
 
 EXPOSE 1005
 
