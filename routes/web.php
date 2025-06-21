@@ -64,6 +64,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Application routes
     Route::get('/applications', [ApplicationController::class, 'showAllApplications'])->name('application.index');
+    
     //Route::post('/application/approve/{id}', [ApplicationController::class, 'approveApplication'])->name('application.approve');
     Route::get('approved/{id}', [ApplicationController::class, 'approveApplication'])->name('application.approve');
 
