@@ -5,7 +5,7 @@
     data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLiveLabel"
     aria-modal="true" role="dialog" @if (!Auth::user()->basicInfo()->exists()) style="display: block;" @endif>
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
-        <form action="/update-or-create-basic-info" method="POST">
+        <form action="/update-or-create-basic-info" method="POST" id="basicInfoForm">
             @method('POST')
             @csrf
             <div class="modal-content">
@@ -610,8 +610,9 @@
                                 <div class="row form-row">
                                     <div class="col-md-3">
                                         <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name[]"
+                                        <input type="text" class="form-control" id="name" name="name[]" data-index="{{ $index }}"
                                             value="{{ old("name.{$index}", $member->name) }}">
+                                        <div id="error_name_{{ $index }}" class="text-danger"></div>
                                         @error("name.{$index}")
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -619,8 +620,9 @@
                                     <div class="col-md-3">
                                         <label for="relationship" class="form-label">Relationship</label>
                                         <input type="text" class="form-control" id="relationship"
-                                            name="relationship[]"
+                                            name="relationship[]" data-index="{{ $index }}"
                                             value="{{ old("relationship.{$index}", $member->relationship) }}">
+                                        <div id="error_relationship_{{ $index }}" class="text-danger"></div>
                                         @error("relationship.{$index}")
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -628,8 +630,9 @@
                                     <div class="col-md-3">
                                         <label for="dateOfBirth" class="form-label">Birthday</label>
                                         <input type="date" class="form-control" id="dateOfBirthFc"
-                                            name="birthday[]"
+                                            name="birthday[]" data-index="{{ $index }}"
                                             value="{{ \Carbon\Carbon::parse(old("birthday.{$index}", $member->birthday))->format('Y-m-d') }}">
+                                        <div id="error_birthday_{{ $index }}" class="text-danger"></div>
                                         @error("birthday.{$index}")
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -637,8 +640,9 @@
 
                                     <div class="col-md-3">
                                         <label for="age" class="form-label">Age</label>
-                                        <input type="number" class="form-control" id="age" name="age_fc[]"
+                                        <input type="number" class="form-control" id="age" name="age_fc[]" data-index="{{ $index }}"
                                             value="{{ old("age_fc.{$index}", $member->age) }}">
+                                        <div id="error_age_fc_{{ $index }}" class="text-danger"></div>
                                         @error("age_fc.{$index}")
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -648,7 +652,7 @@
                                 <div class="row form-row">
                                     <div class="col-md-4">
                                         <label for="gender" class="form-label">Gender</label>
-                                        <select class="form-select" id="gender" name="gender_fc[]">
+                                        <select class="form-select" id="gender" name="gender_fc[]" data-index="{{ $index }}">
                                             <option value="" hidden selected>Select</option>
                                             <option value="Male"
                                                 {{ old("gender_fc.{$index}", $member->gender) == 'Male' ? 'selected' : '' }}>
@@ -657,13 +661,14 @@
                                                 {{ old("gender_fc.{$index}", $member->gender) == 'Female' ? 'selected' : '' }}>
                                                 Female</option>
                                         </select>
+                                        <div id="error_gender_fc_{{ $index }}" class="text-danger"></div>
                                         @error("gender_fc.{$index}")
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                     <div class="col-md-4">
                                         <label for="civilStatus" class="form-label">Civil Status</label>
-                                        <select class="form-select" id="civilStatus" name="civil_status_fc[]">
+                                        <select class="form-select" id="civilStatus" name="civil_status_fc[]" data-index="{{ $index }}">
                                             <option value="" hidden selected>Select</option>
                                             <option value="Single"
                                                 {{ old("civil_status_fc.{$index}", $member->civil_status) == 'Single' ? 'selected' : '' }}>
@@ -678,6 +683,7 @@
                                                 {{ old("civil_status_fc.{$index}", $member->civil_status) == 'Divorced' ? 'selected' : '' }}>
                                                 Divorced</option>
                                         </select>
+                                        <div id="error_civil_status_fc_{{ $index }}" class="text-danger"></div>
                                         @error("civil_status_fc.{$index}")
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -686,8 +692,9 @@
                                     <div class="col-md-4">
                                         <label for="occupation" class="form-label">Occupation</label>
                                         <input type="text" class="form-control" id="occupation"
-                                            name="occupation_fc[]"
+                                            name="occupation_fc[]" data-index="{{ $index }}"
                                             value="{{ old("occupation_fc.{$index}", $member->occupation) }}">
+                                        <div id="error_occupation_fc_{{ $index }}" class="text-danger"></div>
                                         @error("occupation_fc.{$index}")
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -697,7 +704,7 @@
                                     <div class="col-md-6">
                                         <label for="educationalAttainment" class="form-label">Educational
                                             Attainment</label>
-                                        <select class="form-select" id="educationalAttainment"
+                                        <select class="form-select" id="educationalAttainment" data-index="{{ $index }}"
                                             name="educational_attainment_fc[]">
                                             <option value="">Select</option>
                                             <option value="No Formal Education"
@@ -716,13 +723,14 @@
                                                 {{ old("educational_attainment_fc.{$index}", $member->educational) == 'Postgraduate' ? 'selected' : '' }}>
                                                 Postgraduate</option>
                                         </select>
+                                        <div id="error_educational_attainment_fc_{{ $index }}" class="text-danger"></div>
                                         @error("educational_attainment_fc.{$index}")
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
                                         <label for="income" class="form-label">Monthly Income</label>
-                                        <select name="income[]" class="form-select" id="income[]">
+                                        <select name="income[]" class="form-select" id="income[]" data-index="{{ $index }}">
                                             <option value="" hidden selected>Select Monthly Income</option>
                                             <option value="" disabled>Select Monthly Income</option>
                                             <option value="Below 60,000"
@@ -738,6 +746,7 @@
                                                 {{ old("income.{$index}", $member->income) == 'Above 180,000' ? 'selected' : '' }}>
                                                 Above 180,000</option>
                                         </select>
+                                        <div id="error_income_{{ $index }}" class="text-danger"></div>
                                         @error("income.{$index}")
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -758,24 +767,27 @@
                                     <div class="col-md-3">
                                         <label for="name" class="form-label">Name</label>
                                         <input type="text" class="form-control" id="name" name="name[]"
-                                            value="{{ old('name.0') }}">
+                                            value="{{ old('name.0') }}" data-index="0">
+                                        <div id="error_name_0" class="text-danger"></div>
                                         @error('name.*')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                     <div class="col-md-3">
                                         <label for="relationship" class="form-label">Relationship</label>
-                                        <input type="text" class="form-control" id="relationship"
+                                        <input type="text" class="form-control" id="relationship" data-index="0"
                                             name="relationship[]" value="{{ old('relationship.0') }}">
+                                        <div id="error_relationship_0" class="text-danger"></div>
                                         @error('relationship.*')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                     <div class="col-md-3">
                                         <label for="dateOfBirth" class="form-label">Birthday</label>
-                                        <input type="date" class="form-control" id="dateOfBirthFc"
+                                        <input type="date" class="form-control" id="dateOfBirthFc" data-index="0"
                                             name="birthday[]"
                                             value="{{ \Carbon\Carbon::parse(old('birthday.*'))->format('Y-m-d') }}">
+                                        <div id="error_birthday_0" class="text-danger"></div>
                                         @error('birthday.*')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -783,8 +795,9 @@
 
                                     <div class="col-md-3">
                                         <label for="age" class="form-label">Age</label>
-                                        <input type="number" class="form-control" id="age" name="age_fc[]"
+                                        <input type="number" class="form-control" id="age" data-index="0" name="age_fc[]"
                                             value="{{ old('age_fc.0') }}">
+                                        <div id="error_age_fc_0" class="text-danger"></div>
                                         @error('age_fc.*')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -794,20 +807,21 @@
                                 <div class="row form-row">
                                     <div class="col-md-4">
                                         <label for="gender" class="form-label">Gender</label>
-                                        <select class="form-select" id="gender" name="gender_fc[]">
+                                        <select class="form-select" id="gender" name="gender_fc[]" data-index="0">
                                             <option value="" hidden selected>Select</option>
                                             <option value="Male"
                                                 {{ old('gender_fc.0') == 'Male' ? 'selected' : '' }}>Male</option>
                                             <option value="Female"
                                                 {{ old('gender_fc.0') == 'Female' ? 'selected' : '' }}>Female</option>
                                         </select>
+                                        <div id="error_gender_fc_0" class="text-danger"></div>
                                         @error('gender_fc.*')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                     <div class="col-md-4">
                                         <label for="civilStatus" class="form-label">Civil Status</label>
-                                        <select class="form-select" id="civilStatus" name="civil_status_fc[]">
+                                        <select class="form-select" id="civilStatus" name="civil_status_fc[]" data-index="0">
                                             <option value="" hidden selected>Select</option>
                                             <option value="Single"
                                                 {{ old('civil_status_fc.0') == 'Single' ? 'selected' : '' }}>Single
@@ -822,6 +836,7 @@
                                                 {{ old('civil_status_fc.0') == 'Divorced' ? 'selected' : '' }}>
                                                 Divorced</option>
                                         </select>
+                                        <div id="error_civil_status_fc_0" class="text-danger"></div>
                                         @error('civil_status_fc.*')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -830,7 +845,8 @@
                                     <div class="col-md-4">
                                         <label for="occupation" class="form-label">Occupation</label>
                                         <input type="text" class="form-control" id="occupation"
-                                            name="occupation_fc[]" value="{{ old('occupation_fc.0') }}">
+                                            name="occupation_fc[]" value="{{ old('occupation_fc.0') }}" data-index="0">
+                                        <div id="error_occupation_fc_0" class="text-danger"></div>
                                         @error('occupation_fc.*')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -840,7 +856,7 @@
                                     <div class="col-md-6">
                                         <label for="educationalAttainment" class="form-label">Educational
                                             Attainment</label>
-                                        <select class="form-select" id="educationalAttainment"
+                                        <select class="form-select" id="educationalAttainment" data-index="0"
                                             name="educational_attainment_fc[]">
                                             <option value="">Select</option>
                                             <option value="No Formal Education"
@@ -859,13 +875,14 @@
                                                 {{ old('educational_attainment_fc.0') == 'Postgraduate' ? 'selected' : '' }}>
                                                 Postgraduate</option>
                                         </select>
+                                        <div id="error_educational_attainment_fc_0" class="text-danger"></div>
                                         @error('educational_attainment_fc.*')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
                                         <label for="income" class="form-label">Monthly Income</label>
-                                        <select name="income[]" class="form-select" id="income[]">
+                                        <select name="income[]" class="form-select" id="income[]" data-index="0">
                                             <option value="" hidden selected>Select Monthly Income</option>
                                             <option value="" disabled>Select Monthly Income</option>
                                             <option value="Below 60,000"
@@ -881,6 +898,7 @@
                                                 {{ old('income.0') == 'Above 180,000' ? 'selected' : '' }}>Above
                                                 180,000</option>
                                         </select>
+                                        <div id="error_income_0" class="text-danger"></div>
                                         @error('income.*')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -948,37 +966,113 @@
 
     //     document.querySelector('.family-member-row .remove-family-member').style.display = 'none';
     // });
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const familyComposition = document.getElementById('familyComposition');
+    //     const originalRow = document.querySelector('.family-member-row');
+
+    //     // Start counting from the number of existing rows
+    //     let fieldCount = {{ count(Auth::user()->familyCompositions) }};
+
+    //     document.getElementById('addFamilyComposition').addEventListener('click', function() {
+    //         const newRow = originalRow.cloneNode(true);
+
+    //         // Update all input/select names with new index
+    //         newRow.querySelectorAll('input, select, textarea').forEach(input => {
+    //             const name = input.name.replace(/\[\d+\]/, `[${fieldCount}]`);
+    //             input.name = name;
+    //             input.value = '';
+    //             input.id = name.replace(/\[|\]/g, '_') + fieldCount; // Fix IDs
+    //             input.classList.remove('is-invalid');
+    //             input.setAttribute('data-index', fieldCount);
+    //         });
+
+    //         newRow.querySelectorAll('[id^="error_"]').forEach(errorContainer => {
+    //             const parts = errorContainer.id.split('_');
+    //             if (parts.length >= 3) {
+    //                 const fieldName = parts[1];
+    //                 errorContainer.id = `error_${fieldName}_${fieldCount}`;
+    //             }
+    //             errorContainer.textContent = '';
+    //         });
+
+    //         // Clear validation errors
+    //         newRow.querySelectorAll('.text-danger').forEach(el => {
+    //             if (!el.id.startsWith('error_')) {
+    //                 el.textContent = '';
+    //             }
+    //         });
+
+    //         // Setup remove button
+    //         const removeButton = newRow.querySelector('.remove-family-member');
+    //         removeButton.style.display = 'inline-block';
+    //         removeButton.addEventListener('click', function() {
+    //             newRow.remove();
+    //         });
+
+    //         familyComposition.insertBefore(newRow, this);
+    //         fieldCount++;
+    //     });
+    // });
     document.addEventListener('DOMContentLoaded', function() {
         const familyComposition = document.getElementById('familyComposition');
-        const originalRow = document.querySelector('.family-member-row');
+        // Get the LAST row as the template to clone (not the first one)
+        const originalRow = document.querySelectorAll('.family-member-row').item(document.querySelectorAll('.family-member-row').length - 1);
 
-        // Start counting from the number of existing rows
-        let fieldCount = {{ count(Auth::user()->familyCompositions) }};
+        // Start counting from the highest existing index + 1
+        let fieldCount = 0;
+        document.querySelectorAll('[data-index]').forEach(el => {
+            const index = parseInt(el.getAttribute('data-index'));
+            if (index >= fieldCount) fieldCount = index + 1;
+        });
 
         document.getElementById('addFamilyComposition').addEventListener('click', function() {
             const newRow = originalRow.cloneNode(true);
 
-            // Update all input/select names with new index
+            // 1. First update all data-index attributes
+            newRow.querySelectorAll('[data-index]').forEach(el => {
+                el.setAttribute('data-index', fieldCount);
+            });
+
+            // 2. Update all name attributes and IDs
             newRow.querySelectorAll('input, select, textarea').forEach(input => {
-                const name = input.name.replace(/\[\d+\]/, `[${fieldCount}]`);
-                input.name = name;
+                // Update array indexes in names (name="something[0]" → name="something[1]")
+                input.name = input.name.replace(/\[\d+\]/, `[${fieldCount}]`);
+
+                // Update IDs to match new index
+                input.id = input.id.replace(/\d+$/, fieldCount);
                 input.value = '';
-                input.id = name.replace(/\[|\]/g, '_') + fieldCount; // Fix IDs
+                // Clear values and validation classes
+                if (input.type !== 'select-one') input.value = '';
                 input.classList.remove('is-invalid');
             });
 
-            // Clear validation errors
-            newRow.querySelectorAll('.text-danger').forEach(el => el.remove());
+            // 3. Update error message containers
+            newRow.querySelectorAll('[id^="error_"]').forEach(errorDiv => {
+                errorDiv.id = errorDiv.id.replace(/\d+$/, fieldCount);
+                errorDiv.textContent = '';
+            });
 
-            // Setup remove button
-            const removeButton = newRow.querySelector('.remove-family-member');
-            removeButton.style.display = 'inline-block';
-            removeButton.addEventListener('click', function() {
+            // 4. Update labels' for attributes
+            newRow.querySelectorAll('label').forEach(label => {
+                if (label.htmlFor) {
+                    label.htmlFor = label.htmlFor.replace(/\d+$/, fieldCount);
+                }
+            });
+
+            // Show remove button for cloned rows
+            const removeBtn = newRow.querySelector('.remove-family-member');
+            removeBtn.style.display = 'inline-block';
+            removeBtn.addEventListener('click', function() {
                 newRow.remove();
             });
 
-            familyComposition.insertBefore(newRow, this);
+            // Insert the new row
+            familyComposition.appendChild(newRow);
+
+            // Increment counter
             fieldCount++;
+
+            console.log('Added new row with index:', fieldCount - 1); // Debug
         });
     });
 </script>
@@ -1002,6 +1096,139 @@
    }
 </script>
 
+<script>
+    const form = document.getElementById('basicInfoForm');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        // Disable submit button to prevent multiple submissions
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
+        Swal.fire({
+            icon: "info",
+            title: 'Processing...',
+            html: 'Please wait while we process your request.',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        })
+
+        // Clear previous errors
+        document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+        document.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw err; });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                // Success handling
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: data.message || 'Information saved successfully',
+                }).then(() => {
+                    // Close modal if needed
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('staticBackdropLive'));
+                    if (modal) modal.hide();
+
+                    // Optionally reload the page or update UI
+                    window.location.reload();
+                });
+            } else {
+                // Show success message even if data.success is not true (adjust as needed)
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Information saved successfully',
+                }).then(() => {
+                    window.location.reload();
+                });
+            }
+        })
+        .catch(error => {
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Update Now';
+
+            // Clear previous errors
+            document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+            document.querySelectorAll('.invalid-feedback, [id^="error_"]').forEach(el => el.textContent = '');
+
+            if (error.errors) {
+                // Handle validation errors
+                Object.entries(error.errors).forEach(([field, messages]) => {
+                    let input, errorContainer;
+                    const errorMessage = messages.join(' ');
+
+                    // Handle array fields (name.0, name.1, etc.)
+                    if (field.includes('.')) {
+                        const [fieldName, index] = field.split('.');
+                        input = document.querySelector(`[name="${fieldName}[]"][data-index="${index}"]`);
+                        errorContainer = document.getElementById(`error_${fieldName}_${index}`);
+
+                        // Fallback to next sibling if specific error container not found
+                        if (!errorContainer && input) {
+                            errorContainer = input.nextElementSibling;
+                        }
+                    }
+                    // Handle regular fields
+                    else {
+                        console.log(field)
+                        input = document.querySelector(`[name="${field}"]`);
+                        errorContainer = document.getElementById(`error_${field}`);
+
+                        // Fallback to next sibling if specific error container not found
+                        if (!errorContainer && input) {
+                            errorContainer = input.nextElementSibling;
+                        }
+                    }
+
+                    // Display the error
+                    if (input) {
+                        input.classList.add('is-invalid');
+                    }
+
+                    if (errorContainer) {
+                        // Check if it's a proper error container (either has invalid-feedback class or is our error_ div)
+                        if (errorContainer.classList.contains('invalid-feedback') || errorContainer.id.startsWith('error_')) {
+                            errorContainer.textContent = errorMessage;
+                        }
+                    }
+                });
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Please fix the errors in the form',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.message || 'An error occurred while saving the information',
+                });
+            }
+        });
+    });
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @if ($errors->any())
     <script>
@@ -1014,3 +1241,8 @@
         });
     </script>
 @endif
+<style>
+    .swal2-title {
+        color: black !important;
+    }
+</style>
