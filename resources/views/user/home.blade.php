@@ -8,7 +8,7 @@
 
     <!-- Required meta tags -->
     @include('user.css')
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -36,7 +36,7 @@
             padding: 2rem;
             border-radius: 10px;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
         }
@@ -48,7 +48,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
             transform: rotate(30deg);
         }
 
@@ -57,7 +57,7 @@
             border: none;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
             height: 100%;
             position: relative;
             z-index: 1;
@@ -65,7 +65,7 @@
 
         .dashboard-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
         }
 
         .dashboard-card::after {
@@ -78,13 +78,33 @@
             background: var(--accent-color);
         }
 
-        .card-primary::after { background: var(--accent-color); }
-        .card-danger::after { background: #dc3545; }
-        .card-warning::after { background: #ffc107; }
-        .card-success::after { background: #28a745; }
-        .card-info::after { background: #17a2b8; }
-        .card-cyan::after { background: #0dcaf0; }
-        .card-purple::after { background: #d24afb; }
+        .card-primary::after {
+            background: var(--accent-color);
+        }
+
+        .card-danger::after {
+            background: #dc3545;
+        }
+
+        .card-warning::after {
+            background: #ffc107;
+        }
+
+        .card-success::after {
+            background: #28a745;
+        }
+
+        .card-info::after {
+            background: #17a2b8;
+        }
+
+        .card-cyan::after {
+            background: #0dcaf0;
+        }
+
+        .card-purple::after {
+            background: #d24afb;
+        }
 
         .card-icon {
             font-size: 2.5rem;
@@ -154,11 +174,11 @@
             </div>
 
             @if (session('message'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="fas fa-check-circle me-2"></i>
-                <strong>Success!</strong> {{ session('message') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <strong>Success!</strong> {{ session('message') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
             @endif
 
             <!-- Dashboard Section -->
