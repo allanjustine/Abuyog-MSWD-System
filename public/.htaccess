@@ -19,3 +19,20 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Add MIME types for CSS and other static assets
+<IfModule mod_mime.c>
+    AddType text/css .css
+    AddType text/javascript .js
+</IfModule>
+
+# Force correct content-type for CSS
+<FilesMatch "\.css$">
+    ForceType text/css
+    Header set Content-Type "text/css"
+</FilesMatch>
+
+# Cache control for static assets
+<FilesMatch "\.(css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot)$">
+    Header set Cache-Control "public, max-age=604800, immutable"
+</FilesMatch>
