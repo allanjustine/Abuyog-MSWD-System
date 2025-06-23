@@ -20,7 +20,9 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
+    <link rel="stylesheet" href="http://192.168.81.249:5173/resources/css/app.css">
+    <script type="module" src="http://192.168.2.3:5173/resources/js/app.js" data-navigate-track="reload"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- Styles -->
     @livewireStyles
 </head>

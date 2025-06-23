@@ -120,7 +120,18 @@
                         Register
                     </button>
                 </div>
+                {{-- <input type="hidden" name="recaptcha_token" id="recaptcha_token"> --}}
+                {!! NoCaptcha::display() !!}  <!-- CAPTCHA widget -->
             </form>
+            {!! NoCaptcha::renderJs() !!}
         </div>
     </div>
+    {{-- <script src="https://www.google.com/recaptcha/api.js?render={{ env('NOCAPTCHA_SITEKEY') }}"></script>
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ env('NOCAPTCHA_SITEKEY') }}', {action: 'submit'}).then(function(token) {
+                document.getElementById('recaptcha_token').value = token;
+            });
+        });
+    </script> --}}
 </x-guest-layout>

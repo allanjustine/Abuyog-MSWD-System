@@ -107,9 +107,9 @@ class BasicInfoController extends Controller
             return $value === null || $value === '';
         });
 
-        if ($anyEmpty) {
-            return back()->with('error', 'Please fill out all fields before submitting.')->withInput($fields);
-        }
+        // if ($anyEmpty) {
+        //     return back()->with('error', 'Please fill out all fields before submitting.')->withInput($fields);
+        // }
 
         $fields['user_id'] = Auth::id();
         $fieldFamilyComposition['user_id'] = Auth::id();

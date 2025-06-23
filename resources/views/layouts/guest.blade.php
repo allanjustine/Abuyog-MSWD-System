@@ -13,7 +13,10 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
+    <link rel="stylesheet" href="http://192.168.81.249:5173/resources/css/app.css">
+    <script type="module" src="http://192.168.81.249:5173/resources/js/app.js" data-navigate-track="reload"></script>
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- Styles -->
     @livewireStyles
 </head>

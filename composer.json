@@ -7,6 +7,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "anhskohbo/no-captcha": "^3.7",
         "barryvdh/laravel-dompdf": "*",
         "guzzlehttp/guzzle": "^7.9",
         "infobip/infobip-api-php-client": "^4.0",

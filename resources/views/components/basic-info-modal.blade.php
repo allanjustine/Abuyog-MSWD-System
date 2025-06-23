@@ -238,7 +238,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Occupation</label>
-                            <select name="occupation" id="occupation" class="form-control"
+                            <select name="occupation" id="occupation" class="form-control" disabled
                                 style="text-transform: uppercase;">
 
                                 <option value="" disabled selected>Select Types</option>
@@ -290,8 +290,8 @@
                         <div class="col-md-6">
                             <label class="form-label">Employment Status</label>
                             <select class="form-control" style="text-transform: uppercase;"
-                                name="status_of_employment">
-                                <option selected disabled>Select status</option>
+                                name="status_of_employment" id="status_of_employment" onchange="statusOfEmployment(this.value)">
+                                <option selected disabled value="">Select status</option>
                                 <option
                                     {{ old('status_of_employment', Auth::user()?->basicInfo?->status_of_employment) == 'Employed' ? 'selected' : '' }}>
                                     Employed</option>
@@ -306,7 +306,7 @@
                         <div class="col-md-6">
                             <label class="form-label">Category of Employment</label>
                             <select class="form-control" style="text-transform: uppercase;"
-                                name="category_of_employment">
+                                name="category_of_employment" id="category_of_employment" disabled>
                                 <option selected disabled>Select status</option>
                                 <option
                                     {{ old('category_of_employment', Auth::user()?->basicInfo?->category_of_employment) == 'Government' ? 'selected' : '' }}>
@@ -318,7 +318,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Type of Employment</label>
-                            <select name="types_of_employment" id="types_of_employment" class="form-control"
+                            <select name="types_of_employment" id="types_of_employment" class="form-control" disabled
                                 style="text-transform: uppercase;">
                                 <option value="" disabled selected>Select Types</option>
                                 <option value="Permanent Or Regular"
@@ -592,7 +592,7 @@
 
 
                         @forelse(Auth::user()->familyCompositions as $index => $member)
-                            <div class="mt-2 border-b family-member family-member-row pb-2" id="familyMemberFields">
+                            <div class="pb-2 mt-2 border-b family-member family-member-row" id="familyMemberFields">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <!-- Remove Button -->
                                     @if ($index > 0)
@@ -981,6 +981,25 @@
             fieldCount++;
         });
     });
+</script>
+
+<script>
+   const occupation = document.getElementById('occupation');
+   const types_of_employment = document.getElementById('types_of_employment');
+   const category_of_employment = document.getElementById('category_of_employment');
+
+   function statusOfEmployment(value) {
+       console.log(value !== "Unemployed")
+        if(value !== "Unemployed") {
+            types_of_employment.disabled = false;
+            category_of_employment.disabled = false;
+            occupation.disabled = false;
+        } else {
+            types_of_employment.disabled = true;
+            category_of_employment.disabled = true;
+            occupation.disabled = true;
+        }
+   }
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

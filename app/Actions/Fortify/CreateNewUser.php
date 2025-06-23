@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
+use Illuminate\Support\Facades\Http;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -18,8 +19,21 @@ class CreateNewUser implements CreatesNewUsers
      *
      * @param  array<string, string>  $input
      */
-    public function create(array $input): User
+    public function create(array $input)
     {
+        // $recaptchaToken = $input['recaptcha_token'];
+
+        //  $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        //     'secret'   => env('NOCAPTCHA_SECRET'),
+        //     'response' => $recaptchaToken,
+        // ]);
+
+        // $result = $response->json();
+
+        // if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
+        //     return back()->withErrors(['captcha' => 'reCAPTCHA verification failed.']);
+        // }
+
         Validator::make($input, [
             'last_name' => ['required', 'string', 'max:255', 'alpha'],
             'first_name' => ['required', 'string', 'max:255', 'alpha'],
@@ -32,6 +46,7 @@ class CreateNewUser implements CreatesNewUsers
             'date_of_birth' => ['required', 'before_or_equal:today'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
+            'g-recaptcha-response' => 'required|captcha',
         ])->validate();
 
         return User::create([
