@@ -9,21 +9,19 @@
 
     <title>MSWD | Municipality of Abuyog</title>
 
-    <link rel="stylesheet" href="../assets/css/maicons.css">
+    <!-- Local Stylesheets -->
+    <link rel="stylesheet" href="{{ asset('assets/css/maicons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/owl-carousel/css/owl.carousel.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/animate/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
-
-    <link rel="stylesheet" href="../assets/vendor/owl-carousel/css/owl.carousel.css">
-
-    <link rel="stylesheet" href="../assets/vendor/animate/animate.css">
-
-    <link rel="stylesheet" href="../assets/css/theme.css">
-
-    <link rel="stylesheet" href="../assets/css/style.css">
-
+    <!-- External Libraries -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <!-- Font Awesome -->
+
+    <!-- Font Awesome CDN -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
 
@@ -277,19 +275,19 @@
         <h1 class="custom-heading">Application Form for {{ $service->name }}</h1>
         <!-- Form for service with ID = 1 OSCA -->
         @if ($service->id == 1)
-        @include('applications.osca')
+            @include('applications.osca')
         @endif
         <!-- Form for service with ID = 2 PWD -->
         @if ($service->id == 2)
-        @include('applications.pwd')
+            @include('applications.pwd')
         @endif
         <!-- Form for service with ID = 3 SOLO PARENT-->
         @if ($service->id == 3)
-        @include('applications.solo-parent')
+            @include('applications.solo-parent')
         @endif
         <!-- Form for service with ID = 4 AICS-->
         @if ($service->id == 4)
-        @include('applications.aics')
+            @include('applications.aics')
         @endif
     </div>
 
@@ -302,7 +300,7 @@
 
 
     <script>
-        document.getElementById('birthdate').addEventListener('change', function () {
+        document.getElementById('birthdate').addEventListener('change', function() {
             const birthdate = new Date(this.value);
             const today = new Date();
             let age = today.getFullYear() - birthdate.getFullYear();
@@ -339,7 +337,7 @@
                 otherAcquired.style.display = 'none';
                 acquired.value = ''
                 toggleSpecifyCongenital();
-            } else if(acquiredRadio.checked) {
+            } else if (acquiredRadio.checked) {
                 // Show acquired fields, hide and disable congenital fields
                 congenitalFields.style.display = 'none';
                 acquiredFields.style.display = 'block';
@@ -423,7 +421,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const dateInput = document.getElementById('date_applied');
 
             // Function to calculate the next valid date (excluding weekends)
@@ -452,7 +450,7 @@
             dateInput.setAttribute('min', minDate);
 
             // Disable selection of weekends with SweetAlert
-            dateInput.addEventListener('input', function () {
+            dateInput.addEventListener('input', function() {
                 const selectedDate = new Date(this.value);
                 const selectedDay = selectedDate.getDay();
 
@@ -473,20 +471,20 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @if (session('message'))
-    <script>
-        Swal.fire({
-        title: "Success",
-        icon: 'success',
-        text: @json(session('message')),
-        showConfirmButton: false,
-        showCloseButton: true,
-        showCancelButton: true,
-        cancelButtonText: 'Close',
-    });
-    </script>
+        <script>
+            Swal.fire({
+                title: "Success",
+                icon: 'success',
+                text: @json(session('message')),
+                showConfirmButton: false,
+                showCloseButton: true,
+                showCancelButton: true,
+                cancelButtonText: 'Close',
+            });
+        </script>
     @endif
     <script>
-        document.getElementById('submit-button').addEventListener('click', function (event) {
+        document.getElementById('submit-button').addEventListener('click', function(event) {
             event.preventDefault();
             // Get all required inputs
             const formInputs = document.querySelectorAll('input[required]');
@@ -530,7 +528,7 @@
 
         // Optional: Automatically remove 'is-invalid' when the user types in the field
         document.querySelectorAll('input[required]').forEach(input => {
-            input.addEventListener('input', function () {
+            input.addEventListener('input', function() {
                 if (this.value.trim()) {
                     this.classList.remove('is-invalid');
                 }
@@ -550,7 +548,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        document.getElementById('submit-button').addEventListener('click', function (event) {
+        document.getElementById('submit-button').addEventListener('click', function(event) {
             event.preventDefault();
             Swal.fire({
                 title: 'Are you sure?',
@@ -561,7 +559,7 @@
                 cancelButtonText: 'No',
                 reverseButtons: true
             }).then((result) => {
-                if(result.isConfirmed) {
+                if (result.isConfirmed) {
                     Swal.fire({
                         title: 'Submitting...',
                         html: `Please wait, submitting may take some time and checking empty fields.<br>Thank you for your patience.`,

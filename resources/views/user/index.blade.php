@@ -8,17 +8,21 @@
     <title>MSWD | Municipality of Abuyog</title>
     @laravelPWA
 
-    <link rel="stylesheet" href="../assets/css/maicons.css">
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../assets/vendor/owl-carousel/css/owl.carousel.css">
-    <link rel="stylesheet" href="../assets/vendor/animate/animate.css">
-    <link rel="stylesheet" href="../assets/css/theme.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <!-- Local Stylesheets -->
+    <link rel="stylesheet" href="{{ asset('assets/css/maicons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/owl-carousel/css/owl.carousel.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/animate/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
+    <!-- External Libraries -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <!-- Add Bootstrap CSS (if not already included) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- External Scripts -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
 
 
@@ -153,7 +157,7 @@
                             <a href="#"><span class="mai-logo-instagram"></span></a>
                         </div>
                     </div>
-                    <div class="col-sm-4 text-right">
+                    <div class="text-right col-sm-4">
                         <div class="site-info">
                             <a href="tel:+09367639686">
                                 <span class="mai-call" style="color: #0007df;"></span> +09367639686

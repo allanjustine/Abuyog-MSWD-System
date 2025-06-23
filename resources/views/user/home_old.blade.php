@@ -8,15 +8,19 @@
     <title>MSWD | Municipality of Abuyog</title>
     @laravelPWA
 
-    <link rel="stylesheet" href="../assets/css/maicons.css">
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../assets/vendor/owl-carousel/css/owl.carousel.css">
-    <link rel="stylesheet" href="../assets/vendor/animate/animate.css">
-    <link rel="stylesheet" href="../assets/css/theme.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <!-- Local Stylesheets -->
+    <link rel="stylesheet" href="{{ asset('assets/css/maicons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/owl-carousel/css/owl.carousel.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/animate/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
+    <!-- External Styles & Scripts -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
 
 
     <style>
@@ -140,7 +144,7 @@
                             <a href="#"><span class="mai-logo-instagram"></span></a>
                         </div>
                     </div>
-                    <div class="col-sm-4 text-right">
+                    <div class="text-right col-sm-4">
                         <div class="site-info">
                             <a href="tel:+09123456789">
                                 <span class="mai-call" style="color: #0007df;"></span> +09123456789
@@ -195,13 +199,13 @@
                                         {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
                                     </a>
 
-                                    <div class="dropdown-menu dropdown-menu-right bg-primary shadow-md rounded"
+                                    <div class="rounded shadow-md dropdown-menu dropdown-menu-right bg-primary"
                                         aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item block px-4 py-2 text-gray-700 hover:text-black hover:bg-blue-500 transition duration-150 ease-in-out"
+                                        <a class="block px-4 py-2 text-gray-700 transition duration-150 ease-in-out dropdown-item hover:text-black hover:bg-blue-500"
                                             href="{{ route('profile.show') }}">
                                             Profile
                                         </a>
-                                        <a class="dropdown-item block px-4 py-2 text-gray-700 hover:text-black hover:bg-red-500 transition duration-150 ease-in-out"
+                                        <a class="block px-4 py-2 text-gray-700 transition duration-150 ease-in-out dropdown-item hover:text-black hover:bg-red-500"
                                             href="{{ route('logout') }}"
                                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             Logout
