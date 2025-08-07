@@ -1084,14 +1084,14 @@
 
    function statusOfEmployment(value) {
        console.log(value !== "Unemployed")
-        if(value !== "Unemployed") {
-            types_of_employment.disabled = false;
-            category_of_employment.disabled = false;
-            occupation.disabled = false;
-        } else {
+        if(value === "Unemployed" || value === "Self-Employed") {
             types_of_employment.disabled = true;
             category_of_employment.disabled = true;
             occupation.disabled = true;
+        } else {
+            types_of_employment.disabled = false;
+            category_of_employment.disabled = false;
+            occupation.disabled = false;
         }
    }
 </script>
